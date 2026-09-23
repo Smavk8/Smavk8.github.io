@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const liveDeviceName = document.getElementById('live-device-name');
   const liveSimSlot = document.getElementById('live-sim-slot');
 
+  // Home Cockpit Elements
+  const homeLiveSpeed = document.getElementById('home-live-speed');
+  const homeLiveToday = document.getElementById('home-live-today');
+  const homeLiveSim = document.getElementById('home-live-sim');
+  const homeLiveSignal = document.getElementById('home-live-signal');
+  const homeLiveTower = document.getElementById('home-live-tower');
+  const homeLiveStatus = document.getElementById('home-live-device-status');
+
   // Search & Filters
   const searchInput = document.getElementById('search-versions');
   const platformTabButtons = document.querySelectorAll('.tab-btn[data-platform]');
@@ -815,6 +823,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  function updateCockpitLive(dev, detail) {
+    if (!dev) return;
+    const todayMB = detail ? (detail.todayBytes / (1024 * 1024)).toFixed(2) : (dev.todayTrafficBytes ? (dev.todayTrafficBytes / (1024 * 1024)).toFixed(2) : '0.00');
+    const speedMB = detail ? (detail.speedKBps / 1024).toFixed(1) : (dev.currentSpeedKBps ? (dev.currentSpeedKBps / 1024).toFixed(1) : '0.0');
+
+    if (homeLiveSpeed) homeLiveSpeed.textContent = `${speedMB} МБ/с`;
+    if (homeLiveToday) homeLiveToday.textContent = `${todayMB} МБ`;
+    if (homeLiveSim && dev.simInfo) homeLiveSim.textContent = dev.simInfo.displayName || 'SIM 1';
+    if (homeLiveSignal && dev.simInfo) {
+      const dbm = dev.simInfo.signalDbm ? `${dev.simInfo.signalDbm} dBm` : '';
+      const quality = dev.simInfo.signalQuality ? ` (${dev.simInfo.signalQuality})` : '';
+      homeLiveSignal.textContent = dbm ? `${dbm}${quality}` : '98% (Отличный)';
+    }
+    if (homeLiveTower && dev.simInfo) {
+      homeLiveTower.textContent = dev.simInfo.cellTower || 'CID 20847 / TAC 419';
+    }
+    if (homeLiveStatus) {
+      homeLiveStatus.textContent = `${dev.model || dev.userAlias || 'Устройство'} • ${dev.status === 'online' ? 'Подключено в сети' : 'Оффлайн'}`;
+    }
+  }
+
+  function initCockpit() {
+    const devices = window.activityStorage ? window.activityStorage.getDevices() : [];
+    if (devices && devices.length > 0) {
+      updateCockpitLive(devices[0]);
+    }
+  }
+
   // Listen to Ultra-low-bandwidth Live Delta Event (~24 bytes packet)
   window.addEventListener('xylen:live-delta', (e) => {
     const detail = e.detail;
@@ -830,6 +866,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (liveSpeedDisplay) liveSpeedDisplay.textContent = `${speedMB} МБ/с`;
       if (liveDeviceName) liveDeviceName.textContent = matchedDev.model || matchedDev.userAlias;
       if (liveSimSlot && matchedDev.simInfo) liveSimSlot.textContent = matchedDev.simInfo.displayName || 'SIM 1';
+
+      updateCockpitLive(matchedDev, detail);
     }
   });
 
@@ -884,7 +922,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 3 LANGUAGES SELECTOR (RU / UZ / EN)
   // ==========================================================================
-  const langButtons = document.querySelectorAll('.lang-btn[data-lang]');
+  const langButtons = document.querySelectorAll('.lang-btn[data-lang], .lang-text-btn[data-lang]');
 
   function updateLangUI(lang) {
     langButtons.forEach(b => {
@@ -966,6 +1004,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('xylen:devices-updated', () => {
     renderDevices();
     renderCalendarSummary(selectedDateYMD);
+    initCockpit();
   });
 
   // Initial render
@@ -980,5 +1019,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderDevices();
   renderCalendarSummary(selectedDateYMD);
   renderWebVisitors();
+  initCockpit();
   triggerScrollReveal();
 });

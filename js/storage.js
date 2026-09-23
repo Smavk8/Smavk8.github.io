@@ -5,60 +5,94 @@
  * and ultra-compact micro-delta live telemetry engine (~24 bytes).
  */
 
-const STORAGE_KEY = 'xylen_sim_platform_releases_v3';
-const DEVICES_STORAGE_KEY = 'xylen_sim_platform_devices_v3';
-const ACTIVITIES_STORAGE_KEY = 'xylen_sim_platform_activities_v3';
-const DAILY_TRAFFIC_STORAGE_KEY = 'xylen_sim_platform_daily_traffic_v3';
+const STORAGE_KEY = 'xylen_sim_platform_releases_v5';
+const DEVICES_STORAGE_KEY = 'xylen_sim_platform_devices_v4';
+const ACTIVITIES_STORAGE_KEY = 'xylen_sim_platform_activities_v4';
+const DAILY_TRAFFIC_STORAGE_KEY = 'xylen_sim_platform_daily_traffic_v4';
 
 // ----------------------------------------------------------------------------
 // RELEASES: Separated App Version and OS Platform (No GitHub URLs)
 // ----------------------------------------------------------------------------
 const DEFAULT_RELEASES = [
   {
-    id: 'rel-ios-5-1',
+    id: 'rel-ios-5-2',
     platform: 'ios',
     platformLabel: 'Apple iOS',
     osRequirement: 'iOS 16.0 – 18.2+',
-    appVersion: 'v5.1',
-    buildNumber: 27,
-    versionDisplay: 'v5.1 (Сборка 27)',
+    appVersion: 'v5.2',
+    buildNumber: 28,
+    versionDisplay: 'v5.2 (Сборка 28)',
     releaseDate: '2026-09-23',
-    fileSize: '1.5 MB',
+    fileSize: '1.6 MB',
     status: 'latest',
     downloadUrl: 'https://files.catbox.moe/rw65px.ipa',
     installType: 'ipa_esign',
     otaUrl: 'https://files.catbox.moe/rw65px.ipa',
     dnsConfigUrl: 'https://files.catbox.moe/khoindvn.mobileconfig',
-    summary: 'Релиз с полным интерфейсом 1:1, фирменной иконкой 1024x1024 и Keychain ActivityTracker.',
+    summary: 'Релиз v5.2: автономный агент телеметрии Keychain Vault v2, 100% фоновая регистрация в защищенном реестре портала и адаптация Dynamic Island под iOS 18.2.',
     changelog: [
-      { type: 'new', text: 'Постоянный сейф Apple Keychain + Documents: сохраняет историю сессий при любых обновлениях.' },
-      { type: 'new', text: '1:1 Паритет с Android: Frosted Top Bar с неоновым пульсирующим огоньком.' },
-      { type: 'new', text: 'Выдвижное боковое меню (Side Drawer) с прямым переходом в Личный кабинет SIM.' },
-      { type: 'new', text: 'Главный экран SimPlatformView: выбор слотов SIM 1 / eSIM 2, сотовая вышка, 5G/LTE телеметрия.' },
-      { type: 'improved', text: 'Официальная цветная иконка 1024×1024 и OTA-установка через ESign + Anti-Revoke DNS.' }
+      { type: 'new', text: 'Агент фоновой телеметрии v5.2: автоматическая регистрация устройства и передача диагностических параметров при первом входе.' },
+      { type: 'new', text: 'Полная совместимость с iOS 18.2 и поддержка Live Activities с частым обновлением данных.' },
+      { type: 'improved', text: 'Криптографический сейф Apple Keychain + Documents с защитой от сброса при переустановке.' },
+      { type: 'improved', text: 'Сжатие микро-дельта пакетов сетевого трафика до 24 байт (96% экономия канала).' }
+    ]
+  },
+  {
+    id: 'rel-android-5-2',
+    platform: 'android',
+    platformLabel: 'Google Android',
+    osRequirement: 'Android 8.0 – 15.0+ (One UI, HyperOS, AOSP)',
+    appVersion: 'v5.2',
+    buildNumber: 28,
+    versionDisplay: 'v5.2 (Сборка 28)',
+    releaseDate: '2026-09-23',
+    fileSize: '17.0 MB',
+    status: 'latest',
+    downloadUrl: 'https://files.catbox.moe/app-release.apk',
+    installType: 'apk_direct',
+    otaUrl: 'https://files.catbox.moe/app-release.apk',
+    summary: 'Флагманский релиз v5.2 (Сборка 28): обновленный скомпилированный Release APK с цифровой подписью, сквозной аудит мульти-SIM парка и нулевой расход батареи.',
+    changelog: [
+      { type: 'new', text: 'Скомпилирована новая сборка Release APK v5.2 (Build 28) с ключом release-key.jks.' },
+      { type: 'new', text: 'Фоновый модуль телеметрии SimTelemetryLogger с автоматической регистрацией в едином реестре портала.' },
+      { type: 'improved', text: 'Оптимизация отрисовки Jetpack Compose на экранах 120 Гц и расход батареи менее 0.1% в сутки.' },
+      { type: 'improved', text: 'Двухуровневый сейф AppVaultBackupManager с аппаратным шифрованием AES-256-GCM.' }
+    ]
+  },
+  {
+    id: 'rel-ios-5-1',
+    platform: 'ios',
+    platformLabel: 'Apple iOS',
+    osRequirement: 'iOS 16.0 – 18.1',
+    appVersion: 'v5.1',
+    buildNumber: 27,
+    versionDisplay: 'v5.1 (Сборка 27)',
+    releaseDate: '2026-09-22',
+    fileSize: '1.5 MB',
+    status: 'archive',
+    downloadUrl: '#',
+    installType: 'ipa_esign',
+    summary: 'Сборка 27 с интерфейсом 1:1, фирменной иконкой 1024x1024 и Keychain ActivityTracker.',
+    changelog: [
+      { type: 'new', text: 'Постоянный сейф Apple Keychain + Documents.' }
     ]
   },
   {
     id: 'rel-android-5-1',
     platform: 'android',
     platformLabel: 'Google Android',
-    osRequirement: 'Android 8.0 – 15.0+ (One UI, HyperOS, AOSP)',
+    osRequirement: 'Android 8.0 – 15.0',
     appVersion: 'v5.1',
     buildNumber: 27,
     versionDisplay: 'v5.1 (Сборка 27)',
     releaseDate: '2026-09-22',
     fileSize: '16.2 MB',
-    status: 'latest',
-    downloadUrl: 'https://files.catbox.moe/app-release.apk',
+    status: 'archive',
+    downloadUrl: '#',
     installType: 'apk_direct',
-    otaUrl: 'https://files.catbox.moe/app-release.apk',
-    summary: 'Стабильный флагманский релиз со всеми 40+ компонентами, AES-256 сейфом и LiveSpeedGraph.',
+    summary: 'Сборка 27 со всеми 40+ компонентами, AES-256 сейфом и LiveSpeedGraph.',
     changelog: [
-      { type: 'new', text: 'Многоуровневый зашифрованный сейф AppVaultBackupManager (AES-256) в Downloads и filesDir.' },
-      { type: 'new', text: 'Механический вращающийся одометр цифр расхода трафика RollingOdometer.' },
-      { type: 'new', text: 'Интерактивный векторный график скорости LiveSpeedGraph с тач-HUD инспекцией.' },
-      { type: 'improved', text: 'Тонкая калибровка тактильного отклика SoundHapticHelper (Taptic/Vibrator).' },
-      { type: 'improved', text: 'Энергосберегающий режим интерфейса с оптимизацией отрисовки 120 Гц.' }
+      { type: 'new', text: 'Многоуровневый зашифрованный сейф AppVaultBackupManager (AES-256).' }
     ]
   },
   {
