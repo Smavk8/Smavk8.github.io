@@ -112,10 +112,6 @@ body.theme-light .brand-title .cyan {
   text-shadow: none;
 }
 
-body.theme-light .brand-logo-img {
-  filter: drop-shadow(0 2px 8px rgba(2, 132, 199, 0.25));
-}
-
 body.theme-light .home-hero-card,
 body.theme-light .about-card,
 body.theme-light .release-card,
@@ -668,9 +664,27 @@ body::after {
 }
 
 .brand-logo-img {
-  width: 28px;
-  height: 28px;
-  filter: drop-shadow(0 0 6px var(--cyan-glow));
+  height: 30px;
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+  display: block;
+}
+
+.brand-logo-img.logo-light {
+  display: none;
+}
+
+.brand-logo-img.logo-dark {
+  display: block;
+}
+
+body.theme-light .brand-logo-img.logo-dark {
+  display: none;
+}
+
+body.theme-light .brand-logo-img.logo-light {
+  display: block;
 }
 
 .brand-text-block {
