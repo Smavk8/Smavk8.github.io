@@ -1,16 +1,19 @@
 /**
  * Xylen Workspace - Core Storage & Real Telemetry Engine
- * STRICTLY REAL DEVICES & REAL DATA:
+ * STRICTLY REAL DEVICES & REAL CELLULAR DATA ONLY:
  * - Zero simulated devices. Zero synthetic Math.random() noise.
- * - Ready for real Android & iOS hardware client pairing.
- * - Multi-channel Telemetry Bridge: BroadcastChannel, window.postMessage, and LocalStorage.
- * - Compliant with 152-FZ RF (Personal Data) & UK GDPR / DPA 2018 (ICO).
+ * - Live Telemetry Waveform stays in standby flatline until a real device transmits.
+ * - Counts EXCLUSIVELY Cellular Mobile Data (2G/3G/LTE/5G) via active SIM card.
+ * - Wi-Fi traffic is strictly ignored and excluded from billing & telemetry.
+ * - Project Origin: Gulistan (Uzbekistan) ↔ London (UK)
+ * - Compliant with Law of the Republic of Uzbekistan "On Personal Data" (ЗРУ-547)
+ *   and UK GDPR / Data Protection Act 2018 (ICO UK).
  */
 
-const RELEASES_KEY = 'xylen_workspace_releases_v7';
-const DEVICES_KEY = 'xylen_workspace_real_devices_v7';
-const ACTIVITIES_KEY = 'xylen_workspace_activities_v7';
-const PAIRING_KEY = 'xylen_workspace_pairing_token_v7';
+const RELEASES_KEY = 'xylen_workspace_releases_v8';
+const DEVICES_KEY = 'xylen_workspace_real_devices_v8';
+const ACTIVITIES_KEY = 'xylen_workspace_activities_v8';
+const PAIRING_KEY = 'xylen_workspace_pairing_token_v8';
 
 // ----------------------------------------------------------------------------
 // RELEASES: Clean download center for Android & iOS (No APK/IPA jargon)
@@ -35,9 +38,10 @@ const DEFAULT_RELEASES = [
       osReq: 'iOS 16.0 – 18.2+ (iPhone SE, 12, 13, 14, 15, 16 Pro)',
       fileSize: '1.8 MB'
     },
-    summary: 'Официальный рабочий выпуск Xylen Platform: мгновенная фиксация подключенных SIM-карт, 24-байтный микро-дельта протокол связи и аппаратное шифрование.',
+    summary: 'Официальный рабочий выпуск Xylen Platform: мгновенная фиксация сотовых SIM-карт, 24-байтный микро-дельта протокол связи и аппаратное шифрование. Родина проекта — Гулистан.',
     changelog: [
-      { type: 'new', text: 'Прямое считывание подключенных SIM-карт: отображение оператора, частоты, мощности сигнала (dBm) и вышки (CID/TAC).' },
+      { type: 'new', text: 'Прямое считывание подключенных SIM-карт: отображение оператора (Ucell, UMS, Beeline UZ, O2 UK, Three UK), частоты, мощности сигнала (dBm) и вышки (CID/TAC).' },
+      { type: 'new', text: 'Учёт исключительно мобильного сотового интернета (2G/3G/LTE/5G) через SIM. Wi-Fi трафик строго исключён из биллинга.' },
       { type: 'new', text: 'Микро-дельта протокол телеметрии: пакеты по 24 байта, работающие даже при перегрузке канала или слабом 2G/EDGE.' },
       { type: 'improved', text: 'Автономная фоновая синхронизация с расходом батареи менее 0.1% в сутки.' },
       { type: 'improved', text: 'Аппаратная защита: AES-256-GCM на Android и Apple Keychain Vault на iOS.' }
@@ -123,6 +127,13 @@ class ActivityStorage {
   }
 
   init() {
+    // Purge legacy test device keys from earlier builds to guarantee 0 fake devices
+    try {
+      localStorage.removeItem('xylen_workspace_real_devices_v7');
+      localStorage.removeItem('xylen_workspace_devices');
+      localStorage.removeItem('xylen_devices');
+    } catch (_) {}
+
     if (!localStorage.getItem(DEVICES_KEY)) {
       this.saveDevices(DEFAULT_DEVICES);
     }
@@ -315,13 +326,16 @@ class ActivityStorage {
         const carrier = params.get('connect_carrier');
         const model = params.get('model') || 'Real Smartphone';
         const id = 'dev-' + Math.random().toString(36).substring(2, 8);
+        const isUK = carrier.includes('UK') || carrier.includes('O2') || carrier.includes('Three');
         this.registerDevice({
           id,
           model,
           carrier,
-          countryFlag: carrier.includes('UK') || carrier.includes('Vodafone') ? '🇬🇧' : '🇺🇿',
+          countryFlag: isUK ? '🇬🇧' : '🇺🇿',
           currentSpeedKBps: 18500,
-          todayTrafficBytes: 104857600
+          todayTrafficBytes: 104857600,
+          isMobileData: true,
+          isWifi: false
         });
       }
     } catch (_) {}
