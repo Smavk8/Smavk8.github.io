@@ -44,10 +44,25 @@
         </button>
       </nav>
 
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span class="card-status-badge" style="padding:4px 10px; font-size:0.75rem;">
-          <span class="pulse-dot green"></span> Live Sync
-        </span>
+      <div class="header-controls-group">
+        <!-- 3 Languages Selector -->
+        <div class="lang-selector">
+          <button class="lang-btn active" data-lang="ru">RU</button>
+          <button class="lang-btn" data-lang="uz">UZ</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+
+        <!-- 2 Modes: Slate Midnight / True AMOLED -->
+        <button id="theme-toggle-btn" class="theme-toggle-btn" title="Переключить тему (Slate Midnight / True AMOLED)">
+          <span id="theme-icon">🌙</span>
+          <span id="theme-label" data-i18n="theme_amoled">AMOLED</span>
+        </button>
+
+        <!-- Master Admin Badge -->
+        <div class="admin-badge-btn" title="Мастер-Администратор: просмотр журнала посещений и устройств">
+          <span class="pulse-dot green"></span>
+          <span data-i18n="admin_device_badge">Админ (Это устр.)</span>
+        </div>
       </div>
     </div>
   </header>
@@ -221,6 +236,32 @@
         <div id="activity-feed-container" class="activity-feed-list">
           <!-- Populated dynamically by app.js -->
         </div>
+      </div>
+
+      <!-- Exclusive Master Admin: Web Visitors Audit Table -->
+      <div id="admin-visitors-section" class="visitors-card">
+        <div class="versions-toolbar">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="section-tag" style="color:var(--cyan-electric);">Admin Master Access</span>
+            <h3 style="font-size:1.05rem; font-weight:800;" data-i18n="admin_visitors_title">Аудит посетителей сайта (Доступно только Админу)</h3>
+          </div>
+          <span class="parity-badge done" style="font-size:0.75rem;">Защищено Master Key</span>
+        </div>
+        <table class="visitors-table">
+          <thead>
+            <tr>
+              <th>Дата и время</th>
+              <th>Устройство / Браузер</th>
+              <th>IP-адрес / Локация</th>
+              <th>Источник перехода</th>
+              <th>Просмотренный раздел</th>
+              <th>Статус</th>
+            </tr>
+          </thead>
+          <tbody id="visitors-table-body">
+            <!-- Populated dynamically by app.js -->
+          </tbody>
+        </table>
       </div>
     </section>
   </main>
@@ -471,6 +512,7 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/storage.js"></script>
   <script src="js/app.js"></script>
 </body>

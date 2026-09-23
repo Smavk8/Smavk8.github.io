@@ -1640,4 +1640,157 @@ body::after {
   }
 }
 
+/* ==========================================================================
+   2 MODES: SLATE MIDNIGHT VS TRUE AMOLED (#000000)
+   ========================================================================== */
+body.theme-amoled {
+  --bg-main: #000000 !important;
+  --bg-card: rgba(8, 8, 8, 0.95) !important;
+  background-color: #000000 !important;
+  background-image: radial-gradient(circle at 50% 0%, rgba(0, 245, 255, 0.05) 0%, transparent 60%) !important;
+}
+
+body.theme-amoled .top-navbar {
+  background: rgba(0, 0, 0, 0.95) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+body.theme-amoled .hero-section {
+  background: #000000 !important;
+}
+
+body.theme-amoled .platform-card,
+body.theme-amoled .device-card,
+body.theme-amoled .calendar-card,
+body.theme-amoled .parity-card,
+body.theme-amoled .versions-hub-card,
+body.theme-amoled .activity-feed-card,
+body.theme-amoled .guide-card,
+body.theme-amoled .visitors-card {
+  background: #040508 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* ==========================================================================
+   3 LANGUAGES SELECTOR (RU / UZ / EN) & THEME TOGGLE
+   ========================================================================== */
+.header-controls-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lang-selector {
+  display: inline-flex;
+  background: rgba(17, 23, 38, 0.8);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  gap: 2px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.lang-btn:hover {
+  color: #FFFFFF;
+}
+
+.lang-btn.active {
+  background: var(--cyan-electric);
+  color: #0B0E14;
+}
+
+.theme-toggle-btn {
+  background: rgba(17, 23, 38, 0.8);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--cyan-electric);
+  box-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.admin-badge-btn {
+  background: rgba(22, 163, 74, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ADE80;
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+}
+
+/* ==========================================================================
+   WEB VISITORS AUDIT TABLE (EXCLUSIVELY FOR MASTER ADMIN)
+   ========================================================================== */
+.visitors-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.visitors-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.visitors-table th, .visitors-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.85rem;
+}
+
+.visitors-table th {
+  background: rgba(11, 14, 20, 0.6);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 800;
+}
+
+.visitors-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.visitor-source-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+
 

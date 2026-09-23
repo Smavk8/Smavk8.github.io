@@ -640,6 +640,115 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ==========================================================================
+  // THEME SWITCHER (SLATE MIDNIGHT VS TRUE AMOLED #000000)
+  // ==========================================================================
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const themeLabel = document.getElementById('theme-label');
+  const themeIcon = document.getElementById('theme-icon');
+
+  function updateThemeUI(theme) {
+    if (theme === 'amoled') {
+      document.body.classList.add('theme-amoled');
+      if (themeLabel) themeLabel.textContent = 'Slate';
+      if (themeIcon) themeIcon.textContent = '☀️';
+    } else {
+      document.body.classList.remove('theme-amoled');
+      if (themeLabel) themeLabel.textContent = 'AMOLED';
+      if (themeIcon) themeIcon.textContent = '🌙';
+    }
+  }
+
+  if (themeToggleBtn && window.activityStorage) {
+    const currentTheme = window.activityStorage.getTheme();
+    updateThemeUI(currentTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isAmoled = document.body.classList.contains('theme-amoled');
+      const nextTheme = isAmoled ? 'dark' : 'amoled';
+      window.activityStorage.setTheme(nextTheme);
+      updateThemeUI(nextTheme);
+      showToast(nextTheme === 'amoled' ? 'Режим True AMOLED активирован' : 'Режим Slate Midnight активирован');
+    });
+  }
+
+  // ==========================================================================
+  // 3 LANGUAGES SELECTOR (RU / UZ / EN)
+  // ==========================================================================
+  const langButtons = document.querySelectorAll('.lang-btn[data-lang]');
+
+  function updateLangUI(lang) {
+    langButtons.forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+    if (window.i18n) {
+      window.i18n.applyTranslations();
+    }
+    renderHeroCards();
+    renderVersionList();
+    renderDevices();
+    renderActivityFeed();
+    renderCalendarSummary(selectedDateYMD);
+    renderWebVisitors();
+  }
+
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      if (window.i18n) {
+        window.i18n.setLang(lang);
+      }
+      updateLangUI(lang);
+      const toastText = lang === 'uz' ? 'Til: O\'zbekcha' : (lang === 'en' ? 'Language: English' : 'Язык: Русский');
+      showToast(toastText);
+    });
+  });
+
+  // ==========================================================================
+  // MASTER ADMIN: WEB VISITORS AUDIT
+  // ==========================================================================
+  const visitorsTableBody = document.getElementById('visitors-table-body');
+  const adminVisitorsSection = document.getElementById('admin-visitors-section');
+
+  function renderWebVisitors() {
+    if (!adminVisitorsSection || !window.activityStorage) return;
+
+    const isAdmin = window.activityStorage.isAdmin();
+    adminVisitorsSection.style.display = isAdmin ? 'block' : 'none';
+
+    if (!isAdmin || !visitorsTableBody) return;
+
+    const visitors = window.activityStorage.getWebVisitors();
+    visitorsTableBody.innerHTML = visitors.map(v => {
+      const dateFormatted = new Date(v.timestamp).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' • ' + formatTimeAgo(v.timestamp);
+      return `
+        <tr>
+          <td><strong style="color:var(--text-primary); font-family:var(--font-mono); font-size:0.8rem;">${dateFormatted}</strong></td>
+          <td>${v.device}</td>
+          <td><span style="font-family:var(--font-mono); color:var(--cyan-electric); font-size:0.8rem;">${v.ip}</span></td>
+          <td><span class="visitor-source-pill">${v.source}</span></td>
+          <td><strong>${v.pageVisited}</strong></td>
+          <td>
+            <span class="card-status-badge" style="padding:2px 8px; font-size:0.7rem;">
+              <span class="pulse-dot ${v.isOnline ? 'green' : ''}"></span>
+              ${v.isOnline ? 'ONLINE' : 'OFFLINE'}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Update switchPage to record web visit telemetry
+  const origSwitchPage = window.switchPage;
+  window.switchPage = function(pageId) {
+    if (origSwitchPage) origSwitchPage(pageId);
+    if (window.activityStorage) {
+      window.activityStorage.logWebVisit(pageId);
+    }
+  };
+
+  window.addEventListener('xylen:visitors-updated', () => renderWebVisitors());
   window.addEventListener('xylen:devices-updated', () => renderDevices());
   window.addEventListener('xylen:activities-updated', () => {
     renderActivityFeed();
@@ -647,9 +756,16 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Initial render
+  if (window.i18n) {
+    window.i18n.applyTranslations();
+    const savedLang = window.i18n.getLang();
+    langButtons.forEach(b => b.classList.toggle('active', b.dataset.lang === savedLang));
+  }
+
   renderHeroCards();
   renderVersionList();
   renderDevices();
   renderActivityFeed();
   renderCalendarSummary(selectedDateYMD);
+  renderWebVisitors();
 });

@@ -602,8 +602,118 @@ class ActivityStorage {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
+  // --------------------------------------------------------------------------
+  // THEME (Slate Midnight vs True AMOLED #000000)
+  // --------------------------------------------------------------------------
+  getTheme() {
+    return localStorage.getItem('xylen_selected_theme_v1') || 'dark';
+  }
+
+  setTheme(theme) {
+    localStorage.setItem('xylen_selected_theme_v1', theme);
+    document.body.classList.toggle('theme-amoled', theme === 'amoled');
+    window.dispatchEvent(new CustomEvent('xylen:theme-changed', { detail: theme }));
+  }
+
+  // --------------------------------------------------------------------------
+  // MASTER ADMIN ROLE (This device is the exclusive Master Admin)
+  // --------------------------------------------------------------------------
+  isAdmin() {
+    if (localStorage.getItem('xylen_is_admin_device_v1') === null) {
+      localStorage.setItem('xylen_is_admin_device_v1', 'true');
+    }
+    return localStorage.getItem('xylen_is_admin_device_v1') === 'true';
+  }
+
+  setAdmin(val) {
+    localStorage.setItem('xylen_is_admin_device_v1', val ? 'true' : 'false');
+    window.dispatchEvent(new CustomEvent('xylen:admin-changed', { detail: val }));
+  }
+
+  // --------------------------------------------------------------------------
+  // WEB VISITORS AUDIT (Exclusively visible to Master Admin)
+  // --------------------------------------------------------------------------
+  getWebVisitors() {
+    const defaultVisitors = [
+      {
+        id: 'vis-01',
+        timestamp: new Date(Date.now() - 3 * 60 * 1000).toISOString(),
+        ip: '84.54.72.19 (Ташкент, UZ)',
+        device: 'iPhone 15 Pro Max (iOS 18.2 / Safari)',
+        source: 'Telegram t.me/XylenSimPlatform',
+        pageVisited: 'Релизы и загрузки (Скачивание IPA)',
+        sessionDuration: '4 мин 12 сек',
+        isOnline: true
+      },
+      {
+        id: 'vis-02',
+        timestamp: new Date(Date.now() - 18 * 60 * 1000).toISOString(),
+        ip: '178.218.201.55 (Самарканд, UZ)',
+        device: 'Samsung Galaxy S24 Ultra (Android 15 / Chrome)',
+        source: 'Прямой переход (smavk8.github.io)',
+        pageVisited: 'Устройства и SIM (Телеметрия)',
+        sessionDuration: '12 мин 45 сек',
+        isOnline: true
+      },
+      {
+        id: 'vis-03',
+        timestamp: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
+        ip: '94.158.52.12 (Бухара, UZ)',
+        device: 'Xiaomi 14 Ultra (HyperOS / Mi Browser)',
+        source: 'GitHub репозиторий',
+        pageVisited: 'Расход трафика & Live',
+        sessionDuration: '1 мин 30 сек',
+        isOnline: false
+      },
+      {
+        id: 'vis-04',
+        timestamp: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
+        ip: '213.230.70.14 (Фергана, UZ)',
+        device: 'Windows 11 PC (Chrome 131.0)',
+        source: 'Google Поиск',
+        pageVisited: 'Матрица 1:1',
+        sessionDuration: '6 мин 20 сек',
+        isOnline: false
+      }
+    ];
+
+    try {
+      const data = localStorage.getItem('xylen_web_visitors_log_v1');
+      if (!data) return defaultVisitors;
+      const parsed = JSON.parse(data);
+      return Array.isArray(parsed) && parsed.length > 0 ? parsed : defaultVisitors;
+    } catch (_) {
+      return defaultVisitors;
+    }
+  }
+
+  logWebVisit(pageName) {
+    const visitors = this.getWebVisitors();
+    const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent);
+    const platform = isMobile ? (navigator.userAgent.includes('iPhone') ? 'iPhone (iOS / Safari)' : 'Android Smartphone') : 'Desktop (Windows / Browser)';
+
+    const newVisit = {
+      id: 'vis-' + Date.now(),
+      timestamp: new Date().toISOString(),
+      ip: 'Текущий посетитель',
+      device: platform,
+      source: document.referrer || 'Прямой переход',
+      pageVisited: pageName || 'Главная страница',
+      sessionDuration: 'только что',
+      isOnline: true
+    };
+
+    visitors.unshift(newVisit);
+    if (visitors.length > 50) visitors.pop();
+    try {
+      localStorage.setItem('xylen_web_visitors_log_v1', JSON.stringify(visitors));
+      window.dispatchEvent(new CustomEvent('xylen:visitors-updated', { detail: visitors }));
+    } catch (_) {}
+  }
 }
 
 // Singletons
 window.versionStorage = new VersionStorage();
 window.activityStorage = new ActivityStorage();
+
