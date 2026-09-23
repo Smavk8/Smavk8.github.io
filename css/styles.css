@@ -1132,16 +1132,18 @@ body.theme-light .nav-active-pill {
 .jitter-stack-container {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
   max-width: 1160px;
   margin: 0 auto;
   position: relative;
+  padding-bottom: 45vh; /* Essential runway: allows Card 3 to lock into sticky stack before next section appears */
 }
 
 .stack-card {
   position: sticky;
-  top: calc(88px + var(--stack-index, 0) * 16px);
-  margin-bottom: 24vh;
+  top: calc(84px + var(--stack-index, 0) * 20px);
+  z-index: calc(10 + var(--stack-index, 0));
+  margin-bottom: 55vh; /* Ample scroll distance for card to rise all the way to its sticky top position */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 36px;
@@ -1152,20 +1154,27 @@ body.theme-light .nav-active-pill {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-  transition: transform 0.35s var(--ease-spring), opacity 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, box-shadow 0.3s ease;
   overflow: hidden;
+  transform-origin: center top;
 }
 
 .stack-card:last-child {
-  margin-bottom: 4vh;
+  margin-bottom: 45vh; /* Fix: previously 4vh, which stopped Card 3 in the middle of the screen! */
 }
 
 @media (max-width: 900px) {
+  .jitter-stack-container {
+    padding-bottom: 30vh;
+  }
   .stack-card {
     grid-template-columns: 1fr;
     padding: 26px;
-    top: 80px;
-    margin-bottom: 16vh;
+    top: 76px;
+    margin-bottom: 35vh;
+  }
+  .stack-card:last-child {
+    margin-bottom: 30vh;
   }
 }
 
@@ -1203,7 +1212,15 @@ body.theme-light .nav-active-pill {
 body.theme-light .stack-card.card-theme-dark {
   background: linear-gradient(135deg, #FFFFFF, #F8F9FA);
   border-color: rgba(0, 0, 0, 0.1);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+body.theme-light .stack-card.card-theme-cyan {
+  box-shadow: 0 24px 60px rgba(2, 132, 199, 0.35);
+}
+
+body.theme-light .stack-card.card-theme-purple {
+  box-shadow: 0 24px 60px rgba(124, 58, 237, 0.35);
 }
 
 .stack-badge {
@@ -1480,6 +1497,9 @@ body.theme-light .native-app-frame {
    Infinite horizontal auto-rotating carousel track, interactive on click
    ========================================================================== */
 .motion-carousel-section {
+  position: relative;
+  z-index: 25;
+  background: var(--bg-primary);
   padding: 56px 0 32px;
   overflow: hidden;
 }

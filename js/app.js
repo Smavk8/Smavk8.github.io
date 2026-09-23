@@ -228,24 +228,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const stackCards = document.querySelectorAll('.stack-card');
     if (!stackCards || stackCards.length === 0) return;
 
+    const totalCards = stackCards.length;
+    const triggerStart = window.innerHeight;
+    const triggerEnd = 130;
+
     stackCards.forEach((card, index) => {
-      const rect = card.getBoundingClientRect();
-      if (rect.top <= 120) {
-        const nextCard = stackCards[index + 1];
-        if (nextCard) {
-          const nextRect = nextCard.getBoundingClientRect();
-          if (nextRect.top < window.innerHeight && nextRect.top > 100) {
-            const progress = (window.innerHeight - nextRect.top) / window.innerHeight;
-            card.style.transform = `scale(${Math.max(0.95, 1 - progress * 0.05)}) translateY(${progress * -8}px)`;
-            card.style.opacity = `${Math.max(0.8, 1 - progress * 0.2)}`;
-          }
+      // Calculate how much successor cards have advanced towards sticky lock
+      let totalProgress = 0;
+      for (let j = index + 1; j < totalCards; j++) {
+        const nextRect = stackCards[j].getBoundingClientRect();
+        if (nextRect.top < triggerStart) {
+          const rawProgress = (triggerStart - nextRect.top) / (triggerStart - triggerEnd);
+          const progress = Math.min(Math.max(rawProgress, 0), 1);
+          totalProgress += progress;
         }
+      }
+
+      if (totalProgress > 0) {
+        const scale = Math.max(0.88, 1 - totalProgress * 0.05);
+        const translateY = totalProgress * -8;
+        const opacity = Math.max(0.7, 1 - totalProgress * 0.15);
+        card.style.transform = `scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px)`;
+        card.style.opacity = `${opacity.toFixed(2)}`;
       } else {
         card.style.transform = 'scale(1) translateY(0)';
         card.style.opacity = '1';
       }
     });
   }
+
+  window.addEventListener('resize', updateCardStackEffect, { passive: true });
 
   setTimeout(triggerScrollReveal, 120);
 
