@@ -9,19 +9,11 @@
  * 4. Who is spending how much (sessionBytes, todayBytes, totalBytes, carrier).
  */
 
-// In-memory cache on Cloudflare edge isolate
 const memoryStore = {
   users: new Map(),
   activities: [],
-  maxActivities: 150
+  maxActivities: 200
 };
-
-// Default seed if completely fresh
-function ensureSeed() {
-  if (memoryStore.users.size === 0) {
-    // Empty by default for 100% real reporting
-  }
-}
 
 function corsHeaders() {
   return {
@@ -39,18 +31,38 @@ export async function onRequestOptions() {
   });
 }
 
-export async function onRequestGet({ request }) {
-  ensureSeed();
+export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const limit = parseInt(url.searchParams.get('limit') || '50', 10);
-
-  const usersArray = Array.from(memoryStore.users.values()).sort((a, b) => b.lastSeenMs - a.lastSeenMs);
   const now = Date.now();
 
-  // Mark as offline if no heartbeat for > 60 seconds
-  const resolvedUsers = usersArray.map(u => ({
+  let users = [];
+  let activities = [];
+
+  // 1. Check persistent Cloudflare KV
+  if (env && env.XYLEN_KV) {
+    try {
+      const storedUsers = await env.XYLEN_KV.get('audit_users_json', 'json');
+      if (Array.isArray(storedUsers)) users = storedUsers;
+      const storedActs = await env.XYLEN_KV.get('audit_activities_json', 'json');
+      if (Array.isArray(storedActs)) activities = storedActs;
+    } catch (_) {}
+  }
+
+  // 2. Fallback to memoryStore
+  if (users.length === 0 && memoryStore.users.size > 0) {
+    users = Array.from(memoryStore.users.values());
+  }
+  if (activities.length === 0 && memoryStore.activities.length > 0) {
+    activities = memoryStore.activities;
+  }
+
+  users.sort((a, b) => (b.lastSeenMs || 0) - (a.lastSeenMs || 0));
+
+  // Mark status: active in last 75 seconds = online
+  const resolvedUsers = users.map(u => ({
     ...u,
-    status: (now - u.lastSeenMs < 75000) ? 'online' : 'offline'
+    status: (now - (u.lastSeenMs || 0) < 75000) ? 'online' : 'offline'
   }));
 
   const responsePayload = {
@@ -59,7 +71,7 @@ export async function onRequestGet({ request }) {
     totalUsersCount: resolvedUsers.length,
     onlineUsersCount: resolvedUsers.filter(u => u.status === 'online').length,
     users: resolvedUsers,
-    recentActivities: memoryStore.activities.slice(0, limit)
+    recentActivities: activities.slice(0, limit)
   };
 
   return new Response(JSON.stringify(responsePayload, null, 2), {
@@ -68,7 +80,7 @@ export async function onRequestGet({ request }) {
   });
 }
 
-export async function onRequestPost({ request }) {
+export async function onRequestPost({ request, env }) {
   try {
     const data = await request.json();
     if (!data) {
@@ -104,34 +116,59 @@ export async function onRequestPost({ request }) {
       todayBytes: Math.max(todayBytes, existingUser.todayBytes || 0),
       sessionBytes,
       totalBytes: Math.max(totalBytes, existingUser.totalBytes || 0),
-      status: 'online',
+      status: (data.status === 'offline') ? 'offline' : 'online',
       lastSeenMs: now,
       lastSeenIso: new Date(now).toISOString()
     };
 
+    // Update memoryStore
     memoryStore.users.set(userId, updatedUser);
 
-    // If an action was performed, record it in the activity feed
-    if (data.action || data.logEvent !== false) {
-      const activityEntry = {
-        id: 'act-' + now + '-' + Math.random().toString(36).substring(2, 6),
-        userId,
-        testerName: updatedUser.testerName,
-        model,
-        screen: currentScreen,
-        action: lastAction,
-        details: actionDetails,
-        carrier,
-        bytesDelta: Number(data.bytesDelta) || 0,
-        todayBytes: updatedUser.todayBytes,
-        timestamp: now,
-        timeDisplay: new Date(now).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
-      };
+    const activityEntry = {
+      id: 'act-' + now + '-' + Math.random().toString(36).substring(2, 6),
+      userId,
+      testerName: updatedUser.testerName,
+      model,
+      screen: currentScreen,
+      action: lastAction,
+      details: actionDetails,
+      carrier,
+      bytesDelta: Number(data.bytesDelta) || 0,
+      todayBytes: updatedUser.todayBytes,
+      timestamp: now,
+      timeDisplay: new Date(now).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    };
 
+    if (data.action || data.logEvent !== false) {
       memoryStore.activities.unshift(activityEntry);
       if (memoryStore.activities.length > memoryStore.maxActivities) {
         memoryStore.activities.pop();
       }
+    }
+
+    // Persist to Cloudflare KV
+    if (env && env.XYLEN_KV) {
+      try {
+        let allUsers = [];
+        const storedUsers = await env.XYLEN_KV.get('audit_users_json', 'json');
+        if (Array.isArray(storedUsers)) allUsers = storedUsers;
+        const idx = allUsers.findIndex(u => u.userId === userId);
+        if (idx >= 0) {
+          allUsers[idx] = updatedUser;
+        } else {
+          allUsers.push(updatedUser);
+        }
+        await env.XYLEN_KV.put('audit_users_json', JSON.stringify(allUsers));
+
+        if (data.action || data.logEvent !== false) {
+          let allActs = [];
+          const storedActs = await env.XYLEN_KV.get('audit_activities_json', 'json');
+          if (Array.isArray(storedActs)) allActs = storedActs;
+          allActs.unshift(activityEntry);
+          if (allActs.length > 200) allActs = allActs.slice(0, 200);
+          await env.XYLEN_KV.put('audit_activities_json', JSON.stringify(allActs));
+        }
+      } catch (_) {}
     }
 
     return new Response(JSON.stringify({ ok: true, registeredUser: updatedUser }), {

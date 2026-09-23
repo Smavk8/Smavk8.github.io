@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "xylen-platform",
+  "compatibility_date": "2024-09-23",
+  "pages_build_output_dir": ".",
+  "kv_namespaces": [
+    {
+      "binding": "XYLEN_KV",
+      "id": "1a0d7371a8ef47668a0f1b265f1080b7"
+    }
+  ]
+}
