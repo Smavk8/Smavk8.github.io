@@ -3,37 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0B0E14">
-  <meta name="description" content="Официальный высокоточный портал Xylen Sim Platform: телеком-мониторинг, аудит сотовых сетей, контроль SIM-инфраструктуры и дистрибуция релизов.">
-  <title>Xylen Sim Platform • High-Precision Cellular Telemetry</title>
+  <meta name="theme-color" content="#0C0C0C">
+  <meta name="description" content="Xylen Workspace: Рабочая платформа менеджера и команды для сквозного контроля тестирования SIM-карт, устройств и сетевого трафика.">
+  <title>Xylen Workspace • SIM Testing Operations Platform</title>
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
-  <!-- Scroll Progress Indicator Line (Benchmark Jitter / ROG) -->
+  <!-- ========================================================================
+       00 — SHORT XYLEN TYPOGRAPHIC LOADER (Benchmark Jitter / ROG)
+       ======================================================================== -->
+  <div id="loading-screen" class="loading-screen">
+    <div class="loader-content">
+      <div class="loader-logo-wrap">
+        <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="loader-icon">
+      </div>
+      <div class="loader-typographic" id="loader-typographic">
+        <span class="char c1">X</span>
+        <span class="char c2">Y</span>
+        <span class="char c3">L</span>
+        <span class="char c4">E</span>
+        <span class="char c5">N</span>
+      </div>
+      <div class="loader-line-track">
+        <div class="loader-line-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Progress Indicator Line -->
   <div id="scroll-progress-line" class="scroll-progress-line"></div>
 
-  <!-- Top Sticky Navigation & Page Selector Menu with Smart Auto-Hide -->
+  <!-- ========================================================================
+       TOP WORKSPACE NAVIGATION
+       ======================================================================== -->
   <header id="top-navbar" class="top-navbar">
     <div class="container nav-wrapper">
-      <a href="#" class="brand-badge" id="brand-badge-logo" onclick="window.switchPage('page-home'); return false;" title="Xylen Sim Platform">
+      <a href="#" class="brand-badge" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Workspace">
         <img src="assets/xylen-logo-white.png" alt="Xylen Logo" class="brand-logo-img logo-dark">
         <img src="assets/xylen-logo.png" alt="Xylen Logo" class="brand-logo-img logo-light">
         <div class="brand-text-block">
           <div class="brand-title">
-            SIM <span class="cyan">PLATFORM</span>
+            SIM <span class="cyan">WORKSPACE</span>
           </div>
-          <div class="brand-subtitle" data-i18n="brand_sub">Телеком-экосистема</div>
+          <div class="brand-subtitle" data-i18n="brand_sub">SIM Workspace</div>
         </div>
       </a>
 
-      <!-- Short, Precise Navigation Menu -->
-      <nav class="main-nav-menu" aria-label="Разделы портала">
-        <button class="nav-page-btn active" data-page="page-home" data-i18n="nav_home">
-          Главная
+      <!-- 7 Main Product Workspace Navigation Buttons -->
+      <nav class="main-nav-menu" aria-label="Разделы Xylen Workspace">
+        <button class="nav-page-btn active" data-page="page-overview" data-i18n="nav_overview">
+          Обзор
+        </button>
+        <button class="nav-page-btn" data-page="page-testers" data-i18n="nav_testers">
+          Тестировщики
         </button>
         <button class="nav-page-btn" data-page="page-devices" data-i18n="nav_devices">
           Устройства
+        </button>
+        <button class="nav-page-btn" data-page="page-sims" data-i18n="nav_sims">
+          SIM-карты
+        </button>
+        <button class="nav-page-btn" data-page="page-testing" data-i18n="nav_testing">
+          Тестирование
         </button>
         <button class="nav-page-btn" data-page="page-traffic" data-i18n="nav_traffic">
           Трафик
@@ -41,16 +73,10 @@
         <button class="nav-page-btn" data-page="page-releases" data-i18n="nav_releases">
           Релизы
         </button>
-        <button class="nav-page-btn" data-page="page-about" data-i18n="nav_about">
-          О нас
-        </button>
-        <button class="nav-page-btn" data-page="page-privacy" data-i18n="nav_privacy">
-          Конфиденциальность
-        </button>
       </nav>
 
       <div class="header-controls-group">
-        <!-- Minimalist Language Switcher (Typographic Text Links, Zero Capsule Border) -->
+        <!-- Minimalist Language Switcher -->
         <div class="lang-switch-minimal" title="Выбор языка">
           <button class="lang-text-btn active" data-lang="ru">RU</button>
           <span class="lang-sep">/</span>
@@ -61,19 +87,27 @@
 
         <span class="header-divider"></span>
 
-        <!-- Iconic Theme Toggle Button (Square-Rounded Minimalist Icon, Zero Bulky Text) -->
+        <!-- Theme Toggle Button -->
         <button id="theme-toggle-btn" class="theme-icon-btn" title="Переключить тему (Тёмная / Светлая)" aria-label="Переключить тему">
           <span id="theme-icon" class="theme-icon-symbol">☀️</span>
+        </button>
+
+        <span class="header-divider"></span>
+
+        <!-- Manager Access Badge / Toggle -->
+        <button id="manager-toggle-btn" class="manager-access-btn" title="Панель менеджера" onclick="window.requestAdminConsole();">
+          <span class="pulse-dot green"></span>
+          <span data-i18n="manager_btn">Менеджер</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Isolated Master Admin Floating Bar (Visible ONLY when authenticated) -->
-  <aside id="admin-active-bar" class="admin-active-bar" aria-label="Консоль администратора">
+  <!-- Floating Active Admin Bar (Visible ONLY when authenticated) -->
+  <aside id="admin-active-bar" class="admin-active-bar" aria-label="Консоль менеджера">
     <div style="display:flex; align-items:center; gap:8px;">
       <span class="pulse-dot green"></span>
-      <span id="admin-banner-text" data-i18n="admin_active_banner_text">🔒 Режим Мастер-Администратора активен. Раздел аудита разблокирован.</span>
+      <span id="admin-banner-text" data-i18n="admin_active_banner_text">🔒 Режим Менеджера активен. Журнал аудита доступен.</span>
     </div>
     <div class="admin-bar-actions">
       <button class="admin-bar-btn" onclick="window.switchPage('page-admin');" data-i18n="admin_banner_goto">Открыть Аудит</button>
@@ -82,168 +116,167 @@
   </aside>
 
   <!-- ========================================================================
-       PAGE 1: HOME (ГЛАВНАЯ)
+       01 — SECTION: OVERVIEW (Всё тестирование — под контролем)
        ======================================================================== -->
-  <main id="page-home" class="page-section active">
+  <main id="page-overview" class="page-section active">
     <div class="container">
-      <!-- High-Density Dual-Pane Command Cockpit (Maximum information on one screen) -->
-      <section class="home-cockpit-grid reveal-on-scroll">
-        <!-- Left: Telemetry Engine Overview & Direct Releases -->
-        <div class="cockpit-left-pane">
-          <div>
-            <div class="hero-pill-compact">
+      <!-- ROG Hero Statement -->
+      <section class="overview-hero-block reveal-on-scroll">
+        <div class="hero-chip">
+          <span class="pulse-dot cyan"></span>
+          <span>Xylen Core Operations • Live Telemetry</span>
+        </div>
+        <h1 class="hero-statement-title" data-i18n="overview_hero_title">
+          Всё тестирование — под контролем.
+        </h1>
+        <p class="hero-statement-desc" data-i18n="overview_hero_sub">
+          Следите за тестировщиками, устройствами, SIM-картами и результатами тестирования в едином рабочем пространстве.
+        </p>
+
+        <!-- 4 KPI Stat Counters (Count-up Odometer) -->
+        <div class="kpi-grid-4">
+          <div class="kpi-card" onclick="window.switchPage('page-testers');">
+            <div class="kpi-header">
+              <span class="kpi-tag" data-i18n="kpi_testers">Тестировщики</span>
               <span class="pulse-dot green"></span>
-              <span data-i18n="home_pill">Xylen Core Telemetry v5.2 • Hardware Cellular Audit</span>
             </div>
-
-            <h1 class="cockpit-heading" data-i18n="home_hero_title">
-              Высокоточный мониторинг сотовой связи и контроль SIM-инфраструктуры
-            </h1>
-
-            <p class="cockpit-description" data-i18n="home_hero_desc">
-              Профессиональный программный комплекс сквозного аудита сотовых сетей, выявления скрытых списаний трафика и синхронизации мульти-SIM парка в реальном времени.
-            </p>
+            <div class="kpi-number count-up" data-target="47" id="kpi-testers-count">47</div>
+            <div class="kpi-sub" data-i18n="kpi_testers_sub">32 активны прямо сейчас</div>
           </div>
 
-          <div>
-            <div class="cockpit-actions-row">
-              <button class="btn btn-cyan btn-compact" onclick="window.switchPage('page-releases');" data-i18n="home_cta_releases">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                <span>Скачать релиз v5.2</span>
-              </button>
-              <button class="btn btn-secondary btn-compact" onclick="window.switchPage('page-devices');" data-i18n="home_cta_devices">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                <span>Парк устройств</span>
-              </button>
+          <div class="kpi-card" onclick="window.switchPage('page-sims');">
+            <div class="kpi-header">
+              <span class="kpi-tag" data-i18n="kpi_sims">SIM-карты</span>
+              <span class="pulse-dot cyan"></span>
             </div>
+            <div class="kpi-number count-up" data-target="126" id="kpi-sims-count">126</div>
+            <div class="kpi-sub" data-i18n="kpi_sims_sub">126 в мониторинге (84 активны)</div>
+          </div>
 
-            <div class="cockpit-specs-strip">
-              <span class="spec-pill">✓ 24B Дельта-пакет</span>
-              <span class="spec-pill">✓ 0 мс задержка</span>
-              <span class="spec-pill">✓ AES-256 / Keychain</span>
-              <span class="spec-pill">✓ 1:1 Паритет</span>
+          <div class="kpi-card" onclick="window.switchPage('page-devices');">
+            <div class="kpi-header">
+              <span class="kpi-tag" data-i18n="kpi_devices">Устройства</span>
+              <span class="pulse-dot green"></span>
             </div>
+            <div class="kpi-number count-up" data-target="83" id="kpi-devices-count">83</div>
+            <div class="kpi-sub" data-i18n="kpi_devices_sub">83 подключено (51 Android, 32 iOS)</div>
+          </div>
+
+          <div class="kpi-card" onclick="window.switchPage('page-testing');">
+            <div class="kpi-header">
+              <span class="kpi-tag" data-i18n="kpi_tests">Тесты за неделю</span>
+              <span class="pulse-dot cyan"></span>
+            </div>
+            <div class="kpi-number count-up" data-target="342" id="kpi-tests-count">342</div>
+            <div class="kpi-sub" data-i18n="kpi_tests_sub">342 завершено успешно</div>
           </div>
         </div>
+      </section>
 
-        <!-- Right: Live Fleet Telemetry Cockpit (Visible right on the first screen!) -->
-        <div class="cockpit-right-pane">
-          <div class="telemetry-gauge-card">
-            <div class="gauge-header">
-              <div class="gauge-title-box">
-                <span class="section-tag" style="color:var(--cyan-electric); font-size:0.68rem;">Live Fleet Cockpit</span>
-                <div class="gauge-title">Живой эфир сотовой телеметрии</div>
-              </div>
-              <div class="card-status-badge">
-                <span class="pulse-dot green"></span> <span data-i18n="traffic_live_badge">В ЭФИРЕ</span>
-              </div>
+      <!-- Visual System Topology Flow: Manager <-> Testers -> Mobile App -> Device <-> SIM -> Test -> Result -->
+      <section class="topology-section reveal-on-scroll">
+        <div class="section-title-strip">
+          <h2 class="section-heading" data-i18n="topology_title">Архитектура процесса тестирования</h2>
+          <p class="section-desc" data-i18n="topology_sub">Непрерывный поток данных от SIM-карты до подтвержденного результата</p>
+        </div>
+
+        <div class="topology-flow-card">
+          <div class="topology-nodes-container">
+            <div class="top-node manager-node">
+              <div class="node-icon">👔</div>
+              <div class="node-label">Manager</div>
+              <div class="node-status">Control & KPI</div>
             </div>
 
-            <!-- Mini Speed & Today Readout -->
-            <div class="gauge-readout-row">
-              <div class="readout-box">
-                <span class="readout-label">Скорость передачи</span>
-                <div id="home-live-speed" class="readout-val cyan">0.0 КБ/с</div>
-              </div>
-              <div class="readout-divider"></div>
-              <div class="readout-box">
-                <span class="readout-label">Расход за сегодня</span>
-                <div id="home-live-today" class="readout-val">0.00 МБ</div>
-              </div>
+            <div class="flow-arrow-animated">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
             </div>
 
-            <!-- 2x2 Dense Hardware Metrics Grid -->
-            <div class="dense-telemetry-grid">
-              <div class="dense-tile">
-                <div class="dense-tile-lbl">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
-                  SIM Слот
-                </div>
-                <div id="home-live-sim" class="dense-tile-val">—</div>
-              </div>
-
-              <div class="dense-tile">
-                <div class="dense-tile-lbl">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h.01M7 20v-4M12 20v-8M17 20V4"/></svg>
-                  Уровень сигнала
-                </div>
-                <div id="home-live-signal" class="dense-tile-val cyan">98% (Отличный)</div>
-              </div>
-
-              <div class="dense-tile">
-                <div class="dense-tile-lbl">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                  Сотовая вышка
-                </div>
-                <div id="home-live-tower" class="dense-tile-val">CID 20847 / TAC 419</div>
-              </div>
-
-              <div class="dense-tile">
-                <div class="dense-tile-lbl">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                  Шифрование
-                </div>
-                <div class="dense-tile-val green">AES-256-GCM ✓</div>
-              </div>
+            <div class="top-node testers-node">
+              <div class="node-icon">👥</div>
+              <div class="node-label">Testers</div>
+              <div class="node-status">32 Active</div>
             </div>
 
-            <!-- Footer Status Indicator -->
-            <div class="gauge-footer-note">
-              <span class="pulse-dot"></span>
-              <span id="home-live-device-status">Ожидание подключения мобильного приложения...</span>
+            <div class="flow-arrow-animated">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
+            </div>
+
+            <div class="top-node app-node">
+              <div class="node-icon">📱</div>
+              <div class="node-label">Mobile App</div>
+              <div class="node-status">v5.2 • 24B Delta</div>
+            </div>
+
+            <div class="flow-arrow-animated">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
+            </div>
+
+            <div class="top-node device-sim-node">
+              <div class="node-icon">📶</div>
+              <div class="node-label">Device ↔ SIM</div>
+              <div class="node-status">Hot-swap Enabled</div>
+            </div>
+
+            <div class="flow-arrow-animated">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
+            </div>
+
+            <div class="top-node test-node">
+              <div class="node-icon">⚡</div>
+              <div class="node-label">Test Cycle</div>
+              <div class="node-status">Radio & Latency</div>
+            </div>
+
+            <div class="flow-arrow-animated">
+              <div class="flow-line"></div>
+              <div class="flow-dot"></div>
+            </div>
+
+            <div class="top-node result-node">
+              <div class="node-icon">📊</div>
+              <div class="node-label">Verified Result</div>
+              <div class="node-status">100% Billing Match</div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Technological Pillars -->
-      <section class="reveal-on-scroll">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-tag">Core Architecture</span>
-            <h2 class="section-title" data-i18n="home_pillars_title">Технологические преимущества Xylen</h2>
-          </div>
-        </div>
-
-        <div class="home-pillars-grid">
-          <div class="home-pillar-card">
-            <div class="pillar-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+      <!-- Live Stream Quick Strip -->
+      <section class="overview-quick-strip reveal-on-scroll">
+        <div class="quick-cockpit-card">
+          <div class="cockpit-header-row">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="pulse-dot green"></span>
+              <span class="cockpit-title">Live Telemetry Stream</span>
             </div>
-            <h3 class="pillar-title" data-i18n="home_pillar_1_title">Сверхлегкий микро-дельта протокол</h3>
-            <p class="pillar-desc" data-i18n="home_pillar_1_desc">
-              Передача живых импульсов скорости сжата до 24 байт. Даже при 100% загрузке канала стресс-тестом или при слабом сигнале 2G/EDGE данные продолжают поступать без сбоев.
-            </p>
-          </div>
-
-          <div class="home-pillar-card">
-            <div class="pillar-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+            <div class="cockpit-chips">
+              <span class="spec-pill">0 ms Latency</span>
+              <span class="spec-pill">24B Delta Packet</span>
+              <span class="spec-pill">AES-256 Validated</span>
             </div>
-            <h3 class="pillar-title" data-i18n="home_pillar_2_title">Полный паспорт SIM-карты</h3>
-            <p class="pillar-desc" data-i18n="home_pillar_2_desc">
-              Мгновенное считывание оператора, MCC/MNC кодов, номера слота, уровней сигнала в dBm, сотовых вышек (CID/TAC) и паспортных номеров при наличии разрешений.
-            </p>
           </div>
-
-          <div class="home-pillar-card">
-            <div class="pillar-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div class="cockpit-readouts-grid">
+            <div class="cockpit-stat-box">
+              <span class="stat-caption">Скорость канала:</span>
+              <div class="stat-value cyan" id="overview-live-speed">24.5 МБ/с</div>
             </div>
-            <h3 class="pillar-title" data-i18n="home_pillar_3_title">100% Нативный паритет 1:1</h3>
-            <p class="pillar-desc" data-i18n="home_pillar_3_desc">
-              Идентичный пользовательский опыт: Jetpack Compose на Android и SwiftUI на iOS. Вращающийся одометр цифр, векторные графики и всплывающие доки работают одинаково совершенно.
-            </p>
-          </div>
-
-          <div class="home-pillar-card">
-            <div class="pillar-icon-box">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <div class="cockpit-stat-box">
+              <span class="stat-caption">Объем за сегодня:</span>
+              <div class="stat-value" id="overview-live-today">24.82 ГБ</div>
             </div>
-            <h3 class="pillar-title" data-i18n="home_pillar_4_title">Полная автономность и безопасность</h3>
-            <p class="pillar-desc" data-i18n="home_pillar_4_desc">
-              Никаких сторонних рекламных трекеров, облачных закладок и внешних зависимостей. Все данные принадлежат исключительно владельцу системы.
-            </p>
+            <div class="cockpit-stat-box">
+              <span class="stat-caption">Активный сотовый узел:</span>
+              <div class="stat-value" id="overview-live-cell">CID 89211 • TAC 55102</div>
+            </div>
+            <div class="cockpit-stat-box">
+              <span class="stat-caption">Горячий SIM-слот:</span>
+              <div class="stat-value" id="overview-live-sim">Orange France (Slot 1)</div>
+            </div>
           </div>
         </div>
       </section>
@@ -251,332 +284,76 @@
   </main>
 
   <!-- ========================================================================
-       PAGE 2: DEVICES (УСТРОЙСТВА) - CLEAN MODAL INSPECTION
+       02 — SECTION: TESTERS (Команда тестирования — как на ладони)
+       ======================================================================== -->
+  <main id="page-testers" class="page-section">
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="testers_hero_title">Команда тестирования — как на ладони</h1>
+        <p class="section-desc" data-i18n="testers_hero_sub">Знайте, кто тестирует прямо сейчас, какие SIM-карты задействованы и где требуется внимание.</p>
+        <div class="testers-status-strip">
+          <span class="status-tag-active" data-i18n="testers_active_chip">32 активны • 11 в тесте • 4 ожидают • 2 вопроса</span>
+        </div>
+      </div>
+
+      <!-- Testers Grid -->
+      <div class="testers-card-grid reveal-on-scroll" id="testers-list-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       03 — SECTION: DEVICES (Каждое устройство — живая история с Timeline)
        ======================================================================== -->
   <main id="page-devices" class="page-section">
-    <div class="container" style="padding-top: 36px;">
-      <div class="section-header reveal-on-scroll">
-        <div class="section-title-wrap">
-          <span class="section-tag">Connected Hardware Fleet</span>
-          <h2 class="section-title" data-i18n="devices_title">Парк подключенных устройств</h2>
-          <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:4px;" data-i18n="devices_sub">
-            Мониторинг активных смартфонов и терминалов в реальном времени. Нажмите на любое устройство для детального инспектора всех параметров.
-          </p>
-        </div>
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="devices_hero_title">Каждое устройство — живая история</h1>
+        <p class="section-desc" data-i18n="devices_hero_sub">Аппаратный парк, версии ОС, радиоканал и пошаговая хронология событий в реальном времени.</p>
       </div>
 
-      <!-- Real Devices List (No Columns Explosion, Only Clean Interactive Cards) -->
-      <div id="devices-container" class="reveal-on-scroll" style="display:flex; flex-direction:column; gap:14px; margin-bottom:40px;">
-        <!-- Populated dynamically by app.js -->
+      <!-- Devices Grid with Live Timeline -->
+      <div class="devices-story-grid reveal-on-scroll" id="devices-container">
+        <!-- Rendered dynamically by app.js -->
       </div>
     </div>
   </main>
 
   <!-- ========================================================================
-       PAGE 3: TRAFFIC (ТРАФИК)
+       04 — SECTION: SIMs (Каждая SIM — на контроле, отдельная сущность)
        ======================================================================== -->
-  <main id="page-traffic" class="page-section">
-    <div class="container" style="padding-top: 36px;">
-      <div class="section-header reveal-on-scroll">
-        <div class="section-title-wrap">
-          <span class="section-tag">Traffic Telemetry & Live Pulse</span>
-          <h2 class="section-title" data-i18n="traffic_title">Аналитика расхода трафика</h2>
-          <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:4px;" data-i18n="traffic_sub">
-            Расход трафика за сегодня в прямом режиме через микро-дельты (24 байта) и история по дням.
-          </p>
-        </div>
-
-        <div>
-          <span class="efficiency-protocol-badge" data-i18n="traffic_efficiency_badge">
-            Микро-дельта: ~24 байт/пакет (96% сжатие)
-          </span>
+  <main id="page-sims" class="page-section">
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="sims_hero_title">Каждая SIM — на контроле</h1>
+        <p class="section-desc" data-i18n="sims_hero_sub">Учет операторов, слотов, IMSI/ICCID и уровней радиосигнала независимо от аппаратов.</p>
+        
+        <!-- Filter Tabs -->
+        <div class="sims-filter-tabs">
+          <button class="sim-tab-btn active" data-filter="all" data-i18n="sims_filter_all">Все SIM (126)</button>
+          <button class="sim-tab-btn" data-filter="active" data-i18n="sims_filter_active">Активные (84)</button>
+          <button class="sim-tab-btn" data-filter="testing" data-i18n="sims_filter_testing">В тесте (32)</button>
+          <button class="sim-tab-btn" data-filter="spare" data-i18n="sims_filter_spare">Резерв (10)</button>
         </div>
       </div>
 
-      <!-- Live Stream + Historical Calendar Overview -->
-      <div class="traffic-overview-grid reveal-on-scroll">
-        <!-- Live Stream Card (Today) -->
-        <div class="live-today-card">
-          <div class="live-pulse-top">
-            <div>
-              <span class="section-tag" style="color:var(--cyan-electric);">Live Pulse</span>
-              <h3 style="font-size:1.3rem; font-weight:800; margin-top:2px;" data-i18n="traffic_live_title">Живой расход за сегодня</h3>
-            </div>
-            <div class="card-status-badge">
-              <span class="pulse-dot green"></span> <span data-i18n="traffic_live_badge">В ЭФИРЕ</span>
-            </div>
-          </div>
-
-          <div style="font-size:0.85rem; color:var(--text-secondary);">
-            <strong id="live-device-name" style="color:var(--text-primary);" data-i18n="traffic_no_device">Нет подключенных устройств</strong>
-          </div>
-
-          <div class="live-odometer-display">
-            <div id="live-today-mb" class="live-odometer-num">0.00</div>
-            <div class="live-odometer-unit">МБ</div>
-          </div>
-
-          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
-            <div style="font-size:0.85rem; color:var(--text-muted);">
-              <span data-i18n="traffic_speed_label">Скорость передачи:</span> <strong id="live-current-speed" style="color:var(--cyan-electric); font-family:var(--font-mono);">0.0 КБ/с</strong>
-            </div>
-            <div style="font-size:0.85rem; color:var(--text-muted);">
-              <span data-i18n="traffic_slot_label">Слот:</span> <strong id="live-sim-slot" style="color:var(--text-primary);">—</strong>
-            </div>
-          </div>
-
-          <div style="background:rgba(0,0,0,0.25); border-radius:var(--radius-sm); padding:12px 14px; border:1px solid var(--border-subtle); font-size:0.8rem; color:var(--text-secondary); line-height:1.5;">
-            ✓ <span data-i18n="traffic_waiting_stream">Ожидание подключения устройства из мобильного приложения...</span>
-          </div>
-        </div>
-
-        <!-- Historical Calendar Picker Card -->
-        <div class="calendar-card">
-          <div class="calendar-controls-row">
-            <div>
-              <span class="section-tag">Calendar History</span>
-              <h3 style="font-size:1.2rem; font-weight:800; margin-top:2px;" data-i18n="traffic_calendar_title">История по дням</h3>
-            </div>
-            <input type="date" id="calendar-date-picker" class="calendar-date-input">
-          </div>
-
-          <div class="quick-days-pills">
-            <button class="day-pill-btn active" data-offset="0" data-i18n="traffic_day_today">Сегодня</button>
-            <button class="day-pill-btn" data-offset="1" data-i18n="traffic_day_yesterday">Вчера</button>
-            <button class="day-pill-btn" data-offset="2" data-i18n="traffic_day_2days">2 дня назад</button>
-            <button class="day-pill-btn" data-offset="3" data-i18n="traffic_day_3days">3 дня назад</button>
-            <button class="day-pill-btn" data-offset="7" data-i18n="traffic_day_7days">7 дней назад</button>
-          </div>
-
-          <div id="calendar-day-summary" class="calendar-stats-grid">
-            <!-- Populated dynamically by app.js -->
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ========================================================================
-       PAGE 4: RELEASES (РЕЛИЗЫ)
-       ======================================================================== -->
-  <main id="page-releases" class="page-section">
-    <div class="container" style="padding-top: 36px;">
-      <!-- Hero Section -->
-      <section class="reveal-on-scroll">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-tag">Cross-Platform Hub</span>
-            <h2 class="section-title" data-i18n="releases_hero_title">Релизы и загрузки</h2>
-            <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:4px;" data-i18n="releases_hero_sub">
-              Прямое скачивание APK для Android и IPA для iPhone, раздельный учет версий приложения и поддерживаемых ОС.
-            </p>
-          </div>
-        </div>
-
-        <!-- Dual Platform Cards -->
-        <div class="platform-grid">
-          <div id="android-hero-card" class="platform-card android">
-            <!-- Populated dynamically by app.js -->
-          </div>
-          <div id="ios-hero-card" class="platform-card ios">
-            <!-- Populated dynamically by app.js -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Fast Installation Guides -->
-      <section class="reveal-on-scroll" style="margin-top: 40px;">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-tag">Deployment Guides</span>
-            <h2 class="section-title" data-i18n="guide_title">Инструкции по установке</h2>
-          </div>
-        </div>
-
-        <div class="guide-grid">
-          <div class="guide-card">
-            <div class="guide-header">
-              <img src="assets/icon-android.svg" width="28" height="28" alt="Android">
-              <h3 data-i18n="guide_android_title">Установка на Android (2 шага)</h3>
-            </div>
-            <div class="guide-step-list">
-              <div class="guide-step">
-                <span class="step-num">1</span>
-                <div class="step-text" data-i18n="guide_android_step1">
-                  Нажмите кнопку <strong>«Скачать APK»</strong> или отсканируйте QR-код камерой смартфона.
-                </div>
-              </div>
-              <div class="guide-step">
-                <span class="step-num">2</span>
-                <div class="step-text" data-i18n="guide_android_step2">
-                  Откройте файл <span class="code-pill">app-release.apk</span> ➔ нажмите <strong>«Установить»</strong>.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="guide-card">
-            <div class="guide-header">
-              <img src="assets/icon-ios.svg" width="28" height="28" alt="iOS">
-              <h3 data-i18n="guide_ios_title">Установка на iPhone по воздуху ($0)</h3>
-            </div>
-            <div class="guide-step-list">
-              <div class="guide-step">
-                <span class="step-num">1</span>
-                <div class="step-text" data-i18n="guide_ios_step1">
-                  Установите анти-отзывный профиль <a href="https://files.catbox.moe/khoindvn.mobileconfig" target="_blank" style="color:var(--cyan-electric);font-weight:700;">khoindvn.mobileconfig</a> и подтвердите в Настройках iPhone.
-                </div>
-              </div>
-              <div class="guide-step">
-                <span class="step-num">2</span>
-                <div class="step-text" data-i18n="guide_ios_step2">
-                  Откройте установщик <a href="https://files.catbox.moe/9879kj.html" target="_blank" style="color:var(--cyan-electric);font-weight:700;">ESign</a> в Safari ➔ в <i>Настройки ➔ VPN и управление</i> нажмите «Доверять».
-                </div>
-              </div>
-              <div class="guide-step">
-                <span class="step-num">3</span>
-                <div class="step-text" data-i18n="guide_ios_step3">
-                  Отсканируйте QR-код с <span class="code-pill">XylenSimPlatform.ipa</span> ➔ откройте в ESign ➔ нажмите <strong>«Подписать»</strong> ➔ <strong>«Установить»</strong>.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Version History Hub -->
-      <section class="reveal-on-scroll" style="margin-top: 40px; margin-bottom: 40px;">
-        <div class="section-header">
-          <div class="section-title-wrap">
-            <span class="section-tag">Version Registry</span>
-            <h2 class="section-title" data-i18n="version_hub_title">История версий</h2>
-          </div>
-          <div class="tabs-control">
-            <button class="tab-btn active" data-platform="all" data-i18n="tab_all">Все версии</button>
-            <button class="tab-btn" data-platform="android" data-i18n="tab_android">Android</button>
-            <button class="tab-btn" data-platform="ios" data-i18n="tab_ios">iOS</button>
-          </div>
-        </div>
-
-        <div class="versions-hub-card">
-          <div class="versions-toolbar">
-            <div class="search-box">
-              <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-              <input type="text" id="search-versions" class="search-input" placeholder="Поиск по версиям и чейнджлогу..." data-i18n="search_placeholder">
-            </div>
-          </div>
-          <div id="version-list-container" class="version-list">
-            <!-- Populated dynamically -->
-          </div>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- ========================================================================
-       PAGE 5: ABOUT (О НАС / О СЕБЕ)
-       ======================================================================== -->
-  <main id="page-about" class="page-section">
-    <div class="container" style="padding-top: 36px; margin-bottom: 50px;">
-      <section class="home-hero-card reveal-on-scroll">
-        <div class="home-hero-content">
-          <div class="hero-pill">
-            <span class="pulse-dot"></span>
-            <span data-i18n="about_pill">Инженерная миссия • Кто мы такие</span>
-          </div>
-          <h1 class="hero-heading" data-i18n="about_hero_title">
-            История создания и миссия Xylen Sim Platform
-          </h1>
-          <p class="hero-description" data-i18n="about_hero_desc">
-            Мы создаем независимые инструменты нового поколения для контроля качества связи, учета мобильного трафика и защиты пользователей от скрытых ограничений сотовых сетей.
-          </p>
-        </div>
-      </section>
-
-      <div class="about-grid reveal-on-scroll">
-        <div class="about-card">
-          <h3 data-i18n="about_who_title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Кто мы такие
-          </h3>
-          <p data-i18n="about_who_text">
-            Xylen — это независимая инженерная лаборатория и команда разработчиков системного мобильного ПО. Мы специализируемся на низкоуровневой телеметрии сетей связи, нативной разработке для мобильных платформ (Android & iOS) и создании защищенных корпоративных решений для управления парком SIM-карт и терминалов.
-          </p>
-        </div>
-
-        <div class="about-card">
-          <h3 data-i18n="about_mission_title">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            Для чего создается этот проект
-          </h3>
-          <p data-i18n="about_mission_text">
-            Современные мобильные операторы нередко завышают реальный расход трафика, скрывают деградацию покрытия вышек и используют закрытые тарифные ограничения. Большинство существующих утилит перегружены рекламой или собирают персональные данные для аналитических корпораций. Xylen Platform была создана как бескомпромиссный, кристально чистый и математически точный инструмент прямого аппаратного контроля. Мы даем пользователю и инженеру полную правду о том, что происходит с его SIM-картой и сетью каждую секунду.
-          </p>
-        </div>
-      </div>
-
-      <div class="about-card reveal-on-scroll">
-        <h3 data-i18n="about_principles_title">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Принципы нашей разработки
-        </h3>
-        <div class="about-principles-list">
-          <div class="principle-item">
-            <span class="principle-bullet">✓</span>
-            <div data-i18n="about_princ_1">Native First: разработка ведется исключительно на чистых современных языках Kotlin (Compose) и Swift (SwiftUI) без тяжелых гибридных надстроек.</div>
-          </div>
-          <div class="principle-item">
-            <span class="principle-bullet">✓</span>
-            <div data-i18n="about_princ_2">Zero-Overhead Telemetry: алгоритмы мониторинга оптимизированы так, чтобы потреблять менее 0.1% заряда аккумулятора смартфона за сутки.</div>
-          </div>
-          <div class="principle-item">
-            <span class="principle-bullet">✓</span>
-            <div data-i18n="about_princ_3">Криптографическая надежность: история сессий и журнал аудита защищены военным стандартом шифрования AES-256 (Android) и системным сейфом Apple Keychain (iOS).</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Shakuro Editorial Philosophy Quote -->
-      <div class="about-quote-card reveal-on-scroll">
-        <div class="quote-symbol">“</div>
-        <blockquote class="quote-text" data-i18n="about_quote_text">
-          «Инженерный дизайн — это не просто эстетика интерфейса. Это математическая точность архитектуры, выдерживающей стресс-тесты сотовых сетей, микросекундная синхронизация и кристальная честность перед пользователем».
-        </blockquote>
-        <div class="quote-author" data-i18n="about_quote_author">— Инженерный манифест архитектуры Xylen Core</div>
-      </div>
-    </div>
-  </main>
-
-  <!-- ========================================================================
-       PAGE 6: ADMIN AUDIT (АУДИТ ПОСЕТИТЕЛЕЙ - ТОЛЬКО АДМИНИСТРАТОРУ)
-       ======================================================================== -->
-  <main id="page-admin" class="page-section">
-    <div class="container" style="padding-top: 36px; margin-bottom: 50px;">
-      <div class="section-header reveal-on-scroll">
-        <div class="section-title-wrap">
-          <span class="section-tag" style="color:var(--cyan-electric);">Exclusive Master Admin</span>
-          <h2 class="section-title" data-i18n="admin_visitors_title">Аудит посетителей веб-портала (Администратор)</h2>
-          <p style="font-size:0.9rem; color:var(--text-secondary); margin-top:4px;" data-i18n="admin_visitors_sub">
-            Список клиентов и браузеров, посещающих портал, с фиксацией устройств и страниц.
-          </p>
-        </div>
-        <span class="parity-badge done" style="font-size:0.75rem; padding:4px 10px;">Master Device Verified</span>
-      </div>
-
-      <div class="visitors-card reveal-on-scroll">
-        <table class="visitors-table">
+      <!-- SIM Inventory Table -->
+      <div class="sim-table-wrap reveal-on-scroll">
+        <table class="sim-inventory-table">
           <thead>
             <tr>
-              <th>Дата и время</th>
-              <th>Устройство / Браузер</th>
-              <th>IP-адрес / Локация</th>
-              <th>Источник перехода</th>
-              <th>Просмотренный раздел</th>
-              <th>Статус</th>
+              <th data-i18n="sim_th_carrier">Оператор / Страна</th>
+              <th data-i18n="sim_th_slot">Слот</th>
+              <th data-i18n="sim_th_iccid">ICCID / IMSI</th>
+              <th data-i18n="sim_th_network">Стандарт / Сигнал</th>
+              <th data-i18n="sim_th_tower">Базовая станция (CID/TAC)</th>
+              <th data-i18n="sim_th_device">Устройство / Тестировщик</th>
+              <th data-i18n="sim_th_status">Статус</th>
             </tr>
           </thead>
-          <tbody id="visitors-table-body">
-            <!-- Populated dynamically by app.js -->
+          <tbody id="sims-table-body">
+            <!-- Rendered dynamically by app.js -->
           </tbody>
         </table>
       </div>
@@ -584,280 +361,406 @@
   </main>
 
   <!-- ========================================================================
-       PAGE 7: PRIVACY POLICY & TERMS (ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И УСЛОВИЯ)
+       05 — SECTION: TESTING (От SIM до результата, анимированный lifecycle)
        ======================================================================== -->
-  <main id="page-privacy" class="page-section">
-    <div class="container" style="padding-top: 36px; margin-bottom: 60px;">
-      <section class="home-hero-card reveal-on-scroll">
-        <div class="home-hero-content">
-          <div class="hero-pill">
-            <span class="pulse-dot green"></span>
-            <span data-i18n="privacy_badge">Официальный правовой регламент • Юридическая прозрачность</span>
+  <main id="page-testing" class="page-section">
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="testing_hero_title">От SIM до результата</h1>
+        <p class="section-desc" data-i18n="testing_hero_sub">Анимированный пошаговый цикл жизненного цикла тестирования от обнаружения SIM до сохранения отчета.</p>
+        
+        <div style="margin-top: 18px;">
+          <button class="btn btn-cyan" id="btn-run-lifecycle-test" onclick="window.runLifecycleSimulation();" data-i18n="testing_simulate_btn">
+            ▶ Запустить контрольный цикл теста
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive 5-Step Lifecycle Pipeline (Benchmark Shakuro / Jitter) -->
+      <div class="lifecycle-card reveal-on-scroll">
+        <div class="lifecycle-stepper" id="lifecycle-stepper">
+          <!-- Step 1 -->
+          <div class="step-item active" id="step-detected">
+            <div class="step-icon-circle">1</div>
+            <div class="step-info">
+              <div class="step-name" data-i18n="testing_step1_name">Обнаружение SIM</div>
+              <div class="step-sub" data-i18n="testing_step1_desc">Чтение ICCID, IMSI и несущей частоты</div>
+            </div>
+            <div class="step-connector"></div>
           </div>
-          <h1 class="hero-heading" data-i18n="privacy_title">
-            Политика конфиденциальности и Условия использования
-          </h1>
-          <p class="hero-description" data-i18n="privacy_sub">
-            Правила сбора технической телеметрии, защита персональных данных и гарантии соблюдения 152-ФЗ РФ, законодательства Великобритании UK GDPR (Data Protection Act 2018) и правил Google Play & Apple App Store.
-          </p>
-        </div>
-      </section>
 
-      <!-- Legal Badges Row -->
-      <div class="reveal-on-scroll" style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:32px;">
-        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ 152-ФЗ РФ (Российская Федерация)</span>
-        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ UK GDPR & Data Protection Act 2018 (Великобритания / ICO)</span>
-        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ Apple Guideline 5.1.1 & 5.1.2</span>
-        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ Google Play Privacy & Security Policy</span>
-      </div>
+          <!-- Step 2 -->
+          <div class="step-item" id="step-connected">
+            <div class="step-icon-circle">2</div>
+            <div class="step-info">
+              <div class="step-name" data-i18n="testing_step2_name">Связь с Xylen</div>
+              <div class="step-sub" data-i18n="testing_step2_desc">Авторизация аппарата и проверка ключей</div>
+            </div>
+            <div class="step-connector"></div>
+          </div>
 
-      <!-- Legal Articles Grid -->
-      <div class="about-grid reveal-on-scroll">
-        <div class="about-card">
-          <h3 data-i18n="privacy_sec1_title">1. Общие положения и статус оператора</h3>
-          <p data-i18n="privacy_sec1_body">Платформа Xylen Sim Platform создана как инструмент независимого инженерного аудита качества сотовой связи...</p>
-        </div>
+          <!-- Step 3 -->
+          <div class="step-item" id="step-testing">
+            <div class="step-icon-circle">3</div>
+            <div class="step-info">
+              <div class="step-name" data-i18n="testing_step3_name">Запуск теста</div>
+              <div class="step-sub" data-i18n="testing_step3_desc">Генерация тестовой сессии и передача дельт</div>
+            </div>
+            <div class="step-connector"></div>
+          </div>
 
-        <div class="about-card">
-          <h3 data-i18n="privacy_sec2_title">2. Категории обрабатываемых данных (Техническая телеметрия)</h3>
-          <p data-i18n="privacy_sec2_body">При согласии пользователя приложение обрабатывает исключительно минимально необходимый объем параметров...</p>
-        </div>
+          <!-- Step 4 -->
+          <div class="step-item" id="step-collecting">
+            <div class="step-icon-circle">4</div>
+            <div class="step-info">
+              <div class="step-name" data-i18n="testing_step4_name">Сбор телеметрии</div>
+              <div class="step-sub" data-i18n="testing_step4_desc">Анализ задержки, списаний и биллинга</div>
+            </div>
+            <div class="step-connector"></div>
+          </div>
 
-        <div class="about-card">
-          <h3 data-i18n="privacy_sec3_title">3. Цели обработки данных</h3>
-          <p data-i18n="privacy_sec3_body">Сбор технических сведений осуществляется исключительно для диагностики сотового покрытия...</p>
-        </div>
-
-        <div class="about-card">
-          <h3 data-i18n="privacy_sec4_title">4. Правовое основание и добровольное согласие</h3>
-          <p data-i18n="privacy_sec4_body">Обработка технических параметров осуществляется исключительно на основании явного согласия...</p>
-        </div>
-
-        <div class="about-card">
-          <h3 data-i18n="privacy_sec5_title">5. Право на отзыв согласия (Opt-out) и удаление данных</h3>
-          <p data-i18n="privacy_sec5_body">Вы имеете право в любой момент отозвать согласие на диагностику в настройках приложения...</p>
+          <!-- Step 5 -->
+          <div class="step-item" id="step-completed">
+            <div class="step-icon-circle">5</div>
+            <div class="step-info">
+              <div class="step-name" data-i18n="testing_step5_name">Завершено успешно</div>
+              <div class="step-sub" data-i18n="testing_step5_desc">Результат валидирован и внесен в реестр</div>
+            </div>
+          </div>
         </div>
 
-        <div class="about-card">
-          <h3 data-i18n="privacy_sec6_title">6. Безопасность и хранение данных</h3>
-          <p data-i18n="privacy_sec6_body">Все локальные журналы сессий защищены шифрованием AES-256 и Apple Keychain...</p>
+        <!-- Real-time Test Output Console -->
+        <div class="lifecycle-console">
+          <div class="console-header">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="pulse-dot green" id="console-pulse"></span>
+              <span class="console-title">Live Pipeline Monitor</span>
+            </div>
+            <div class="console-timestamp" id="console-clock">13:30:00</div>
+          </div>
+          <div class="console-log-area" id="lifecycle-log-area">
+            <div class="log-line text-cyan">[INIT] SIM-тестер Xylen Platform ожидает инициализации сессии...</div>
+            <div class="log-line text-muted">[INFO] Аппаратный сейф Keychain / AES-256 готов к передаче дельта-пакетов.</div>
+          </div>
         </div>
-      </div>
 
-      <div class="about-card reveal-on-scroll">
-        <h3 data-i18n="privacy_sec7_title">7. Контакты службы поддержки и обратная связь</h3>
-        <p data-i18n="privacy_sec7_body">По всем вопросам функционирования платформы или реализации прав свяжитесь с инженерной командой через форму на веб-портале или раздел поддержки в приложении.</p>
+        <!-- Technical Metrics Strip -->
+        <div class="testing-metrics-strip">
+          <span class="spec-pill" data-i18n="testing_metric_latency">Задержка ядра: 0 мс</span>
+          <span class="spec-pill" data-i18n="testing_metric_packet">Дельта-пакет: 24 байта</span>
+          <span class="spec-pill" data-i18n="testing_metric_compression">Сжатие: 96%</span>
+          <span class="spec-pill" data-i18n="testing_metric_crypto">Шифрование: AES-256 / Keychain</span>
+        </div>
       </div>
     </div>
   </main>
 
   <!-- ========================================================================
-       MODAL: DEVICE INSPECTOR (ВСЕ ДАННЫЕ В ОДНУ ПО КЛИКУ НА УСТРОЙСТВО)
+       06 — SECTION: TRAFFIC (Трафик — в реальном времени)
        ======================================================================== -->
-  <div id="inspector-modal-backdrop" class="inspector-modal-backdrop">
-    <div class="inspector-dialog">
-      <div class="inspector-header">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div id="modal-dev-icon" class="device-icon-box">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
-          </div>
-          <div>
-            <h3 id="modal-dev-name" style="font-size:1.2rem; font-weight:800;">Device Model</h3>
-            <span id="modal-dev-platform-badge" class="badge">Platform</span>
-          </div>
-        </div>
-        <button id="modal-close-x-btn" class="modal-close-btn" style="background:none; border:none; color:var(--text-muted); font-size:1.5rem; cursor:pointer;">✕</button>
+  <main id="page-traffic" class="page-section">
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="traffic_hero_title">Трафик — в реальном времени</h1>
+        <p class="section-desc" data-i18n="traffic_hero_sub">Прямой поток дельта-пакетов, мгновенная скорость передачи и суточный учет расхода.</p>
       </div>
 
-      <div class="inspector-body">
-        <!-- Section 1: Hardware & System -->
-        <div>
-          <div class="inspector-section-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            <span data-i18n="inspector_tab_hardware">Аппаратные данные</span>
+      <!-- Live Dynamic SVG Pulse Wave Graph -->
+      <div class="traffic-pulse-card reveal-on-scroll">
+        <div class="pulse-card-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="pulse-dot green"></span>
+            <span class="pulse-card-title">Live Traffic Waveform</span>
           </div>
-          <div class="inspector-params-grid">
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_model">Модель устройства:</span>
-              <span id="modal-dev-model-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_platform">Операционная система:</span>
-              <span id="modal-dev-os-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_app_ver">Версия приложения:</span>
-              <span id="modal-dev-app-ver-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_sessions">Количество запусков:</span>
-              <span id="modal-dev-sessions-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_last_action">Последнее действие:</span>
-              <span id="modal-dev-action-val" class="inspector-param-val">—</span>
-            </div>
+          <div class="card-status-badge">
+            <span class="pulse-dot green"></span>
+            <span data-i18n="traffic_live_badge">В ЭФИРЕ</span>
           </div>
         </div>
 
-        <!-- Section 2: SIM Passport & Telephony -->
-        <div>
-          <div class="inspector-section-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
-            <span data-i18n="inspector_tab_sim">SIM-паспорт</span>
-          </div>
-          <div class="inspector-params-grid">
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_carrier">Оператор связи:</span>
-              <span id="modal-sim-carrier-val" class="inspector-param-val" style="color:var(--cyan-electric); font-weight:800;">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_slot">Слот SIM-карты:</span>
-              <span id="modal-sim-slot-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_net_type">Стандарт сети:</span>
-              <span id="modal-sim-net-type-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_signal">Уровень сигнала:</span>
-              <span id="modal-sim-signal-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_cell_tower">Сотовая вышка:</span>
-              <span id="modal-sim-tower-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_phone">Телефонный номер:</span>
-              <span id="modal-sim-phone-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_imsi">IMSI идентификатор:</span>
-              <span id="modal-sim-imsi-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_iccid">ICCID серийный номер:</span>
-              <span id="modal-sim-iccid-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_ip">IP-адрес:</span>
-              <span id="modal-sim-ip-val" class="inspector-param-val">—</span>
-            </div>
-          </div>
+        <div class="traffic-svg-wrap">
+          <svg class="traffic-live-svg" id="traffic-svg-chart" viewBox="0 0 800 200" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="trafficGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="var(--cyan-electric)" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="var(--cyan-electric)" stop-opacity="0.0"/>
+              </linearGradient>
+            </defs>
+            <path id="traffic-area-path" d="M0,150 Q100,80 200,120 T400,90 T600,140 T800,110 L800,200 L0,200 Z" fill="url(#trafficGradient)"/>
+            <path id="traffic-line-path" d="M0,150 Q100,80 200,120 T400,90 T600,140 T800,110" fill="none" stroke="var(--cyan-electric)" stroke-width="3" stroke-linecap="round"/>
+          </svg>
         </div>
 
-        <!-- Section 3: Traffic & Network Audit -->
-        <div>
-          <div class="inspector-section-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-            <span data-i18n="inspector_tab_traffic">Сетевой аудит</span>
+        <div class="traffic-numbers-row">
+          <div class="traffic-stat-item">
+            <span class="stat-label" data-i18n="traffic_speed_val">Текущая скорость:</span>
+            <div class="stat-number cyan" id="traffic-live-speed">2.4 Мбит/с</div>
           </div>
-          <div class="inspector-params-grid">
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_today_traffic">Расход за сегодня:</span>
-              <span id="modal-traffic-today-val" class="inspector-param-val" style="color:var(--cyan-electric); font-size:1.1rem;">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_total_traffic">Всего трафика за историю:</span>
-              <span id="modal-traffic-total-val" class="inspector-param-val">—</span>
-            </div>
-            <div class="inspector-param-box">
-              <span class="inspector-param-label" data-i18n="inspector_label_current_speed">Текущая скорость:</span>
-              <span id="modal-traffic-speed-val" class="inspector-param-val">—</span>
-            </div>
+          <div class="traffic-stat-item">
+            <span class="stat-label" data-i18n="traffic_today_val">Расход за сегодня:</span>
+            <div class="stat-number" id="traffic-live-today">4.82 ГБ</div>
           </div>
-        </div>
-
-        <div style="display:flex; justify-content:flex-end;">
-          <button id="modal-close-btn" class="btn btn-secondary" data-i18n="inspector_btn_close">Закрыть инспектор</button>
+          <div class="traffic-stat-item">
+            <span class="stat-label" data-i18n="traffic_delta_val">Размер дельта-пакета:</span>
+            <div class="stat-number" id="traffic-delta-size">24 байта</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- QR Code Modal Dialog -->
-  <div id="qr-modal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-title" id="qr-modal-title" data-i18n="qr_title">QR-код для установки</div>
-        <button class="modal-close-btn modal-close-trigger">✕</button>
+  <!-- ========================================================================
+       07 — SECTION: RELEASES (Центр релизов)
+       ======================================================================== -->
+  <main id="page-releases" class="page-section">
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="releases_hero_title">Центр релизов</h1>
+        <p class="section-desc" data-i18n="releases_hero_sub">Рабочие сборки мобильного приложения для Android и iOS, прямые ссылки и чейнджлог.</p>
       </div>
-      <div class="modal-body">
-        <div class="qr-modal-content">
-          <div id="qr-modal-subtitle" style="font-size:0.88rem; color:var(--text-secondary);" data-i18n="qr_sub">
-            Отсканируйте камерой смартфона для прямой установки
-          </div>
 
-          <div class="qr-frame">
-            <div id="qrcode-canvas"></div>
-          </div>
+      <!-- Latest Stable Release Card -->
+      <div class="release-primary-card reveal-on-scroll" id="latest-release-container">
+        <!-- Rendered dynamically by app.js -->
+      </div>
 
-          <div class="qr-link-copy-box">
-            <span id="qr-url-text" class="qr-url-text">https://...</span>
-            <button id="qr-copy-btn" class="btn btn-secondary btn-sm" data-i18n="btn_copy">Копировать</button>
-          </div>
-
-          <a id="qr-direct-link" href="#" class="btn btn-cyan btn-sm" target="_blank" data-i18n="btn_open_direct">
-            Открыть ссылку ↗
-          </a>
+      <!-- Previous Releases Archive -->
+      <div class="release-archive-section reveal-on-scroll">
+        <h3 class="archive-heading" data-i18n="releases_archive_title">Предыдущие версии</h3>
+        <div class="archive-list" id="releases-archive-container">
+          <!-- Rendered dynamically by app.js -->
         </div>
       </div>
     </div>
-  </div>
+  </main>
 
-  <!-- Master Admin Secret Gate Modal -->
-  <div id="admin-auth-modal" class="modal-overlay">
-    <div class="modal-card" style="max-width: 440px;">
-      <div class="modal-header">
-        <div class="modal-title" data-i18n="admin_auth_title">🔒 Закрытая консоль аудитора</div>
-        <button class="modal-close-btn" onclick="window.closeAdminAuthModal();">✕</button>
-      </div>
-      <div class="modal-body">
-        <p style="font-size:0.88rem; color:var(--text-secondary); text-align:center; margin-bottom:16px;" data-i18n="admin_auth_sub">
-          Доступ ограничен владельцем. Введите PIN-код администратора (7700):
+  <!-- ========================================================================
+       08 — SECTION: ABOUT (Создан для тех, кто проводит тесты)
+       ======================================================================== -->
+  <main id="page-about" class="page-section">
+    <div class="container" style="max-width: 820px;">
+      <div class="about-clean-card reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="about_hero_title" style="margin-bottom: 20px;">
+          Создан для тех, кто проводит тесты
+        </h1>
+        <p class="about-body-text" data-i18n="about_p1">
+          Xylen Platform был создан с единственной практической целью: сделать процесс тестирования SIM-карт прозрачным, легко управляемым и масштабируемым для менеджера и полевых тестировщиков.
         </p>
-        <div class="admin-pin-container">
-          <input type="password" id="admin-pin-input" class="admin-pin-input" maxlength="8" placeholder="••••" autocomplete="off">
-          <div id="admin-auth-error" class="admin-auth-error" data-i18n="admin_auth_error">Неверный код доступа. Повторите попытку.</div>
-          <button id="admin-login-btn" class="btn btn-cyan" style="width:100%;" onclick="window.submitAdminPin();" data-i18n="admin_auth_btn_login">
-            Войти в консоль
-          </button>
+        <p class="about-body-text" data-i18n="about_p2">
+          Вся система выстроена вокруг сквозного рабочего процесса: Менеджер ↔ Тестировщики → Мобильное приложение → Устройство ↔ SIM-карта → Тест → Результат. Никакой корпоративной рекламы — только измеримые сетевые параметры и надежный учет.
+        </p>
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center;">
+          <span style="font-size: 0.85rem; color: var(--text-secondary);">Xylen Core Operations • SIM Testing System</span>
+          <button class="btn btn-secondary btn-compact" onclick="window.switchPage('page-overview');">На главную ➔</button>
         </div>
       </div>
     </div>
+  </main>
+
+  <!-- ========================================================================
+       09 — SECTION: PRIVACY (152-ФЗ РФ и UK GDPR / DPA 2018)
+       ======================================================================== -->
+  <main id="page-privacy" class="page-section">
+    <div class="container" style="max-width: 900px;">
+      <div class="privacy-clean-card reveal-on-scroll">
+        <div class="privacy-header-badge-row">
+          <span class="privacy-badge" data-i18n="privacy_badge_rf">152-ФЗ РФ (Персональные данные)</span>
+          <span class="privacy-badge" data-i18n="privacy_badge_uk">UK GDPR / DPA 2018 (ICO UK)</span>
+        </div>
+        <h1 class="section-heading" data-i18n="privacy_hero_title">Правовая основа и конфиденциальность</h1>
+        <p class="section-desc" data-i18n="privacy_hero_sub" style="margin-bottom: 28px;">
+          Строгое соответствие закону РФ № 152-ФЗ и регламентам Великобритании UK GDPR / Data Protection Act 2018.
+        </p>
+
+        <div class="legal-article-block">
+          <h3 class="legal-title" data-i18n="privacy_section_1_title">1. Статус платформы и цели сбора данных</h3>
+          <p class="legal-text" data-i18n="privacy_section_1_text">
+            Xylen Platform является специализированным инженерным комплексом для аудита качества сотовой связи, контроля биллинга мобильных операторов и мониторинга парка служебных SIM-терминалов. Обработка телеметрии осуществляется строго в рамках Федерального закона РФ от 27.07.2006 № 152-ФЗ «О персональных данных» и законодательства Великобритании — UK General Data Protection Regulation (UK GDPR) и Data Protection Act 2018 под контролем Information Commissioner's Office (ICO).
+          </p>
+        </div>
+
+        <div class="legal-article-block">
+          <h3 class="legal-title" data-i18n="privacy_section_2_title">2. Категории обрабатываемой технической телеметрии</h3>
+          <p class="legal-text" data-i18n="privacy_section_2_text">
+            Приложение собирает исключительно низкоуровневые диагностические параметры радиоканала: уровень радиосигнала (dBm/RSRP), рабочий диапазон (LTE/5G), сетевые идентификаторы базовых станций (CID, TAC, MNC, MCC), объемы переданного сетевого трафика и анонимный системный идентификатор установки. Платформа категорически НЕ имеет доступа к персональным сообщениям (SMS), телефонным контактам, фото/видео материалам, аудиозаписям и паролям.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       10 — SECTION: ADMIN (Изолированный Master Admin, скрыт из меню)
+       ======================================================================== -->
+  <main id="page-admin" class="page-section">
+    <div class="container">
+      <div class="section-title-strip reveal-on-scroll">
+        <h1 class="section-heading" data-i18n="admin_visitors_title">Журнал аудита сессий и посещений портала</h1>
+        <p class="section-desc">Консоль прямого контроля сессий, ошибок и телеметрии подключений менеджера.</p>
+      </div>
+
+      <div class="admin-table-card reveal-on-scroll">
+        <table class="sim-inventory-table">
+          <thead>
+            <tr>
+              <th>Метка времени</th>
+              <th>Устройство / Платформа</th>
+              <th>IP-статус</th>
+              <th>Раздел посещения</th>
+              <th>Источник</th>
+            </tr>
+          </thead>
+          <tbody id="admin-visitors-tbody">
+            <!-- Rendered dynamically by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       MODALS: TESTER INSPECTOR, DEVICE INSPECTOR, MANAGER AUTH, QR
+       ======================================================================== -->
+
+  <!-- Tester Inspector Modal -->
+  <div id="tester-modal" class="modal-backdrop" onclick="window.closeTesterModal(event);">
+    <div class="modal-dialog" onclick="event.stopPropagation();">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="avatar-circle" id="modal-tester-avatar">A</div>
+          <div>
+            <div class="modal-title" id="modal-tester-name">Akmal</div>
+            <div class="modal-subtitle" id="modal-tester-role">Lead Field Tester</div>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeTesterModal();">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="inspector-item-row">
+          <span class="inspector-label" data-i18n="tester_modal_role">Специализация:</span>
+          <span class="inspector-val" id="modal-tester-spec">International Roaming QA</span>
+        </div>
+        <div class="inspector-item-row">
+          <span class="inspector-label" data-i18n="tester_modal_devices">Закрепленные аппараты:</span>
+          <span class="inspector-val" id="modal-tester-device">iPhone 16 Pro Max, Pixel 9 Pro</span>
+        </div>
+        <div class="inspector-item-row">
+          <span class="inspector-label" data-i18n="tester_modal_notes">Текущая задача:</span>
+          <span class="inspector-val cyan" id="modal-tester-task">Тестирование Orange France в роуминге</span>
+        </div>
+        <div class="inspector-item-row">
+          <span class="inspector-label">SIM-карты в работе:</span>
+          <span class="inspector-val" id="modal-tester-sims-count">8 SIMs</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-compact" onclick="window.closeTesterModal();" data-i18n="btn_close">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Inspector Modal -->
+  <div id="device-modal" class="modal-backdrop" onclick="window.closeDeviceModal(event);">
+    <div class="modal-dialog modal-dialog-wide" onclick="event.stopPropagation();">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="dev-modal-title">Device Telemetry Inspector</div>
+          <div class="modal-subtitle" id="dev-modal-sub">Низкоуровневая диагностика радиоканала</div>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeDeviceModal();">&times;</button>
+      </div>
+      <div class="modal-body" id="dev-modal-body">
+        <!-- Rendered by app.js -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-compact" onclick="window.closeDeviceModal();" data-i18n="btn_close">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manager PIN Auth Modal -->
+  <div id="admin-auth-modal" class="modal-backdrop" onclick="window.closeAdminAuthModal(event);">
+    <div class="modal-dialog modal-dialog-sm" onclick="event.stopPropagation();">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" data-i18n="admin_auth_title">Консоль Мастер-Менеджера</div>
+          <div class="modal-subtitle" data-i18n="admin_auth_sub">Введите защитный PIN-код (7700):</div>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeAdminAuthModal();">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="password" id="admin-pin-input" class="admin-pin-input" maxlength="6" placeholder="••••" autofocus>
+        <div id="admin-auth-error" class="admin-auth-error" data-i18n="admin_auth_error">Неверный код доступа. Повторите попытку.</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cyan btn-full" onclick="window.submitAdminPin();" data-i18n="admin_auth_btn_login">Разблокировать консоль</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Modal -->
+  <div id="qr-modal" class="modal-backdrop" onclick="window.closeQrModal(event);">
+    <div class="modal-dialog modal-dialog-sm text-center" onclick="event.stopPropagation();">
+      <div class="modal-header">
+        <div>
+          <div class="modal-title" id="qr-modal-title">QR-код установки</div>
+          <div class="modal-subtitle" id="qr-modal-subtitle">Отсканируйте камерой смартфона</div>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeQrModal();">&times;</button>
+      </div>
+      <div class="modal-body" style="display:flex; flex-direction:column; align-items:center;">
+        <div id="qrcode-canvas" class="qrcode-box"></div>
+        <div class="qr-url-text" id="qr-url-text">https://...</div>
+      </div>
+      <div class="modal-footer" style="display:flex; gap:8px;">
+        <button class="btn btn-secondary btn-compact" id="qr-copy-btn" onclick="window.copyQrUrl();" data-i18n="btn_copy">Копировать</button>
+        <a href="#" target="_blank" class="btn btn-cyan btn-compact" id="qr-direct-link">Открыть ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-notification" class="toast-notification">
+    <span class="toast-icon">✓</span>
+    <span id="toast-message" data-i18n="copied_toast">Скопировано в буфер обмена!</span>
   </div>
 
   <!-- Floating Back to Top Button -->
-  <button id="btn-back-to-top" class="btn-back-to-top" aria-label="Наверх" title="Наверх">
+  <button id="btn-back-to-top" class="btn-back-to-top" title="Наверх" onclick="window.scrollTo({top:0, behavior:'smooth'});">
     ↑
   </button>
 
-  <!-- Toast Notification -->
-  <div id="toast-notification" class="toast-notice">
-    <span class="pulse-dot"></span>
-    <span id="toast-message">Действие выполнено!</span>
-  </div>
-
-  <!-- Clean Corporate Footer (ZERO GitHub Links) -->
-  <footer class="main-footer">
-    <div class="container">
-      <div class="footer-links">
-        <a href="#" onclick="window.switchPage('page-home'); return false;">Главная</a>
-        <a href="#" onclick="window.switchPage('page-devices'); return false;">Устройства</a>
-        <a href="#" onclick="window.switchPage('page-traffic'); return false;">Трафик</a>
-        <a href="#" onclick="window.switchPage('page-releases'); return false;">Релизы</a>
-        <a href="#" onclick="window.switchPage('page-about'); return false;">О нас</a>
-        <a href="#" onclick="window.switchPage('page-privacy'); return false;" data-i18n="footer_privacy" style="color:var(--blue-cobalt);font-weight:700;">Политика конфиденциальности и Условия</a>
-        <a href="#" onclick="window.requestAdminConsole(); return false;" class="footer-admin-trigger" title="Консоль управления платформой" style="opacity:0.35;font-size:0.75rem;margin-left:auto;">🔒 Консоль</a>
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="app-footer">
+    <div class="container footer-content-row">
+      <div class="footer-brand">
+        <img src="assets/xylen-logo-white.png" alt="Xylen Logo" class="footer-logo logo-dark">
+        <img src="assets/xylen-logo.png" alt="Xylen Logo" class="footer-logo logo-light">
+        <span class="footer-sub">SIM Testing Operations Workspace</span>
       </div>
-      <p>© 2026 Xylen Sim Platform Ecosystem. Высокоточный аппаратный аудит сотовых сетей. Соответствие 152-ФЗ РФ и UK GDPR (Data Protection Act 2018).</p>
+      <div class="footer-nav-links">
+        <button onclick="window.switchPage('page-overview');" data-i18n="nav_overview">Обзор</button>
+        <button onclick="window.switchPage('page-testers');" data-i18n="nav_testers">Тестировщики</button>
+        <button onclick="window.switchPage('page-devices');" data-i18n="nav_devices">Устройства</button>
+        <button onclick="window.switchPage('page-sims');" data-i18n="nav_sims">SIM-карты</button>
+        <button onclick="window.switchPage('page-testing');" data-i18n="nav_testing">Тестирование</button>
+        <button onclick="window.switchPage('page-traffic');" data-i18n="nav_traffic">Трафик</button>
+        <button onclick="window.switchPage('page-releases');" data-i18n="nav_releases">Релизы</button>
+        <button onclick="window.switchPage('page-privacy');" data-i18n="nav_privacy">Конфиденциальность</button>
+        <button onclick="window.switchPage('page-about');" data-i18n="nav_about">О платформе</button>
+      </div>
+      <div class="footer-legal">
+        © 2026 Xylen Workspace • 152-ФЗ РФ & UK GDPR (DPA 2018 / ICO)
+      </div>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/i18n.js"></script>
   <script src="js/storage.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
