@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0B0E14">
+  <meta name="description" content="Официальный кроссплатформенный портал Xylen Sim Platform: дистрибуция релизов, мониторинг устройств, полная телеметрия SIM-карт и прямой эфир расхода трафика.">
+  <title>Xylen Sim Platform • Dual Hub, SIM Telemetry & Live Traffic</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+
+  <!-- Top Sticky Navigation & Page Selector Menu -->
+  <header class="top-navbar">
+    <div class="container nav-wrapper">
+      <a href="#" class="brand-badge" onclick="window.switchPage('page-releases'); return false;">
+        <img src="assets/logo.svg" alt="Xylen Logo" class="brand-logo-img">
+        <div class="brand-text-block">
+          <div class="brand-title">
+            <span class="cyan">XYLEN</span> SIM PLATFORM
+          </div>
+          <div class="brand-subtitle">Ecosystem & Data Portal</div>
+        </div>
+      </a>
+
+      <!-- Logical Page Navigation Menu -->
+      <nav class="main-nav-menu" aria-label="Разделы портала">
+        <button class="nav-page-btn active" data-page="page-releases">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          Релизы и файлы
+        </button>
+        <button class="nav-page-btn" data-page="page-devices">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+          Устройства и SIM
+        </button>
+        <button class="nav-page-btn" data-page="page-traffic">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Расход трафика & Live
+        </button>
+        <button class="nav-page-btn" data-page="page-parity">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Матрица 1:1
+        </button>
+      </nav>
+
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="card-status-badge" style="padding:4px 10px; font-size:0.75rem;">
+          <span class="pulse-dot green"></span> Live Sync
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       PAGE 1: RELEASES & DOWNLOADS
+       ======================================================================== -->
+  <main id="page-releases" class="page-section active">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill">
+          <span class="pulse-dot"></span>
+          Кроссплатформенный Центр Дистрибуции • 1:1 Паритет
+        </div>
+        <h1 class="hero-heading">
+          Центр релизов и загрузок<br>
+          <span class="gradient-text">Xylen Sim Platform</span>
+        </h1>
+        <p class="hero-description">
+          Прямое скачивание APK для Android и IPA для iPhone, беспроводная установка по QR-коду и раздельный контроль версий приложения и поддерживаемых ОС.
+        </p>
+
+        <!-- Dual Platform Cards (Live Downloads) -->
+        <div class="platform-grid">
+          <div id="android-hero-card" class="platform-card android">
+            <!-- Populated dynamically by app.js -->
+          </div>
+          <div id="ios-hero-card" class="platform-card ios">
+            <!-- Populated dynamically by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fast Installation Guides -->
+    <section class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Installation Guides</span>
+          <h2 class="section-title">Экспресс-инструкции по установке</h2>
+        </div>
+      </div>
+
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-header">
+            <img src="assets/icon-android.svg" width="28" height="28" alt="Android">
+            <h3>Установка на Android (2 шага)</h3>
+          </div>
+          <div class="guide-step-list">
+            <div class="guide-step">
+              <span class="step-num">1</span>
+              <div class="step-text">
+                Нажмите кнопку <strong>«Скачать APK»</strong> или отсканируйте QR-код камерой смартфона.
+              </div>
+            </div>
+            <div class="guide-step">
+              <span class="step-num">2</span>
+              <div class="step-text">
+                Откройте файл <span class="code-pill">app-release.apk</span> ➔ нажмите <strong>«Установить»</strong> (при необходимости разрешите установку из браузера).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-header">
+            <img src="assets/icon-ios.svg" width="28" height="28" alt="iOS">
+            <h3>Установка на iPhone по воздуху ($0)</h3>
+          </div>
+          <div class="guide-step-list">
+            <div class="guide-step">
+              <span class="step-num">1</span>
+              <div class="step-text">
+                Установите анти-отзывный профиль <a href="https://github.com/dns-khoindvn/oci-auto-vm/releases/download/DNS/khoindvn.mobileconfig" target="_blank" style="color:var(--cyan-electric);font-weight:700;">khoindvn.mobileconfig</a> и активируйте в Настройках iPhone.
+              </div>
+            </div>
+            <div class="guide-step">
+              <span class="step-num">2</span>
+              <div class="step-text">
+                Откройте установщик <a href="https://files.catbox.moe/9879kj.html" target="_blank" style="color:var(--cyan-electric);font-weight:700;">ESign</a> в Safari ➔ подтвердите установку ➔ в <i>Настройки ➔ VPN и управление</i> нажмите «Доверять».
+              </div>
+            </div>
+            <div class="guide-step">
+              <span class="step-num">3</span>
+              <div class="step-text">
+                Отсканируйте QR-код с <span class="code-pill">XylenSimPlatform.ipa</span> ➔ откройте в ESign ➔ нажмите <strong>«Подписать»</strong> ➔ <strong>«Установить»</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Version History Hub -->
+    <section class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Version Hub</span>
+          <h2 class="section-title">История версий приложения и поддерживаемых ОС</h2>
+        </div>
+        <div class="tabs-control">
+          <button class="tab-btn active" data-platform="all">Все версии</button>
+          <button class="tab-btn" data-platform="android">Android</button>
+          <button class="tab-btn" data-platform="ios">iOS</button>
+        </div>
+      </div>
+
+      <div class="versions-hub-card">
+        <div class="versions-toolbar">
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-versions" class="search-input" placeholder="Поиск по версиям и чейнджлогу...">
+          </div>
+          <div style="font-size:0.85rem; color:var(--text-muted);">
+            Версии приложения и операционные системы разделены
+          </div>
+        </div>
+        <div id="version-list-container" class="version-list">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       PAGE 2: DEVICE PRESENCE & SIM TELEMETRY AUDIT
+       ======================================================================== -->
+  <main id="page-devices" class="page-section">
+    <section class="container" style="padding-top: 40px;">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Device Tracking & Cellular Telemetry</span>
+          <h2 class="section-title">Мониторинг устройств и SIM-телеметрия</h2>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-top:4px;">
+            Кто когда заходил, кто онлайн/оффлайн, какую SIM-карту использовал (Название, Номер телефона, IMSI, ICCID, сотовая вышка). Данные защищены и сохраняются при любых обновлениях.
+          </p>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button id="btn-export-audit-csv" class="btn btn-secondary btn-sm" title="Выгрузить аудит действий в CSV">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Экспорт журнала (CSV)
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Devices Grid with In-Depth SIM Telemetry -->
+      <div id="devices-container" class="devices-grid">
+        <!-- Populated dynamically by app.js -->
+      </div>
+
+      <!-- Live Activity Timeline Card -->
+      <div class="activity-feed-card">
+        <div class="versions-toolbar">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <h3 style="font-size:1.05rem; font-weight:800;">Журнал входов и действий (Аудит-лог)</h3>
+            <span id="activity-counter-badge" class="parity-badge done" style="font-size:0.75rem; padding:2px 8px;">Загрузка...</span>
+          </div>
+
+          <div class="tabs-control">
+            <button class="tab-btn active" data-act-filter="all">Все</button>
+            <button class="tab-btn" data-act-filter="test">Тесты CDN</button>
+            <button class="tab-btn" data-act-filter="sim">SIM слоты</button>
+            <button class="tab-btn" data-act-filter="portal">Web Portal</button>
+            <button class="tab-btn" data-act-filter="system">Система</button>
+          </div>
+        </div>
+
+        <div id="activity-feed-container" class="activity-feed-list">
+          <!-- Populated dynamically by app.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       PAGE 3: TRAFFIC CONSUMPTION ANALYTICS & LIVE STREAM
+       ======================================================================== -->
+  <main id="page-traffic" class="page-section">
+    <section class="container" style="padding-top: 40px;">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Traffic Telemetry & Live Sync</span>
+          <h2 class="section-title">Аналитика расхода трафика и Прямой эфир</h2>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-top:4px;">
+            Расход сегодня в прямом режиме через ультра-легкий микро-дельта протокол (24 байта) + история расхода по дням с интерактивным календарем.
+          </p>
+        </div>
+
+        <div>
+          <span class="efficiency-protocol-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            Микро-дельта: ~24 байт/пакет (96% сжатие)
+          </span>
+        </div>
+      </div>
+
+      <!-- Live Stream + Calendar Overview Grid -->
+      <div class="traffic-overview-grid">
+        <!-- Live Stream Card (Today) -->
+        <div class="live-today-card">
+          <div class="live-pulse-top">
+            <div>
+              <span class="section-tag" style="color:var(--cyan-electric);">Live Telemetry Stream</span>
+              <h3 style="font-size:1.3rem; font-weight:800; margin-top:2px;">Расход за сегодня в прямом эфире</h3>
+            </div>
+            <div class="card-status-badge">
+              <span class="pulse-dot green"></span> В ЭФИРЕ
+            </div>
+          </div>
+
+          <div style="font-size:0.85rem; color:var(--text-secondary);">
+            Текущее активное устройство: <strong id="live-device-name" style="color:var(--text-primary);">iPhone 15 Pro Max (Aisma)</strong>
+          </div>
+
+          <div class="live-odometer-display">
+            <div id="live-today-mb" class="live-odometer-num">1,541.40</div>
+            <div class="live-odometer-unit">МБ</div>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+            <div style="font-size:0.85rem; color:var(--text-muted);">
+              Скорость передачи: <strong id="live-current-speed" style="color:var(--cyan-electric); font-family:var(--font-mono);">54.2 МБ/с</strong>
+            </div>
+            <div style="font-size:0.85rem; color:var(--text-muted);">
+              Слот: <strong id="live-sim-slot" style="color:#FFFFFF;">eSIM 2 (Uztelecom 5G)</strong>
+            </div>
+          </div>
+
+          <div style="background:rgba(0,0,0,0.4); border-radius:var(--radius-sm); padding:10px 14px; border:1px solid var(--border-subtle); font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">
+            <strong style="color:var(--green-status);">✓ Защита от перегрузки сети:</strong> Синхронизация прямого режима использует компактный бинарный дельта-пакет (24 байта). Даже при пиковой загрузке стресс-тестом на 100% полосы и при 2G/EDGE сигнале данные расхода продолжают передаваться без задержек.
+          </div>
+        </div>
+
+        <!-- Historical Calendar Picker Card -->
+        <div class="calendar-card">
+          <div class="calendar-controls-row">
+            <div>
+              <span class="section-tag">Calendar History</span>
+              <h3 style="font-size:1.2rem; font-weight:800; margin-top:2px;">Выбор дня расхода</h3>
+            </div>
+            <input type="date" id="calendar-date-picker" class="calendar-date-input">
+          </div>
+
+          <div class="quick-days-pills">
+            <button class="day-pill-btn active" data-offset="0">Сегодня</button>
+            <button class="day-pill-btn" data-offset="1">Вчера</button>
+            <button class="day-pill-btn" data-offset="2">2 дня назад</button>
+            <button class="day-pill-btn" data-offset="3">3 дня назад</button>
+            <button class="day-pill-btn" data-offset="7">7 дней назад</button>
+          </div>
+
+          <div id="calendar-day-summary" class="calendar-stats-grid">
+            <!-- Populated dynamically by app.js -->
+          </div>
+
+          <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            История расхода формируется автоматически из хранилища устройства и не стирается при обновлениях.
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================
+       PAGE 4: FEATURE PARITY MATRIX
+       ======================================================================== -->
+  <main id="page-parity" class="page-section">
+    <section class="container" style="padding-top: 40px;">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-tag">Feature Parity Matrix</span>
+          <h2 class="section-title">Матрица синхронизации Android vs iOS (1:1)</h2>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin-top:4px;">
+            Детальное сопоставление всех 8 ключевых архитектурных модулей между Kotlin Jetpack Compose и Swift SwiftUI.
+          </p>
+        </div>
+      </div>
+
+      <div class="parity-card">
+        <table class="parity-table">
+          <thead>
+            <tr>
+              <th>Функциональный модуль</th>
+              <th>Android (Kotlin / Compose)</th>
+              <th>iOS Native (Swift / SwiftUI)</th>
+              <th>Статус паритета</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Дизайн-система (Frosted Top Bar & Side Drawer)
+              </td>
+              <td>ModernFrostedCenterTopBar + Drawer</td>
+              <td>ModernFrostedTopBar + SideDrawerView</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+                Платформа SIM (слоты SIM 1 / eSIM 2, MCC/MNC)
+              </td>
+              <td>SubscriptionManager + TelephonyManager</td>
+              <td>CoreTelephony + CTNetworkInfo</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+                Векторный график скорости LiveSpeedGraph
+              </td>
+              <td>Холст Canvas (45 сек окно, тач-HUD)</td>
+              <td>SwiftUI Canvas Path (кривые Безье)</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Вращающийся одометр цифр RollingOdometer
+              </td>
+              <td>Механические барабаны 0..9 с инерцией</td>
+              <td>Барабанная вертикальная лента</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+                Стресс-тест сети CDN AutoDownload
+              </td>
+              <td>Многопоточный OkHttp клиент</td>
+              <td>URLSession Task Workers</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Личный кабинет SIM (Web Portal с парящим доком)
+              </td>
+              <td>Custom Android WebView + Floating Dock</td>
+              <td>WKWebView + MinimizedPortalDock</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="6" r="1"/></svg>
+                Dynamic Island / Фоновые плавающие виджеты
+              </td>
+              <td>Системный оверлей FloatingSpeedOverlay</td>
+              <td>ActivityKit Live Activity на Dynamic Island</td>
+              <td><span class="parity-badge native">iOS Excl. Native</span></td>
+            </tr>
+            <tr>
+              <td class="feature-col">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+                Мультиязычность (Русский, O'zbekcha, English)
+              </td>
+              <td>strings.xml (3 языка)</td>
+              <td>Strings.swift (3 языка)</td>
+              <td><span class="parity-badge done">100% Идентично</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- QR Code Modal Dialog -->
+  <div id="qr-modal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="qr-modal-title">QR-код для установки</div>
+        <button class="modal-close-btn modal-close-trigger">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="qr-modal-content">
+          <div id="qr-modal-subtitle" style="font-size:0.88rem; color:var(--text-secondary);">
+            Отсканируйте камерой смартфона для прямой установки
+          </div>
+
+          <div class="qr-frame">
+            <div id="qrcode-canvas"></div>
+          </div>
+
+          <div class="qr-link-copy-box">
+            <span id="qr-url-text" class="qr-url-text">https://...</span>
+            <button id="qr-copy-btn" class="btn btn-secondary btn-sm">Копировать</button>
+          </div>
+
+          <a id="qr-direct-link" href="#" class="btn btn-cyan btn-sm" target="_blank">
+            Открыть ссылку напрямую ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast-notification" class="toast-notice">
+    <span class="pulse-dot"></span>
+    <span id="toast-message">Действие выполнено!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://t.me/XylenSimPlatform" target="_blank">Telegram канал</a>
+        <a href="https://github.com/Smavk8/XylenSimPlatform-IOS" target="_blank">GitHub iOS репозиторий</a>
+        <a href="#" onclick="window.switchPage('page-releases'); return false;">Релизы</a>
+        <a href="#" onclick="window.switchPage('page-devices'); return false;">SIM Мониторинг</a>
+        <a href="#" onclick="window.switchPage('page-traffic'); return false;">Live Трафик</a>
+      </div>
+      <p>© 2026 Xylen Sim Platform Ecosystem. Все права защищены.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
