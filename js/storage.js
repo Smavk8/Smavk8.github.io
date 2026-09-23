@@ -413,18 +413,30 @@ class ActivityStorage {
   }
 
   // --------------------------------------------------------------------------
-  // MASTER ADMIN ROLE (This device is the exclusive Master Admin)
+  // MASTER ADMIN ROLE (Isolated & Gatekeeper Protected for Owner Only)
   // --------------------------------------------------------------------------
   isAdmin() {
-    if (localStorage.getItem('xylen_is_admin_device_v1') === null) {
-      localStorage.setItem('xylen_is_admin_device_v1', 'true');
-    }
-    return localStorage.getItem('xylen_is_admin_device_v1') === 'true';
+    return sessionStorage.getItem('xylen_admin_session_auth') === 'true';
   }
 
-  setAdmin(val) {
-    localStorage.setItem('xylen_is_admin_device_v1', val ? 'true' : 'false');
-    window.dispatchEvent(new CustomEvent('xylen:admin-changed', { detail: val }));
+  verifyAdminPin(pin) {
+    // Master PIN: 7700 or emergency code 2026
+    const clean = String(pin || '').trim();
+    return clean === '7700' || clean === '2026';
+  }
+
+  loginAdmin(pin) {
+    if (this.verifyAdminPin(pin)) {
+      sessionStorage.setItem('xylen_admin_session_auth', 'true');
+      window.dispatchEvent(new CustomEvent('xylen:admin-changed', { detail: true }));
+      return true;
+    }
+    return false;
+  }
+
+  logoutAdmin() {
+    sessionStorage.removeItem('xylen_admin_session_auth');
+    window.dispatchEvent(new CustomEvent('xylen:admin-changed', { detail: false }));
   }
 
   // --------------------------------------------------------------------------

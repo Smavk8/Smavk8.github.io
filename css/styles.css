@@ -50,6 +50,524 @@
   --transition-spring: 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+/* ==========================================================================
+   METICULOUS LIGHT THEME (Slate Pure Canvas & Sky Cobalt Accents)
+   Tailored for elegance, comfortable eye contrast, and soft dimensionality.
+   ========================================================================== */
+body.theme-light {
+  /* Pristine light canvas */
+  --bg-dark: #F8FAFC;
+  --bg-canvas: #F1F5F9;
+  --bg-card: #FFFFFF;
+  --bg-card-elevated: #FFFFFF;
+  --bg-card-hover: #F8FAFC;
+  --bg-glass: rgba(255, 255, 255, 0.88);
+
+  /* High-contrast electric cobalt accents */
+  --cyan-electric: #0284C7;
+  --cyan-glow: rgba(2, 132, 199, 0.20);
+  --cyan-subtle: rgba(2, 132, 199, 0.08);
+
+  --blue-accent: #0EA5E9;
+  --blue-cobalt: #2563EB;
+  --blue-glow: rgba(37, 99, 235, 0.18);
+
+  --green-status: #059669;
+  --green-glow: rgba(5, 150, 105, 0.2);
+  --amber-status: #D97706;
+  --purple-status: #7C3AED;
+
+  /* Architectural crisp borders */
+  --border-glass: rgba(15, 23, 42, 0.08);
+  --border-bright: rgba(2, 132, 199, 0.38);
+  --border-subtle: rgba(15, 23, 42, 0.06);
+
+  /* Deep charcoal navy typography (Zero eye-strain, high contrast) */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+
+  /* Card drop shadows for tactile depth */
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --card-shadow-hover: 0 16px 36px -4px rgba(15, 23, 42, 0.10), 0 4px 10px rgba(15, 23, 42, 0.04);
+}
+
+/* Light Mode Overrides for Specific Components */
+body.theme-light::before {
+  background: radial-gradient(circle, rgba(2, 132, 199, 0.07), transparent 70%);
+}
+
+body.theme-light::after {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.05), transparent 70%);
+}
+
+body.theme-light .top-navbar {
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.05);
+}
+
+body.theme-light .brand-title .cyan {
+  color: var(--cyan-electric);
+  text-shadow: none;
+}
+
+body.theme-light .brand-logo-img {
+  filter: drop-shadow(0 2px 8px rgba(2, 132, 199, 0.25));
+}
+
+body.theme-light .home-hero-card,
+body.theme-light .about-card,
+body.theme-light .release-card,
+body.theme-light .home-stat-card,
+body.theme-light .home-pillar-card,
+body.theme-light .device-unified-card,
+body.theme-light .live-today-card,
+body.theme-light .calendar-card,
+body.theme-light .visitors-card {
+  background: #FFFFFF;
+  border-color: rgba(15, 23, 42, 0.08);
+  box-shadow: var(--card-shadow);
+}
+
+body.theme-light .home-hero-card:hover,
+body.theme-light .about-card:hover,
+body.theme-light .release-card:hover,
+body.theme-light .home-stat-card:hover,
+body.theme-light .home-pillar-card:hover,
+body.theme-light .device-unified-card:hover {
+  border-color: rgba(2, 132, 199, 0.35);
+  box-shadow: var(--card-shadow-hover);
+}
+
+body.theme-light .hero-pill {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  color: #1D4ED8;
+}
+
+body.theme-light .btn-cyan {
+  background: linear-gradient(135deg, #0284C7, #0EA5E9);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+}
+
+body.theme-light .btn-cyan:hover {
+  background: linear-gradient(135deg, #0369A1, #0284C7);
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+  color: #FFFFFF;
+}
+
+body.theme-light .btn-secondary {
+  background: #F1F5F9;
+  border-color: #E2E8F0;
+  color: #0F172A;
+}
+
+body.theme-light .btn-secondary:hover {
+  background: #E2E8F0;
+  border-color: #0284C7;
+  color: #0284C7;
+}
+
+body.theme-light .btn-outline {
+  background: transparent;
+  border-color: #CBD5E1;
+  color: #475569;
+}
+
+body.theme-light .btn-outline:hover {
+  border-color: #0284C7;
+  color: #0284C7;
+  background: #F0F9FF;
+}
+
+body.theme-light .lang-selector {
+  background: #F1F5F9;
+  border-color: #E2E8F0;
+}
+
+body.theme-light .lang-btn {
+  color: #475569;
+}
+
+body.theme-light .lang-btn:hover {
+  color: #0F172A;
+}
+
+body.theme-light .lang-btn.active {
+  background: #0284C7;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+}
+
+body.theme-light .nav-page-btn {
+  color: #475569;
+}
+
+body.theme-light .nav-page-btn:hover {
+  color: #0284C7;
+  background: #F1F5F9;
+}
+
+body.theme-light .nav-page-btn.active {
+  color: #0284C7;
+  background: #EFF6FF;
+}
+
+body.theme-light .theme-toggle-btn {
+  background: #F1F5F9;
+  border-color: #E2E8F0;
+  color: #0F172A;
+}
+
+body.theme-light .theme-toggle-btn:hover {
+  border-color: #0284C7;
+  background: #EFF6FF;
+}
+
+body.theme-light .modal-card {
+  background: #FFFFFF;
+  color: #0F172A;
+  border-color: #E2E8F0;
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.15);
+}
+
+body.theme-light .modal-header {
+  border-bottom: 1px solid #F1F5F9;
+}
+
+body.theme-light .inspector-param-box {
+  background: #F8FAFC;
+  border-color: #E2E8F0;
+}
+
+body.theme-light .inspector-param-label {
+  color: #64748B;
+}
+
+body.theme-light .inspector-param-val {
+  color: #0F172A;
+}
+
+body.theme-light .inspector-header {
+  border-bottom: 1px solid #F1F5F9;
+}
+
+body.theme-light .visitors-table th {
+  background: #F8FAFC;
+  color: #64748B;
+  border-color: #E2E8F0;
+}
+
+body.theme-light .visitors-table td {
+  border-color: #F1F5F9;
+  color: #0F172A;
+}
+
+body.theme-light .visitors-table tr:hover {
+  background: #F8FAFC;
+}
+
+body.theme-light .visitor-source-pill {
+  background: #F1F5F9;
+  color: #334155;
+  border: 1px solid #E2E8F0;
+}
+
+body.theme-light .main-footer {
+  background: #F1F5F9;
+  border-top: 1px solid #E2E8F0;
+  color: #475569;
+}
+
+body.theme-light .footer-links a {
+  color: #475569;
+}
+
+body.theme-light .footer-links a:hover {
+  color: #0284C7;
+}
+
+body.theme-light .calendar-date-input,
+body.theme-light .search-input {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  color: #0F172A;
+}
+
+body.theme-light .day-pill-btn {
+  background: #F1F5F9;
+  border-color: #E2E8F0;
+  color: #475569;
+}
+
+body.theme-light .day-pill-btn.active {
+  background: #0284C7;
+  color: #FFFFFF;
+  border-color: #0284C7;
+}
+
+body.theme-light .tab-btn {
+  background: #F1F5F9;
+  border-color: #E2E8F0;
+  color: #475569;
+}
+
+body.theme-light .tab-btn.active {
+  background: #0284C7;
+  color: #FFFFFF;
+  border-color: #0284C7;
+}
+
+body.theme-light .home-stat-val {
+  color: #0284C7;
+}
+
+body.theme-light .pillar-icon-box {
+  background: #EFF6FF;
+  border-color: #BFDBFE;
+  color: #0284C7;
+}
+
+body.theme-light .live-pulse-top strong,
+body.theme-light .live-odometer-num {
+  color: #0F172A;
+}
+
+body.theme-light .live-today-card div[style*="background:rgba(0,0,0,0.25)"] {
+  background: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  color: #475569 !important;
+}
+
+body.theme-light .section-tag {
+  color: #0284C7;
+}
+
+body.theme-light .parity-badge.done {
+  background: #ECFDF5;
+  border-color: #A7F3D0;
+  color: #047857;
+}
+
+body.theme-light .efficiency-protocol-badge {
+  background: #F0F9FF;
+  border-color: #BAE6FD;
+  color: #0369A1;
+}
+
+body.theme-light .btn-back-to-top {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  color: #0284C7;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.12);
+}
+
+body.theme-light .btn-back-to-top:hover {
+  background: #0284C7;
+  color: #FFFFFF;
+}
+
+/* ==========================================================================
+   SCROLL REVEALS & BENCHMARK ANIMATION PHYSICS (ROG Phone 8 & Jitter)
+   ========================================================================== */
+.scroll-progress-line {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00F5FF, #38BDF8, #0284C7);
+  z-index: 9999;
+  width: 0%;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.6);
+  transition: width 0.1s linear;
+}
+
+body.theme-light .scroll-progress-line {
+  background: linear-gradient(90deg, #0284C7, #0EA5E9, #2563EB);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.4);
+}
+
+/* Base Reveal-on-Scroll with Jitter spring physics */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(32px);
+  filter: blur(4px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform, filter;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Staggered Children Animations */
+.home-stats-grid .home-stat-card,
+.home-pillars-grid .home-pillar-card,
+.about-grid .about-card,
+.about-principles-list .principle-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+  will-change: opacity, transform;
+}
+
+.revealed.home-stats-grid .home-stat-card:nth-child(1),
+.revealed .home-stat-card:nth-child(1) { transition-delay: 0.05s; opacity: 1; transform: translateY(0); }
+.revealed.home-stats-grid .home-stat-card:nth-child(2),
+.revealed .home-stat-card:nth-child(2) { transition-delay: 0.15s; opacity: 1; transform: translateY(0); }
+.revealed.home-stats-grid .home-stat-card:nth-child(3),
+.revealed .home-stat-card:nth-child(3) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
+.revealed.home-stats-grid .home-stat-card:nth-child(4),
+.revealed .home-stat-card:nth-child(4) { transition-delay: 0.35s; opacity: 1; transform: translateY(0); }
+
+.revealed.home-pillars-grid .home-pillar-card:nth-child(1),
+.revealed .home-pillar-card:nth-child(1) { transition-delay: 0.08s; opacity: 1; transform: translateY(0); }
+.revealed.home-pillars-grid .home-pillar-card:nth-child(2),
+.revealed .home-pillar-card:nth-child(2) { transition-delay: 0.18s; opacity: 1; transform: translateY(0); }
+.revealed.home-pillars-grid .home-pillar-card:nth-child(3),
+.revealed .home-pillar-card:nth-child(3) { transition-delay: 0.28s; opacity: 1; transform: translateY(0); }
+.revealed.home-pillars-grid .home-pillar-card:nth-child(4),
+.revealed .home-pillar-card:nth-child(4) { transition-delay: 0.38s; opacity: 1; transform: translateY(0); }
+
+.revealed.about-grid .about-card:nth-child(1),
+.revealed .about-card:nth-child(1) { transition-delay: 0.08s; opacity: 1; transform: translateY(0); }
+.revealed.about-grid .about-card:nth-child(2),
+.revealed .about-card:nth-child(2) { transition-delay: 0.20s; opacity: 1; transform: translateY(0); }
+
+.revealed.about-card .principle-item:nth-child(1),
+.revealed .principle-item:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+.revealed.about-card .principle-item:nth-child(2),
+.revealed .principle-item:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+.revealed.about-card .principle-item:nth-child(3),
+.revealed .principle-item:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+
+/* Interactive Sheen & Card Hover Mechanics */
+.home-stat-card, .home-pillar-card, .home-hero-card, .about-card, .release-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.3s ease;
+}
+
+.home-stat-card:hover, .home-pillar-card:hover, .about-card:hover, .release-card:hover {
+  transform: translateY(-4px);
+}
+
+.home-stat-card::after, .home-pillar-card::after, .about-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+  transform: skewX(-20deg);
+  pointer-events: none;
+  transition: left 0.75s ease;
+}
+
+.home-stat-card:hover::after, .home-pillar-card:hover::after, .about-card:hover::after {
+  left: 140%;
+}
+
+/* ==========================================================================
+   ISOLATED ADMIN AUDIT CONSOLE (Protected & Discreet Gate)
+   ========================================================================== */
+.admin-active-bar {
+  position: sticky;
+  top: 66px;
+  z-index: 95;
+  background: linear-gradient(90deg, #0284C7, #025A8B);
+  color: #FFFFFF;
+  padding: 8px 24px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.3);
+}
+
+.admin-active-bar.active {
+  display: flex;
+}
+
+.admin-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-bar-btn {
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #FFFFFF;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.admin-bar-btn:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.admin-pin-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.admin-pin-input {
+  width: 220px;
+  padding: 12px 16px;
+  font-size: 1.8rem;
+  font-family: var(--font-mono);
+  text-align: center;
+  letter-spacing: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid var(--border-bright);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s;
+}
+
+body.theme-light .admin-pin-input {
+  background: #F8FAFC;
+  border-color: #0284C7;
+  color: #0F172A;
+}
+
+.admin-pin-input:focus {
+  border-color: var(--cyan-electric);
+  box-shadow: 0 0 16px var(--cyan-glow);
+}
+
+.admin-auth-error {
+  color: #EF4444;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  display: none;
+}
+
 /* Base Reset & Background */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -2358,6 +2876,51 @@ body.theme-light .param-val {
   background: rgba(255, 255, 255, 0.05);
   padding: 2px 8px;
   border-radius: 4px;
+  color: var(--text-secondary);
+}
+
+/* Shakuro Editorial Philosophy Quote Card */
+.about-quote-card {
+  background: var(--bg-card);
+  border-left: 4px solid var(--cyan-electric);
+  border-radius: var(--radius-md);
+  padding: 24px 32px;
+  margin-top: 24px;
+  position: relative;
+  box-shadow: var(--card-shadow);
+}
+
+body.theme-light .about-quote-card {
+  background: #FFFFFF;
+  border-left-color: #0284C7;
+  border-top: 1px solid rgba(15, 23, 42, 0.06);
+  border-right: 1px solid rgba(15, 23, 42, 0.06);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.quote-symbol {
+  font-size: 3rem;
+  line-height: 1;
+  color: var(--cyan-electric);
+  opacity: 0.4;
+  margin-bottom: -10px;
+}
+
+body.theme-light .quote-symbol {
+  color: #0284C7;
+}
+
+.quote-text {
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.quote-author {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--text-secondary);
 }
 

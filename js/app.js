@@ -47,10 +47,23 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeQrUrl = '';
   let selectedDateYMD = new Date().toISOString().split('T')[0];
 
+  // Elements: Scroll & Admin
+  const scrollProgressBar = document.getElementById('scroll-progress-line');
+  const adminActiveBar = document.getElementById('admin-active-bar');
+  const adminAuthModal = document.getElementById('admin-auth-modal');
+  const adminPinInput = document.getElementById('admin-pin-input');
+  const adminAuthError = document.getElementById('admin-auth-error');
+
   // ==========================================================================
-  // SPA PAGE SWITCHER
+  // SPA PAGE SWITCHER (With Protected Admin Gate)
   // ==========================================================================
   window.switchPage = function(pageId) {
+    // If trying to access admin audit without authorization, intercept and prompt PIN
+    if (pageId === 'page-admin' && (!window.activityStorage || !window.activityStorage.isAdmin())) {
+      window.requestAdminConsole();
+      return;
+    }
+
     pageSections.forEach(section => {
       section.classList.toggle('active', section.id === pageId);
     });
@@ -69,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // URL Hash navigation support (#privacy, #devices, #releases, #about, #home)
+  // URL Hash navigation support (#privacy, #devices, #releases, #about, #home, #admin)
   function handleUrlHash() {
     const hash = window.location.hash.replace('#', '').toLowerCase();
     const map = {
@@ -78,7 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
       'traffic': 'page-traffic',
       'releases': 'page-releases',
       'about': 'page-about',
-      'home': 'page-home'
+      'home': 'page-home',
+      'admin': 'page-admin'
     };
     if (map[hash]) {
       window.switchPage(map[hash]);
@@ -94,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // SMART HEADER AUTO-HIDE ON SCROLL & BACK TO TOP BUTTON
+  // SMART HEADER AUTO-HIDE, PROGRESS LINE & BACK TO TOP BUTTON
   // ==========================================================================
   let lastScrollY = window.scrollY;
   window.addEventListener('scroll', () => {
@@ -103,12 +117,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header auto-hide logic
     if (topNavbar) {
       if (currentScrollY > 90 && currentScrollY > lastScrollY) {
-        // Scrolling down: hide header
         topNavbar.classList.add('nav-hidden');
       } else {
-        // Scrolling up or at the top: reveal header
         topNavbar.classList.remove('nav-hidden');
       }
+    }
+
+    // Scroll Progress Line calculation (Benchmark Jitter / ROG)
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollProgressBar && docHeight > 0) {
+      const pct = Math.min(100, Math.max(0, (currentScrollY / docHeight) * 100));
+      scrollProgressBar.style.width = pct + '%';
     }
 
     // Floating Back to Top Button visibility
@@ -130,7 +149,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // SCROLL REVEAL ANIMATIONS (IntersectionObserver)
+  // ANIMATED NUMBER COUNTERS (ROG Phone 8 & Jitter Telemetry Style)
+  // ==========================================================================
+  function animateCounter(el) {
+    if (el.classList.contains('counter-animated')) return;
+    const target = parseInt(el.dataset.target, 10);
+    if (isNaN(target)) return;
+    el.classList.add('counter-animated');
+
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutCubic curve
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const currentVal = Math.round(target * ease);
+      el.textContent = `${prefix}${currentVal}${suffix}`;
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        el.textContent = `${prefix}${target}${suffix}`;
+      }
+    }
+    requestAnimationFrame(update);
+  }
+
+  // ==========================================================================
+  // SCROLL REVEAL ANIMATIONS (IntersectionObserver with Spring Physics)
   // ==========================================================================
   function triggerScrollReveal() {
     const elements = document.querySelectorAll('.reveal-on-scroll:not(.revealed)');
@@ -139,6 +188,12 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('revealed');
+            // Trigger any animated counters
+            const counters = entry.target.querySelectorAll('.stat-counter');
+            counters.forEach(animateCounter);
+            if (entry.target.classList.contains('stat-counter')) {
+              animateCounter(entry.target);
+            }
             obs.unobserve(entry.target);
           }
         });
@@ -146,9 +201,109 @@ document.addEventListener('DOMContentLoaded', () => {
 
       elements.forEach(el => observer.observe(el));
     } else {
-      elements.forEach(el => el.classList.add('revealed'));
+      elements.forEach(el => {
+        el.classList.add('revealed');
+        const counters = el.querySelectorAll('.stat-counter');
+        counters.forEach(animateCounter);
+      });
     }
   }
+
+  // ==========================================================================
+  // ISOLATED MASTER ADMIN GATE (Discreet & Protected for Owner Only)
+  // ==========================================================================
+  function updateAdminUiState() {
+    const isAuth = window.activityStorage && window.activityStorage.isAdmin();
+    if (adminActiveBar) {
+      adminActiveBar.classList.toggle('active', isAuth);
+    }
+  }
+
+  window.requestAdminConsole = function() {
+    if (window.activityStorage && window.activityStorage.isAdmin()) {
+      window.switchPage('page-admin');
+      return;
+    }
+    if (adminAuthModal) {
+      adminAuthModal.classList.add('active');
+      if (adminAuthError) adminAuthError.style.display = 'none';
+      if (adminPinInput) {
+        adminPinInput.value = '';
+        setTimeout(() => adminPinInput.focus(), 120);
+      }
+    }
+  };
+
+  window.closeAdminAuthModal = function() {
+    if (adminAuthModal) adminAuthModal.classList.remove('active');
+    if (adminPinInput) adminPinInput.value = '';
+    if (adminAuthError) adminAuthError.style.display = 'none';
+  };
+
+  window.submitAdminPin = function() {
+    if (!adminPinInput) return;
+    const pin = adminPinInput.value.trim();
+    if (window.activityStorage && window.activityStorage.loginAdmin(pin)) {
+      window.closeAdminAuthModal();
+      updateAdminUiState();
+      window.switchPage('page-admin');
+      showToast('Вход выполнен: консоль аудита разблокирована');
+    } else {
+      if (adminAuthError) adminAuthError.style.display = 'block';
+      adminPinInput.classList.add('shake');
+      setTimeout(() => adminPinInput.classList.remove('shake'), 400);
+      adminPinInput.focus();
+    }
+  };
+
+  window.logoutAdminConsole = function() {
+    if (window.activityStorage) {
+      window.activityStorage.logoutAdmin();
+    }
+    updateAdminUiState();
+    window.switchPage('page-home');
+    showToast('Консоль аудита заблокирована');
+  };
+
+  if (adminPinInput) {
+    adminPinInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        window.submitAdminPin();
+      } else if (e.key === 'Escape') {
+        window.closeAdminAuthModal();
+      }
+    });
+  }
+
+  // Secret Keyboard shortcut: Ctrl + Shift + A / Cmd + Shift + A
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a' || e.key === 'Ф' || e.key === 'ф')) {
+      e.preventDefault();
+      window.requestAdminConsole();
+    }
+  });
+
+  // Secret 5-tap on brand logo to trigger admin modal
+  let brandLogoClickCount = 0;
+  let brandLogoClickTimer = null;
+  const brandBadge = document.getElementById('brand-badge-logo');
+  if (brandBadge) {
+    brandBadge.addEventListener('click', (e) => {
+      brandLogoClickCount++;
+      clearTimeout(brandLogoClickTimer);
+      if (brandLogoClickCount >= 5) {
+        brandLogoClickCount = 0;
+        e.preventDefault();
+        window.requestAdminConsole();
+      } else {
+        brandLogoClickTimer = setTimeout(() => {
+          brandLogoClickCount = 0;
+        }, 2500);
+      }
+    });
+  }
+
+  updateAdminUiState();
 
   // ==========================================================================
   // TOAST & CLIPBOARD
@@ -392,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
           </div>
           <button class="btn btn-outline btn-sm" onclick="copyText('${ios.downloadUrl}', 'Прямая ссылка на IPA скопирована!')">
-            Копировать ссылку для отправки в Telegram
+            Копировать прямую ссылку на IPA
           </button>
         </div>
       `;

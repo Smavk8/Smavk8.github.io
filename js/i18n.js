@@ -16,6 +16,14 @@ const TRANSLATIONS = {
     nav_about: "О нас",
     nav_admin: "Аудит",
     admin_device_badge: "Админ",
+    admin_auth_title: "Закрытая консоль аудитора",
+    admin_auth_sub: "Доступ ограничен владельцем. Введите PIN-код администратора (7700):",
+    admin_auth_pin_placeholder: "••••",
+    admin_auth_btn_login: "Войти в консоль",
+    admin_auth_error: "Неверный код доступа. Повторите попытку.",
+    admin_active_banner_text: "🔒 Режим Мастер-Администратора активен. Раздел аудита разблокирован.",
+    admin_banner_goto: "Открыть Аудит",
+    admin_banner_logout: "Заблокировать и выйти",
 
     // Themes
     theme_light: "Светлая",
@@ -159,7 +167,7 @@ const TRANSLATIONS = {
     privacy_sec6_title: "6. Безопасность и хранение данных",
     privacy_sec6_body: "Все локальные журналы сессий защищены алгоритмом военного уровня AES-256 (Android) и системным аппаратным сейфом Apple Keychain (iOS). Передача данных производится строго по защищенным криптографическим протоколам TLS/HTTPS. Мы ни при каких обстоятельствах не продаем, не передаем и не предоставляем данные рекламным сетям или аналитическим брокерам данных.",
     privacy_sec7_title: "7. Контакты службы поддержки и обратная связь",
-    privacy_sec7_body: "По всем вопросам функционирования платформы, реализации прав на защиту данных или предложений по улучшению свяжитесь с разработчиками через официальный канал связи: @XylenSimPlatform в Telegram."
+    privacy_sec7_body: "По всем вопросам функционирования платформы, реализации прав на защиту данных или предложений по улучшению свяжитесь с инженерной командой через форму обратной связи на веб-портале или встроенный раздел поддержки в мобильном приложении."
   },
 
   uz: {
@@ -172,6 +180,14 @@ const TRANSLATIONS = {
     nav_about: "Biz haqimizda",
     nav_admin: "Audit",
     admin_device_badge: "Admin",
+    admin_auth_title: "Yopiq auditor konsoli",
+    admin_auth_sub: "Kirish faqat tizim egasi uchun. Administrator PIN-kodini kiriting (7700):",
+    admin_auth_pin_placeholder: "••••",
+    admin_auth_btn_login: "Konsolga kirish",
+    admin_auth_error: "Parol noto'g'ri. Qayta urinib ko'ring.",
+    admin_active_banner_text: "🔒 Master-Administrator rejimi faol. Audit bo'limi ochiq.",
+    admin_banner_goto: "Auditni ochish",
+    admin_banner_logout: "Chiqish va qulflash",
 
     // Themes
     theme_light: "Kunduzgi",
@@ -315,7 +331,7 @@ const TRANSLATIONS = {
     privacy_sec6_title: "6. Xavfsizlik va saqlash kafolatlari",
     privacy_sec6_body: "Barcha lokal sessiya jurnallari harbiy standartdagi AES-256 (Android) va Apple Keychain (iOS) orqali to'liq shifrlangan. Ma'lumotlar faqat himoyalangan TLS/HTTPS protokollari orqali uzatiladi. Biz ma'lumotlarni hech qanday reklama tarmoqlariga yoki uchinchi shaxslarga sotmaymiz va bermaymiz.",
     privacy_sec7_title: "7. Bog'lanish va qo'llab-quvvatlash xizmati",
-    privacy_sec7_body: "Platformaning ishlashi yoki ma'lumotlarni himoya qilish bo'yicha barcha savollar bo'yicha rasmiy aloqa kanali orqali murojaat qiling: Telegramda @XylenSimPlatform."
+    privacy_sec7_body: "Platformaning ishlashi, ma'lumotlarni himoya qilish huquqlari yoki takliflar bo'yicha veb-portal yoki mobil ilova orqali rasmiy qo'llab-quvvatlash xizmatiga murojaat qiling."
   },
 
   en: {
@@ -328,6 +344,14 @@ const TRANSLATIONS = {
     nav_about: "About",
     nav_admin: "Audit",
     admin_device_badge: "Admin",
+    admin_auth_title: "Isolated Auditor Console",
+    admin_auth_sub: "Restricted to platform owner. Enter master administrator PIN (7700):",
+    admin_auth_pin_placeholder: "••••",
+    admin_auth_btn_login: "Authenticate",
+    admin_auth_error: "Invalid access PIN. Please try again.",
+    admin_active_banner_text: "🔒 Master Administrator Session Active. Audit console unlocked.",
+    admin_banner_goto: "Open Audit",
+    admin_banner_logout: "Lock & Logout",
 
     // Themes
     theme_light: "Light",
@@ -471,7 +495,7 @@ const TRANSLATIONS = {
     privacy_sec6_title: "6. Security & Encryption Standards",
     privacy_sec6_body: "Local logs are safeguarded with AES-256 military-grade encryption (Android) and Apple Keychain hardware enclave (iOS). All network transmission is secured using TLS/HTTPS. We under no circumstances sell, lease, or distribute data to third-party ad brokers or tracking networks.",
     privacy_sec7_title: "7. Contact & Support",
-    privacy_sec7_body: "For any inquiries regarding data protection, exercising your privacy rights, or platform feedback, please reach out via our official Telegram channel: @XylenSimPlatform."
+    privacy_sec7_body: "For any technical inquiries regarding data protection, exercising your privacy rights, or platform feedback, please reach out via the web portal feedback form or built-in mobile app support."
   }
 };
 

@@ -10,11 +10,13 @@
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
 </head>
 <body>
+  <!-- Scroll Progress Indicator Line (Benchmark Jitter / ROG) -->
+  <div id="scroll-progress-line" class="scroll-progress-line"></div>
 
   <!-- Top Sticky Navigation & Page Selector Menu with Smart Auto-Hide -->
   <header id="top-navbar" class="top-navbar">
     <div class="container nav-wrapper">
-      <a href="#" class="brand-badge" onclick="window.switchPage('page-home'); return false;">
+      <a href="#" class="brand-badge" id="brand-badge-logo" onclick="window.switchPage('page-home'); return false;" title="Xylen Sim Platform">
         <img src="assets/logo.svg" alt="Xylen Logo" class="brand-logo-img">
         <div class="brand-text-block">
           <div class="brand-title">
@@ -44,9 +46,6 @@
         <button class="nav-page-btn" data-page="page-privacy" data-i18n="nav_privacy">
           Конфиденциальность
         </button>
-        <button id="nav-btn-admin" class="nav-page-btn" data-page="page-admin" style="display:none;" data-i18n="nav_admin">
-          Аудит
-        </button>
       </nav>
 
       <div class="header-controls-group">
@@ -62,15 +61,21 @@
           <span id="theme-icon">☀️</span>
           <span id="theme-label" data-i18n="theme_light">Светлая</span>
         </button>
-
-        <!-- Master Admin Badge -->
-        <div id="admin-indicator-badge" class="admin-badge-btn" onclick="window.switchPage('page-admin');" title="Мастер-Администратор: просмотр аудита">
-          <span class="pulse-dot green"></span>
-          <span data-i18n="admin_device_badge">Админ</span>
-        </div>
       </div>
     </div>
   </header>
+
+  <!-- Isolated Master Admin Floating Bar (Visible ONLY when authenticated) -->
+  <aside id="admin-active-bar" class="admin-active-bar" aria-label="Консоль администратора">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="pulse-dot green"></span>
+      <span id="admin-banner-text" data-i18n="admin_active_banner_text">🔒 Режим Мастер-Администратора активен. Раздел аудита разблокирован.</span>
+    </div>
+    <div class="admin-bar-actions">
+      <button class="admin-bar-btn" onclick="window.switchPage('page-admin');" data-i18n="admin_banner_goto">Открыть Аудит</button>
+      <button class="admin-bar-btn" onclick="window.logoutAdminConsole();" data-i18n="admin_banner_logout">Заблокировать и выйти</button>
+    </div>
+  </aside>
 
   <!-- ========================================================================
        PAGE 1: HOME (ГЛАВНАЯ)
@@ -112,19 +117,19 @@
 
         <div class="home-stats-grid">
           <div class="home-stat-card">
-            <div class="home-stat-val" data-i18n="home_stat_1_val">24 байта</div>
+            <div class="home-stat-val stat-counter" data-target="24" data-suffix=" байта" data-i18n="home_stat_1_val">24 байта</div>
             <div class="home-stat-lbl" data-i18n="home_stat_1_lbl">Размер микро-дельта пакета (96% сжатие)</div>
           </div>
           <div class="home-stat-card">
-            <div class="home-stat-val" data-i18n="home_stat_2_val">1:1</div>
+            <div class="home-stat-val stat-counter" data-target="1" data-prefix="" data-suffix=":1" data-i18n="home_stat_2_val">1:1</div>
             <div class="home-stat-lbl" data-i18n="home_stat_2_lbl">Паритет между Android и iOS</div>
           </div>
           <div class="home-stat-card">
-            <div class="home-stat-val" data-i18n="home_stat_3_val">AES-256</div>
+            <div class="home-stat-val stat-counter" data-target="256" data-prefix="AES-" data-i18n="home_stat_3_val">AES-256</div>
             <div class="home-stat-lbl" data-i18n="home_stat_3_lbl">Шифрование локальных хранилищ</div>
           </div>
           <div class="home-stat-card">
-            <div class="home-stat-val" data-i18n="home_stat_4_val">0 мс</div>
+            <div class="home-stat-val stat-counter" data-target="0" data-suffix=" мс" data-i18n="home_stat_4_val">0 мс</div>
             <div class="home-stat-lbl" data-i18n="home_stat_4_lbl">Задержка при прямом эфире скорости</div>
           </div>
         </div>
@@ -469,6 +474,15 @@
           </div>
         </div>
       </div>
+
+      <!-- Shakuro Editorial Philosophy Quote -->
+      <div class="about-quote-card reveal-on-scroll">
+        <div class="quote-symbol">“</div>
+        <blockquote class="quote-text" data-i18n="about_quote_text">
+          «Инженерный дизайн — это не просто эстетика интерфейса. Это математическая точность архитектуры, выдерживающей стресс-тесты сотовых сетей, микросекундная синхронизация и кристальная честность перед пользователем».
+        </blockquote>
+        <div class="quote-author" data-i18n="about_quote_author">— Инженерный манифест архитектуры Xylen Core</div>
+      </div>
     </div>
   </main>
 
@@ -571,7 +585,7 @@
 
       <div class="about-card reveal-on-scroll">
         <h3 data-i18n="privacy_sec7_title">7. Контакты службы поддержки и обратная связь</h3>
-        <p data-i18n="privacy_sec7_body">По всем вопросам функционирования платформы или реализации прав свяжитесь через Telegram: @XylenSimPlatform.</p>
+        <p data-i18n="privacy_sec7_body">По всем вопросам функционирования платформы или реализации прав свяжитесь с инженерной командой через форму на веб-портале или раздел поддержки в приложении.</p>
       </div>
     </div>
   </main>
@@ -730,6 +744,28 @@
     </div>
   </div>
 
+  <!-- Master Admin Secret Gate Modal -->
+  <div id="admin-auth-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 440px;">
+      <div class="modal-header">
+        <div class="modal-title" data-i18n="admin_auth_title">🔒 Закрытая консоль аудитора</div>
+        <button class="modal-close-btn" onclick="window.closeAdminAuthModal();">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.88rem; color:var(--text-secondary); text-align:center; margin-bottom:16px;" data-i18n="admin_auth_sub">
+          Доступ ограничен владельцем. Введите PIN-код администратора (7700):
+        </p>
+        <div class="admin-pin-container">
+          <input type="password" id="admin-pin-input" class="admin-pin-input" maxlength="8" placeholder="••••" autocomplete="off">
+          <div id="admin-auth-error" class="admin-auth-error" data-i18n="admin_auth_error">Неверный код доступа. Повторите попытку.</div>
+          <button id="admin-login-btn" class="btn btn-cyan" style="width:100%;" onclick="window.submitAdminPin();" data-i18n="admin_auth_btn_login">
+            Войти в консоль
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Floating Back to Top Button -->
   <button id="btn-back-to-top" class="btn-back-to-top" aria-label="Наверх" title="Наверх">
     ↑
@@ -745,13 +781,13 @@
   <footer class="main-footer">
     <div class="container">
       <div class="footer-links">
-        <a href="https://t.me/XylenSimPlatform" target="_blank">Telegram канал</a>
         <a href="#" onclick="window.switchPage('page-home'); return false;">Главная</a>
         <a href="#" onclick="window.switchPage('page-devices'); return false;">Устройства</a>
         <a href="#" onclick="window.switchPage('page-traffic'); return false;">Трафик</a>
         <a href="#" onclick="window.switchPage('page-releases'); return false;">Релизы</a>
         <a href="#" onclick="window.switchPage('page-about'); return false;">О нас</a>
-        <a href="#" onclick="window.switchPage('page-privacy'); return false;" data-i18n="footer_privacy" style="color:var(--cyan-electric);font-weight:700;">Политика конфиденциальности и Условия</a>
+        <a href="#" onclick="window.switchPage('page-privacy'); return false;" data-i18n="footer_privacy" style="color:var(--blue-cobalt);font-weight:700;">Политика конфиденциальности и Условия</a>
+        <a href="#" onclick="window.requestAdminConsole(); return false;" class="footer-admin-trigger" title="Консоль управления платформой" style="opacity:0.35;font-size:0.75rem;margin-left:auto;">🔒 Консоль</a>
       </div>
       <p>© 2026 Xylen Sim Platform Ecosystem. Высокоточный аппаратный аудит сотовых сетей. 100% GDPR, 152-ФЗ и ЗРУ-547 Compliant.</p>
     </div>
