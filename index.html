@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0A0C10">
-  <meta name="description" content="Xylen Workspace: Инженерная платформа сотовой телеметрии, аппаратных SIM-карт и аудита мобильного трафика. Родина проекта — Гулистан (ЗРУ-547) с защищённым шлюзом в Лондоне (UK GDPR).">
+  <meta name="description" content="Xylen Workspace: Инженерная платформа сотовой телеметрии, аппаратных SIM-карт и аудита мобильного трафика. Родина проекта — Гулистан с защищённым шлюзом в Лондоне (Cloudflare Edge).">
   <title>Xylen Workspace • Сотовая телеметрия и SIM-контроль (Гулистан ↔ Лондон)</title>
-  <link rel="stylesheet" href="css/styles.css?v=2.3.0">
+  <link rel="stylesheet" href="css/styles.css?v=2.4.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -35,22 +35,6 @@
   <div id="scroll-progress-line" class="scroll-progress-line"></div>
 
   <!-- ========================================================================
-       FLOATING COMPACT MANAGER PILL (Visible when scrolled down)
-       Benchmark Jitter: Compact capsule fixed at top-right with Manager + Hamburger
-       ======================================================================== -->
-  <aside id="floating-compact-manager" class="floating-compact-manager" aria-label="Панель менеджера и меню">
-    <button class="compact-manager-btn" onclick="window.requestAdminConsole();" title="Консоль менеджера">
-      <span class="pulse-dot green"></span>
-      <span data-i18n="manager_btn">Менеджер</span>
-    </button>
-    <button id="compact-hamburger-btn" class="compact-hamburger-btn" title="Меню навигации" aria-label="Открыть навигацию" onclick="window.toggleNavDrawer(true);">
-      <span class="hamburger-bar"></span>
-      <span class="hamburger-bar"></span>
-      <span class="hamburger-bar"></span>
-    </button>
-  </aside>
-
-  <!-- ========================================================================
        COMPACT NAVIGATION DRAWER / MODAL
        Opens on clicking hamburger or on mobile screen
        ======================================================================== -->
@@ -66,7 +50,7 @@
       </div>
       <div class="drawer-origin-badge">
         <span class="pulse-dot cyan"></span>
-        <span>Гулистан ↔ Лондон • ЗРУ-547 & UK GDPR</span>
+        <span>Гулистан • Ядро сотовой телеметрии</span>
       </div>
       <nav class="drawer-nav-list">
         <button class="drawer-nav-item active" data-page="page-overview" onclick="window.switchPage('page-overview'); window.toggleNavDrawer(false);">
@@ -95,13 +79,32 @@
         </button>
       </nav>
       <div class="drawer-footer-controls">
-        <div class="drawer-lang-row">
-          <button class="lang-text-btn active" data-lang="ru">RU</button>
-          <span class="lang-sep">/</span>
-          <button class="lang-text-btn" data-lang="uz">UZ</button>
-          <span class="lang-sep">/</span>
-          <button class="lang-text-btn" data-lang="en">EN</button>
+        <!-- Language Switcher inside Drawer -->
+        <div class="drawer-control-group">
+          <div class="drawer-group-label">Язык интерфейса / Til / Language</div>
+          <div class="drawer-lang-row">
+            <button class="lang-text-btn active" data-lang="ru" onclick="window.selectLanguage('ru');">
+              <span>🇷🇺</span> <span>RU</span>
+            </button>
+            <button class="lang-text-btn" data-lang="uz" onclick="window.selectLanguage('uz');">
+              <span>🇺🇿</span> <span>UZ</span>
+            </button>
+            <button class="lang-text-btn" data-lang="en" onclick="window.selectLanguage('en');">
+              <span>🇬🇧</span> <span>EN</span>
+            </button>
+          </div>
         </div>
+
+        <!-- Theme Toggle inside Drawer -->
+        <div class="drawer-control-group">
+          <div class="drawer-group-label">Режим оформления</div>
+          <button id="drawer-theme-toggle" class="drawer-theme-pill-btn" onclick="window.toggleTheme();">
+            <span id="drawer-theme-icon" class="theme-icon-symbol">☀️</span>
+            <span id="drawer-theme-text">Тёмная тема</span>
+          </button>
+        </div>
+
+        <!-- Manager Access Console Button -->
         <button class="btn btn-secondary btn-full" onclick="window.requestAdminConsole(); window.toggleNavDrawer(false);">
           <span class="pulse-dot green"></span>
           <span data-i18n="manager_btn">Менеджер</span> (7700)
@@ -112,19 +115,18 @@
 
   <!-- ========================================================================
        ALWAYS FLOATING FRAMELESS ISLAND WORKSPACE NAVIGATION
-       - Pure floating pill / island centered at top
-       - High-sensitivity zero-deadzone scroll physics: hides on scroll down,
-         slides in on scroll up from anywhere!
+       - Equal 48px height across Logo, Menu, and Hamburger
+       - Always pinned at the top on scroll. Zero disappearing, zero second manager!
        ======================================================================== -->
   <header id="top-navbar" class="top-navbar floating-island">
     <div class="nav-island-inner">
-      <!-- Clean Brand Logo: Free-Floating Capsule with 52px Monogram + Bold Modern Typo -->
+      <!-- Clean Brand Logo: Exact same 48px height rhythm as menu -->
       <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Workspace • Гулистан">
         <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="brand-monogram-icon">
         <span class="brand-clean-name">XYLEN</span>
       </a>
 
-      <!-- Navigation Menu: The ONLY Framed Island Capsule with Sliding Pill -->
+      <!-- Navigation Menu: 48px height with Sliding Pill -->
       <nav class="main-nav-menu" id="main-nav-menu" aria-label="Разделы Xylen Workspace">
         <div class="nav-active-pill" id="nav-active-pill"></div>
         <button class="nav-page-btn active" data-page="page-overview" data-i18n="nav_overview">
@@ -147,84 +149,114 @@
         </button>
       </nav>
 
-      <!-- Right Controls Cluster: Globe Language Selector + Theme Toggle + Manager Pill -->
-      <div class="header-right-capsule">
-        <!-- Language Switcher with Globe Icon -->
-        <div class="lang-dropdown-wrapper" id="lang-dropdown-wrapper">
-          <button class="lang-globe-btn" id="lang-globe-btn" onclick="window.toggleLangDropdown();" title="Сменить язык">
-            <span class="globe-icon">🌐</span>
-            <span class="current-lang-code" id="current-lang-code">RU</span>
-            <span class="dropdown-chevron">▾</span>
-          </button>
-          <div class="lang-dropdown-menu" id="lang-dropdown-menu">
-            <button class="lang-dropdown-item active" data-lang="ru" onclick="window.selectLanguage('ru');">
-              <span class="lang-flag">🇷🇺</span>
-              <span class="lang-name">Русский</span>
-              <span class="lang-short">RU</span>
-            </button>
-            <button class="lang-dropdown-item" data-lang="uz" onclick="window.selectLanguage('uz');">
-              <span class="lang-flag">🇺🇿</span>
-              <span class="lang-name">O'zbekcha</span>
-              <span class="lang-short">UZ</span>
-            </button>
-            <button class="lang-dropdown-item" data-lang="en" onclick="window.selectLanguage('en');">
-              <span class="lang-flag">🇬🇧</span>
-              <span class="lang-name">English</span>
-              <span class="lang-short">EN</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Theme Toggle Button -->
-        <button id="theme-toggle-btn" class="theme-icon-btn" title="Переключить тему (Тёмная / Светлая)" aria-label="Переключить тему">
-          <span id="theme-icon" class="theme-icon-symbol">☀️</span>
+      <!-- Right Menu Trigger: Exact same 48px height rhythm -->
+      <div class="header-menu-pill">
+        <button id="compact-hamburger-btn-header" class="header-hamburger-trigger" title="Меню, языки и тема" aria-label="Открыть меню" onclick="window.toggleNavDrawer(true);">
+          <span class="hamburger-bars-wrap">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+          </span>
+          <span class="hamburger-txt" data-i18n="menu_btn">Меню</span>
         </button>
-
-        <!-- Manager Access & Hamburger Menu Capsule -->
-        <div class="header-manager-pill">
-          <button id="manager-toggle-btn" class="manager-access-btn" title="Панель менеджера" onclick="window.requestAdminConsole();">
-            <span class="pulse-dot green"></span>
-            <span data-i18n="manager_btn">Менеджер</span>
-          </button>
-          <button id="compact-hamburger-btn-header" class="compact-hamburger-btn" title="Меню навигации" aria-label="Открыть навигацию" onclick="window.toggleNavDrawer(true);">
-            <span class="hamburger-bar"></span>
-            <span class="hamburger-bar"></span>
-            <span class="hamburger-bar"></span>
-          </button>
-        </div>
       </div>
     </div>
   </header>
 
   <!-- ========================================================================
-       01 — SECTION: OVERVIEW (Hero, KPIs, Operator Proof, Card Stack, Showcases)
+       01 — SECTION: OVERVIEW (Hero, Pillars, CTA Buttons, KPIs below, Card Stack)
        ======================================================================== -->
   <main id="page-overview" class="page-section active">
     <div class="container">
       <!-- Spacious Hero Block Inspired by Jitter -->
       <section class="overview-hero-block reveal-on-scroll">
-        <div class="hero-chip">
-          <span class="pulse-dot cyan"></span>
-          <span data-i18n="hero_badge">Реальная сотовая телеметрия • Ядро связи v5.2</span>
-        </div>
         <h1 class="hero-statement-title" data-i18n="overview_hero_title">
           Контроль в движении. Телеметрия без имитаций.
         </h1>
         <p class="hero-statement-desc" data-i18n="overview_hero_sub">
-          Инженерная платформа для фиксации параметров радиоканала, проверки активных SIM-слотов и аудита сотового трафика в реальном времени. Разработана в Гулистане с защищённым шлюзом в Лондоне. В строгом соответствии с законами Республики Узбекистан (ЗРУ-547) и Великобритании (UK GDPR).
+          Независимый инженерный комплекс аппаратного контроля сотового радиоканала, проверки активных SIM-слотов и сквозного аудита мобильного трафика. Прямой доступ к параметрам радиомодема без посредников и эмуляций.
         </p>
 
-        <!-- Primary CTA Buttons -->
-        <div class="hero-actions-row">
-          <button class="btn btn-primary-hero" onclick="window.switchPage('page-devices');" data-i18n="btn_hero_connect">
-            Мониторинг радиоэфира
+        <!-- Staggered Animated Technical Pillars Sequence -->
+        <div class="hero-engineering-pillars reveal-on-scroll">
+          <div class="eng-pillar-card" style="--pillar-delay: 0.08s;">
+            <div class="pillar-top-row">
+              <span class="pillar-icon">📡</span>
+              <span class="pillar-badge">Радиомодем</span>
+            </div>
+            <h4 class="pillar-title">Прямой съём с радиочипа</h4>
+            <p class="pillar-desc">Мгновенный опрос модема устройства: уровни RSRP/RSRQ в dBm, идентификаторы сотовых вышек CID/TAC и несущие диапазоны LTE & 5G NR NSA/SA.</p>
+          </div>
+
+          <div class="eng-pillar-card" style="--pillar-delay: 0.16s;">
+            <div class="pillar-top-row">
+              <span class="pillar-icon">⚡</span>
+              <span class="pillar-badge">Дельта 24B</span>
+            </div>
+            <h4 class="pillar-title">24-байтный микро-дельта поток</h4>
+            <p class="pillar-desc">Передача только дельты изменившихся параметров. Стабильная работа на слабом покрытии 2G/EDGE и в плотных мегаполисах без задержек.</p>
+          </div>
+
+          <div class="eng-pillar-card" style="--pillar-delay: 0.24s;">
+            <div class="pillar-top-row">
+              <span class="pillar-icon">🛡️</span>
+              <span class="pillar-badge">Billing Guard</span>
+            </div>
+            <h4 class="pillar-title">Нулевой перерасход и аудит</h4>
+            <p class="pillar-desc">100% сотовый радиоканал. Аппаратная фильтрация и категорическое исключение любого Wi-Fi трафика для предотвращения переплат оператору.</p>
+          </div>
+
+          <div class="eng-pillar-card" style="--pillar-delay: 0.32s;">
+            <div class="pillar-top-row">
+              <span class="pillar-icon">🔋</span>
+              <span class="pillar-badge">Daemon &lt;0.1%</span>
+            </div>
+            <h4 class="pillar-title">Автономный фоновый демон</h4>
+            <p class="pillar-desc">Оптимизированная нативная служба для Android и iOS. Фиксация телеметрии в спящем режиме без разряда аккумулятора (&lt;0.1% в сутки).</p>
+          </div>
+        </div>
+
+        <!-- Prominent Enlarged Primary CTA Buttons -->
+        <div class="hero-actions-row enlarged-cta-row">
+          <button class="btn btn-hero-primary-lg" onclick="window.switchPage('page-devices');" data-i18n="btn_hero_connect">
+            <span class="pulse-dot green"></span>
+            <span>Мониторинг радиоэфира</span>
+            <span class="btn-arrow-icon">➔</span>
           </button>
-          <button class="btn btn-secondary-hero" onclick="window.switchPage('page-releases');" data-i18n="btn_hero_releases">
-            Центр загрузки клиентов
+          <button class="btn btn-hero-secondary-lg" onclick="window.switchPage('page-releases');" data-i18n="btn_hero_releases">
+            <span class="platforms-mini-icons">
+              <img src="assets/icon-android.svg" alt="Android" class="p-icon">
+              <img src="assets/icon-ios.svg" alt="iOS" class="p-icon">
+            </span>
+            <span>Центр загрузки клиентов</span>
           </button>
         </div>
 
-        <!-- 4 Spacious KPI Stat Cards (Real Metrics) -->
+        <!-- Social Proof Strip: Strictly 5 Supported Telecom Operators of Uzbekistan and United Kingdom -->
+        <div class="social-proof-strip">
+          <div class="social-proof-title" data-i18n="social_proof_title">
+            Прямая совместимость с базовыми станциями операторов связи Узбекистана и Великобритании:
+          </div>
+          <div class="operator-logos-grid">
+            <div class="operator-pill"><span class="op-flag">🇺🇿</span> Ucell UZ</div>
+            <div class="operator-pill"><span class="op-flag">🇺🇿</span> UMS</div>
+            <div class="operator-pill"><span class="op-flag">🇺🇿</span> Beeline UZ</div>
+            <div class="operator-pill"><span class="op-flag">🇬🇧</span> O2 UK</div>
+            <div class="operator-pill"><span class="op-flag">🇬🇧</span> Three UK</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====================================================================
+           DEDICATED KPI SHOWCASE SECTION (Emerged on scroll below the hero)
+           Rare 3D tilt, cyber-borders, live odometer numbers, zero clutter
+           ==================================================================== -->
+      <section class="kpi-showcase-section reveal-on-scroll">
+        <div class="kpi-section-lead">
+          <span class="kpi-lead-badge"><span class="pulse-dot green"></span> РАДИОЭФИР В РЕАЛЬНОМ ВРЕМЕНИ</span>
+          <h3 class="kpi-lead-title">Ключевые показатели сотовой телеметрии</h3>
+        </div>
+
         <div class="kpi-grid-4">
           <div class="kpi-card hover-glow-card" onclick="window.switchPage('page-devices');">
             <div class="kpi-header">
@@ -260,20 +292,6 @@
             </div>
             <div class="kpi-number count-up" data-target="0" id="kpi-speed-count">0.0 МБ/с</div>
             <div class="kpi-sub" data-i18n="kpi_speed_sub">текущий поток SIM-данных</div>
-          </div>
-        </div>
-
-        <!-- Social Proof Strip: Strictly 5 Supported Telecom Operators of Uzbekistan and United Kingdom -->
-        <div class="social-proof-strip">
-          <div class="social-proof-title" data-i18n="social_proof_title">
-            Прямая совместимость с базовыми станциями операторов связи Узбекистана и Великобритании:
-          </div>
-          <div class="operator-logos-grid">
-            <div class="operator-pill"><span class="op-flag">🇺🇿</span> Ucell UZ</div>
-            <div class="operator-pill"><span class="op-flag">🇺🇿</span> UMS</div>
-            <div class="operator-pill"><span class="op-flag">🇺🇿</span> Beeline UZ</div>
-            <div class="operator-pill"><span class="op-flag">🇬🇧</span> O2 UK</div>
-            <div class="operator-pill"><span class="op-flag">🇬🇧</span> Three UK</div>
           </div>
         </div>
       </section>
@@ -411,7 +429,7 @@
               </p>
               <div class="stack-card-meta">
                 <span class="spec-pill">Гулистан ↔ Лондон шлюз</span>
-                <span class="spec-pill">ЗРУ-547 & UK GDPR / ICO</span>
+                <span class="spec-pill">Сквозной аудит квоты</span>
                 <span class="spec-pill">Сотовый биллинг</span>
               </div>
             </div>
@@ -495,7 +513,7 @@
               <div class="motion-card-footer">
                 <div class="motion-badge">03 • Безопасность</div>
                 <div class="motion-title" data-i18n="mod3_title">Hardware Vault: AES-256 Enclave</div>
-                <div class="motion-sub" data-i18n="mod3_sub">Аппаратная защита ключей • ЗРУ-547 и UK GDPR</div>
+                <div class="motion-sub" data-i18n="mod3_sub">Аппаратная защита ключей • Сквозное шифрование AES-256</div>
               </div>
             </div>
 
@@ -848,7 +866,7 @@
           <div class="pillar-box">
             <div class="pillar-num">03</div>
             <div class="pillar-title">Гулистан ↔ Лондон Gateway</div>
-            <div class="pillar-text">Первичный контур обрабатывается локально в РУз (ЗРУ-547). Трансграничный защищённый транзит подключён к Cloudflare Workers Edge в Лондоне (UK GDPR).</div>
+            <div class="pillar-text">Первичный контур обрабатывается локально в РУз. Трансграничный защищённый транзит подключён к Cloudflare Workers Edge в Лондоне.</div>
           </div>
           <div class="pillar-box">
             <div class="pillar-num">04</div>
@@ -858,7 +876,7 @@
         </div>
 
         <div class="about-footer-strip">
-          <span style="font-size: 0.88rem; color: var(--text-secondary);">Xylen Core Operations • Gulistan Lab ↔ London Transit • ЗРУ-547 & UK GDPR</span>
+          <span style="font-size: 0.88rem; color: var(--text-secondary);">Xylen Core Operations • Gulistan Lab ↔ London Transit • Cloudflare Edge AES-256</span>
           <button class="btn btn-secondary btn-compact" onclick="window.switchPage('page-overview');">На главную ➔</button>
         </div>
       </div>
@@ -937,10 +955,10 @@
           </div>
           <div class="admin-actions-list">
             <button class="btn btn-cyan btn-full" onclick="window.injectTestRealDevice();">
-              + Подключить тестовый смартфон (Гулистан / Лондон)
+              + Добавить телеметрический узел (Гулистан / Лондон)
             </button>
             <button class="btn btn-danger-subtle btn-full" onclick="window.clearAllDevices();">
-              Отключить все активные устройства
+              Очистить активные узлы
             </button>
             <button class="btn btn-secondary btn-full" onclick="window.regeneratePairingToken();">
               Обновить ключ сопряжения шлюза
@@ -956,11 +974,11 @@
           <div class="system-health-rows">
             <div class="health-row">
               <span>Локальный узел связи:</span>
-              <strong class="green">Гулистан (ЗРУ-547)</strong>
+              <strong class="green">Гулистан (Первичный контур)</strong>
             </div>
             <div class="health-row">
               <span>Трансграничный шлюз:</span>
-              <strong class="cyan">Лондон (UK GDPR / DPA 2018)</strong>
+              <strong class="cyan">Лондон (Cloudflare Edge)</strong>
             </div>
             <div class="health-row">
               <span>Edge-сервер:</span>
@@ -1074,7 +1092,7 @@
 
   <!-- ========================================================================
        FOOTER
-       Clean Centered Brand • Clickable Logo/Title • Law of Republic of Uzbekistan & UK GDPR
+       Clean Centered Brand • Clickable Logo/Title • AES-256 Cloudflare Edge
        ======================================================================== -->
   <footer class="app-footer">
     <div class="container footer-centered-wrap">
@@ -1096,15 +1114,15 @@
 
       <!-- Clean Legal Badge -->
       <div class="footer-legal-badge">
-        <span data-i18n="footer_copyright">© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256 • ЗРУ-547 & UK GDPR</span>
+        <span data-i18n="footer_copyright">© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256</span>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/storage.js?v=2.3.0"></script>
-  <script src="js/i18n.js?v=2.3.0"></script>
-  <script src="js/app.js?v=2.3.0"></script>
+  <script src="js/storage.js?v=2.4.0"></script>
+  <script src="js/i18n.js?v=2.4.0"></script>
+  <script src="js/app.js?v=2.4.0"></script>
 </body>
 </html>

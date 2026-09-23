@@ -20,12 +20,13 @@ const TRANSLATIONS = {
     nav_about: "О платформе",
     nav_privacy: "Конфиденциальность",
     manager_btn: "Менеджер",
+    menu_btn: "Меню",
     btn_pair_quick: "Подключить",
 
     // Overview Hero
     hero_badge: "Реальная сотовая телеметрия • Ядро связи v5.2",
     overview_hero_title: "Контроль в движении. Телеметрия без имитаций.",
-    overview_hero_sub: "Инженерная платформа для фиксации параметров радиоканала, проверки активных SIM-слотов и аудита сотового трафика в реальном времени. Разработана в Гулистане с защищённым шлюзом в Лондоне. В строгом соответствии с законами Республики Узбекистан (ЗРУ-547) и Великобритании (UK GDPR).",
+    overview_hero_sub: "Независимый инженерный комплекс аппаратного контроля сотового радиоканала, проверки активных SIM-слотов и сквозного аудита мобильного трафика. Прямой доступ к параметрам радиомодема без посредников и эмуляций.",
     btn_hero_connect: "Мониторинг радиоэфира",
     btn_hero_releases: "Центр загрузки клиентов",
     social_proof_title: "Прямая совместимость с базовыми станциями операторов связи Узбекистана и Великобритании:",
@@ -63,7 +64,7 @@ const TRANSLATIONS = {
     mod2_title: "DeltaStream: 24-Byte Pulse",
     mod2_sub: "Сжатие дельты телеметрии без потерь • 60 FPS стрим",
     mod3_title: "Hardware Vault: AES-256 Enclave",
-    mod3_sub: "Аппаратная защита ключей • ЗРУ-547 и UK GDPR",
+    mod3_sub: "Аппаратная защита ключей • Сквозное шифрование AES-256",
     mod4_title: "CellTower Matrix: CID & TAC",
     mod4_sub: "Идентификация вышек Ucell, UMS, Beeline без GPS-расхода",
     mod5_title: "Billing Guard: Mobile Data Audit",
@@ -143,7 +144,7 @@ const TRANSLATIONS = {
     about_arch_title: "Архитектура нативного стека",
     about_p1: "Xylen Platform — это практический рабочий инструмент для менеджера и технических специалистов: контроль аппаратных устройств, мгновенная проверка подключенных SIM-карт и выявление скрытых списаний сотового трафика операторами связи.",
     about_p2: "Нативное приложение для Android написано на Kotlin и Jetpack Compose. Оно использует системные службы TelephonyManager, SubscriptionManager и NetworkStatsManager, запуская изолированный Foreground Service. Это обеспечивает 100% достоверность данных без погрешностей эмуляторов.",
-    about_p3: "Для трансграничного обмена развёрнут шлюз Cloudflare Workers Edge (p.xylen.workers.dev). Первичный контур данных обрабатывается локально в Узбекистане в строгом соответствии с Законом ЗРУ-547, а зашифрованный транзитный контур связывает узел с Лондоном под надзором UK GDPR.",
+    about_p3: "Для трансграничного обмена развёрнут шлюз Cloudflare Workers Edge (p.xylen.workers.dev). Первичный контур данных обрабатывается локально в Узбекистане, а зашифрованный транзитный контур связывает узел с Лондоном с защитой AES-256.",
     about_p4: "Трафик беспроводных сетей Wi-Fi полностью игнорируется алгоритмами учёта. Xylen фокусируется исключительно на сотовой мобильной среде и параметрах базовых станций.",
 
     // Privacy
@@ -168,7 +169,7 @@ const TRANSLATIONS = {
     admin_visitors_title: "Журнал аудита сессий и подключений",
 
     // Footer
-    footer_copyright: "© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256 • ЗРУ-547 & UK GDPR",
+    footer_copyright: "© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256",
 
     // General
     btn_close: "Закрыть",
@@ -185,12 +186,13 @@ const TRANSLATIONS = {
     nav_about: "Platforma haqida",
     nav_privacy: "Maxfiylik va qonuniylik",
     manager_btn: "Menejer",
+    menu_btn: "Menyu",
     btn_pair_quick: "Ulash",
 
     // Overview Hero
     hero_badge: "Haqiqiy mobil telemetriya • Aloqa yadrosi v5.2",
     overview_hero_title: "Harakatdagi nazorat. Soxtaliklarsiz telemetriya.",
-    overview_hero_sub: "Radiokanal parametrlarini aniqlash, faol SIM-slotlarni tekshirish va mobil internet sarfini real vaqtda audit qilish muhandislik platformasi. Gulistonda yaratilgan, London bilan himoyalangan shlyuz. O'zbekiston Respublikasining O'RQ-547 Qonuni va Buyuk Britaniya UK GDPR standartlariga qat'iy muvofiq.",
+    overview_hero_sub: "Radiokanal parametrlarini aniqlash, faol SIM-slotlarni tekshirish va mobil internet sarfini to'liq audit qilish mustaqil muhandislik platformasi. Radiomodem parametrlariga vositachilarsiz to'g'ridan-to'g'ri kirish.",
     btn_hero_connect: "Radioefir monitoringi",
     btn_hero_releases: "Mijozlarni yuklab olish",
     social_proof_title: "O'zbekiston va Buyuk Britaniya aloqa operatorlari tayanch minoralari bilan to'g'ridan-to'g'ri moslik:",
@@ -228,7 +230,7 @@ const TRANSLATIONS = {
     mod2_title: "DeltaStream: 24-Byte Pulse",
     mod2_sub: "Yo'qotishlarsiz telemetriya deltasini siqish • 60 FPS oqim",
     mod3_title: "Hardware Vault: AES-256 Enclave",
-    mod3_sub: "Apparat kalitlar himoyasi • O'RQ-547 va UK GDPR",
+    mod3_sub: "Apparat kalitlar himoyasi • AES-256 shifrlash",
     mod4_title: "CellTower Matrix: CID & TAC",
     mod4_sub: "Ucell, UMS, Beeline minoralarini GPS-siz tezkor aniqlash",
     mod5_title: "Billing Guard: Mobile Data Audit",
@@ -308,7 +310,7 @@ const TRANSLATIONS = {
     about_arch_title: "Nativ dasturiy arxitektura",
     about_p1: "Xylen Platform — bu menejer va muhandislar uchun amaliy ishchi vosita: apparat qurilmalarini nazorat qilish, ulangan SIM-kartalarni tezkor tekshirish va mobil internet billingini nazorat qilish.",
     about_p2: "Android uchun nativ ilova Kotlin va Jetpack Compose-da yozilgan. U TelephonyManager, SubscriptionManager va NetworkStatsManager tizim xizmatlaridan foydalanib, izolyatsiyalangan Foreground Service sifatida ishlaydi.",
-    about_p3: "Transchegaraviy ma'lumotlar almashinuvi uchun Cloudflare Workers Edge (p.xylen.workers.dev) shlyuzi yo'lga qo'yilgan. Birlamchi ma'lumotlar O'RQ-547 Qonuniga muvofiq O'zbekistonda saqlanadi, shifrlangan tranzit esa London bilan bog'langan.",
+    about_p3: "Transchegaraviy ma'lumotlar almashinuvi uchun Cloudflare Workers Edge (p.xylen.workers.dev) shlyuzi yo'lga qo'yilgan. Birlamchi ma'lumotlar O'zbekistonda saqlanadi, shifrlangan tranzit esa London bilan AES-256 orqali bog'langan.",
     about_p4: "Wi-Fi simsiz tarmoqlari trafigi hisob-kitob algoritmlaridan butunlay chiqarib tashlangan. Xylen faqat uyali aloqa muhitiga e'tibor qaratadi.",
 
     // Privacy
@@ -333,7 +335,7 @@ const TRANSLATIONS = {
     admin_visitors_title: "Sessiyalar va ulanishlar auditi jurnali",
 
     // Footer
-    footer_copyright: "© 2026 Xylen Inc. • Barcha huquqlar himoyalangan • AES-256 Shifrlangan • O'RQ-547 & UK GDPR",
+    footer_copyright: "© 2026 Xylen Inc. • Barcha huquqlar himoyalangan • AES-256 Shifrlangan",
 
     // General
     btn_close: "Yopish",
@@ -350,12 +352,13 @@ const TRANSLATIONS = {
     nav_about: "About",
     nav_privacy: "Privacy & Legal",
     manager_btn: "Manager",
+    menu_btn: "Menu",
     btn_pair_quick: "Pair Device",
 
     // Overview Hero
     hero_badge: "Real Cellular Telemetry • Network Core v5.2",
     overview_hero_title: "Design in Motion. Telemetry Without Mockups.",
-    overview_hero_sub: "Engineering platform for live cellular radio telemetry, active SIM slot verification, and bandwidth audits. Born in Gulistan with an encrypted gateway in London. Strictly compliant with the laws of the Republic of Uzbekistan (Law ZRU-547) and the United Kingdom (UK GDPR).",
+    overview_hero_sub: "Independent engineering suite for cellular RF telemetry, active SIM slot inspection, and end-to-end mobile data auditing. Direct hardware modem parameters without intermediaries or emulations.",
     btn_hero_connect: "Radio Ether Monitoring",
     btn_hero_releases: "Download Clients",
     social_proof_title: "Direct base station compatibility with mobile operators in Uzbekistan and the United Kingdom:",
@@ -393,7 +396,7 @@ const TRANSLATIONS = {
     mod2_title: "DeltaStream: 24-Byte Pulse",
     mod2_sub: "Lossless telemetry delta compression • 60 FPS live stream",
     mod3_title: "Hardware Vault: AES-256 Enclave",
-    mod3_sub: "Hardware-backed keys • ZRU-547 & UK GDPR compliance",
+    mod3_sub: "Hardware-backed keys • AES-256 End-to-End Encryption",
     mod4_title: "CellTower Matrix: CID & TAC",
     mod4_sub: "Real-time Ucell, UMS, Beeline tower tracking without GPS drain",
     mod5_title: "Billing Guard: Mobile Data Audit",
@@ -473,7 +476,7 @@ const TRANSLATIONS = {
     about_arch_title: "Native Architecture Stack",
     about_p1: "Xylen Platform is a hands-on tool for QA engineers and managers: hardware device tracking, instantaneous SIM slot diagnostics, and cellular billing auditing.",
     about_p2: "The native Android client is built with Kotlin and Jetpack Compose. It utilizes the TelephonyManager, SubscriptionManager, and NetworkStatsManager APIs running an isolated Foreground Service for reliable, real-world data collection.",
-    about_p3: "For cross-border routing, a Cloudflare Workers Edge gateway (p.xylen.workers.dev) is deployed. Primary data sovereignty is maintained locally in Uzbekistan under Law ZRU-547, while an encrypted transit pipeline links the node to London under UK GDPR.",
+    about_p3: "For cross-border routing, a Cloudflare Workers Edge gateway (p.xylen.workers.dev) is deployed. Primary data sovereignty is maintained locally in Uzbekistan, while an encrypted transit pipeline links the node to London via AES-256.",
     about_p4: "Wi-Fi traffic is completely ignored by the billing and telemetry engine. Xylen focuses exclusively on the cellular mobile environment and base station parameters.",
 
     // Privacy
@@ -498,7 +501,7 @@ const TRANSLATIONS = {
     admin_visitors_title: "Session & Telemetry Audit Log",
 
     // Footer
-    footer_copyright: "© 2026 Xylen Inc. • All Rights Reserved • AES-256 End-to-End Encrypted • ZRU-547 & UK GDPR",
+    footer_copyright: "© 2026 Xylen Inc. • All Rights Reserved • AES-256 End-to-End Encrypted",
 
     // General
     btn_close: "Close",

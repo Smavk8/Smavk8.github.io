@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       triggerScrollReveal();
       animateNumbers();
+      if (pageId === 'page-traffic' && window.resizeTrafficCanvas) {
+        window.resizeTrafficCanvas();
+      }
     }, 60);
 
     if (window.activityStorage) {
@@ -138,37 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // --------------------------------------------------------------------------
-  // HIGH-SENSITIVITY ZERO-DEADZONE FLOATING NAVBAR SCROLL PHYSICS
-  // Hides immediately on ANY scroll down (even 1px or 1 wheel click)
-  // Reveals immediately on ANY scroll up from anywhere on the page
-  // At scrollY <= 10: Always shows full floating island
+  // PERMANENTLY FLOATING ISLAND NAVBAR
+  // Top navbar stays smoothly anchored at top: 14px on all scroll positions.
   // --------------------------------------------------------------------------
-  const topNavbar = document.getElementById('top-navbar');
-  const compactManager = document.getElementById('floating-compact-manager');
   const scrollProgressBar = document.getElementById('scroll-progress-line');
   const btnBackToTop = document.getElementById('btn-back-to-top');
-  let lastScrollY = window.scrollY || 0;
-
-  function updateNavbarVisibility(direction) {
-    const currentScrollY = window.scrollY || document.documentElement.scrollTop;
-
-    if (currentScrollY <= 10) {
-      // At the very top: full menu is ALWAYS visible
-      if (topNavbar) topNavbar.classList.remove('is-hidden');
-      if (compactManager) compactManager.classList.remove('visible');
-      return;
-    }
-
-    if (direction === 'down') {
-      // Any scroll down: collapse full menu, reveal compact top-right manager pill
-      if (topNavbar) topNavbar.classList.add('is-hidden');
-      if (compactManager) compactManager.classList.add('visible');
-    } else if (direction === 'up') {
-      // Any scroll up: reveal full menu, hide compact manager pill
-      if (topNavbar) topNavbar.classList.remove('is-hidden');
-      if (compactManager) compactManager.classList.remove('visible');
-    }
-  }
 
   function handleScroll() {
     const currentScrollY = window.scrollY || document.documentElement.scrollTop;
@@ -183,33 +160,9 @@ document.addEventListener('DOMContentLoaded', () => {
       btnBackToTop.classList.toggle('visible', currentScrollY > 250);
     }
 
-    const delta = currentScrollY - lastScrollY;
-
-    if (currentScrollY <= 10) {
-      updateNavbarVisibility('at-top');
-    } else if (delta > 0) {
-      updateNavbarVisibility('down');
-    } else if (delta < 0) {
-      updateNavbarVisibility('up');
-    }
-
-    lastScrollY = currentScrollY;
-
     triggerScrollReveal();
     updateCardStackEffect();
   }
-
-  // Instant response to mouse wheel rolling (Zero deadzone!)
-  window.addEventListener('wheel', (e) => {
-    const currentScrollY = window.scrollY || document.documentElement.scrollTop;
-    if (currentScrollY > 10) {
-      if (e.deltaY > 0) {
-        updateNavbarVisibility('down');
-      } else if (e.deltaY < 0) {
-        updateNavbarVisibility('up');
-      }
-    }
-  }, { passive: true });
 
   window.addEventListener('scroll', handleScroll, { passive: true });
 
@@ -228,9 +181,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const stackCards = document.querySelectorAll('.stack-card');
     if (!stackCards || stackCards.length === 0) return;
 
-    const totalCards = stackCards.length;
     const triggerStart = window.innerHeight;
-    const triggerEnd = 96; // Cards lock and replace each other at exactly top 96px!
+    const triggerEnd = 96; // Fixed sticky lock coordinate for all cards!
 
     stackCards.forEach((card, index) => {
       const nextCard = stackCards[index + 1];
@@ -239,8 +191,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (nextRect.top < triggerStart) {
           const rawProgress = (triggerStart - nextRect.top) / (triggerStart - triggerEnd);
           const progress = Math.min(Math.max(rawProgress, 0), 1);
-          // Current card smoothly scales down and fades out completely as the next card covers its exact spot!
-          const scale = 1 - progress * 0.05;
+          // Scale down smoothly and fade out to 0 as next card arrives at top: 96px
+          const scale = 1 - progress * 0.06;
           const opacity = Math.max(0, 1 - progress * 1.15);
           card.style.transform = `scale(${scale.toFixed(3)})`;
           card.style.opacity = `${opacity.toFixed(2)}`;
@@ -251,10 +203,28 @@ document.addEventListener('DOMContentLoaded', () => {
           card.style.pointerEvents = 'auto';
         }
       } else {
-        // Last card: stays full scale and full opacity at top: 96px
-        card.style.transform = 'scale(1)';
-        card.style.opacity = '1';
-        card.style.pointerEvents = 'auto';
+        // Last card (Card 3): track approach of .motion-carousel-section!
+        const motionSection = document.querySelector('.motion-carousel-section');
+        if (motionSection) {
+          const motionRect = motionSection.getBoundingClientRect();
+          if (motionRect.top < triggerStart) {
+            const rawProgress = (triggerStart - motionRect.top) / (triggerStart - triggerEnd);
+            const progress = Math.min(Math.max(rawProgress, 0), 1);
+            const scale = 1 - progress * 0.06;
+            const opacity = Math.max(0, 1 - progress * 1.15);
+            card.style.transform = `scale(${scale.toFixed(3)})`;
+            card.style.opacity = `${opacity.toFixed(2)}`;
+            card.style.pointerEvents = progress > 0.85 ? 'none' : 'auto';
+          } else {
+            card.style.transform = 'scale(1)';
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+          }
+        } else {
+          card.style.transform = 'scale(1)';
+          card.style.opacity = '1';
+          card.style.pointerEvents = 'auto';
+        }
       }
     });
   }
@@ -262,34 +232,16 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('resize', updateCardStackEffect, { passive: true });
 
   // --------------------------------------------------------------------------
-  // GLOBE LANGUAGE DROPDOWN CONTROLLER
+  // DRAWER LANGUAGE SELECTION CONTROLLER
   // --------------------------------------------------------------------------
-  window.toggleLangDropdown = function(open) {
-    const menu = document.getElementById('lang-dropdown-menu');
-    if (!menu) return;
-    if (open !== undefined) {
-      menu.classList.toggle('active', Boolean(open));
-    } else {
-      menu.classList.toggle('active');
-    }
-  };
-
   window.selectLanguage = function(lang) {
     if (window.i18n) {
       window.i18n.setLang(lang);
     }
-    const currentCode = document.getElementById('current-lang-code');
-    if (currentCode) {
-      currentCode.textContent = (lang || 'ru').toUpperCase();
-    }
-    window.toggleLangDropdown(false);
+    document.querySelectorAll('.drawer-lang-row .lang-text-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
   };
-
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('#lang-dropdown-wrapper')) {
-      window.toggleLangDropdown(false);
-    }
-  });
 
   setTimeout(triggerScrollReveal, 120);
 
@@ -335,26 +287,29 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateThemeUI(theme) {
     const isLight = theme === 'light';
     document.body.classList.toggle('theme-light', isLight);
-    if (themeIcon) {
-      themeIcon.textContent = isLight ? '🌙' : '☀️';
+    const drawerThemeIcon = document.getElementById('drawer-theme-icon');
+    const drawerThemeText = document.getElementById('drawer-theme-text');
+    if (drawerThemeIcon) {
+      drawerThemeIcon.textContent = isLight ? '🌙' : '☀️';
+    }
+    if (drawerThemeText) {
+      drawerThemeText.textContent = isLight ? 'Светлая тема' : 'Тёмная тема';
     }
     const activeBtn = document.querySelector('.nav-page-btn.active');
     if (activeBtn) updateNavPill(activeBtn);
   }
 
+  window.toggleTheme = function() {
+    const current = document.body.classList.contains('theme-light') ? 'light' : 'dark';
+    const next = current === 'light' ? 'dark' : 'light';
+    if (window.activityStorage) {
+      window.activityStorage.setTheme(next);
+    }
+    updateThemeUI(next);
+  };
+
   const initialTheme = window.activityStorage ? window.activityStorage.getTheme() : 'dark';
   updateThemeUI(initialTheme);
-
-  if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const current = document.body.classList.contains('theme-light') ? 'light' : 'dark';
-      const next = current === 'light' ? 'dark' : 'light';
-      if (window.activityStorage) {
-        window.activityStorage.setTheme(next);
-      }
-      updateThemeUI(next);
-    });
-  }
 
   // --------------------------------------------------------------------------
   // 5 MOTION MODULES CAROUSEL & MODAL INSPECTOR
@@ -414,10 +369,10 @@ document.addEventListener('DOMContentLoaded', () => {
     'mod-vault': {
       title: 'Hardware Vault: AES-256 Enclave',
       badge: 'АППАРАТНАЯ БЕЗОПАСНОСТЬ',
-      desc: 'Хранение криптографических ключей в защищенных аппаратных анклавах Android Keystore StrongBox и Apple Secure Enclave. Строгое соответствие Закону РУз № ЗРУ-547 и стандарту UK GDPR.',
+      desc: 'Хранение криптографических ключей в защищенных аппаратных анклавах Android Keystore StrongBox и Apple Secure Enclave. Аппаратная изоляция и сквозной аудит телеметрии.',
       specs: [
         { label: 'Алгоритм шифрования', val: 'AES-256-GCM Hardware' },
-        { label: 'Правовая база', val: 'ЗРУ-547 (РУз) & UK GDPR / DPA 2018' },
+        { label: 'Аппаратная изоляция', val: 'Android StrongBox & Apple Enclave' },
         { label: 'Доступ к личным данным', val: 'СТРОГО 0% (SMS и звонки заблокированы)' },
         { label: 'Аутентификация шлюза', val: 'Взаимный mTLS с ротацией токенов' }
       ]
@@ -567,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <div style="margin-top: 16px; display:flex; justify-content:space-between; align-items:center;">
             <button class="btn btn-danger-subtle btn-compact" onclick="window.removeRealDevice('${device.id}')">
-              Отключить
+              Удалить узел
             </button>
             <button class="btn btn-secondary btn-compact" onclick="window.openDeviceModal('${device.id}')">
               Инспектор телеметрии ➔
@@ -585,13 +540,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (devicesContainer) {
       if (!devices || devices.length === 0) {
         const pairToken = window.activityStorage.getPairingToken();
-        const pairUrl = `${window.location.origin}${window.location.pathname}?pair_token=${pairToken}`;
 
         devicesContainer.innerHTML = `
           <div class="devices-empty-state-card hover-glow-card">
-            <div class="devices-empty-icon-wrap">
-              <span class="beacon-pulse-icon">📡</span>
+            <!-- Animated High-Tech Radio Radar Scanner -->
+            <div class="devices-radar-container">
+              <div class="radar-scope-wrapper">
+                <div class="radar-screen">
+                  <div class="radar-circle rc-1"></div>
+                  <div class="radar-circle rc-2"></div>
+                  <div class="radar-circle rc-3"></div>
+                  <div class="radar-crosshair-h"></div>
+                  <div class="radar-crosshair-v"></div>
+                  <div class="radar-sweep-beam"></div>
+                  <div class="radar-blip rb-1"></div>
+                  <div class="radar-blip rb-2"></div>
+                </div>
+              </div>
+              <div class="radar-status-caption">
+                <span class="pulse-dot green"></span>
+                <span>Эфир 5G NR / LTE • Автопоиск узлов связи</span>
+              </div>
             </div>
+
             <h3 class="devices-empty-heading" data-i18n="devices_empty_title">Радиоэфир активен • Ожидание передачи данных</h3>
             <p class="devices-empty-text" data-i18n="devices_empty_desc">
               Шлюз телеметрии слушает входящие соединения в реальном времени. Как только мобильное приложение запускается на устройстве, данные его активных SIM-карт и сотового радиоканала мгновенно поступают на экран и направляются в модуль анализа трафика.
@@ -605,14 +576,13 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="active-node-specs-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; text-align:left; font-size:0.82rem;">
                 <div style="background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px;">
                   <span style="color:var(--text-muted); display:block; font-size:0.72rem; text-transform:uppercase;">Маршрут:</span>
-                  <strong style="color:var(--green-neon);">Гулистан (ЗРУ-547) ↔ Лондон (UK GDPR)</strong>
+                  <strong style="color:var(--green-neon);">Гулистан ↔ Лондон (Cloudflare Edge)</strong>
                 </div>
                 <div style="background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px;">
                   <span style="color:var(--text-muted); display:block; font-size:0.72rem; text-transform:uppercase;">Сотовые сети:</span>
                   <strong style="color:var(--cyan-bright);">Ucell, UMS, Beeline UZ, O2 UK, Three UK</strong>
                 </div>
               </div>
-              <div id="devices-qr-box" class="qrcode-box" style="margin-top:14px;"></div>
             </div>
 
             <div class="gateway-live-status">
@@ -629,20 +599,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         if (btnClearDevices) btnClearDevices.style.display = 'none';
-
-        // Render QR in empty state
-        const qrBox = document.getElementById('devices-qr-box');
-        if (qrBox && typeof QRCode !== 'undefined') {
-          qrBox.innerHTML = '';
-          new QRCode(qrBox, {
-            text: pairUrl,
-            width: 140,
-            height: 140,
-            colorDark: '#0C0C0C',
-            colorLight: '#FFFFFF',
-            correctLevel: QRCode.CorrectLevel.M
-          });
-        }
       } else {
         devicesContainer.innerHTML = `
           <div class="devices-story-grid">
@@ -739,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         ],
         timeline: [
-          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'Гулистан Lab', desc: 'Устройство авторизовано в ядре Xylen (ЗРУ-547)' },
+          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'Гулистан Lab', desc: 'Устройство авторизовано в ядре Xylen Edge' },
           { time: '13:48', event: '5G NR NSA Активен', desc: 'Агрегация несущей n78 (3.5 GHz) на SIM 1 (Ucell)' }
         ]
       },
@@ -802,7 +758,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         ],
         timeline: [
-          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'UK Gateway', desc: 'Авторизация через Apple Keychain Vault v2 (UK GDPR)' }
+          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'UK Gateway', desc: 'Авторизация через Apple Keychain Vault v2' }
         ]
       }
     ];
@@ -811,21 +767,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const candidate = testPool[currentDevices.length % testPool.length];
     window.activityStorage.registerDevice(candidate);
     renderDevices();
-    window.showToast(`Реальное устройство ${candidate.model} успешно подключено!`);
+    window.showToast(`Реальный узел ${candidate.model} добавлен в мониторинг!`);
   };
 
   window.removeRealDevice = function(deviceId) {
     if (!window.activityStorage) return;
     window.activityStorage.removeDevice(deviceId);
     renderDevices();
-    window.showToast('Устройство отключено.');
+    window.showToast('Узел удален из мониторинга.');
   };
 
   window.clearAllDevices = function() {
     if (!window.activityStorage) return;
     window.activityStorage.clearAllDevices();
     renderDevices();
-    window.showToast('Все устройства были отключены.');
+    window.showToast('Все активные узлы удалены из мониторинга.');
   };
 
   // --------------------------------------------------------------------------
@@ -917,32 +873,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (canvas) {
     const ctx = canvas.getContext('2d');
-    let width = canvas.width = canvas.offsetWidth;
-    let height = canvas.height = canvas.offsetHeight;
+    let width = 0;
+    let height = 0;
 
-    window.addEventListener('resize', () => {
+    function ensureDimensions() {
       if (!canvas) return;
-      width = canvas.width = canvas.offsetWidth;
-      height = canvas.height = canvas.offsetHeight;
-    });
+      const rect = canvas.getBoundingClientRect();
+      const parentW = canvas.parentElement ? canvas.parentElement.clientWidth : 0;
+      const targetW = canvas.offsetWidth || rect.width || parentW || 1160;
+      const targetH = canvas.offsetHeight || rect.height || 360;
+
+      if (targetW > 0 && targetH > 0 && (canvas.width !== targetW || canvas.height !== targetH)) {
+        canvas.width = width = targetW;
+        canvas.height = height = targetH;
+      }
+    }
+
+    ensureDimensions();
+    window.addEventListener('resize', ensureDimensions);
+    window.resizeTrafficCanvas = ensureDimensions;
 
     let waveTime = 0;
     let scanlineX = 0;
-    const particles = Array.from({ length: 24 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
+    const particles = Array.from({ length: 32 }, () => ({
+      x: Math.random() * 1200,
+      y: Math.random() * 360,
       r: Math.random() * 2 + 1,
-      speed: Math.random() * 0.8 + 0.3
+      speed: Math.random() * 1.2 + 0.4
     }));
 
     function drawWave() {
+      ensureDimensions();
+      if (width <= 0 || height <= 0) {
+        requestAnimationFrame(drawWave);
+        return;
+      }
+
       ctx.clearRect(0, 0, width, height);
 
       const isLight = document.body.classList.contains('theme-light');
       const hasActiveStream = currentActiveSpeedKB > 0 && currentActiveDevices > 0;
 
-      // 1. Grid
-      ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)';
+      // 1. Phosphor Grid Lines
+      ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.04)';
       ctx.lineWidth = 1;
       const step = 40;
       for (let x = 0; x < width; x += step) {
@@ -958,53 +931,89 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.stroke();
       }
 
+      waveTime += 0.025;
+
       if (!hasActiveStream) {
-        // STANDBY FLATLINE MODE (Calm horizon with soft scanning radar sweep)
-        scanlineX = (scanlineX + 3) % width;
+        // VIBRANT STANDBY MODE: Continuous RF Carrier Wave with Breathing Modulation & Radar Sweep
+        scanlineX = (scanlineX + 3.2) % width;
+        const baselineY = height * 0.52;
 
-        const baselineY = height * 0.55;
+        // Subtle gradient under the standby carrier
+        const standbyGrad = ctx.createLinearGradient(0, baselineY - 40, 0, height);
+        standbyGrad.addColorStop(0, isLight ? 'rgba(0, 136, 194, 0.08)' : 'rgba(0, 153, 218, 0.12)');
+        standbyGrad.addColorStop(1, 'transparent');
 
-        // Baseline glow
         ctx.beginPath();
-        ctx.moveTo(0, baselineY);
-        ctx.lineTo(width, baselineY);
-        ctx.strokeStyle = isLight ? 'rgba(0, 136, 194, 0.2)' : 'rgba(0, 153, 218, 0.25)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Calm blip over baseline
-        ctx.beginPath();
-        for (let x = 0; x <= width; x += 10) {
+        ctx.moveTo(0, height);
+        for (let x = 0; x <= width; x += 8) {
           const dist = Math.abs(x - scanlineX);
-          let y = baselineY;
-          if (dist < 40) {
-            y -= Math.cos((dist / 40) * (Math.PI / 2)) * 6;
+          const carrier = Math.sin(x * 0.012 + waveTime) * 12 + Math.sin(x * 0.035 - waveTime * 1.5) * 6;
+          let blip = 0;
+          if (dist < 60) {
+            blip = Math.cos((dist / 60) * (Math.PI / 2)) * 18;
           }
+          const y = baselineY + carrier - blip;
+          if (x === 0) ctx.lineTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.lineTo(width, height);
+        ctx.closePath();
+        ctx.fillStyle = standbyGrad;
+        ctx.fill();
+
+        // Standby harmonic stroke
+        ctx.beginPath();
+        for (let x = 0; x <= width; x += 8) {
+          const dist = Math.abs(x - scanlineX);
+          const carrier = Math.sin(x * 0.012 + waveTime) * 12 + Math.sin(x * 0.035 - waveTime * 1.5) * 6;
+          let blip = 0;
+          if (dist < 60) {
+            blip = Math.cos((dist / 60) * (Math.PI / 2)) * 18;
+          }
+          const y = baselineY + carrier - blip;
           if (x === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = isLight ? 'rgba(0, 136, 194, 0.6)' : 'rgba(0, 153, 218, 0.8)';
-        ctx.lineWidth = 2;
+        ctx.strokeStyle = isLight ? 'rgba(0, 136, 194, 0.65)' : 'rgba(0, 153, 218, 0.75)';
+        ctx.lineWidth = 2.2;
         ctx.stroke();
 
-      } else {
-        // ACTIVE HARMONIC WAVEFORM
-        waveTime += 0.03;
-        const waveColor = isLight ? '#0088C2' : '#0099DA';
-        const amp1 = Math.min(42, 14 + (currentActiveSpeedKB / 1024) * 0.8);
-        const amp2 = Math.min(24, 8 + (currentActiveSpeedKB / 1024) * 0.4);
+        // Tracer radar beam line
+        const beamGrad = ctx.createLinearGradient(scanlineX - 40, 0, scanlineX + 10, 0);
+        beamGrad.addColorStop(0, 'transparent');
+        beamGrad.addColorStop(1, isLight ? 'rgba(0, 136, 194, 0.45)' : 'rgba(0, 229, 255, 0.55)');
+        ctx.fillStyle = beamGrad;
+        ctx.fillRect(Math.max(0, scanlineX - 40), 0, 40, height);
 
-        const grad = ctx.createLinearGradient(0, 0, 0, height);
-        grad.addColorStop(0, isLight ? 'rgba(0, 136, 194, 0.25)' : 'rgba(0, 153, 218, 0.35)');
+        // Standby slow particle drift
+        ctx.fillStyle = isLight ? 'rgba(0, 136, 194, 0.35)' : 'rgba(0, 229, 255, 0.45)';
+        particles.slice(0, 12).forEach(p => {
+          p.x += p.speed * 0.5;
+          if (p.x > width) p.x = 0;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+      } else {
+        // ACTIVE HIGH-THROUGHPUT HARMONIC WAVEFORM
+        const waveColor = isLight ? '#0088C2' : '#0099DA';
+        const speedFactor = Math.min(10, currentActiveSpeedKB / 1024);
+        const amp1 = 20 + speedFactor * 4;
+        const amp2 = 12 + speedFactor * 2.5;
+
+        const grad = ctx.createLinearGradient(0, height * 0.2, 0, height);
+        grad.addColorStop(0, isLight ? 'rgba(0, 136, 194, 0.32)' : 'rgba(0, 153, 218, 0.42)');
         grad.addColorStop(1, 'transparent');
 
         ctx.beginPath();
         ctx.moveTo(0, height);
 
-        for (let x = 0; x <= width; x += 10) {
-          const y = height * 0.55 +
-                    Math.sin(x * 0.008 + waveTime) * amp1 +
-                    Math.cos(x * 0.015 - waveTime * 1.2) * amp2;
+        for (let x = 0; x <= width; x += 8) {
+          const y = height * 0.52 +
+                    Math.sin(x * 0.008 + waveTime * 1.4) * amp1 +
+                    Math.cos(x * 0.018 - waveTime * 1.8) * amp2 +
+                    Math.sin(x * 0.04 + waveTime * 2.2) * 5;
           if (x === 0) ctx.lineTo(x, y);
           else ctx.lineTo(x, y);
         }
@@ -1014,12 +1023,13 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = grad;
         ctx.fill();
 
-        // Top wave line stroke
+        // Main waveform stroke
         ctx.beginPath();
-        for (let x = 0; x <= width; x += 10) {
-          const y = height * 0.55 +
-                    Math.sin(x * 0.008 + waveTime) * amp1 +
-                    Math.cos(x * 0.015 - waveTime * 1.2) * amp2;
+        for (let x = 0; x <= width; x += 8) {
+          const y = height * 0.52 +
+                    Math.sin(x * 0.008 + waveTime * 1.4) * amp1 +
+                    Math.cos(x * 0.018 - waveTime * 1.8) * amp2 +
+                    Math.sin(x * 0.04 + waveTime * 2.2) * 5;
           if (x === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
@@ -1027,10 +1037,10 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.lineWidth = 3;
         ctx.stroke();
 
-        // Telemetry floating dots
-        ctx.fillStyle = isLight ? 'rgba(0, 136, 194, 0.7)' : 'rgba(85, 232, 49, 0.8)';
+        // Fast high-speed telemetry particles
+        ctx.fillStyle = isLight ? 'rgba(0, 136, 194, 0.85)' : 'rgba(85, 232, 49, 0.9)';
         particles.forEach(p => {
-          p.x += p.speed;
+          p.x += p.speed * (1 + speedFactor * 0.3);
           if (p.x > width) p.x = 0;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
