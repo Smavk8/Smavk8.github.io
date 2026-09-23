@@ -138,7 +138,28 @@ const TRANSLATIONS = {
     btn_back_to_top: "Наверх",
     btn_copy: "Копировать",
     btn_open_direct: "Открыть ссылку ↗",
-    copied_toast: "Ссылка скопирована!"
+    copied_toast: "Ссылка скопирована!",
+
+    // Privacy Policy & Terms of Service (Legal & Regulatory Compliance)
+    nav_privacy: "Конфиденциальность",
+    footer_privacy: "Политика конфиденциальности и Условия",
+    privacy_badge: "Официальный правовой регламент • Юридическая прозрачность",
+    privacy_title: "Политика конфиденциальности и Условия использования",
+    privacy_sub: "Правила сбора технической телеметрии, защита персональных данных и гарантии соблюдения стандартов GDPR, 152-ФЗ РФ и правил Google Play & Apple App Store.",
+    privacy_sec1_title: "1. Общие положения и статус оператора",
+    privacy_sec1_body: "Платформа Xylen Sim Platform (включая веб-портал, Android-приложение и iOS-приложение) разработана исключительно как инженерный диагностический инструмент для анализа качества услуг сотовой связи, предотвращения скрытых переплат за мобильный интернет и технического контроля мульти-SIM оборудования. Мы строго соблюдаем требования международных и национальных регламентов защиты данных (включая GDPR ЕС, 152-ФЗ РФ, закон Республики Узбекистан № ЗРУ-547 «О персональных данных»).",
+    privacy_sec2_title: "2. Категории обрабатываемых данных (Техническая телеметрия)",
+    privacy_sec2_body: "При согласии пользователя приложение обрабатывает исключительно минимально необходимый объем технических и сетевых параметров:<br>• <strong>Анонимный идентификатор установки (Installation UUID)</strong>, генерируемый случайным образом при первом запуске;<br>• <strong>Радиофизические параметры сотового сигнала</strong> (уровень сигнала в dBm, шкала качества, текущий стандарт 4G LTE / 5G NR);<br>• <strong>Служебные идентификаторы подключения</strong> (название оператора связи, код страны и сети MCC/MNC, номер используемого слота SIM, сотовая вышка CID/TAC при предоставлении разрешения);<br>• <strong>Статистика сетевого трафика</strong> (объем переданных и принятых байт, мгновенная скорость передачи);<br>• <strong>Базовые сведения об аппаратной платформе</strong> (модель устройства, версия операционной системы, версия сборки ПО).<br><br><span style=\"color:#EF4444;font-weight:700;\">КАТЕГОРИЧЕСКИЙ ЗАПРЕТ НА СБОР ЛИЧНЫХ ДАННЫХ:</span> Приложение НЕ имеет доступа, НЕ запрашивает и НЕ обрабатывает: текст входящих или исходящих SMS-сообщений, телефонную книгу и список контактов, фотографии, медиафайлы, аудиозаписи, пароли, платежные реквизиты, историю посещения веб-сайтов или точную геопозицию по GPS.",
+    privacy_sec3_title: "3. Цели обработки данных",
+    privacy_sec3_body: "Сбор технических сведений осуществляется исключительно для следующих целей:<br>• Диагностика и картирование стабильности сотового покрытия в различных зонах;<br>• Сверка реального расхода трафика с тарификацией операторов для защиты от скрытых списаний;<br>• Мониторинг работоспособности служебных терминалов и корпоративного мульти-SIM парка.",
+    privacy_sec4_title: "4. Правовое основание и добровольное согласие",
+    privacy_sec4_body: "Обработка технических параметров осуществляется исключительно на основании вашего явного, информированного и добровольного согласия (ст. 6 и ст. 7 GDPR, ст. 9 152-ФЗ РФ, ст. 18 Закона РУз «О персональных данных»). При первом запуске мобильного приложения пользователю предоставляется экран выбора. Без подтверждения согласия сбор и передача телеметрии блокируются, и приложение работает исключительно в автономном оффлайн-режиме.",
+    privacy_sec5_title: "5. Право на отзыв согласия (Opt-out) и удаление данных",
+    privacy_sec5_body: "Вы имеете право в любой момент:<br>• Отозвать согласие на диагностику в настройках приложения;<br>• Запросить немедленное удаление истории устройства из реестра платформы;<br>• Использовать приложение исключительно локально без сетевого взаимодействия.",
+    privacy_sec6_title: "6. Безопасность и хранение данных",
+    privacy_sec6_body: "Все локальные журналы сессий защищены алгоритмом военного уровня AES-256 (Android) и системным аппаратным сейфом Apple Keychain (iOS). Передача данных производится строго по защищенным криптографическим протоколам TLS/HTTPS. Мы ни при каких обстоятельствах не продаем, не передаем и не предоставляем данные рекламным сетям или аналитическим брокерам данных.",
+    privacy_sec7_title: "7. Контакты службы поддержки и обратная связь",
+    privacy_sec7_body: "По всем вопросам функционирования платформы, реализации прав на защиту данных или предложений по улучшению свяжитесь с разработчиками через официальный канал связи: @XylenSimPlatform в Telegram."
   },
 
   uz: {
@@ -273,7 +294,28 @@ const TRANSLATIONS = {
     btn_back_to_top: "Tepaga",
     btn_copy: "Nusxalash",
     btn_open_direct: "Havolani ochish ↗",
-    copied_toast: "Havola nusxalandi!"
+    copied_toast: "Havola nusxalandi!",
+
+    // Privacy Policy & Terms of Service (UZ)
+    nav_privacy: "Maxfiylik",
+    footer_privacy: "Maxfiylik siyosati va Shartlar",
+    privacy_badge: "Rasmiy huquqiy reglament • Shaffoflik kafolati",
+    privacy_title: "Maxfiylik siyosati va Foydalanish shartlari",
+    privacy_sub: "Texnik telemetriyani yig'ish qoidalari, shaxsiy ma'lumotlarni himoya qilish va GDPR, 152-FZ hamda O'zbekiston Respublikasi qonunlariga to'liq rioya qilish kafolati.",
+    privacy_sec1_title: "1. Umumiy qoidalar va operator maqomi",
+    privacy_sec1_body: "Xylen Sim Platform majmuasi (veb-portal, Android va iOS ilovalari) faqat mobil aloqa sifatini muhandislik tahlili qilish, mobil internet uchun ortiqcha to'lovlarni oldini olish va xizmat ko'rsatish qurilmalarini nazorat qilish uchun mustaqil vosita sifatida yaratilgan. Biz xalqaro va milliy ma'lumotlarni himoya qilish reglamentlariga (jumladan O'zbekiston Respublikasining «Shaxsga doir ma'lumotlar to'g'risida»gi O'RQ-547-son Qonuni va GDPR) qat'iy amal qilamiz.",
+    privacy_sec2_title: "2. Qayta ishlanadigan ma'lumotlar toifalari (Texnik telemetriya)",
+    privacy_sec2_body: "Foydalanuvchi roziligi bilan ilova faqat minimal zarur texnik va tarmoq parametrlarini qayta ishlaydi:<br>• <strong>Anonim o'rnatish identifikatori (Installation UUID)</strong> — birinchi ishga tushirishda tasodifiy yaratiladi;<br>• <strong>Radio-signal ko'rsatkichlari</strong> (dBm signal kuchi, sifat shkalasi, joriy 4G LTE / 5G NR standarti);<br>• <strong>Tarmoqqa ulanish xizmat parametrlari</strong> (aloqa operatori nomi, MCC/MNC kodlari, SIM slot raqami, ruxsat berilgan taqdirda tayanch stansiya CID/TAC kodi);<br>• <strong>Tarmoq trafigi statistikasi</strong> (uzatilgan va qabul qilingan baytlar hajmi, joriy tezlik);<br>• <strong>Qurilma haqida asosiy ma'lumotlar</strong> (model, operatsion tizim versiyasi, ilova versiyasi).<br><br><span style=\"color:#EF4444;font-weight:700;\">SHAXSIY MA'LUMOTLARNI YIG'ISHNING MUTLAQ TAQIQLANISHI:</span> Ilova shaxsiy SMS-xabarlar matniga, kontaktlar ro'yxatiga, fotosuratlarga, audio yozuvlarga, parollarga, bank ma'lumotlariga yoki aniq GPS joylashuviga umuman kira olmaydi va ularni aslo qayta ishlamaydi.",
+    privacy_sec3_title: "3. Ma'lumotlarni qayta ishlash maqsadlari",
+    privacy_sec3_body: "Texnik ma'lumotlarni yig'ish faqat quyidagi maqsadlarda amalga oshiriladi:<br>• Turli hududlarda aloqa qamrovining barqarorligini tahlil qilish;<br>• Yashirin tarif hisob-kitoblaridan himoya qilish uchun real trafik sarfini tekshirish;<br>• Multi-SIM xizmat uskunalarining ishonchliligini monitoring qilish.",
+    privacy_sec4_title: "4. Huquqiy asos va ixtiyoriy rozilik",
+    privacy_sec4_body: "Texnik parametrlarni qayta ishlash faqat sizning aniq, xabardor qilingan va ixtiyoriy roziligingiz asosida amalga oshiriladi (O'RQ-547-son Qonun 18-moddasi, GDPR 6-moddasi). Mobil ilova birinchi marta ochilganda tanlov ekrani ko'rsatiladi. Rozilik berilmagan taqdirda, telemetriya yig'ish to'liq bloklanadi va ilova faqat mustaqil oflayn rejimda ishlaydi.",
+    privacy_sec5_title: "5. Rozilikni bekor qilish (Opt-out) va ma'lumotlarni o'chirish huquqi",
+    privacy_sec5_body: "Siz istalgan vaqtda quyidagi huquqlarga egasiz:<br>• Ilova sozlamalarida diagnostikaga berilgan rozilikni bekor qilish;<br>• Platforma reyestridan qurilma tarixini darhol o'chirishni so'rash;<br>• Ilovadan tarmoqsiz, to'liq lokal ravishda foydalanish.",
+    privacy_sec6_title: "6. Xavfsizlik va saqlash kafolatlari",
+    privacy_sec6_body: "Barcha lokal sessiya jurnallari harbiy standartdagi AES-256 (Android) va Apple Keychain (iOS) orqali to'liq shifrlangan. Ma'lumotlar faqat himoyalangan TLS/HTTPS protokollari orqali uzatiladi. Biz ma'lumotlarni hech qanday reklama tarmoqlariga yoki uchinchi shaxslarga sotmaymiz va bermaymiz.",
+    privacy_sec7_title: "7. Bog'lanish va qo'llab-quvvatlash xizmati",
+    privacy_sec7_body: "Platformaning ishlashi yoki ma'lumotlarni himoya qilish bo'yicha barcha savollar bo'yicha rasmiy aloqa kanali orqali murojaat qiling: Telegramda @XylenSimPlatform."
   },
 
   en: {
@@ -408,7 +450,28 @@ const TRANSLATIONS = {
     btn_back_to_top: "Top",
     btn_copy: "Copy",
     btn_open_direct: "Open Link ↗",
-    copied_toast: "Link copied to clipboard!"
+    copied_toast: "Link copied to clipboard!",
+
+    // Privacy Policy & Terms of Service (EN)
+    nav_privacy: "Privacy",
+    footer_privacy: "Privacy Policy & Terms",
+    privacy_badge: "Official Legal Notice • Complete Transparency",
+    privacy_title: "Privacy Policy & Terms of Service",
+    privacy_sub: "Rules for cellular diagnostic telemetry processing, personal data protection, and adherence to GDPR, Apple App Store, and Google Play policies.",
+    privacy_sec1_title: "1. Overview & Operator Status",
+    privacy_sec1_body: "The Xylen Sim Platform (including this web portal, the Android app, and the iOS app) is designed solely as an engineering network utility to diagnose cellular connection quality, audit real mobile data consumption to prevent hidden billing, and monitor fleet SIM terminals. We strictly comply with global and regional data protection regulations (including GDPR EU, 152-FZ, and Law No. ZRU-547).",
+    privacy_sec2_title: "2. Categories of Processed Data (Technical Telemetry)",
+    privacy_sec2_body: "Subject to explicit user consent, the application processes only the minimum necessary technical parameters:<br>• <strong>Anonymous Installation UUID</strong> — generated at random upon first launch;<br>• <strong>Radio-frequency parameters</strong> (dBm signal quality, link quality, active 4G LTE / 5G NR network generation);<br>• <strong>Service carrier metadata</strong> (mobile network operator name, MCC/MNC codes, SIM slot index, cell tower CID/TAC when authorized);<br>• <strong>Network traffic metrics</strong> (bytes transmitted and received, instantaneous transfer speed);<br>• <strong>Hardware platform basics</strong> (device model, operating system version, app build number).<br><br><span style=\"color:#EF4444;font-weight:700;\">EXPLICIT PROHIBITION OF PERSONAL DATA COLLECTION:</span> The app DOES NOT access, collect, or transmit: personal text messages (SMS), contacts or address book, personal media, photos, audio recordings, passwords, banking credentials, web browsing history, or GPS fine location.",
+    privacy_sec3_title: "3. Purposes of Processing",
+    privacy_sec3_body: "Technical telemetry is processed exclusively for:<br>• Auditing and mapping cellular signal stability across different regions;<br>• Reconciling real data consumption with operator billing to prevent hidden throttling;<br>• Ensuring high-availability monitoring for multi-SIM hardware terminals.",
+    privacy_sec4_title: "4. Legal Basis & Voluntary Consent",
+    privacy_sec4_body: "Processing is conducted strictly under your affirmative, informed, and freely given consent (GDPR Art. 6 & 7). A prominent disclosure consent sheet is presented upon the first launch of the mobile app. If consent is declined, all telemetry recording and transmission is completely disabled, and the app operates purely as a local offline diagnostic tool.",
+    privacy_sec5_title: "5. Right to Withdraw Consent (Opt-Out) & Data Deletion",
+    privacy_sec5_body: "You retain the right at any time to:<br>• Withdraw diagnostic consent in the app settings;<br>• Request immediate deletion of your device session history;<br>• Use the application in 100% offline mode with zero network calls.",
+    privacy_sec6_title: "6. Security & Encryption Standards",
+    privacy_sec6_body: "Local logs are safeguarded with AES-256 military-grade encryption (Android) and Apple Keychain hardware enclave (iOS). All network transmission is secured using TLS/HTTPS. We under no circumstances sell, lease, or distribute data to third-party ad brokers or tracking networks.",
+    privacy_sec7_title: "7. Contact & Support",
+    privacy_sec7_body: "For any inquiries regarding data protection, exercising your privacy rights, or platform feedback, please reach out via our official Telegram channel: @XylenSimPlatform."
   }
 };
 

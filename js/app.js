@@ -69,6 +69,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // URL Hash navigation support (#privacy, #devices, #releases, #about, #home)
+  function handleUrlHash() {
+    const hash = window.location.hash.replace('#', '').toLowerCase();
+    const map = {
+      'privacy': 'page-privacy',
+      'devices': 'page-devices',
+      'traffic': 'page-traffic',
+      'releases': 'page-releases',
+      'about': 'page-about',
+      'home': 'page-home'
+    };
+    if (map[hash]) {
+      window.switchPage(map[hash]);
+    }
+  }
+  handleUrlHash();
+  window.addEventListener('hashchange', handleUrlHash);
+
   navPageButtons.forEach(btn => {
     btn.addEventListener('click', () => {
       window.switchPage(btn.dataset.page);

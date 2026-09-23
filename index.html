@@ -41,6 +41,9 @@
         <button class="nav-page-btn" data-page="page-about" data-i18n="nav_about">
           О нас
         </button>
+        <button class="nav-page-btn" data-page="page-privacy" data-i18n="nav_privacy">
+          Конфиденциальность
+        </button>
         <button id="nav-btn-admin" class="nav-page-btn" data-page="page-admin" style="display:none;" data-i18n="nav_admin">
           Аудит
         </button>
@@ -506,6 +509,74 @@
   </main>
 
   <!-- ========================================================================
+       PAGE 7: PRIVACY POLICY & TERMS (ПОЛИТИКА КОНФИДЕНЦИАЛЬНОСТИ И УСЛОВИЯ)
+       ======================================================================== -->
+  <main id="page-privacy" class="page-section">
+    <div class="container" style="padding-top: 36px; margin-bottom: 60px;">
+      <section class="home-hero-card reveal-on-scroll">
+        <div class="home-hero-content">
+          <div class="hero-pill">
+            <span class="pulse-dot green"></span>
+            <span data-i18n="privacy_badge">Официальный правовой регламент • Юридическая прозрачность</span>
+          </div>
+          <h1 class="hero-heading" data-i18n="privacy_title">
+            Политика конфиденциальности и Условия использования
+          </h1>
+          <p class="hero-description" data-i18n="privacy_sub">
+            Правила сбора технической телеметрии, защита персональных данных и гарантии соблюдения стандартов GDPR, 152-ФЗ РФ и правил Google Play & Apple App Store.
+          </p>
+        </div>
+      </section>
+
+      <!-- Legal Badges Row -->
+      <div class="reveal-on-scroll" style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:32px;">
+        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ GDPR Compliant (Art. 6 & 7)</span>
+        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ 152-ФЗ РФ и ЗРУ-547 РУз</span>
+        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ Apple Guideline 5.1.1 & 5.1.2</span>
+        <span class="parity-badge done" style="font-size:0.8rem; padding:6px 14px;">✓ Google Play Stalkerware Ban Verified</span>
+      </div>
+
+      <!-- Legal Articles Grid -->
+      <div class="about-grid reveal-on-scroll">
+        <div class="about-card">
+          <h3 data-i18n="privacy_sec1_title">1. Общие положения и статус оператора</h3>
+          <p data-i18n="privacy_sec1_body">Платформа Xylen Sim Platform создана как инструмент независимого инженерного аудита качества сотовой связи...</p>
+        </div>
+
+        <div class="about-card">
+          <h3 data-i18n="privacy_sec2_title">2. Категории обрабатываемых данных (Техническая телеметрия)</h3>
+          <p data-i18n="privacy_sec2_body">При согласии пользователя приложение обрабатывает исключительно минимально необходимый объем параметров...</p>
+        </div>
+
+        <div class="about-card">
+          <h3 data-i18n="privacy_sec3_title">3. Цели обработки данных</h3>
+          <p data-i18n="privacy_sec3_body">Сбор технических сведений осуществляется исключительно для диагностики сотового покрытия...</p>
+        </div>
+
+        <div class="about-card">
+          <h3 data-i18n="privacy_sec4_title">4. Правовое основание и добровольное согласие</h3>
+          <p data-i18n="privacy_sec4_body">Обработка технических параметров осуществляется исключительно на основании явного согласия...</p>
+        </div>
+
+        <div class="about-card">
+          <h3 data-i18n="privacy_sec5_title">5. Право на отзыв согласия (Opt-out) и удаление данных</h3>
+          <p data-i18n="privacy_sec5_body">Вы имеете право в любой момент отозвать согласие на диагностику в настройках приложения...</p>
+        </div>
+
+        <div class="about-card">
+          <h3 data-i18n="privacy_sec6_title">6. Безопасность и хранение данных</h3>
+          <p data-i18n="privacy_sec6_body">Все локальные журналы сессий защищены шифрованием AES-256 и Apple Keychain...</p>
+        </div>
+      </div>
+
+      <div class="about-card reveal-on-scroll">
+        <h3 data-i18n="privacy_sec7_title">7. Контакты службы поддержки и обратная связь</h3>
+        <p data-i18n="privacy_sec7_body">По всем вопросам функционирования платформы или реализации прав свяжитесь через Telegram: @XylenSimPlatform.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
        MODAL: DEVICE INSPECTOR (ВСЕ ДАННЫЕ В ОДНУ ПО КЛИКУ НА УСТРОЙСТВО)
        ======================================================================== -->
   <div id="inspector-modal-backdrop" class="inspector-modal-backdrop">
@@ -680,8 +751,9 @@
         <a href="#" onclick="window.switchPage('page-traffic'); return false;">Трафик</a>
         <a href="#" onclick="window.switchPage('page-releases'); return false;">Релизы</a>
         <a href="#" onclick="window.switchPage('page-about'); return false;">О нас</a>
+        <a href="#" onclick="window.switchPage('page-privacy'); return false;" data-i18n="footer_privacy" style="color:var(--cyan-electric);font-weight:700;">Политика конфиденциальности и Условия</a>
       </div>
-      <p>© 2026 Xylen Sim Platform Ecosystem. Высокоточный аппаратный аудит сотовых сетей.</p>
+      <p>© 2026 Xylen Sim Platform Ecosystem. Высокоточный аппаратный аудит сотовых сетей. 100% GDPR, 152-ФЗ и ЗРУ-547 Compliant.</p>
     </div>
   </footer>
 
