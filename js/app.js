@@ -1,8 +1,9 @@
 /**
  * Xylen Sim Platform - Web Controller & SPA Router
- * Manages multi-page navigation, separated App vs OS versions,
- * in-depth SIM telemetry (IMSI, ICCID, MSISDN, Cell Tower),
- * daily calendar consumption history, and ultra-low-bandwidth live stream.
+ * Full-width modern interface, modal device inspector,
+ * clean light/dark themes, smart auto-hiding header,
+ * floating back-to-top button, scroll reveal animations,
+ * zero fake devices (real telemetry only), and zero GitHub links.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,8 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const iosHeroContainer = document.getElementById('ios-hero-card');
   const versionListContainer = document.getElementById('version-list-container');
   const devicesContainer = document.getElementById('devices-container');
-  const activityFeedContainer = document.getElementById('activity-feed-container');
-  const activityCounterBadge = document.getElementById('activity-counter-badge');
   const calendarDaySummary = document.getElementById('calendar-day-summary');
   const calendarDatePicker = document.getElementById('calendar-date-picker');
   
@@ -25,12 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Search & Filters
   const searchInput = document.getElementById('search-versions');
   const platformTabButtons = document.querySelectorAll('.tab-btn[data-platform]');
-  const actFilterButtons = document.querySelectorAll('.tab-btn[data-act-filter]');
   const dayPillButtons = document.querySelectorAll('.day-pill-btn[data-offset]');
   
   // Modals & Navigation
   const navPageButtons = document.querySelectorAll('.nav-page-btn[data-page]');
   const pageSections = document.querySelectorAll('.page-section');
+  const navBtnAdmin = document.getElementById('nav-btn-admin');
   const qrModal = document.getElementById('qr-modal');
   const qrTitle = document.getElementById('qr-modal-title');
   const qrSubtitle = document.getElementById('qr-modal-subtitle');
@@ -38,12 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const qrUrlDisplay = document.getElementById('qr-url-text');
   const qrCopyBtn = document.getElementById('qr-copy-btn');
   const qrDirectLink = document.getElementById('qr-direct-link');
-  const btnExportAuditCsv = document.getElementById('btn-export-audit-csv');
   const toastElement = document.getElementById('toast-notification');
   const toastMessage = document.getElementById('toast-message');
+  const topNavbar = document.getElementById('top-navbar');
+  const btnBackToTop = document.getElementById('btn-back-to-top');
 
   let currentPlatformFilter = 'all';
-  let currentActFilter = 'all';
   let searchQuery = '';
   let activeQrUrl = '';
   let selectedDateYMD = new Date().toISOString().split('T')[0];
@@ -61,6 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Trigger reveal animations for elements on the newly opened page
+    setTimeout(triggerScrollReveal, 60);
+
+    if (window.activityStorage) {
+      window.activityStorage.logWebVisit(pageId);
+    }
   };
 
   navPageButtons.forEach(btn => {
@@ -70,14 +76,72 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
+  // SMART HEADER AUTO-HIDE ON SCROLL & BACK TO TOP BUTTON
+  // ==========================================================================
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+
+    // Header auto-hide logic
+    if (topNavbar) {
+      if (currentScrollY > 90 && currentScrollY > lastScrollY) {
+        // Scrolling down: hide header
+        topNavbar.classList.add('nav-hidden');
+      } else {
+        // Scrolling up or at the top: reveal header
+        topNavbar.classList.remove('nav-hidden');
+      }
+    }
+
+    // Floating Back to Top Button visibility
+    if (btnBackToTop) {
+      if (currentScrollY > 280) {
+        btnBackToTop.classList.add('visible');
+      } else {
+        btnBackToTop.classList.remove('visible');
+      }
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
+
+  if (btnBackToTop) {
+    btnBackToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ==========================================================================
+  // SCROLL REVEAL ANIMATIONS (IntersectionObserver)
+  // ==========================================================================
+  function triggerScrollReveal() {
+    const elements = document.querySelectorAll('.reveal-on-scroll:not(.revealed)');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+
+      elements.forEach(el => observer.observe(el));
+    } else {
+      elements.forEach(el => el.classList.add('revealed'));
+    }
+  }
+
+  // ==========================================================================
   // TOAST & CLIPBOARD
   // ==========================================================================
   function showToast(msg) {
+    if (!toastElement || !toastMessage) return;
     toastMessage.textContent = msg;
     toastElement.classList.add('show');
     setTimeout(() => {
       toastElement.classList.remove('show');
-    }, 3200);
+    }, 3000);
   }
 
   window.copyText = function(text, successMsg = 'Скопировано в буфер обмена!') {
@@ -104,18 +168,42 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.removeChild(textarea);
   }
 
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function formatTimeAgo(isoString) {
+    if (!isoString) return 'только что';
+    const date = new Date(isoString);
+    const now = new Date();
+    const diffSec = Math.max(0, Math.floor((now - date) / 1000));
+    if (diffSec < 45) return 'только что';
+    const diffMin = Math.floor(diffSec / 60);
+    if (diffMin < 60) return `${diffMin} мин назад`;
+    const diffHour = Math.floor(diffMin / 60);
+    if (diffHour < 24) return `${diffHour} ч назад`;
+    const diffDay = Math.floor(diffHour / 24);
+    return `${diffDay} дн назад`;
+  }
+
   // ==========================================================================
   // QR CODE MODAL
   // ==========================================================================
   window.openQrModal = function(title, subtitle, url) {
     activeQrUrl = url;
-    qrTitle.textContent = title;
-    qrSubtitle.textContent = subtitle;
-    qrUrlDisplay.textContent = url;
-    qrDirectLink.href = url;
-    qrContainer.innerHTML = '';
+    if (qrTitle) qrTitle.textContent = title;
+    if (qrSubtitle) qrSubtitle.textContent = subtitle;
+    if (qrUrlDisplay) qrUrlDisplay.textContent = url;
+    if (qrDirectLink) qrDirectLink.href = url;
+    if (qrContainer) qrContainer.innerHTML = '';
 
-    if (typeof QRCode !== 'undefined') {
+    if (typeof QRCode !== 'undefined' && qrContainer) {
       new QRCode(qrContainer, {
         text: url,
         width: 190,
@@ -124,11 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
         colorLight: '#FFFFFF',
         correctLevel: QRCode.CorrectLevel.M
       });
-    } else {
+    } else if (qrContainer) {
       qrContainer.innerHTML = `<div style="padding:20px;color:#111;"><strong>${url}</strong></div>`;
     }
 
-    qrModal.classList.add('active');
+    if (qrModal) qrModal.classList.add('active');
   };
 
   document.querySelectorAll('.modal-close-trigger').forEach(btn => {
@@ -150,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // HERO CARDS: SEPARATED APP VERSION & OS PLATFORM
+  // HERO CARDS: SEPARATED APP VERSION & OS PLATFORM (NO GITHUB LINKS)
   // ==========================================================================
   function renderHeroCards() {
     const android = window.versionStorage.getLatest('android');
@@ -298,6 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   function renderVersionList() {
     if (!versionListContainer) return;
+
     let releases = window.versionStorage.getAll();
 
     if (currentPlatformFilter !== 'all') {
@@ -361,176 +450,128 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // DEVICES & IN-DEPTH SIM TELEMETRY
+  // DEVICES: CLEAN COMPACT CARDS & ZERO FAKE DEVICES
   // ==========================================================================
   function renderDevices() {
     if (!devicesContainer || !window.activityStorage) return;
 
     const devices = window.activityStorage.getDevices();
-    devicesContainer.innerHTML = devices.map(dev => {
-      const isOnline = dev.status === 'online';
-      const isIos = dev.platform === 'ios';
-      const icon = isIos ? 'assets/icon-ios.svg' : 'assets/icon-android.svg';
-      const sim = dev.simInfo || {};
+
+    if (!devices || devices.length === 0) {
+      devicesContainer.innerHTML = `
+        <div class="devices-empty-card">
+          <div class="devices-empty-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          </div>
+          <h3 style="font-size:1.25rem; font-weight:800;" data-i18n="devices_empty_title">
+            ${window.i18n ? window.i18n.t('devices_empty_title') : 'Ожидание подключения устройств'}
+          </h3>
+          <p style="max-width:560px; color:var(--text-secondary); font-size:0.92rem; line-height:1.6;" data-i18n="devices_empty_desc">
+            ${window.i18n ? window.i18n.t('devices_empty_desc') : 'В системе пока нет активных подключений. Запустите мобильное приложение Xylen Platform на вашем Android или iPhone — устройство автоматически зарегистрируется в защищенном реестре.'}
+          </p>
+        </div>
+      `;
+      return;
+    }
+
+    devicesContainer.innerHTML = devices.map(device => {
+      const isOnline = device.status === 'online';
+      const lastSeenText = formatTimeAgo(device.lastSeen);
+      const carrier = (device.simInfo && device.simInfo.carrierName) || 'Сотовая связь';
+      const iconSvg = device.platform === 'ios'
+        ? `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z"/><path d="M10 2c1 .5 2 2 2 5"/></svg>`
+        : `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8z"/><path d="M12 2a4 4 0 0 0-4 4v4h8V6a4 4 0 0 0-4-4z"/><circle cx="9" cy="6" r="1"/><circle cx="15" cy="6" r="1"/></svg>`;
 
       return `
-        <div class="device-card ${isOnline ? 'is-online' : 'is-offline'}">
-          <div class="device-card-header">
-            <div class="device-info-cluster">
-              <div class="device-avatar">
-                <img src="${icon}" width="26" height="26" alt="${dev.platform}">
-              </div>
-              <div>
-                <div class="device-name-title">
-                  ${dev.model}
-                  <span class="os-compat-badge">${dev.deviceOs}</span>
-                </div>
-                <div class="device-user-alias">
-                  ${dev.userAlias} • ПО: <strong style="color:var(--cyan-electric);">${dev.appVersion}</strong>
-                </div>
-              </div>
+        <div class="device-compact-card" onclick="window.openDeviceInspector('${device.id}')">
+          <div class="device-main-info">
+            <div class="device-icon-box">
+              ${iconSvg}
             </div>
-
-            <button class="device-status-badge ${isOnline ? 'online' : 'offline'}" onclick="window.toggleDeviceOnline('${dev.id}')" title="Кликните для смены статуса">
-              <span class="pulse-dot ${isOnline ? 'green' : ''}"></span>
-              ${isOnline ? 'ONLINE' : 'OFFLINE'}
-            </button>
-          </div>
-
-          <!-- Comprehensive SIM Telemetry Panel -->
-          <div class="sim-telemetry-panel">
-            <div class="sim-header-row">
-              <div class="sim-title-group">
-                <span class="sim-slot-badge">${sim.slotType || 'SIM'}</span>
-                <strong style="color:var(--text-primary); font-size:0.95rem;">${sim.carrierName || 'Оператор'}</strong>
+            <div class="device-names-col">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="device-name-title">${escapeHtml(device.model || device.userAlias)}</span>
+                <span class="card-status-badge" style="font-size:0.7rem; padding:2px 8px;">
+                  <span class="pulse-dot ${isOnline ? 'green' : 'amber'}"></span>
+                  ${isOnline ? 'В сети' : 'Оффлайн'}
+                </span>
               </div>
-              <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
-                ${sim.networkType || '4G/5G'}
+              <div class="device-meta-row">
+                <span style="color:var(--cyan-electric); font-weight:700;">${escapeHtml(carrier)}</span>
+                <span>•</span>
+                <span>${escapeHtml(device.deviceOs || '')}</span>
+                <span>•</span>
+                <span>${window.i18n ? window.i18n.t('device_last_seen') : 'Активность:'} ${lastSeenText}</span>
               </div>
-            </div>
-
-            <div class="sim-grid-params">
-              <div class="sim-param-box">
-                <span class="sim-param-label">Номер телефона / MSISDN</span>
-                <span class="sim-param-value cyan">${sim.phoneNumber || 'Не указан'}</span>
-              </div>
-              <div class="sim-param-box">
-                <span class="sim-param-label">Серийный номер (ICCID)</span>
-                <span class="sim-param-value">${sim.iccid || 'Н/Д'}</span>
-              </div>
-              <div class="sim-param-box">
-                <span class="sim-param-label">Идентификатор IMSI</span>
-                <span class="sim-param-value">${sim.imsi || 'Н/Д'}</span>
-              </div>
-              <div class="sim-param-box">
-                <span class="sim-param-label">Коды сети (MCC / MNC)</span>
-                <span class="sim-param-value">${sim.mcc || '434'} / ${sim.mnc || '04'}</span>
-              </div>
-              <div class="sim-param-box">
-                <span class="sim-param-label">Качество радиосигнала</span>
-                <span class="sim-param-value" style="color:#4ADE80;">${sim.signalQuality || '-78 dBm'}</span>
-              </div>
-              <div class="sim-param-box">
-                <span class="sim-param-label">Сотовая вышка / eNodeB</span>
-                <span class="sim-param-value">${sim.cellTower || 'Sector 1'}</span>
-              </div>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.72rem; color:var(--text-muted); border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">
-              <span><strong>IP адрес:</strong> ${sim.ipAddress || '10.0.0.1'}</span>
-              <span style="color:var(--blue-accent);">🔒 ${sim.persistenceEngine || 'Persistent Vault'}</span>
             </div>
           </div>
 
-          <!-- Quick Stats Bar -->
-          <div class="device-stats-bar">
-            <div class="metric-item">
-              <span class="metric-label">Всего сессий</span>
-              <span class="metric-val">#${dev.sessionsCount}</span>
-            </div>
-            <div class="metric-item">
-              <span class="metric-label">Расход за сегодня</span>
-              <span class="metric-val" style="color:var(--cyan-electric);">${(dev.todayTrafficBytes / (1024 * 1024)).toFixed(1)} МБ</span>
-            </div>
-            <div class="metric-item">
-              <span class="metric-label">Последний вход</span>
-              <span class="metric-val" style="font-size:0.8rem;">${formatTimeAgo(dev.lastSeen)}</span>
-            </div>
-          </div>
-
-          <div class="device-last-action" title="${dev.lastAction}">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <div style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;">
-              <strong>Действие:</strong> ${dev.lastAction}
-            </div>
-          </div>
+          <button class="btn btn-secondary btn-sm" style="white-space:nowrap;" onclick="event.stopPropagation(); window.openDeviceInspector('${device.id}')">
+            ${window.i18n ? window.i18n.t('device_btn_inspect') : 'Подробнее ➔'}
+          </button>
         </div>
       `;
     }).join('');
   }
 
-  function formatTimeAgo(isoString) {
-    if (!isoString) return 'только что';
-    const date = new Date(isoString);
-    const now = new Date();
-    const diffSec = Math.max(0, Math.floor((now - date) / 1000));
-    if (diffSec < 45) return 'только что';
-    const diffMin = Math.floor(diffSec / 60);
-    if (diffMin < 60) return `${diffMin} мин назад`;
-    const diffHour = Math.floor(diffMin / 60);
-    if (diffHour < 24) return `${diffHour} ч назад`;
-    const diffDay = Math.floor(diffHour / 24);
-    return `${diffDay} дн назад`;
-  }
+  // ==========================================================================
+  // DEVICE INSPECTOR MODAL (ВСЕ ДАННЫЕ В ОДНУ)
+  // ==========================================================================
+  window.openDeviceInspector = function(deviceId) {
+    const devices = window.activityStorage.getDevices();
+    const d = devices.find(item => item.id === deviceId);
+    if (!d) return;
 
-  window.toggleDeviceOnline = function(deviceId) {
-    if (window.activityStorage) {
-      const newStatus = window.activityStorage.toggleDeviceStatus(deviceId);
-      showToast(`Статус устройства изменен на ${newStatus.toUpperCase()}`);
+    const modalBackdrop = document.getElementById('inspector-modal-backdrop');
+    const modalName = document.getElementById('modal-dev-name');
+    const modalPlatformBadge = document.getElementById('modal-dev-platform-badge');
+    
+    // Set hardware params
+    document.getElementById('modal-dev-model-val').textContent = d.model || '—';
+    document.getElementById('modal-dev-os-val').textContent = d.deviceOs || '—';
+    document.getElementById('modal-dev-app-ver-val').textContent = d.appVersion || '—';
+    document.getElementById('modal-dev-sessions-val').textContent = d.sessionsCount || '1';
+    document.getElementById('modal-dev-action-val').textContent = d.lastAction || '—';
+
+    // Set SIM params
+    const sim = d.simInfo || {};
+    document.getElementById('modal-sim-carrier-val').textContent = sim.carrierName || '—';
+    document.getElementById('modal-sim-slot-val').textContent = sim.displayName || 'SIM 1';
+    document.getElementById('modal-sim-net-type-val').textContent = sim.networkType || '—';
+    document.getElementById('modal-sim-signal-val').textContent = `${sim.signalDbm ? sim.signalDbm + ' dBm' : '—'} (${sim.signalQuality || ''})`;
+    document.getElementById('modal-sim-tower-val').textContent = sim.cellTower || '—';
+    document.getElementById('modal-sim-phone-val').textContent = sim.phoneNumber || '—';
+    document.getElementById('modal-sim-imsi-val').textContent = sim.imsi || '—';
+    document.getElementById('modal-sim-iccid-val').textContent = sim.iccid || '—';
+    document.getElementById('modal-sim-ip-val').textContent = sim.ipAddress || '—';
+
+    // Set traffic params
+    const todayMB = (d.todayTrafficBytes ? (d.todayTrafficBytes / (1024 * 1024)).toFixed(2) : '0.00');
+    const totalGB = (d.totalDataTrafficBytes ? (d.totalDataTrafficBytes / (1024 * 1024 * 1024)).toFixed(2) + ' ГБ' : '0.00 ГБ');
+    const speedMB = (d.currentSpeedKBps ? (d.currentSpeedKBps / 1024).toFixed(1) + ' МБ/с' : '0.0 КБ/с');
+    document.getElementById('modal-traffic-today-val').textContent = `${todayMB} МБ`;
+    document.getElementById('modal-traffic-total-val').textContent = totalGB;
+    document.getElementById('modal-traffic-speed-val').textContent = speedMB;
+
+    if (modalName) modalName.textContent = d.model || d.userAlias;
+    if (modalPlatformBadge) {
+      modalPlatformBadge.textContent = d.platform === 'ios' ? 'Apple iOS' : 'Google Android';
+      modalPlatformBadge.className = `badge ${d.platform}`;
     }
+
+    if (modalBackdrop) modalBackdrop.classList.add('open');
   };
 
-  // ==========================================================================
-  // ACTIVITY FEED
-  // ==========================================================================
-  function renderActivityFeed() {
-    if (!activityFeedContainer || !window.activityStorage) return;
-
-    let activities = window.activityStorage.getActivities();
-    if (currentActFilter !== 'all') {
-      activities = activities.filter(a => a.category === currentActFilter);
-    }
-
-    if (activityCounterBadge) {
-      activityCounterBadge.textContent = `${activities.length} ${activities.length === 1 ? 'запись' : (activities.length < 5 ? 'записи' : 'записей')}`;
-    }
-
-    activityFeedContainer.innerHTML = activities.map(act => {
-      const dateFormatted = new Date(act.timestamp).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' • ' + formatTimeAgo(act.timestamp);
-      const isIos = act.platform === 'ios';
-
-      return `
-        <div class="activity-item">
-          <div class="activity-icon-node ${act.category}">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="activity-content">
-            <div class="activity-top-row">
-              <div class="activity-user-badge">
-                <span>${act.userAlias} (${act.deviceModel})</span>
-                <span class="version-pill" style="font-size:0.68rem; padding:1px 6px;">${isIos ? 'iOS' : 'Android'}</span>
-              </div>
-              <div class="activity-timestamp">${dateFormatted}</div>
-            </div>
-            <div class="activity-action-desc">
-              <span class="action-tag ${act.category}">${act.action}</span>
-              ${act.details}
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
+  function closeDeviceInspector() {
+    const modalBackdrop = document.getElementById('inspector-modal-backdrop');
+    if (modalBackdrop) modalBackdrop.classList.remove('open');
   }
+
+  document.getElementById('modal-close-btn')?.addEventListener('click', closeDeviceInspector);
+  document.getElementById('modal-close-x-btn')?.addEventListener('click', closeDeviceInspector);
+  document.getElementById('inspector-modal-backdrop')?.addEventListener('click', (e) => {
+    if (e.target.id === 'inspector-modal-backdrop') closeDeviceInspector();
+  });
 
   // ==========================================================================
   // TRAFFIC CALENDAR & LIVE TELEMETRY
@@ -538,8 +579,18 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderCalendarSummary(dateYMD) {
     if (!calendarDaySummary || !window.activityStorage) return;
 
-    const primaryDevId = 'dev-ios-aisma';
-    const dayStats = window.activityStorage.getDailyTraffic(primaryDevId, dateYMD);
+    const devices = window.activityStorage.getDevices();
+    if (!devices || devices.length === 0) {
+      calendarDaySummary.innerHTML = `
+        <div style="grid-column: 1 / -1; padding: 24px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+          ${window.i18n ? window.i18n.t('traffic_no_history') : 'Нет данных расхода за выбранный день.'}
+        </div>
+      `;
+      return;
+    }
+
+    const firstDevId = devices[0].id;
+    const dayStats = window.activityStorage.getDailyTraffic(firstDevId, dateYMD);
 
     calendarDaySummary.innerHTML = `
       <div class="metric-item">
@@ -547,11 +598,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="metric-val" style="color:var(--cyan-electric); font-size:1.1rem;">${dayStats.totalMB.toFixed(1)} МБ</span>
       </div>
       <div class="metric-item">
-        <span class="metric-label">Слот 1 (Физическая SIM)</span>
+        <span class="metric-label">Слот 1</span>
         <span class="metric-val">${dayStats.sim1MB.toFixed(1)} МБ</span>
       </div>
       <div class="metric-item">
-        <span class="metric-label">Слот 2 (eSIM 5G)</span>
+        <span class="metric-label">Слот 2</span>
         <span class="metric-val">${dayStats.sim2MB.toFixed(1)} МБ</span>
       </div>
       <div class="metric-item">
@@ -594,27 +645,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // Listen to Ultra-low-bandwidth Live Delta Event (~24 bytes packet)
   window.addEventListener('xylen:live-delta', (e) => {
     const detail = e.detail;
-    if (detail.deviceId === 'dev-ios-aisma') {
+    const devices = window.activityStorage ? window.activityStorage.getDevices() : [];
+    if (!devices || devices.length === 0) return;
+
+    const matchedDev = devices.find(d => d.id === detail.deviceId) || devices[0];
+    if (matchedDev) {
       const todayMB = (detail.todayBytes / (1024 * 1024)).toFixed(2);
       const speedMB = (detail.speedKBps / 1024).toFixed(1);
 
-      if (liveTodayMbDisplay) {
-        liveTodayMbDisplay.textContent = todayMB;
-      }
-      if (liveSpeedDisplay) {
-        liveSpeedDisplay.textContent = `${speedMB} МБ/с`;
-      }
+      if (liveTodayMbDisplay) liveTodayMbDisplay.textContent = todayMB;
+      if (liveSpeedDisplay) liveSpeedDisplay.textContent = `${speedMB} МБ/с`;
+      if (liveDeviceName) liveDeviceName.textContent = matchedDev.model || matchedDev.userAlias;
+      if (liveSimSlot && matchedDev.simInfo) liveSimSlot.textContent = matchedDev.simInfo.displayName || 'SIM 1';
     }
   });
 
-  // Listeners
-  if (btnExportAuditCsv) {
-    btnExportAuditCsv.addEventListener('click', () => {
-      window.activityStorage.exportAuditLogCsv();
-      showToast('Журнал аудита выгружен в CSV!');
-    });
-  }
-
+  // Search & Filter Listeners
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
       searchQuery = e.target.value;
@@ -631,31 +677,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  actFilterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      actFilterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentActFilter = btn.dataset.actFilter;
-      renderActivityFeed();
-    });
-  });
-
   // ==========================================================================
-  // THEME SWITCHER (SLATE MIDNIGHT VS TRUE AMOLED #000000)
+  // THEME SWITCHER (SLATE DARK VS CLEAN LIGHT)
   // ==========================================================================
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
   const themeLabel = document.getElementById('theme-label');
   const themeIcon = document.getElementById('theme-icon');
 
   function updateThemeUI(theme) {
-    if (theme === 'amoled') {
-      document.body.classList.add('theme-amoled');
-      if (themeLabel) themeLabel.textContent = 'Slate';
-      if (themeIcon) themeIcon.textContent = '☀️';
-    } else {
-      document.body.classList.remove('theme-amoled');
-      if (themeLabel) themeLabel.textContent = 'AMOLED';
-      if (themeIcon) themeIcon.textContent = '🌙';
+    const isLight = theme === 'light';
+    document.body.classList.toggle('theme-light', isLight);
+    if (themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀️';
+    if (themeLabel) {
+      themeLabel.textContent = isLight
+        ? (window.i18n ? window.i18n.t('theme_dark') : 'Тёмная')
+        : (window.i18n ? window.i18n.t('theme_light') : 'Светлая');
     }
   }
 
@@ -664,11 +700,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateThemeUI(currentTheme);
 
     themeToggleBtn.addEventListener('click', () => {
-      const isAmoled = document.body.classList.contains('theme-amoled');
-      const nextTheme = isAmoled ? 'dark' : 'amoled';
+      const isLight = document.body.classList.contains('theme-light');
+      const nextTheme = isLight ? 'dark' : 'light';
       window.activityStorage.setTheme(nextTheme);
       updateThemeUI(nextTheme);
-      showToast(nextTheme === 'amoled' ? 'Режим True AMOLED активирован' : 'Режим Slate Midnight активирован');
+      showToast(nextTheme === 'light' ? 'Светлая тема включена' : 'Тёмная тема включена');
     });
   }
 
@@ -684,10 +720,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.i18n) {
       window.i18n.applyTranslations();
     }
+    const currentTheme = window.activityStorage ? window.activityStorage.getTheme() : 'dark';
+    updateThemeUI(currentTheme);
+
     renderHeroCards();
     renderVersionList();
     renderDevices();
-    renderActivityFeed();
     renderCalendarSummary(selectedDateYMD);
     renderWebVisitors();
   }
@@ -708,26 +746,38 @@ document.addEventListener('DOMContentLoaded', () => {
   // MASTER ADMIN: WEB VISITORS AUDIT
   // ==========================================================================
   const visitorsTableBody = document.getElementById('visitors-table-body');
-  const adminVisitorsSection = document.getElementById('admin-visitors-section');
 
   function renderWebVisitors() {
-    if (!adminVisitorsSection || !window.activityStorage) return;
+    if (!window.activityStorage) return;
 
     const isAdmin = window.activityStorage.isAdmin();
-    adminVisitorsSection.style.display = isAdmin ? 'block' : 'none';
+    if (navBtnAdmin) {
+      navBtnAdmin.style.display = isAdmin ? 'inline-flex' : 'none';
+    }
 
     if (!isAdmin || !visitorsTableBody) return;
 
     const visitors = window.activityStorage.getWebVisitors();
+    if (visitors.length === 0) {
+      visitorsTableBody.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align:center; color:var(--text-muted); padding:24px;">
+            ${window.i18n ? window.i18n.t('admin_empty_visitors') : 'Посещений пока не зафиксировано.'}
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
     visitorsTableBody.innerHTML = visitors.map(v => {
       const dateFormatted = new Date(v.timestamp).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) + ' • ' + formatTimeAgo(v.timestamp);
       return `
         <tr>
           <td><strong style="color:var(--text-primary); font-family:var(--font-mono); font-size:0.8rem;">${dateFormatted}</strong></td>
-          <td>${v.device}</td>
-          <td><span style="font-family:var(--font-mono); color:var(--cyan-electric); font-size:0.8rem;">${v.ip}</span></td>
-          <td><span class="visitor-source-pill">${v.source}</span></td>
-          <td><strong>${v.pageVisited}</strong></td>
+          <td>${escapeHtml(v.device)}</td>
+          <td><span style="font-family:var(--font-mono); color:var(--cyan-electric); font-size:0.8rem;">${escapeHtml(v.ip)}</span></td>
+          <td><span class="visitor-source-pill">${escapeHtml(v.source)}</span></td>
+          <td><strong>${escapeHtml(v.pageVisited)}</strong></td>
           <td>
             <span class="card-status-badge" style="padding:2px 8px; font-size:0.7rem;">
               <span class="pulse-dot ${v.isOnline ? 'green' : ''}"></span>
@@ -739,20 +789,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
   }
 
-  // Update switchPage to record web visit telemetry
-  const origSwitchPage = window.switchPage;
-  window.switchPage = function(pageId) {
-    if (origSwitchPage) origSwitchPage(pageId);
-    if (window.activityStorage) {
-      window.activityStorage.logWebVisit(pageId);
-    }
-  };
-
   window.addEventListener('xylen:visitors-updated', () => renderWebVisitors());
-  window.addEventListener('xylen:devices-updated', () => renderDevices());
-  window.addEventListener('xylen:activities-updated', () => {
-    renderActivityFeed();
+  window.addEventListener('xylen:devices-updated', () => {
     renderDevices();
+    renderCalendarSummary(selectedDateYMD);
   });
 
   // Initial render
@@ -765,7 +805,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderHeroCards();
   renderVersionList();
   renderDevices();
-  renderActivityFeed();
   renderCalendarSummary(selectedDateYMD);
   renderWebVisitors();
+  triggerScrollReveal();
 });
