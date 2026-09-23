@@ -1,12 +1,10 @@
 /**
- * Xylen Workspace - Application Controller & SPA Engine
- * Full-featured Product Workspace for SIM-testing managers and teams:
- * - Short typographic loader (00 — Loading)
- * - Count-up odometer animation for numbers
- * - Dynamic rendering for Testers, Devices, SIMs, Testing Lifecycle, Traffic, Releases
- * - Interactive test lifecycle simulation
- * - Modal inspectors for Testers & Devices
- * - Protected isolated Manager Admin gate
+ * Xylen Workspace - Application Controller & Motion Engine
+ * - Smooth Sliding Navigation Pill
+ * - Fluid Multi-Harmonic Canvas Waveform
+ * - Device Fleet Cockpit with Currently Connected SIMs
+ * - Dedicated Android & iOS App Download Center
+ * - Tactile Micro-Interactions & Spring Physics
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -24,7 +22,102 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 650);
 
   // --------------------------------------------------------------------------
-  // SCROLL PROGRESS & BACK TO TOP & REVEAL
+  // SLIDING NAVIGATION PILL & SPA ROUTER
+  // --------------------------------------------------------------------------
+  const navButtons = document.querySelectorAll('.nav-page-btn[data-page]');
+  const pageSections = document.querySelectorAll('.page-section');
+  const navPill = document.getElementById('nav-active-pill');
+
+  function updateNavPill(activeBtn) {
+    if (!navPill || !activeBtn) return;
+    const parent = activeBtn.parentElement;
+    if (!parent) return;
+
+    const parentRect = parent.getBoundingClientRect();
+    const btnRect = activeBtn.getBoundingClientRect();
+    const offsetLeft = btnRect.left - parentRect.left;
+
+    navPill.style.left = offsetLeft + 'px';
+    navPill.style.width = btnRect.width + 'px';
+  }
+
+  window.switchPage = function(pageId) {
+    if (pageId === 'page-admin' && (!window.activityStorage || !window.activityStorage.isAdmin())) {
+      window.requestAdminConsole();
+      return;
+    }
+
+    pageSections.forEach(section => {
+      const isActive = section.id === pageId;
+      section.classList.toggle('active', isActive);
+      if (isActive) {
+        section.classList.remove('revealed');
+      }
+    });
+
+    let activeBtn = null;
+    navButtons.forEach(btn => {
+      const match = btn.dataset.page === pageId;
+      btn.classList.toggle('active', match);
+      if (match) activeBtn = btn;
+    });
+
+    if (activeBtn) {
+      updateNavPill(activeBtn);
+    }
+
+    const hashName = pageId.replace('page-', '');
+    if (window.location.hash !== '#' + hashName) {
+      history.pushState(null, '', '#' + hashName);
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      triggerScrollReveal();
+      animateNumbers();
+    }, 60);
+
+    if (window.activityStorage) {
+      window.activityStorage.logWebVisit(hashName);
+    }
+  };
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.switchPage(btn.dataset.page);
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    const activeBtn = document.querySelector('.nav-page-btn.active');
+    if (activeBtn) updateNavPill(activeBtn);
+  });
+
+  function handleUrlHash() {
+    const hash = window.location.hash.replace('#', '').toLowerCase();
+    const map = {
+      'overview': 'page-overview',
+      'home': 'page-overview',
+      'devices': 'page-devices',
+      'traffic': 'page-traffic',
+      'releases': 'page-releases',
+      'about': 'page-about',
+      'privacy': 'page-privacy',
+      'admin': 'page-admin'
+    };
+
+    if (map[hash]) {
+      window.switchPage(map[hash]);
+    } else {
+      window.switchPage('page-overview');
+    }
+  }
+
+  window.addEventListener('popstate', handleUrlHash);
+
+  // --------------------------------------------------------------------------
+  // SCROLL PROGRESS & REVEALS
   // --------------------------------------------------------------------------
   const scrollProgressBar = document.getElementById('scroll-progress-line');
   const btnBackToTop = document.getElementById('btn-back-to-top');
@@ -57,22 +150,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.addEventListener('scroll', handleScroll, { passive: true });
-  setTimeout(triggerScrollReveal, 100);
+  setTimeout(triggerScrollReveal, 120);
 
   // --------------------------------------------------------------------------
-  // NUMBER COUNT-UP ODOMETER ENGINE
+  // NUMBER COUNT-UP ODOMETER
   // --------------------------------------------------------------------------
   function animateNumbers() {
     const counters = document.querySelectorAll('.page-section.active .count-up');
     counters.forEach(counter => {
       const target = parseInt(counter.dataset.target, 10) || 0;
-      const duration = 900;
+      const duration = 800;
       const startTime = performance.now();
 
       function update(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        // Ease out quad
         const ease = 1 - (1 - progress) * (1 - progress);
         const current = Math.floor(ease * target);
         counter.textContent = current;
@@ -89,80 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // SPA ROUTER & NAVIGATION
-  // --------------------------------------------------------------------------
-  const navButtons = document.querySelectorAll('.nav-page-btn[data-page]');
-  const pageSections = document.querySelectorAll('.page-section');
-
-  window.switchPage = function(pageId) {
-    if (pageId === 'page-admin' && (!window.activityStorage || !window.activityStorage.isAdmin())) {
-      window.requestAdminConsole();
-      return;
-    }
-
-    pageSections.forEach(section => {
-      const isActive = section.id === pageId;
-      section.classList.toggle('active', isActive);
-      if (isActive) {
-        section.classList.remove('revealed');
-      }
-    });
-
-    navButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.page === pageId);
-    });
-
-    const hashName = pageId.replace('page-', '');
-    if (window.location.hash !== '#' + hashName) {
-      history.pushState(null, '', '#' + hashName);
-    }
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    setTimeout(() => {
-      triggerScrollReveal();
-      animateNumbers();
-    }, 60);
-
-    if (window.activityStorage) {
-      window.activityStorage.logWebVisit(hashName);
-    }
-  };
-
-  navButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      window.switchPage(btn.dataset.page);
-    });
-  });
-
-  function handleUrlHash() {
-    const hash = window.location.hash.replace('#', '').toLowerCase();
-    const map = {
-      'overview': 'page-overview',
-      'home': 'page-overview',
-      'testers': 'page-testers',
-      'team': 'page-testers',
-      'devices': 'page-devices',
-      'sims': 'page-sims',
-      'sim': 'page-sims',
-      'testing': 'page-testing',
-      'traffic': 'page-traffic',
-      'releases': 'page-releases',
-      'about': 'page-about',
-      'privacy': 'page-privacy',
-      'admin': 'page-admin'
-    };
-
-    if (map[hash]) {
-      window.switchPage(map[hash]);
-    } else {
-      window.switchPage('page-overview');
-    }
-  }
-
-  window.addEventListener('popstate', handleUrlHash);
-
-  // --------------------------------------------------------------------------
   // THEME ENGINE
   // --------------------------------------------------------------------------
   const themeToggleBtn = document.getElementById('theme-toggle-btn');
@@ -174,6 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeIcon) {
       themeIcon.textContent = isLight ? '🌙' : '☀️';
     }
+    const activeBtn = document.querySelector('.nav-page-btn.active');
+    if (activeBtn) updateNavPill(activeBtn);
   }
 
   const initialTheme = window.activityStorage ? window.activityStorage.getTheme() : 'dark';
@@ -191,84 +211,61 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // 02 — RENDER TESTERS (Команда тестирования)
+  // RENDER DEVICES & CURRENTLY CONNECTED SIMS (Ready for real work)
   // --------------------------------------------------------------------------
-  const testersContainer = document.getElementById('testers-list-container');
+  const devicesContainer = document.getElementById('devices-container');
+  const overviewDevicesPreview = document.getElementById('overview-devices-preview');
 
-  function renderTesters() {
-    if (!testersContainer || !window.activityStorage) return;
-    const testers = window.activityStorage.getTesters();
+  function buildDeviceCardHtml(device) {
+    const isOnline = device.status === 'online';
+    const mbToday = (device.todayTrafficBytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    const speedStr = (device.currentSpeedKBps / 1024).toFixed(1) + ' МБ/с';
 
-    testersContainer.innerHTML = testers.map(t => {
-      const statusClass = t.status === 'active' ? 'green' : (t.status === 'testing' ? 'cyan' : 'amber');
+    // Render connected SIMs inside this device
+    const simSlotsHtml = (device.simSlots || []).map(sim => {
+      const bars = sim.signalBars || 4;
       return `
-        <div class="tester-card" onclick="window.openTesterModal('${t.id}')">
-          <div class="tester-card-header">
-            <div class="tester-profile-info">
-              <div class="avatar-circle">${t.avatar}</div>
-              <div>
-                <div class="tester-name">${t.name}</div>
-                <div class="tester-role">${t.role}</div>
-              </div>
+        <div class="sim-slot-connected-box">
+          <div class="sim-slot-header">
+            <div class="sim-carrier-title">
+              <span>${sim.countryFlag || '🌐'}</span>
+              <span>${sim.carrier}</span>
+              <span class="spec-pill" style="font-size:0.7rem;">${sim.slotName}</span>
             </div>
-            <div class="card-status-badge">
-              <span class="pulse-dot ${statusClass}"></span>
-              <span>${t.statusLabel}</span>
-            </div>
-          </div>
-
-          <div class="tester-stats-row">
-            <div class="tester-stat-unit">
-              <span class="t-stat-label">SIM-карт</span>
-              <span class="t-stat-val">${t.simsCount} SIMs</span>
-            </div>
-            <div class="tester-stat-unit">
-              <span class="t-stat-label">Тестов за сегодня</span>
-              <span class="t-stat-val">${t.testsToday}</span>
-            </div>
-            <div class="tester-stat-unit">
-              <span class="t-stat-label">Активность</span>
-              <span class="t-stat-val">${t.lastActivity}</span>
+            <div class="signal-bars-icon" title="Мощность сигнала: ${sim.signalDbm} dBm">
+              <span class="signal-bar b1 ${bars >= 1 ? 'active' : ''}"></span>
+              <span class="signal-bar b2 ${bars >= 2 ? 'active' : ''}"></span>
+              <span class="signal-bar b3 ${bars >= 3 ? 'active' : ''}"></span>
+              <span class="signal-bar b4 ${bars >= 4 ? 'active' : ''}"></span>
             </div>
           </div>
-
-          <div class="tester-card-footer">
-            <span>Аппарат: <strong>${t.activeDevice}</strong></span>
-            <span style="color:var(--cyan-electric); font-weight:700;">Инспектор ➔</span>
+          <div class="sim-slot-meta-row">
+            <span><strong>${sim.networkType}</strong> • ${sim.signalDbm} dBm</span>
+            <span class="sim-tower-text">${sim.cellTower}</span>
+          </div>
+          <div class="sim-slot-meta-row" style="font-family:var(--font-mono); font-size:0.72rem; color:var(--text-muted);">
+            <span>ICCID: ${sim.iccid}</span>
+            <span>IMSI: ${sim.imsi}</span>
           </div>
         </div>
       `;
     }).join('');
-  }
 
-  // --------------------------------------------------------------------------
-  // 03 — RENDER DEVICES (Каждое устройство — живая история с Timeline)
-  // --------------------------------------------------------------------------
-  const devicesContainer = document.getElementById('devices-container');
+    const timelineHtml = (device.timeline || []).map(item => `
+      <div class="timeline-item">
+        <span class="tl-time">${item.time}</span>
+        <span class="tl-event">${item.event}</span>
+        <span class="tl-desc">— ${item.desc}</span>
+      </div>
+    `).join('');
 
-  function renderDevices() {
-    if (!devicesContainer || !window.activityStorage) return;
-    const devices = window.activityStorage.getDevices();
-
-    devicesContainer.innerHTML = devices.map(d => {
-      const isOnline = d.status === 'online';
-      const mbToday = (d.todayTrafficBytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
-      const speedStr = (d.currentSpeedKBps / 1024).toFixed(1) + ' Mbps';
-
-      const timelineHtml = (d.timeline || []).map(item => `
-        <div class="timeline-item">
-          <span class="tl-time">${item.time}</span>
-          <span class="tl-event">${item.event}</span>
-          <span class="tl-desc">— ${item.desc}</span>
-        </div>
-      `).join('');
-
-      return `
-        <div class="device-story-card">
+    return `
+      <div class="device-story-card hover-glow-card">
+        <div>
           <div class="device-card-header">
-            <div class="device-title-box">
-              <div class="device-model-name">${d.model}</div>
-              <div class="device-os-pill">${d.deviceOs} • ${d.appVersion}</div>
+            <div>
+              <div class="device-model-name">${device.model}</div>
+              <div class="device-os-pill">${device.deviceOs} • ${device.appVersion} • Инженер: ${device.assignedUser}</div>
             </div>
             <div class="card-status-badge">
               <span class="pulse-dot ${isOnline ? 'green' : 'amber'}"></span>
@@ -276,318 +273,214 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
 
-          <div class="device-sim-banner">
-            <div class="sim-banner-row">
-              <span class="sim-carrier-name">${d.sim.carrierName}</span>
-              <span class="code-pill">${d.sim.slot}</span>
-            </div>
-            <div class="sim-banner-row">
-              <span>${d.sim.networkType} • ${d.sim.cellTower}</span>
-              <span class="sim-signal-meter" style="color:var(--green-neon); font-weight:700;">${d.sim.signalDbm} dBm</span>
-            </div>
-            <div class="sim-banner-row" style="margin-top:6px; padding-top:6px; border-top:1px solid var(--border-subtle); font-size:0.75rem;">
-              <span>Трафик: <strong>${mbToday}</strong></span>
-              <span style="color:var(--cyan-electric); font-weight:700;">↓ ${speedStr}</span>
-            </div>
+          <!-- Connected SIMs Inside Device -->
+          <div class="connected-sims-group" style="margin-top: 16px;">
+            <div class="sim-group-label">Текущие подключенные SIM-карты:</div>
+            ${simSlotsHtml}
+          </div>
+        </div>
+
+        <div>
+          <div class="device-metrics-row">
+            <span>Трафик: <strong>${mbToday}</strong></span>
+            <span>IP: <strong style="font-family:var(--font-mono);">${device.ipAddress}</strong></span>
+            <span style="color:var(--cyan-electric); font-weight:700;">↓ ${speedStr}</span>
           </div>
 
           <div class="device-timeline-wrap">
-            <div class="timeline-heading">Live Event Timeline</div>
+            <div class="timeline-heading">Хронология подключений</div>
             <div class="timeline-list">
               ${timelineHtml}
             </div>
           </div>
 
-          <div style="margin-top: 14px; text-align: right;">
-            <button class="btn btn-secondary btn-compact" onclick="window.openDeviceModal('${d.id}')">
-              Детальный инспектор ➔
+          <div style="margin-top: 16px; text-align: right;">
+            <button class="btn btn-secondary btn-compact" onclick="window.openDeviceModal('${device.id}')">
+              Инспектор телеметрии ➔
             </button>
           </div>
         </div>
-      `;
-    }).join('');
+      </div>
+    `;
+  }
+
+  function renderDevices() {
+    if (!window.activityStorage) return;
+    const devices = window.activityStorage.getDevices();
+
+    if (devicesContainer) {
+      devicesContainer.innerHTML = devices.map(d => buildDeviceCardHtml(d)).join('');
+    }
+
+    if (overviewDevicesPreview) {
+      // First 2 devices on Overview
+      overviewDevicesPreview.innerHTML = devices.slice(0, 2).map(d => buildDeviceCardHtml(d)).join('');
+    }
+
+    // Update KPI numbers
+    const kpiDevices = document.getElementById('kpi-devices-count');
+    const kpiSims = document.getElementById('kpi-sims-count');
+    if (kpiDevices) {
+      kpiDevices.dataset.target = devices.length;
+      kpiDevices.textContent = devices.length;
+    }
+    if (kpiSims) {
+      let totalSims = 0;
+      devices.forEach(d => {
+        if (Array.isArray(d.simSlots)) totalSims += d.simSlots.length;
+      });
+      kpiSims.dataset.target = totalSims;
+      kpiSims.textContent = totalSims;
+    }
   }
 
   // --------------------------------------------------------------------------
-  // 04 — RENDER SIMs (Паспортный реестр SIM-карт)
+  // FLUID MULTI-HARMONIC CANVAS WAVEFORM (Buttery Smooth 60 FPS)
   // --------------------------------------------------------------------------
-  const simsTableBody = document.getElementById('sims-table-body');
-  const simFilterButtons = document.querySelectorAll('.sim-tab-btn[data-filter]');
-  let currentSimFilter = 'all';
+  const canvas = document.getElementById('traffic-canvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = canvas.offsetWidth;
+    let height = canvas.height = canvas.offsetHeight;
 
-  function renderSims() {
-    if (!simsTableBody || !window.activityStorage) return;
-    const allSims = window.activityStorage.getSims();
-
-    const filtered = allSims.filter(s => {
-      if (currentSimFilter === 'all') return true;
-      if (currentSimFilter === 'active') return s.status === 'active';
-      if (currentSimFilter === 'testing') return s.status === 'testing';
-      if (currentSimFilter === 'spare') return s.status === 'spare';
-      return true;
+    window.addEventListener('resize', () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
     });
 
-    const flagMap = {
-      'FR': '🇫🇷',
-      'UZ': '🇺🇿',
-      'UK': '🇬🇧',
-      'US': '🇺🇸'
-    };
+    let waveTime = 0;
+    const particles = Array.from({ length: 30 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 2 + 1,
+      speed: Math.random() * 0.8 + 0.3
+    }));
 
-    simsTableBody.innerHTML = filtered.map(s => {
-      const flag = flagMap[s.country] || '🌐';
-      const statusColor = s.status === 'testing' ? 'var(--cyan-electric)' : (s.status === 'active' ? 'var(--green-neon)' : 'var(--text-muted)');
+    function drawWave() {
+      ctx.clearRect(0, 0, width, height);
 
-      return `
-        <tr>
-          <td>
-            <div class="sim-carrier-cell">
-              <span class="country-flag">${flag}</span>
-              <span>${s.carrier}</span>
-            </div>
-          </td>
-          <td><span class="code-pill">${s.slot}</span></td>
-          <td>
-            <div style="font-family:var(--font-mono); font-size:0.75rem;">
-              <div>ICCID: ${s.iccid}</div>
-              <div style="color:var(--text-muted);">IMSI: ${s.imsi}</div>
-            </div>
-          </td>
-          <td>
-            <div style="font-weight:700;">${s.network}</div>
-            <div style="font-family:var(--font-mono); font-size:0.75rem; color:var(--green-neon);">${s.signalDbm} dBm</div>
-          </td>
-          <td style="font-family:var(--font-mono); font-size:0.75rem;">${s.tower}</td>
-          <td>
-            <div style="font-weight:600;">${s.assignedDevice}</div>
-            <div style="font-size:0.72rem; color:var(--text-muted);">Тестировщик: ${s.assignedTester}</div>
-          </td>
-          <td>
-            <span style="color:${statusColor}; font-weight:700; font-size:0.78rem;">
-              ● ${s.statusLabel}
-            </span>
-          </td>
-        </tr>
-      `;
-    }).join('');
-  }
+      const isLight = document.body.classList.contains('theme-light');
+      const waveColor = isLight ? '#0088C2' : '#0099DA';
 
-  simFilterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      simFilterButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentSimFilter = btn.dataset.filter;
-      renderSims();
-    });
-  });
-
-  // --------------------------------------------------------------------------
-  // 05 — TESTING LIFECYCLE SIMULATOR (Benchmark Shakuro / Jitter)
-  // --------------------------------------------------------------------------
-  let lifecycleRunning = false;
-  window.runLifecycleSimulation = function() {
-    if (lifecycleRunning) return;
-    lifecycleRunning = true;
-
-    const steps = [
-      { id: 'step-detected', text: '[STEP 1/5] Фиксация SIM-карты в слоте: Orange France LTE Cat.19 (ICCID: 8933-0145-...)' },
-      { id: 'step-connected', text: '[STEP 2/5] Авторизация устройства в ядре Xylen: AES-256 ключ подтвержден, токен сессии активен.' },
-      { id: 'step-testing', text: '[STEP 3/5] Запуск контрольной сессии: передача 24-байтных микро-дельта пакетов скорости.' },
-      { id: 'step-collecting', text: '[STEP 4/5] Сбор сетевой телеметрии: задержка 0 мс, RSRP -78 dBm, TAC 55102, CID 89211.' },
-      { id: 'step-completed', text: '[STEP 5/5] Тест успешно завершен: 100% паритет биллинга, результат внесен в реестр платформы.' }
-    ];
-
-    const logArea = document.getElementById('lifecycle-log-area');
-    const clockEl = document.getElementById('console-clock');
-    const runBtn = document.getElementById('btn-run-lifecycle-test');
-
-    if (runBtn) {
-      runBtn.disabled = true;
-      runBtn.textContent = '⏳ Выполнение тестового цикла...';
-    }
-
-    if (logArea) {
-      logArea.innerHTML = `<div class="log-line text-cyan">[START] Инициализация контрольного цикла SIM-тестирования...</div>`;
-    }
-
-    let currentIndex = 0;
-
-    function nextStep() {
-      if (clockEl) {
-        clockEl.textContent = new Date().toLocaleTimeString();
+      // 1. Draw glowing background grid lines
+      ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)';
+      ctx.lineWidth = 1;
+      const step = 40;
+      for (let x = 0; x < width; x += step) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += step) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
       }
 
-      // Reset all steps
-      steps.forEach((s, i) => {
-        const el = document.getElementById(s.id);
-        if (el) {
-          el.classList.toggle('active', i === currentIndex);
-          el.classList.toggle('completed', i < currentIndex);
-        }
+      // 2. Draw animated fluid sine waves
+      waveTime += 0.025;
+
+      const grad = ctx.createLinearGradient(0, 0, 0, height);
+      grad.addColorStop(0, isLight ? 'rgba(0, 136, 194, 0.25)' : 'rgba(0, 153, 218, 0.35)');
+      grad.addColorStop(1, 'transparent');
+
+      ctx.beginPath();
+      ctx.moveTo(0, height);
+
+      for (let x = 0; x <= width; x += 10) {
+        const y = height * 0.55 +
+                  Math.sin(x * 0.008 + waveTime) * 32 +
+                  Math.cos(x * 0.015 - waveTime * 1.2) * 18;
+        if (x === 0) ctx.lineTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+
+      ctx.lineTo(width, height);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Top wave line stroke
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += 10) {
+        const y = height * 0.55 +
+                  Math.sin(x * 0.008 + waveTime) * 32 +
+                  Math.cos(x * 0.015 - waveTime * 1.2) * 18;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = waveColor;
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // 3. Draw telemetry floating dots
+      ctx.fillStyle = isLight ? 'rgba(0, 136, 194, 0.7)' : 'rgba(85, 232, 49, 0.8)';
+      particles.forEach(p => {
+        p.x += p.speed;
+        if (p.x > width) p.x = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
       });
 
-      const current = steps[currentIndex];
-      if (logArea && current) {
-        const line = document.createElement('div');
-        line.className = 'log-line text-green';
-        line.textContent = current.text;
-        logArea.appendChild(line);
-        logArea.scrollTop = logArea.scrollHeight;
-      }
-
-      currentIndex++;
-      if (currentIndex < steps.length) {
-        setTimeout(nextStep, 900);
-      } else {
-        setTimeout(() => {
-          const finalEl = document.getElementById('step-completed');
-          if (finalEl) {
-            finalEl.classList.remove('active');
-            finalEl.classList.add('completed');
-          }
-          if (runBtn) {
-            runBtn.disabled = false;
-            runBtn.textContent = '▶ Запустить контрольный цикл теста';
-          }
-          lifecycleRunning = false;
-          window.showToast('Контрольный цикл тестирования успешно завершен!');
-        }, 1000);
-      }
+      requestAnimationFrame(drawWave);
     }
 
-    nextStep();
-  };
+    requestAnimationFrame(drawWave);
+  }
 
   // --------------------------------------------------------------------------
-  // 06 — TRAFFIC WAVEFORM & LIVE PULSE
+  // LIVE TELEMETRY STREAM LISTENER
   // --------------------------------------------------------------------------
-  const trafficAreaPath = document.getElementById('traffic-area-path');
-  const trafficLinePath = document.getElementById('traffic-line-path');
   const trafficSpeedDisplay = document.getElementById('traffic-live-speed');
   const trafficTodayDisplay = document.getElementById('traffic-live-today');
-  const overviewSpeedDisplay = document.getElementById('overview-live-speed');
-  const overviewTodayDisplay = document.getElementById('overview-live-today');
-
-  let waveOffset = 0;
-  function updateWave() {
-    waveOffset += 0.05;
-    const y1 = 120 + Math.sin(waveOffset) * 25;
-    const y2 = 90 + Math.cos(waveOffset * 1.3) * 30;
-    const y3 = 140 + Math.sin(waveOffset * 0.9) * 20;
-
-    const lineD = `M0,150 Q150,${y1} 300,${y2} T600,${y3} T800,110`;
-    const areaD = `${lineD} L800,200 L0,200 Z`;
-
-    if (trafficLinePath) trafficLinePath.setAttribute('d', lineD);
-    if (trafficAreaPath) trafficAreaPath.setAttribute('d', areaD);
-
-    requestAnimationFrame(updateWave);
-  }
-  requestAnimationFrame(updateWave);
+  const kpiSpeedDisplay = document.getElementById('kpi-speed-count');
+  const kpiTrafficDisplay = document.getElementById('kpi-traffic-count');
 
   window.addEventListener('xylen:live-pulse', (e) => {
     const data = e.detail;
     if (!data) return;
 
-    const speedMbps = ((data.totalSpeedKBps * 8) / 1024).toFixed(1) + ' Мбит/с';
-    const todayGb = (data.totalTodayBytes / (1024 * 1024 * 1024)).toFixed(2) + ' ГБ';
+    const speedStr = (data.totalSpeedKBps / 1024).toFixed(1) + ' МБ/с';
+    const todayStr = (data.totalTodayBytes / (1024 * 1024 * 1024)).toFixed(1) + ' ГБ';
 
-    if (trafficSpeedDisplay) trafficSpeedDisplay.textContent = speedMbps;
-    if (trafficTodayDisplay) trafficTodayDisplay.textContent = todayGb;
-    if (overviewSpeedDisplay) overviewSpeedDisplay.textContent = (data.totalSpeedKBps / 1024).toFixed(1) + ' МБ/с';
-    if (overviewTodayDisplay) overviewTodayDisplay.textContent = todayGb;
+    if (trafficSpeedDisplay) trafficSpeedDisplay.textContent = speedStr;
+    if (trafficTodayDisplay) trafficTodayDisplay.textContent = todayStr;
+    if (kpiSpeedDisplay) kpiSpeedDisplay.textContent = speedStr;
+    if (kpiTrafficDisplay) kpiTrafficDisplay.textContent = todayStr;
   });
 
   // --------------------------------------------------------------------------
-  // 07 — RENDER RELEASES (Release Center)
+  // RELEASES DATA BINDING
   // --------------------------------------------------------------------------
-  const latestReleaseContainer = document.getElementById('latest-release-container');
-  const archiveReleasesContainer = document.getElementById('releases-archive-container');
+  const whatsNewList = document.getElementById('whats-new-list-items');
+  const releasesArchive = document.getElementById('releases-archive-container');
 
-  function renderReleases() {
-    if (!latestReleaseContainer || !window.versionStorage) return;
+  function renderReleasesData() {
+    if (!window.versionStorage) return;
     const latest = window.versionStorage.getLatest();
     const all = window.versionStorage.getAll();
 
-    if (latest) {
-      latestReleaseContainer.innerHTML = `
-        <div class="release-card-top">
-          <div>
-            <div class="release-version-title">${latest.versionDisplay}</div>
-            <div class="release-date-sub">Официальный релиз • ${latest.releaseDate}</div>
-          </div>
-          <span class="card-status-badge">
-            <span class="pulse-dot green"></span>
-            <span>АКТУАЛЬНЫЙ РЕЛИЗ</span>
-          </span>
-        </div>
-
-        <p style="color:var(--text-secondary); margin-bottom: 20px; font-size:0.95rem;">
-          ${latest.summary}
-        </p>
-
-        <div class="release-actions-grid">
-          <!-- Android Option -->
-          <div class="download-option-box">
-            <div class="opt-header">
-              <img src="assets/icon-android.svg" alt="Android" class="platform-logo-svg">
-              <div>
-                <div class="opt-name">Google Android APK</div>
-                <div class="opt-meta">${latest.android.fileSize} • ${latest.android.osReq}</div>
-              </div>
-            </div>
-            <div style="display:flex; gap:8px;">
-              <a href="${latest.android.downloadUrl}" class="btn btn-cyan btn-compact" style="flex:1;">
-                Скачать APK
-              </a>
-              <button class="btn btn-secondary btn-compact" onclick="window.openQrModal('${latest.android.downloadUrl}', 'Android APK Release v5.2')">
-                QR
-              </button>
-            </div>
-          </div>
-
-          <!-- iOS Option -->
-          <div class="download-option-box">
-            <div class="opt-header">
-              <img src="assets/icon-ios.svg" alt="iOS" class="platform-logo-svg">
-              <div>
-                <div class="opt-name">Apple iPhone IPA</div>
-                <div class="opt-meta">${latest.ios.fileSize} • ${latest.ios.osReq}</div>
-              </div>
-            </div>
-            <div style="display:flex; gap:8px;">
-              <a href="${latest.ios.downloadUrl}" class="btn btn-cyan btn-compact" style="flex:1;">
-                Установить IPA
-              </a>
-              <button class="btn btn-secondary btn-compact" onclick="window.openQrModal('${latest.ios.downloadUrl}', 'iOS IPA Release v5.2')">
-                QR
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="whats-new-list">
-          <div class="whats-new-heading">Что нового в сборке v5.2:</div>
-          ${latest.changelog.map(item => `
-            <div class="whats-new-item">${item.text}</div>
-          `).join('')}
-        </div>
-      `;
+    if (latest && whatsNewList) {
+      whatsNewList.innerHTML = latest.changelog.map(item => `
+        <li>${item.text}</li>
+      `).join('');
     }
 
-    if (archiveReleasesContainer) {
+    if (releasesArchive) {
       const archives = all.filter(r => r.status === 'archive');
-      archiveReleasesContainer.innerHTML = archives.map(arch => `
-        <div class="archive-card">
+      releasesArchive.innerHTML = archives.map(arch => `
+        <div class="archive-card hover-glow-card">
           <div>
-            <div style="font-weight:700; color:var(--text-primary); font-size:0.92rem;">
-              ${arch.versionDisplay}
-            </div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">${arch.releaseDate} • ${arch.summary}</div>
+            <div style="font-weight:800; font-size:1.05rem;">${arch.versionDisplay}</div>
+            <div style="font-size:0.8rem; color:var(--text-muted);">${arch.releaseDate} • ${arch.summary}</div>
           </div>
-          <div style="display:flex; gap:6px;">
-            <a href="${arch.android.downloadUrl}" class="btn btn-secondary btn-compact" style="font-size:0.74rem;">APK</a>
-            <a href="${arch.ios.downloadUrl}" class="btn btn-secondary btn-compact" style="font-size:0.74rem;">IPA</a>
+          <div style="display:flex; gap:8px;">
+            <a href="${arch.android.downloadUrl}" class="btn btn-secondary btn-compact">Android</a>
+            <a href="${arch.ios.downloadUrl}" class="btn btn-secondary btn-compact">iOS</a>
           </div>
         </div>
       `).join('');
@@ -595,39 +488,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // MODALS: TESTER, DEVICE, ADMIN, QR
+  // MODALS: DEVICE INSPECTOR, MANAGER AUTH, QR
   // --------------------------------------------------------------------------
-  const testerModal = document.getElementById('tester-modal');
-  const modalTesterAvatar = document.getElementById('modal-tester-avatar');
-  const modalTesterName = document.getElementById('modal-tester-name');
-  const modalTesterRole = document.getElementById('modal-tester-role');
-  const modalTesterSpec = document.getElementById('modal-tester-spec');
-  const modalTesterDevice = document.getElementById('modal-tester-device');
-  const modalTesterTask = document.getElementById('modal-tester-task');
-  const modalTesterSimsCount = document.getElementById('modal-tester-sims-count');
-
-  window.openTesterModal = function(testerId) {
-    if (!window.activityStorage || !testerModal) return;
-    const testers = window.activityStorage.getTesters();
-    const t = testers.find(x => x.id === testerId);
-    if (!t) return;
-
-    if (modalTesterAvatar) modalTesterAvatar.textContent = t.avatar;
-    if (modalTesterName) modalTesterName.textContent = t.name;
-    if (modalTesterRole) modalTesterRole.textContent = t.role;
-    if (modalTesterSpec) modalTesterSpec.textContent = t.role + ' (Field Operations)';
-    if (modalTesterDevice) modalTesterDevice.textContent = t.activeDevice;
-    if (modalTesterTask) modalTesterTask.textContent = t.notes;
-    if (modalTesterSimsCount) modalTesterSimsCount.textContent = t.simsCount + ' SIMs (' + t.testsToday + ' тестов сегодня)';
-
-    testerModal.classList.add('active');
-  };
-
-  window.closeTesterModal = function() {
-    if (testerModal) testerModal.classList.remove('active');
-  };
-
-  // Device Modal
   const deviceModal = document.getElementById('device-modal');
   const devModalTitle = document.getElementById('dev-modal-title');
   const devModalSub = document.getElementById('dev-modal-sub');
@@ -640,37 +502,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!d) return;
 
     if (devModalTitle) devModalTitle.textContent = d.model;
-    if (devModalSub) devModalSub.textContent = `${d.deviceOs} • ${d.appVersion} • Ответственный: ${d.assignedTester}`;
+    if (devModalSub) devModalSub.textContent = `${d.deviceOs} • ${d.appVersion} • Инженер: ${d.assignedUser}`;
 
     if (devModalBody) {
+      const simsList = (d.simSlots || []).map(sim => `
+        <div style="background:var(--bg-card-elevated); padding:12px; border-radius:var(--radius-sm); margin-bottom:8px; border:1px solid var(--border-subtle);">
+          <div style="display:flex; justify-content:space-between; font-weight:800; color:var(--cyan-electric);">
+            <span>${sim.countryFlag || '🌐'} ${sim.carrier} (${sim.slotName})</span>
+            <span>${sim.signalDbm} dBm</span>
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;">
+            <div>Стандарт: <strong>${sim.networkType}</strong> • Базовая вышка: ${sim.cellTower}</div>
+            <div style="font-family:var(--font-mono); font-size:0.74rem; margin-top:2px;">ICCID: ${sim.iccid}</div>
+            <div style="font-family:var(--font-mono); font-size:0.74rem;">IMSI: ${sim.imsi}</div>
+          </div>
+        </div>
+      `).join('');
+
       devModalBody.innerHTML = `
-        <div class="inspector-item-row">
-          <span class="inspector-label">Оператор и Слот:</span>
-          <span class="inspector-val cyan">${d.sim.carrierName} (${d.sim.slot})</span>
-        </div>
-        <div class="inspector-item-row">
-          <span class="inspector-label">Стандарт и Мощность:</span>
-          <span class="inspector-val">${d.sim.networkType} • ${d.sim.signalDbm} dBm</span>
-        </div>
-        <div class="inspector-item-row">
-          <span class="inspector-label">Базовая вышка:</span>
-          <span class="inspector-val">${d.sim.cellTower}</span>
+        <div style="margin-bottom: 14px;">
+          <div style="font-size:0.76rem; text-transform:uppercase; font-weight:700; color:var(--text-muted); margin-bottom:6px;">Подключенные SIM-карты:</div>
+          ${simsList}
         </div>
         <div class="inspector-item-row">
           <span class="inspector-label">IP-адрес терминала:</span>
-          <span class="inspector-val" style="font-family:var(--font-mono);">${d.sim.ipAddress}</span>
-        </div>
-        <div class="inspector-item-row">
-          <span class="inspector-label">ICCID серийный номер:</span>
-          <span class="inspector-val" style="font-family:var(--font-mono);">${d.sim.iccid}</span>
-        </div>
-        <div class="inspector-item-row">
-          <span class="inspector-label">IMSI абонента:</span>
-          <span class="inspector-val" style="font-family:var(--font-mono);">${d.sim.imsi}</span>
+          <span class="inspector-val" style="font-family:var(--font-mono);">${d.ipAddress}</span>
         </div>
         <div class="inspector-item-row">
           <span class="inspector-label">Трафик за сессию:</span>
           <span class="inspector-val">${(d.todayTrafficBytes / (1024 * 1024)).toFixed(1)} МБ</span>
+        </div>
+        <div class="inspector-item-row">
+          <span class="inspector-label">Текущая скорость:</span>
+          <span class="inspector-val cyan">${(d.currentSpeedKBps / 1024).toFixed(1)} МБ/с</span>
         </div>
       `;
     }
@@ -682,7 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (deviceModal) deviceModal.classList.remove('active');
   };
 
-  // Admin PIN Modal
+  // Manager PIN Modal
   const adminAuthModal = document.getElementById('admin-auth-modal');
   const adminPinInput = document.getElementById('admin-pin-input');
   const adminAuthError = document.getElementById('admin-auth-error');
@@ -690,6 +554,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.requestAdminConsole = function() {
     if (window.activityStorage && window.activityStorage.isAdmin()) {
       window.switchPage('page-admin');
+      window.renderAdminVisitors();
       return;
     }
     if (adminPinInput) adminPinInput.value = '';
@@ -711,7 +576,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (ok) {
       window.closeAdminAuthModal();
-      document.body.classList.add('admin-authenticated');
       window.switchPage('page-admin');
       window.renderAdminVisitors();
       window.showToast('Режим Менеджера успешно разблокирован!');
@@ -724,32 +588,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (adminPinInput) {
     adminPinInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        window.submitAdminPin();
-      }
+      if (e.key === 'Enter') window.submitAdminPin();
     });
   }
 
   window.logoutAdminConsole = function() {
     if (window.activityStorage) {
       window.activityStorage.logoutAdmin();
-      document.body.classList.remove('admin-authenticated');
       window.switchPage('page-overview');
       window.showToast('Сессия администратора завершена.');
     }
   };
 
-  // Render Admin Visitors
+  // Admin visitors table
   const adminVisitorsTbody = document.getElementById('admin-visitors-tbody');
   window.renderAdminVisitors = function() {
     if (!adminVisitorsTbody || !window.activityStorage) return;
     const visits = window.activityStorage.getWebVisitors();
-
     adminVisitorsTbody.innerHTML = visits.map(v => `
       <tr>
-        <td style="font-family:var(--font-mono); font-size:0.75rem;">${new Date(v.timestamp).toLocaleTimeString()}</td>
+        <td style="font-family:var(--font-mono); font-size:0.78rem;">${new Date(v.timestamp).toLocaleTimeString()}</td>
         <td><strong>${v.device}</strong></td>
-        <td><span class="code-pill">${v.ip}</span></td>
+        <td><span class="spec-pill">${v.ip}</span></td>
         <td><span style="color:var(--cyan-electric); font-weight:700;">${v.pageVisited}</span></td>
         <td style="color:var(--text-muted);">${v.source}</td>
       </tr>
@@ -767,7 +627,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.openQrModal = function(url, title) {
     if (!qrModal) return;
     activeQrUrl = url;
-    if (qrTitle) qrTitle.textContent = title || 'QR-код загрузки';
+    if (qrTitle) qrTitle.textContent = title || 'QR-код установки';
     if (qrUrlText) qrUrlText.textContent = url;
     if (qrDirectLink) qrDirectLink.href = url;
 
@@ -775,8 +635,8 @@ document.addEventListener('DOMContentLoaded', () => {
       qrBox.innerHTML = '';
       new QRCode(qrBox, {
         text: url,
-        width: 164,
-        height: 164,
+        width: 180,
+        height: 180,
         colorDark: '#0C0C0C',
         colorLight: '#FFFFFF',
         correctLevel: QRCode.CorrectLevel.M
@@ -809,10 +669,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2800);
   };
 
-  // Initial Data Render
-  renderTesters();
+  // Initial renders
   renderDevices();
-  renderSims();
-  renderReleases();
+  renderReleasesData();
   handleUrlHash();
 });
