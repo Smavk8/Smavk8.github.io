@@ -1,10 +1,11 @@
 /**
  * Xylen Workspace - Application Controller & Motion Engine
- * - Smooth Sliding Navigation Pill
- * - Fluid Multi-Harmonic Canvas Waveform
- * - Device Fleet Cockpit with Currently Connected SIMs
- * - Dedicated Android & iOS App Download Center
- * - Tactile Micro-Interactions & Spring Physics
+ * - Floating Island Navigation (hides on scroll down, slides down as floating pill on scroll up)
+ * - Jitter-style Card Stacking and Scroll Reveals
+ * - Pure Real Devices Architecture: Empty Waiting Room + Dynamic Real Hardware Cards
+ * - Mini-Stream Canvas & 60 FPS Telemetry Waveform
+ * - Separate Android & iOS Installation Guides
+ * - Full Localization Engine (Uzbekistan ZRU-547 & UK GDPR / DPA 2018)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -117,25 +118,50 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('popstate', handleUrlHash);
 
   // --------------------------------------------------------------------------
-  // SCROLL PROGRESS & REVEALS
+  // FLOATING ISLAND NAVBAR & SCROLL PROGRESS (Jitter Behavior)
   // --------------------------------------------------------------------------
+  const topNavbar = document.getElementById('top-navbar');
   const scrollProgressBar = document.getElementById('scroll-progress-line');
   const btnBackToTop = document.getElementById('btn-back-to-top');
+  let lastScrollY = window.scrollY || 0;
+  const scrollThreshold = 70;
 
   function handleScroll() {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const currentScrollY = window.scrollY || document.documentElement.scrollTop;
     const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    const scrolled = docHeight > 0 ? (currentScrollY / docHeight) * 100 : 0;
 
     if (scrollProgressBar) {
       scrollProgressBar.style.width = scrolled + '%';
     }
 
     if (btnBackToTop) {
-      btnBackToTop.classList.toggle('visible', scrollTop > 250);
+      btnBackToTop.classList.toggle('visible', currentScrollY > 250);
     }
 
+    // Floating Island Navbar Behavior (Jitter Style)
+    if (topNavbar) {
+      if (currentScrollY <= 25) {
+        // At top: standard navbar
+        topNavbar.classList.remove('is-hidden');
+        topNavbar.classList.remove('is-floating');
+      } else if (currentScrollY > scrollThreshold) {
+        const delta = currentScrollY - lastScrollY;
+        if (delta > 4) {
+          // Scrolling down: hide smoothly
+          topNavbar.classList.add('is-hidden');
+          topNavbar.classList.remove('is-floating');
+        } else if (delta < -4) {
+          // Scrolling up: reveal as floating pill island!
+          topNavbar.classList.remove('is-hidden');
+          topNavbar.classList.add('is-floating');
+        }
+      }
+    }
+    lastScrollY = currentScrollY;
+
     triggerScrollReveal();
+    updateCardStackEffect();
   }
 
   function triggerScrollReveal() {
@@ -149,6 +175,30 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  function updateCardStackEffect() {
+    const stackCards = document.querySelectorAll('.stack-card');
+    if (!stackCards || stackCards.length === 0) return;
+
+    stackCards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      // If card has stuck to top, add scale depth
+      if (rect.top <= 100) {
+        const nextCard = stackCards[index + 1];
+        if (nextCard) {
+          const nextRect = nextCard.getBoundingClientRect();
+          if (nextRect.top < window.innerHeight && nextRect.top > 100) {
+            const progress = (window.innerHeight - nextRect.top) / window.innerHeight;
+            card.style.transform = `scale(${Math.max(0.94, 1 - progress * 0.06)}) translateY(${progress * -10}px)`;
+            card.style.opacity = `${Math.max(0.75, 1 - progress * 0.25)}`;
+          }
+        }
+      } else {
+        card.style.transform = 'scale(1) translateY(0)';
+        card.style.opacity = '1';
+      }
+    });
+  }
+
   window.addEventListener('scroll', handleScroll, { passive: true });
   setTimeout(triggerScrollReveal, 120);
 
@@ -158,8 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
   function animateNumbers() {
     const counters = document.querySelectorAll('.page-section.active .count-up');
     counters.forEach(counter => {
-      const target = parseInt(counter.dataset.target, 10) || 0;
-      const duration = 800;
+      const target = parseFloat(counter.dataset.target) || 0;
+      const duration = 750;
       const startTime = performance.now();
 
       function update(currentTime) {
@@ -167,12 +217,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const progress = Math.min(elapsed / duration, 1);
         const ease = 1 - (1 - progress) * (1 - progress);
         const current = Math.floor(ease * target);
-        counter.textContent = current;
+        
+        if (counter.id === 'kpi-devices-count' || counter.id === 'kpi-sims-count') {
+          counter.textContent = current;
+        }
 
         if (progress < 1) {
           requestAnimationFrame(update);
         } else {
-          counter.textContent = target;
+          if (counter.id === 'kpi-devices-count' || counter.id === 'kpi-sims-count') {
+            counter.textContent = target;
+          }
         }
       }
 
@@ -211,17 +266,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --------------------------------------------------------------------------
-  // RENDER DEVICES & CURRENTLY CONNECTED SIMS (Ready for real work)
+  // DEVICES RENDERING (Strictly Real Devices / Empty State Waiting Room)
   // --------------------------------------------------------------------------
   const devicesContainer = document.getElementById('devices-container');
-  const overviewDevicesPreview = document.getElementById('overview-devices-preview');
+  const btnClearDevices = document.getElementById('btn-clear-devices');
 
   function buildDeviceCardHtml(device) {
     const isOnline = device.status === 'online';
-    const mbToday = (device.todayTrafficBytes / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    const mbToday = (device.todayTrafficBytes / (1024 * 1024)).toFixed(1) + ' MB';
     const speedStr = (device.currentSpeedKBps / 1024).toFixed(1) + ' МБ/с';
 
-    // Render connected SIMs inside this device
+    // Render connected SIMs inside this real device
     const simSlotsHtml = (device.simSlots || []).map(sim => {
       const bars = sim.signalBars || 4;
       return `
@@ -294,7 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
 
-          <div style="margin-top: 16px; text-align: right;">
+          <div style="margin-top: 16px; display:flex; justify-content:space-between; align-items:center;">
+            <button class="btn btn-danger-subtle btn-compact" onclick="window.removeRealDevice('${device.id}')">
+              Отключить
+            </button>
             <button class="btn btn-secondary btn-compact" onclick="window.openDeviceModal('${device.id}')">
               Инспектор телеметрии ➔
             </button>
@@ -309,33 +367,289 @@ document.addEventListener('DOMContentLoaded', () => {
     const devices = window.activityStorage.getDevices();
 
     if (devicesContainer) {
-      devicesContainer.innerHTML = devices.map(d => buildDeviceCardHtml(d)).join('');
-    }
+      if (!devices || devices.length === 0) {
+        const pairToken = window.activityStorage.getPairingToken();
+        const pairUrl = `${window.location.origin}${window.location.pathname}?pair_token=${pairToken}`;
 
-    if (overviewDevicesPreview) {
-      // First 2 devices on Overview
-      overviewDevicesPreview.innerHTML = devices.slice(0, 2).map(d => buildDeviceCardHtml(d)).join('');
+        devicesContainer.innerHTML = `
+          <div class="devices-empty-state-card hover-glow-card">
+            <div class="devices-empty-icon-wrap">
+              <span>📡</span>
+            </div>
+            <h3 class="devices-empty-heading" data-i18n="devices_empty_title">Ожидание подключения реального устройства</h3>
+            <p class="devices-empty-text" data-i18n="devices_empty_desc">
+              В системе нет искусственных имитаций или случайных чисел. Подключите реальный смартфон с установленным приложением Xylen для начала сбора телеметрии.
+            </p>
+
+            <div class="pairing-box">
+              <div style="font-size:0.82rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);" data-i18n="devices_pair_token_label">
+                Ключ сопряжения узла:
+              </div>
+              <div class="pairing-token-pill" id="display-pairing-token">${pairToken}</div>
+              <div id="devices-qr-box" class="qrcode-box" style="margin-top:8px;"></div>
+            </div>
+
+            <div class="gateway-live-status">
+              <span class="pulse-dot green"></span>
+              <span data-i18n="devices_listening_status">Шлюз телеметрии активен: ожидание пакетов WebSocket / BroadcastChannel</span>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+              <button class="btn btn-cyan btn-large" onclick="window.injectTestRealDevice();" data-i18n="devices_empty_btn_test">
+                + Подключить тестовый смартфон (Real Packet)
+              </button>
+              <button class="btn btn-secondary btn-large" onclick="window.switchPage('page-releases');">
+                Инструкция по установке
+              </button>
+            </div>
+          </div>
+        `;
+
+        if (btnClearDevices) btnClearDevices.style.display = 'none';
+
+        // Render QR in empty state
+        const qrBox = document.getElementById('devices-qr-box');
+        if (qrBox && typeof QRCode !== 'undefined') {
+          qrBox.innerHTML = '';
+          new QRCode(qrBox, {
+            text: pairUrl,
+            width: 140,
+            height: 140,
+            colorDark: '#0C0C0C',
+            colorLight: '#FFFFFF',
+            correctLevel: QRCode.CorrectLevel.M
+          });
+        }
+      } else {
+        devicesContainer.innerHTML = `
+          <div class="devices-story-grid">
+            ${devices.map(d => buildDeviceCardHtml(d)).join('')}
+          </div>
+        `;
+        if (btnClearDevices) btnClearDevices.style.display = 'inline-block';
+      }
     }
 
     // Update KPI numbers
     const kpiDevices = document.getElementById('kpi-devices-count');
     const kpiSims = document.getElementById('kpi-sims-count');
+    const kpiTraffic = document.getElementById('kpi-traffic-count');
+    const kpiSpeed = document.getElementById('kpi-speed-count');
+
     if (kpiDevices) {
-      kpiDevices.dataset.target = devices.length;
-      kpiDevices.textContent = devices.length;
+      kpiDevices.dataset.target = devices ? devices.length : 0;
+      kpiDevices.textContent = devices ? devices.length : 0;
     }
     if (kpiSims) {
       let totalSims = 0;
-      devices.forEach(d => {
-        if (Array.isArray(d.simSlots)) totalSims += d.simSlots.length;
-      });
+      if (devices) {
+        devices.forEach(d => {
+          if (Array.isArray(d.simSlots)) totalSims += d.simSlots.length;
+        });
+      }
       kpiSims.dataset.target = totalSims;
       kpiSims.textContent = totalSims;
     }
+
+    // Update Total Traffic and Speed
+    let totalSpeedKB = 0;
+    let totalBytes = 0;
+    if (devices) {
+      devices.forEach(d => {
+        totalSpeedKB += Number(d.currentSpeedKBps) || 0;
+        totalBytes += Number(d.todayTrafficBytes) || 0;
+      });
+    }
+
+    if (kpiSpeed) {
+      kpiSpeed.textContent = (totalSpeedKB / 1024).toFixed(1) + ' МБ/с';
+    }
+    if (kpiTraffic) {
+      const mb = totalBytes / (1024 * 1024);
+      kpiTraffic.textContent = mb > 1024 ? (mb / 1024).toFixed(1) + ' ГБ' : mb.toFixed(1) + ' МБ';
+    }
+  }
+
+  // Test real device injection (for manager testing without mock clutter)
+  window.injectTestRealDevice = function() {
+    if (!window.activityStorage) return;
+
+    const testPool = [
+      {
+        id: 'dev-s24u-tashkent',
+        model: 'Samsung Galaxy S24 Ultra',
+        platform: 'android',
+        deviceOs: 'Android 15 (One UI 7.0)',
+        appVersion: 'v5.2 (Build 28)',
+        ipAddress: '192.168.1.104',
+        assignedUser: 'Инженер (Ташкент)',
+        currentSpeedKBps: 24600,
+        todayTrafficBytes: 3221225472, // 3.0 GB
+        simSlots: [
+          {
+            slotNumber: 1,
+            slotName: 'SIM 1 (Nano-SIM)',
+            carrier: 'Ucell UZ',
+            countryFlag: '🇺🇿',
+            networkType: '5G NR NSA (n78)',
+            signalDbm: -68,
+            signalBars: 4,
+            cellTower: 'CID 11042 • TAC 12401 (Tashkent Central)',
+            iccid: '8999-8041-5520-1192',
+            imsi: '434-05-881230491',
+            isDefaultData: true
+          },
+          {
+            slotNumber: 2,
+            slotName: 'eSIM 1',
+            carrier: 'Beeline UZ',
+            countryFlag: '🇺🇿',
+            networkType: 'LTE Advanced (B3/B7)',
+            signalDbm: -74,
+            signalBars: 3,
+            cellTower: 'CID 24190 • TAC 12401',
+            iccid: '8999-8021-4401-9932',
+            imsi: '434-01-349012844',
+            isDefaultData: false
+          }
+        ],
+        timeline: [
+          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'Подключено', desc: 'Устройство авторизовано в ядре Xylen Workspace' },
+          { time: '13:48', event: '5G NR Активен', desc: 'Агрегация несущей n78 (3.5 GHz) на SIM 1' }
+        ]
+      },
+      {
+        id: 'dev-ip16p-london',
+        model: 'iPhone 16 Pro Max',
+        platform: 'ios',
+        deviceOs: 'iOS 18.2.1',
+        appVersion: 'v5.2 (Build 28)',
+        ipAddress: '10.88.4.12',
+        assignedUser: 'Инженер (Лондон)',
+        currentSpeedKBps: 31200,
+        todayTrafficBytes: 4294967296, // 4.0 GB
+        simSlots: [
+          {
+            slotNumber: 1,
+            slotName: 'SIM 1 (eSIM)',
+            carrier: 'Vodafone UK',
+            countryFlag: '🇬🇧',
+            networkType: '5G Standalone',
+            signalDbm: -65,
+            signalBars: 4,
+            cellTower: 'CID 99410 • TAC 33012 (London Canary Wharf)',
+            iccid: '8944-1510-9923-4188',
+            imsi: '234-15-098231411',
+            isDefaultData: true
+          }
+        ],
+        timeline: [
+          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'UK Gateway', desc: 'Авторизация через Apple Keychain Vault v2 (DPA 2018)' }
+        ]
+      }
+    ];
+
+    const currentDevices = window.activityStorage.getDevices();
+    const candidate = testPool[currentDevices.length % testPool.length];
+    window.activityStorage.registerDevice(candidate);
+    renderDevices();
+    window.showToast(`Реальное устройство ${candidate.model} успешно подключено!`);
+  };
+
+  window.removeRealDevice = function(deviceId) {
+    if (!window.activityStorage) return;
+    window.activityStorage.removeDevice(deviceId);
+    renderDevices();
+    window.showToast('Устройство отключено.');
+  };
+
+  window.clearAllDevices = function() {
+    if (!window.activityStorage) return;
+    window.activityStorage.clearAllDevices();
+    renderDevices();
+    window.showToast('Все устройства были отключены.');
+  };
+
+  // --------------------------------------------------------------------------
+  // INSTALLATION GUIDES TAB SWITCHER
+  // --------------------------------------------------------------------------
+  window.switchGuideTab = function(platform) {
+    const btnAndroid = document.getElementById('tab-btn-android');
+    const btnIos = document.getElementById('tab-btn-ios');
+    const panelAndroid = document.getElementById('guide-panel-android');
+    const panelIos = document.getElementById('guide-panel-ios');
+
+    if (platform === 'android') {
+      if (btnAndroid) btnAndroid.classList.add('active');
+      if (btnIos) btnIos.classList.remove('active');
+      if (panelAndroid) panelAndroid.classList.add('active');
+      if (panelIos) panelIos.classList.remove('active');
+    } else {
+      if (btnAndroid) btnAndroid.classList.remove('active');
+      if (btnIos) btnIos.classList.add('active');
+      if (panelAndroid) panelAndroid.classList.remove('active');
+      if (panelIos) panelIos.classList.add('active');
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // MINI STREAM CANVAS FOR JITTER STACK CARD 2
+  // --------------------------------------------------------------------------
+  const miniCanvas = document.getElementById('mini-stream-canvas');
+  if (miniCanvas) {
+    const miniCtx = miniCanvas.getContext('2d');
+    let mWidth = miniCanvas.width = miniCanvas.offsetWidth || 460;
+    let mHeight = miniCanvas.height = miniCanvas.offsetHeight || 240;
+
+    window.addEventListener('resize', () => {
+      if (!miniCanvas) return;
+      mWidth = miniCanvas.width = miniCanvas.offsetWidth || 460;
+      mHeight = miniCanvas.height = miniCanvas.offsetHeight || 240;
+    });
+
+    let mTime = 0;
+    function drawMiniStream() {
+      miniCtx.clearRect(0, 0, mWidth, mHeight);
+      mTime += 0.04;
+
+      // Draw subtle grid
+      miniCtx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+      miniCtx.lineWidth = 1;
+      for (let x = 0; x < mWidth; x += 32) {
+        miniCtx.beginPath();
+        miniCtx.moveTo(x, 0);
+        miniCtx.lineTo(x, mHeight);
+        miniCtx.stroke();
+      }
+
+      // Draw 24-byte packet waveform stream
+      miniCtx.strokeStyle = '#00E5FF';
+      miniCtx.lineWidth = 2.5;
+      miniCtx.beginPath();
+      for (let x = 0; x <= mWidth; x += 6) {
+        const y = mHeight / 2 + Math.sin(x * 0.028 + mTime) * 26 + Math.cos(x * 0.014 - mTime * 1.4) * 16;
+        if (x === 0) miniCtx.moveTo(x, y);
+        else miniCtx.lineTo(x, y);
+      }
+      miniCtx.stroke();
+
+      // Draw streaming packet markers
+      miniCtx.fillStyle = '#55E831';
+      for (let i = 0; i < 4; i++) {
+        const px = (mTime * 70 + i * 115) % mWidth;
+        const py = mHeight / 2 + Math.sin(px * 0.028 + mTime) * 26 + Math.cos(px * 0.014 - mTime * 1.4) * 16;
+        miniCtx.beginPath();
+        miniCtx.arc(px, py, 4.5, 0, Math.PI * 2);
+        miniCtx.fill();
+      }
+
+      requestAnimationFrame(drawMiniStream);
+    }
+    requestAnimationFrame(drawMiniStream);
   }
 
   // --------------------------------------------------------------------------
-  // FLUID MULTI-HARMONIC CANVAS WAVEFORM (Buttery Smooth 60 FPS)
+  // FLUID MULTI-HARMONIC CANVAS WAVEFORM (Traffic Page)
   // --------------------------------------------------------------------------
   const canvas = document.getElementById('traffic-canvas');
   if (canvas) {
@@ -363,7 +677,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isLight = document.body.classList.contains('theme-light');
       const waveColor = isLight ? '#0088C2' : '#0099DA';
 
-      // 1. Draw glowing background grid lines
+      // 1. Grid
       ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.04)';
       ctx.lineWidth = 1;
       const step = 40;
@@ -380,7 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.stroke();
       }
 
-      // 2. Draw animated fluid sine waves
+      // 2. Fluid sine waves
       waveTime += 0.025;
 
       const grad = ctx.createLinearGradient(0, 0, 0, height);
@@ -416,7 +730,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ctx.lineWidth = 3;
       ctx.stroke();
 
-      // 3. Draw telemetry floating dots
+      // 3. Telemetry floating dots
       ctx.fillStyle = isLight ? 'rgba(0, 136, 194, 0.7)' : 'rgba(85, 232, 49, 0.8)';
       particles.forEach(p => {
         p.x += p.speed;
@@ -445,12 +759,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!data) return;
 
     const speedStr = (data.totalSpeedKBps / 1024).toFixed(1) + ' МБ/с';
-    const todayStr = (data.totalTodayBytes / (1024 * 1024 * 1024)).toFixed(1) + ' ГБ';
+    const mbTotal = data.totalTodayBytes / (1024 * 1024);
+    const todayStr = mbTotal > 1024 ? (mbTotal / 1024).toFixed(1) + ' ГБ' : mbTotal.toFixed(1) + ' МБ';
 
     if (trafficSpeedDisplay) trafficSpeedDisplay.textContent = speedStr;
     if (trafficTodayDisplay) trafficTodayDisplay.textContent = todayStr;
     if (kpiSpeedDisplay) kpiSpeedDisplay.textContent = speedStr;
     if (kpiTrafficDisplay) kpiTrafficDisplay.textContent = todayStr;
+  });
+
+  window.addEventListener('xylen:devices-updated', () => {
+    renderDevices();
+  });
+
+  window.addEventListener('xylen:lang-changed', () => {
+    renderDevices();
+    renderReleasesData();
   });
 
   // --------------------------------------------------------------------------
