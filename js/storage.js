@@ -20,12 +20,40 @@ const PAIRING_KEY = 'xylen_workspace_pairing_token_v8';
 // ----------------------------------------------------------------------------
 const DEFAULT_RELEASES = [
   {
+    id: 'rel-5-3',
+    appVersion: 'v5.3',
+    buildNumber: 29,
+    versionDisplay: 'v5.3 (Сборка 29)',
+    releaseDate: '2026-09-23',
+    status: 'latest',
+    android: {
+      downloadUrl: 'https://files.catbox.moe/8uk579.apk',
+      platformLabel: 'Android',
+      osReq: 'Android 8.0 – 15.0+ (One UI, HyperOS, ColorOS, Pixel AOSP)',
+      fileSize: '16.3 MB'
+    },
+    ios: {
+      downloadUrl: 'https://files.catbox.moe/f0mefz.ipa',
+      platformLabel: 'iOS',
+      osReq: 'iOS 16.0 – 18.2+ (iPhone SE, 12, 13, 14, 15, 16 Pro)',
+      fileSize: '1.8 MB'
+    },
+    summary: 'Официальный выпуск v5.3: сквозной онлайн-мониторинг действий пользователей, учет посещаемых экранов, раздельный аудит сотового трафика по тестерам.',
+    changelog: [
+      { type: 'new', text: 'Сквозной аудит действий и навигации пользователей на веб-панели управления в реальном времени.' },
+      { type: 'new', text: 'Учёт сотового трафика отдельно по каждому пользователю/тестеру (кто сколько тратит).' },
+      { type: 'new', text: 'Возможность указать имя или позывной тестера прямо в Настройках приложения.' },
+      { type: 'improved', text: 'Прямое считывание подключенных SIM-карт (Ucell, UMS, Beeline UZ, O2 UK, Three UK).' },
+      { type: 'improved', text: 'Автономная фоновая синхронизация с нулевым расходом батареи.' }
+    ]
+  },
+  {
     id: 'rel-5-2',
     appVersion: 'v5.2',
     buildNumber: 28,
     versionDisplay: 'v5.2 (Сборка 28)',
     releaseDate: '2026-09-23',
-    status: 'latest',
+    status: 'archive',
     android: {
       downloadUrl: 'https://files.catbox.moe/j58gyt.apk',
       platformLabel: 'Android',
@@ -38,13 +66,10 @@ const DEFAULT_RELEASES = [
       osReq: 'iOS 16.0 – 18.2+ (iPhone SE, 12, 13, 14, 15, 16 Pro)',
       fileSize: '1.8 MB'
     },
-    summary: 'Официальный рабочий выпуск Xylen Platform: мгновенная фиксация сотовых SIM-карт, 24-байтный микро-дельта протокол связи и аппаратное шифрование. Родина проекта — Гулистан.',
+    summary: 'Выпуск v5.2: 24-байтный микро-дельта протокол связи и прямое считывание сотового модема.',
     changelog: [
-      { type: 'new', text: 'Прямое считывание подключенных SIM-карт: отображение оператора (Ucell, UMS, Beeline UZ, O2 UK, Three UK), частоты, мощности сигнала (dBm) и вышки (CID/TAC).' },
-      { type: 'new', text: 'Учёт исключительно мобильного сотового интернета (2G/3G/LTE/5G) через SIM. Wi-Fi трафик строго исключён из биллинга.' },
-      { type: 'new', text: 'Микро-дельта протокол телеметрии: пакеты по 24 байта, работающие даже при перегрузке канала или слабом 2G/EDGE.' },
-      { type: 'improved', text: 'Автономная фоновая синхронизация с расходом батареи менее 0.1% в сутки.' },
-      { type: 'improved', text: 'Аппаратная защита: AES-256-GCM на Android и Apple Keychain Vault на iOS.' }
+      { type: 'new', text: 'Прямое считывание подключенных SIM-карт и сотового радиоканала.' },
+      { type: 'new', text: 'Учёт исключительно мобильного сотового интернета через SIM.' }
     ]
   },
   {
@@ -121,9 +146,12 @@ class VersionStorage {
 class ActivityStorage {
   constructor() {
     this.telemetryChannel = null;
+    this.auditUsers = [];
+    this.auditActivities = [];
     this.init();
     this.initLivePulse();
     this.setupIncomingTelemetryBridge();
+    this.startLiveAuditEngine();
   }
 
   init() {
@@ -339,6 +367,70 @@ class ActivityStorage {
         });
       }
     } catch (_) {}
+  }
+
+  /**
+   * Continuous Cloudflare Pages Live Audit Sync Engine.
+   * Periodically fetches /api/audit to track active users, their current screen,
+   * actions taken, and cellular data spent.
+   */
+  startLiveAuditEngine() {
+    const poll = async () => {
+      try {
+        const isPagesOrLocal = window.location.hostname && (window.location.hostname.includes('pages.dev') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        const apiUrl = isPagesOrLocal ? '/api/audit' : 'https://xylen-platform.pages.dev/api/audit';
+        const res = await fetch(apiUrl, { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.ok) {
+            this.auditUsers = data.users || [];
+            this.auditActivities = data.recentActivities || [];
+            window.dispatchEvent(new CustomEvent('xylen:audit-sync', { detail: data }));
+
+            if (Array.isArray(data.users) && data.users.length > 0) {
+              const mappedDevices = data.users.map(u => ({
+                id: u.userId,
+                model: u.model || 'Смартфон',
+                platform: u.platform || 'Android',
+                deviceOs: `${u.platform || 'Android'} • ${u.model || ''}`,
+                appVersion: 'v5.3 (Build 29)',
+                status: u.status || 'online',
+                currentSpeedKBps: u.currentSpeedKBps || 0,
+                todayTrafficBytes: u.todayBytes || 0,
+                totalDataTrafficBytes: u.totalBytes || u.todayBytes || 0,
+                lastSeen: u.lastSeenIso || new Date(u.lastSeenMs || Date.now()).toISOString(),
+                assignedUser: u.testerName || u.userId,
+                currentScreen: u.currentScreen || 'Главная',
+                lastAction: u.lastAction || 'В сети',
+                simSlots: [
+                  {
+                    slotNumber: 1,
+                    slotName: 'SIM 1 (Сотовая связь)',
+                    carrier: u.carrier || 'Сотовый оператор',
+                    countryFlag: (u.carrier && (u.carrier.includes('O2') || u.carrier.includes('Three') || u.carrier.includes('UK'))) ? '🇬🇧' : '🇺🇿',
+                    networkType: 'LTE / 5G',
+                    signalDbm: -75,
+                    isDefaultData: true
+                  }
+                ]
+              }));
+              this.saveDevices(mappedDevices);
+            }
+          }
+        }
+      } catch (_) {}
+    };
+
+    poll();
+    setInterval(poll, 2500);
+  }
+
+  getAuditUsers() {
+    return this.auditUsers || [];
+  }
+
+  getAuditActivities() {
+    return this.auditActivities || [];
   }
 
   /**

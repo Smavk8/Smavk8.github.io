@@ -649,6 +649,195 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // --------------------------------------------------------------------------
+  // USER AUDIT, SCREEN NAVIGATION & DATA SPEND MONITOR
+  // --------------------------------------------------------------------------
+  function formatBytes(bytes) {
+    const b = Number(bytes) || 0;
+    if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' КБ';
+    if (b < 1024 * 1024 * 1024) return (b / (1024 * 1024)).toFixed(1) + ' МБ';
+    return (b / (1024 * 1024 * 1024)).toFixed(2) + ' ГБ';
+  }
+
+  function renderAuditDashboard() {
+    if (!window.activityStorage) return;
+    const users = window.activityStorage.getAuditUsers();
+    const activities = window.activityStorage.getAuditActivities();
+
+    // 1. Update KPI bar
+    const kpiTotalUsers = document.getElementById('audit-kpi-total-users');
+    const kpiOnlineUsers = document.getElementById('audit-kpi-online-users');
+    const kpiTotalSpend = document.getElementById('audit-kpi-total-spend');
+    const kpiTotalActions = document.getElementById('audit-kpi-total-actions');
+
+    const onlineUsers = users.filter(u => u.status === 'online');
+    let totalSpendBytes = 0;
+    users.forEach(u => { totalSpendBytes += (Number(u.todayBytes) || 0); });
+
+    if (kpiTotalUsers) kpiTotalUsers.textContent = users.length;
+    if (kpiOnlineUsers) kpiOnlineUsers.textContent = onlineUsers.length;
+    if (kpiTotalSpend) kpiTotalSpend.textContent = formatBytes(totalSpendBytes);
+    if (kpiTotalActions) kpiTotalActions.textContent = activities.length;
+
+    // 2. Render Users Grid
+    const usersGrid = document.getElementById('audit-users-grid');
+    if (usersGrid) {
+      if (!users || users.length === 0) {
+        usersGrid.innerHTML = `
+          <div class="user-empty-banner" style="grid-column: 1 / -1;">
+            <div style="font-size: 2rem; margin-bottom: 8px;">👥</div>
+            <strong>Ожидание подключения тестировщиков и пользователей</strong>
+            <p style="margin-top: 6px; font-size: 0.86rem; color: var(--text-muted);">
+              Как только пользователь откроет приложение на смартфоне, его карточка с текущим экраном, запущенными функциями и расходом трафика появится здесь в реальном времени.
+            </p>
+          </div>
+        `;
+      } else {
+        usersGrid.innerHTML = users.map(u => {
+          const isOnline = u.status === 'online';
+          const initials = (u.testerName || 'U').substring(0, 2).toUpperCase();
+          const screen = u.currentScreen || 'Главная';
+          const spendFormatted = formatBytes(u.todayBytes);
+          const lastAction = u.lastAction || 'В сети';
+          const timeSince = u.lastSeenMs ? Math.round((Date.now() - u.lastSeenMs) / 1000) : 0;
+          const timeDisplay = timeSince < 60 ? 'Только что' : `${Math.round(timeSince / 60)} мин назад`;
+
+          return `
+            <div class="user-monitor-card ${isOnline ? 'online' : 'offline'} hover-glow-card">
+              <div class="user-card-top">
+                <div class="user-identity">
+                  <div class="user-avatar-circle">${initials}</div>
+                  <div>
+                    <div class="user-meta-name">${u.testerName || 'Тестировщик'}</div>
+                    <div class="user-meta-device">${u.model || 'Смартфон'} • ${u.platform || 'Android'}</div>
+                  </div>
+                </div>
+                <div class="user-status-tag ${isOnline ? 'online' : 'offline'}">
+                  <span class="pulse-dot ${isOnline ? 'green' : 'gray'}"></span>
+                  <span>${isOnline ? 'В сети' : 'Офлайн'}</span>
+                </div>
+              </div>
+
+              <div class="user-screen-indicator">
+                <span class="screen-label">Текущий раздел приложения:</span>
+                <span class="screen-val">📍 ${screen}</span>
+              </div>
+
+              <div class="user-spend-strip">
+                <div class="spend-item">
+                  <span class="spend-item-label">Расход за сегодня</span>
+                  <span class="spend-item-val">${spendFormatted}</span>
+                </div>
+                <div class="spend-item" style="text-align: right;">
+                  <span class="spend-item-label">Сотовая сеть</span>
+                  <strong style="color: var(--cyan-bright); font-size: 0.88rem;">${u.carrier || 'Ucell UZ'}</strong>
+                </div>
+              </div>
+
+              <div class="user-last-action">
+                <span>Действие: <strong>${lastAction}</strong></span>
+                <span>${timeDisplay}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // 3. Render Activity Feed
+    const feedContainer = document.getElementById('audit-feed-container');
+    if (feedContainer) {
+      if (!activities || activities.length === 0) {
+        feedContainer.innerHTML = `
+          <div class="user-empty-banner">
+            <span style="font-size: 1.4rem;">📜</span>
+            <div style="margin-top: 6px;">Журнал ожидает действий пользователей...</div>
+          </div>
+        `;
+      } else {
+        feedContainer.innerHTML = activities.slice(0, 50).map(act => {
+          const deltaTag = act.bytesDelta && act.bytesDelta > 0 
+            ? `<span class="feed-spend-tag">+${formatBytes(act.bytesDelta)}</span>` 
+            : '';
+          return `
+            <div class="audit-feed-item">
+              <span class="feed-time">${act.timeDisplay || '12:00'}</span>
+              <div class="feed-body">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span class="feed-user-title">${act.testerName || 'Пользователь'} (${act.model || 'Телефон'})</span>
+                  ${deltaTag}
+                </div>
+                <div class="feed-action-text">${act.action || 'Действие'}</div>
+                ${act.details ? `<div class="feed-details">${act.details}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // 4. Render Spend Leaderboard
+    const spendContainer = document.getElementById('audit-spend-container');
+    if (spendContainer) {
+      if (!users || users.length === 0) {
+        spendContainer.innerHTML = `
+          <div class="user-empty-banner">
+            <span style="font-size: 1.4rem;">📊</span>
+            <div style="margin-top: 6px;">Нет данных о расходе сотового трафика</div>
+          </div>
+        `;
+      } else {
+        const sorted = [...users].sort((a, b) => (Number(b.todayBytes) || 0) - (Number(a.todayBytes) || 0));
+        spendContainer.innerHTML = `
+          <table class="spend-table">
+            <thead>
+              <tr>
+                <th>Тестировщик</th>
+                <th>Устройство</th>
+                <th>Текущий экран</th>
+                <th>Расход сегодня</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${sorted.map(u => `
+                <tr>
+                  <td><strong>${u.testerName || 'Пользователь'}</strong></td>
+                  <td style="color: var(--text-muted); font-size: 0.8rem;">${u.model || 'Смартфон'}</td>
+                  <td><span class="screen-val" style="font-size: 0.82rem;">${u.currentScreen || 'Главная'}</span></td>
+                  <td><strong style="color: var(--green-neon); font-family: var(--font-mono);">${formatBytes(u.todayBytes)}</strong></td>
+                  <td>
+                    <span class="user-status-tag ${u.status === 'online' ? 'online' : 'offline'}" style="font-size: 0.7rem; padding: 2px 6px;">
+                      ${u.status === 'online' ? '● В сети' : '○ Офлайн'}
+                    </span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+    }
+  }
+
+  window.refreshAuditNow = function() {
+    if (window.activityStorage && window.activityStorage.startLiveAuditEngine) {
+      fetch('/api/audit', { cache: 'no-store' })
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.ok) {
+            window.activityStorage.auditUsers = d.users || [];
+            window.activityStorage.auditActivities = d.recentActivities || [];
+            renderAuditDashboard();
+          }
+        }).catch(() => {});
+    }
+  };
+
+  window.addEventListener('xylen:audit-sync', () => {
+    renderAuditDashboard();
+  });
+
   // Test real device injection (Strictly Gulistan & London Operators: Ucell, UMS, Beeline UZ, O2 UK, Three UK)
   window.injectTestRealDevice = function() {
     if (!window.activityStorage) return;
@@ -1290,5 +1479,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initial render
   renderDevices();
+  renderAuditDashboard();
   handleUrlHash();
 });

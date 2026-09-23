@@ -587,31 +587,84 @@
       <div class="section-title-strip reveal-on-scroll">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%; flex-wrap:wrap; gap:16px;">
           <div>
-            <h1 class="section-heading" data-i18n="devices_hero_title">Радиоэфир и реестр SIM-карт</h1>
-            <p class="section-desc" data-i18n="devices_hero_sub">Режим постоянного радиоприёма. Платформа ожидает сигналы от фоновых служб мобильного приложения: данные SIM-карт, вышки CID/TAC, радиоуровень RSRP dBm и полный сотовый аудит.</p>
+            <h1 class="section-heading" data-i18n="devices_hero_title">Мониторинг пользователей и расхода</h1>
+            <p class="section-desc" data-i18n="devices_hero_sub">Контроль команды в реальном времени: кто авторизован в приложении, на каких экранах находится, какие функции запускает и сколько тратит сотового трафика.</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center;">
             <div class="card-status-badge">
               <span class="pulse-dot green"></span>
-              <span>РАДИОПРИЁМНИК АКТИВЕН</span>
+              <span>ШЛЮЗ СИНХРОНИЗАЦИИ АКТИВЕН</span>
             </div>
-            <button class="btn btn-danger-subtle btn-compact" id="btn-clear-devices" onclick="window.clearAllDevices();" style="display:none;" data-i18n="devices_btn_clear_all">
-              Очистить список устройств
+            <button class="btn btn-secondary btn-compact" onclick="window.refreshAuditNow();" title="Обновить сейчас">
+              🔄 Обновить
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Cellular Only Banner Notice -->
-      <div class="cellular-notice-bar reveal-on-scroll">
-        <span class="notice-icon">ℹ️</span>
-        <span data-i18n="devices_cellular_rule">ВНИМАНИЕ: Учитывается ТОЛЬКО мобильный сотовый трафик через активные SIM-карты (2G/3G/LTE/5G). Wi-Fi трафик строго игнорируется и не регистрируется.</span>
+      <!-- Quick Metrics Bar -->
+      <div class="audit-kpi-bar reveal-on-scroll">
+        <div class="audit-kpi-pill">
+          <span class="kpi-label">Всего тестировщиков</span>
+          <strong class="kpi-val" id="audit-kpi-total-users">0</strong>
+        </div>
+        <div class="audit-kpi-pill">
+          <span class="kpi-label">Сейчас в сети</span>
+          <strong class="kpi-val cyan" id="audit-kpi-online-users">0</strong>
+        </div>
+        <div class="audit-kpi-pill">
+          <span class="kpi-label">Израсходовано за сегодня</span>
+          <strong class="kpi-val green" id="audit-kpi-total-spend">0 МБ</strong>
+        </div>
+        <div class="audit-kpi-pill">
+          <span class="kpi-label">Зафиксировано действий</span>
+          <strong class="kpi-val" id="audit-kpi-total-actions">0</strong>
+        </div>
       </div>
 
-      <!-- Real Devices Container: Shows Real Hardware Cards or Waiting Standby Screen -->
-      <div id="devices-container" class="reveal-on-scroll">
-        <!-- Rendered dynamically by app.js -->
+      <!-- Section: Active Users & Testers Grid -->
+      <div class="user-audit-section reveal-on-scroll">
+        <div class="user-audit-header">
+          <h2 class="user-audit-title">Тестировщики приложения (Кто где находится и что использует)</h2>
+        </div>
+        <div id="audit-users-grid" class="audit-users-grid">
+          <!-- Rendered dynamically by app.js -->
+        </div>
       </div>
+
+      <!-- Section: 2 Columns (Live Activity Feed + Spend Breakdown) -->
+      <div class="audit-columns-row reveal-on-scroll">
+        <!-- Column 1: Live Activity Feed (Кто куда заходит) -->
+        <div class="audit-column-card">
+          <div class="column-card-header">
+            <div class="header-left">
+              <span class="pulse-dot green"></span>
+              <h3>Хронология действий (Кто куда заходит)</h3>
+            </div>
+            <span class="column-badge">LIVE STREAM</span>
+          </div>
+          <div class="audit-feed-scroll" id="audit-feed-container">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+
+        <!-- Column 2: Data Spend Leaderboard (Кто сколько тратит) -->
+        <div class="audit-column-card">
+          <div class="column-card-header">
+            <div class="header-left">
+              <span class="pulse-dot cyan"></span>
+              <h3>Расход трафика по пользователям</h3>
+            </div>
+            <span class="column-badge">CELLULAR DATA</span>
+          </div>
+          <div class="audit-spend-scroll" id="audit-spend-container">
+            <!-- Rendered dynamically by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Legacy devices container kept invisible for backward compatibility -->
+      <div id="devices-container" style="display:none;"></div>
     </div>
   </main>
 
@@ -696,16 +749,16 @@
           </div>
 
           <div class="platform-meta-strip">
-            <span class="spec-pill">Версия v5.2 (Сборка 28)</span>
-            <span class="spec-pill">17.0 MB</span>
+            <span class="spec-pill">Версия v5.3 (Сборка 29)</span>
+            <span class="spec-pill">16.3 MB</span>
             <span class="spec-pill">Расход батареи &lt;0.1%</span>
           </div>
 
           <div class="platform-card-actions">
-            <a href="https://files.catbox.moe/j58gyt.apk" class="btn btn-cyan btn-full btn-large" data-i18n="btn_install_android">
+            <a href="https://files.catbox.moe/8uk579.apk" class="btn btn-cyan btn-full btn-large" data-i18n="btn_install_android">
               Скачать для Android
             </a>
-            <button class="btn btn-secondary btn-full" onclick="window.openQrModal('https://files.catbox.moe/j58gyt.apk', 'Android Release v5.2');">
+            <button class="btn btn-secondary btn-full" onclick="window.openQrModal('https://files.catbox.moe/8uk579.apk', 'Android Release v5.3');">
               Показать QR-код для установки
             </button>
           </div>
