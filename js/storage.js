@@ -4,7 +4,7 @@
  * - Zero simulated devices. Zero synthetic Math.random() noise.
  * - Ready for real Android & iOS hardware client pairing.
  * - Multi-channel Telemetry Bridge: BroadcastChannel, window.postMessage, and LocalStorage.
- * - Compliant with Law of Republic of Uzbekistan (ЗРУ-547) & UK GDPR / DPA 2018 (ICO).
+ * - Compliant with 152-FZ RF (Personal Data) & UK GDPR / DPA 2018 (ICO).
  */
 
 const RELEASES_KEY = 'xylen_workspace_releases_v7';
@@ -24,16 +24,16 @@ const DEFAULT_RELEASES = [
     releaseDate: '2026-09-23',
     status: 'latest',
     android: {
-      downloadUrl: 'https://files.catbox.moe/app-release.apk',
+      downloadUrl: 'https://files.catbox.moe/j58gyt.apk',
       platformLabel: 'Android',
       osReq: 'Android 8.0 – 15.0+ (One UI, HyperOS, ColorOS, Pixel AOSP)',
       fileSize: '17.0 MB'
     },
     ios: {
-      downloadUrl: 'https://files.catbox.moe/rw65px.ipa',
+      downloadUrl: 'https://files.catbox.moe/f0mefz.ipa',
       platformLabel: 'iOS',
       osReq: 'iOS 16.0 – 18.2+ (iPhone SE, 12, 13, 14, 15, 16 Pro)',
-      fileSize: '1.6 MB'
+      fileSize: '1.8 MB'
     },
     summary: 'Официальный рабочий выпуск Xylen Platform: мгновенная фиксация подключенных SIM-карт, 24-байтный микро-дельта протокол связи и аппаратное шифрование.',
     changelog: [

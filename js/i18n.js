@@ -118,15 +118,15 @@ const TRANSLATIONS = {
     // About
     about_hero_title: "Создан для тех, кто проводит тесты",
     about_p1: "Xylen Platform — это практический рабочий инструмент для менеджера и технических специалистов: контроль аппаратных устройств, мгновенная проверка подключенных SIM-карт и выявление скрытых списаний трафика операторами связи.",
-    about_p2: "Система обеспечивает прямую связь: Менеджер ↔ Реальные устройства ↔ Подключенные SIM-карты ↔ Сетевая телеметрия. Вся обработка происходит локально и через защищенные каналы связи в соответствии с законами Республики Узбекистан и Великобритании.",
+    about_p2: "Система обеспечивает прямую связь: Менеджер ↔ Реальные устройства ↔ Подключенные SIM-карты ↔ Сетевая телеметрия. Вся обработка происходит локально и через защищенные каналы связи в соответствии с законами Российской Федерации и Великобритании.",
 
-    // Privacy (Uzbekistan ZRU-547 & UK GDPR)
+    // Privacy (Russia 152-FZ & UK GDPR)
     privacy_hero_title: "Правовая основа и защита данных",
-    privacy_hero_sub: "Платформа строго соблюдает Закон Республики Узбекистан № ЗРУ-547 «О персональных данных» и законодательство Великобритании UK GDPR / Data Protection Act 2018 (ICO UK).",
-    privacy_badge_uz: "ЗРУ-547 (Республика Узбекистан)",
+    privacy_hero_sub: "Платформа строго соблюдает Федеральный закон РФ № 152-ФЗ «О персональных данных» и законодательство Великобритании UK GDPR / Data Protection Act 2018 (ICO UK).",
+    privacy_badge_uz: "152-ФЗ РФ (Российская Федерация)",
     privacy_badge_uk: "UK GDPR / DPA 2018 (Великобритания)",
     privacy_p1: "Xylen Platform является инженерным средством диагностики параметров радиоканала и расхода сотового трафика. Платформа собирает исключительно технические параметры радиочастотного спектра (мощность сигнала в dBm, идентификаторы сотовых вышек CID/TAC, стандарт связи LTE/5G).",
-    privacy_p2: "В соответствии со статьей 15 Закона РУз № ЗРУ-547 и принципом минимизации данных UK GDPR, приложение категорически НЕ собирает и НЕ имеет технического доступа к личным сообщениям (SMS), телефонной книге, персональным фотографиям, видеозаписям и паролям пользователей.",
+    privacy_p2: "В соответствии с требованиями 152-ФЗ РФ и принципом минимизации данных UK GDPR, приложение категорически НЕ собирает и НЕ имеет технического доступа к личным сообщениям (SMS), телефонной книге, персональным фотографиям, видеозаписям и паролям пользователей.",
     privacy_p3: "Хранение и обработка телеметрических данных локализованы и защищены сквозным аппаратным шифрованием AES-256.",
 
     // Admin
@@ -382,15 +382,15 @@ const TRANSLATIONS = {
     // About
     about_hero_title: "Built for Mobile Network Testers",
     about_p1: "Xylen Platform is a hands-on tool for QA engineers and managers: hardware device tracking, instantaneous SIM slot diagnostics, and cellular billing auditing.",
-    about_p2: "The system provides an immutable connection: Manager ↔ Real Devices ↔ Connected SIMs ↔ Radio Telemetry. All processing is localized and encrypted pursuant to the laws of the Republic of Uzbekistan and the United Kingdom.",
+    about_p2: "The system provides an immutable connection: Manager ↔ Real Devices ↔ Connected SIMs ↔ Radio Telemetry. All processing is localized and encrypted pursuant to the laws of the Russian Federation and the United Kingdom.",
 
     // Privacy
     privacy_hero_title: "Legal Framework & Data Protection",
-    privacy_hero_sub: "The platform strictly complies with Law of the Republic of Uzbekistan No. ЗРУ-547 «On Personal Data» and United Kingdom UK GDPR / Data Protection Act 2018 (ICO UK).",
-    privacy_badge_uz: "ЗРУ-547 (Republic of Uzbekistan)",
+    privacy_hero_sub: "The platform strictly complies with Federal Law of the Russian Federation No. 152-FZ «On Personal Data» and United Kingdom UK GDPR / Data Protection Act 2018 (ICO UK).",
+    privacy_badge_uz: "152-FZ RF (Russian Federation)",
     privacy_badge_uk: "UK GDPR / DPA 2018 (United Kingdom)",
     privacy_p1: "Xylen Platform is an engineering tool for radio frequency diagnostics and data consumption audits. It collects exclusively technical radio telemetry parameters (signal dBm, cell tower CID/TAC identifiers, LTE/5G network generation).",
-    privacy_p2: "Under Article 15 of Law of Uzbekistan ЗРУ-547 and UK GDPR Data Minimization principles, the application NEVER collects and CANNOT access personal SMS, contacts, private photos, videos, or user passwords.",
+    privacy_p2: "Under 152-FZ RF and UK GDPR Data Minimization principles, the application NEVER collects and CANNOT access personal SMS, contacts, private photos, videos, or user passwords.",
     privacy_p3: "Data storage and telemetry streams are protected with hardware-backed AES-256 encryption.",
 
     // Admin
