@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0A0C10">
   <meta name="description" content="Xylen Workspace: Инженерная платформа сотовой телеметрии, аппаратных SIM-карт и аудита мобильного трафика. Родина проекта — Гулистан (ЗРУ-547) с защищённым шлюзом в Лондоне (UK GDPR).">
   <title>Xylen Workspace • Сотовая телеметрия и SIM-контроль (Гулистан ↔ Лондон)</title>
-  <link rel="stylesheet" href="css/styles.css?v=2.2.0">
+  <link rel="stylesheet" href="css/styles.css?v=2.3.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -118,13 +118,13 @@
        ======================================================================== -->
   <header id="top-navbar" class="top-navbar floating-island">
     <div class="nav-island-inner">
-      <!-- Clean Brand Logo: Enlarged Monogram + Stylized Bold Modern Typo -->
+      <!-- Clean Brand Logo: Free-Floating Capsule with 52px Monogram + Bold Modern Typo -->
       <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Workspace • Гулистан">
         <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="brand-monogram-icon">
         <span class="brand-clean-name">XYLEN</span>
       </a>
 
-      <!-- Navigation Menu with Sliding Pill Indicator -->
+      <!-- Navigation Menu: The ONLY Framed Island Capsule with Sliding Pill -->
       <nav class="main-nav-menu" id="main-nav-menu" aria-label="Разделы Xylen Workspace">
         <div class="nav-active-pill" id="nav-active-pill"></div>
         <button class="nav-page-btn active" data-page="page-overview" data-i18n="nav_overview">
@@ -147,36 +147,51 @@
         </button>
       </nav>
 
-      <!-- Right Controls: Languages, Theme Toggle, Manager Login, Action -->
-      <div class="header-controls-group">
-        <!-- Minimalist Language Switcher -->
-        <div class="lang-switch-minimal" title="Выбор языка">
-          <button class="lang-text-btn active" data-lang="ru">RU</button>
-          <span class="lang-sep">/</span>
-          <button class="lang-text-btn" data-lang="uz">UZ</button>
-          <span class="lang-sep">/</span>
-          <button class="lang-text-btn" data-lang="en">EN</button>
+      <!-- Right Controls Cluster: Globe Language Selector + Theme Toggle + Manager Pill -->
+      <div class="header-right-capsule">
+        <!-- Language Switcher with Globe Icon -->
+        <div class="lang-dropdown-wrapper" id="lang-dropdown-wrapper">
+          <button class="lang-globe-btn" id="lang-globe-btn" onclick="window.toggleLangDropdown();" title="Сменить язык">
+            <span class="globe-icon">🌐</span>
+            <span class="current-lang-code" id="current-lang-code">RU</span>
+            <span class="dropdown-chevron">▾</span>
+          </button>
+          <div class="lang-dropdown-menu" id="lang-dropdown-menu">
+            <button class="lang-dropdown-item active" data-lang="ru" onclick="window.selectLanguage('ru');">
+              <span class="lang-flag">🇷🇺</span>
+              <span class="lang-name">Русский</span>
+              <span class="lang-short">RU</span>
+            </button>
+            <button class="lang-dropdown-item" data-lang="uz" onclick="window.selectLanguage('uz');">
+              <span class="lang-flag">🇺🇿</span>
+              <span class="lang-name">O'zbekcha</span>
+              <span class="lang-short">UZ</span>
+            </button>
+            <button class="lang-dropdown-item" data-lang="en" onclick="window.selectLanguage('en');">
+              <span class="lang-flag">🇬🇧</span>
+              <span class="lang-name">English</span>
+              <span class="lang-short">EN</span>
+            </button>
+          </div>
         </div>
-
-        <span class="header-divider"></span>
 
         <!-- Theme Toggle Button -->
         <button id="theme-toggle-btn" class="theme-icon-btn" title="Переключить тему (Тёмная / Светлая)" aria-label="Переключить тему">
           <span id="theme-icon" class="theme-icon-symbol">☀️</span>
         </button>
 
-        <span class="header-divider"></span>
-
-        <!-- Manager Access Badge -->
-        <button id="manager-toggle-btn" class="manager-access-btn" title="Панель менеджера" onclick="window.requestAdminConsole();">
-          <span class="pulse-dot green"></span>
-          <span data-i18n="manager_btn">Менеджер</span>
-        </button>
-
-        <!-- Quick Pair Action Button -->
-        <button class="btn btn-action-pill" onclick="window.switchPage('page-devices');" data-i18n="btn_pair_quick">
-          Подключить
-        </button>
+        <!-- Manager Access & Hamburger Menu Capsule -->
+        <div class="header-manager-pill">
+          <button id="manager-toggle-btn" class="manager-access-btn" title="Панель менеджера" onclick="window.requestAdminConsole();">
+            <span class="pulse-dot green"></span>
+            <span data-i18n="manager_btn">Менеджер</span>
+          </button>
+          <button id="compact-hamburger-btn-header" class="compact-hamburger-btn" title="Меню навигации" aria-label="Открыть навигацию" onclick="window.toggleNavDrawer(true);">
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+            <span class="hamburger-bar"></span>
+          </button>
+        </div>
       </div>
     </div>
   </header>
@@ -202,7 +217,7 @@
         <!-- Primary CTA Buttons -->
         <div class="hero-actions-row">
           <button class="btn btn-primary-hero" onclick="window.switchPage('page-devices');" data-i18n="btn_hero_connect">
-            Подключить устройство
+            Мониторинг радиоэфира
           </button>
           <button class="btn btn-secondary-hero" onclick="window.switchPage('page-releases');" data-i18n="btn_hero_releases">
             Центр загрузки клиентов
@@ -217,7 +232,7 @@
               <span class="pulse-dot green"></span>
             </div>
             <div class="kpi-number count-up" data-target="0" id="kpi-devices-count">0</div>
-            <div class="kpi-sub" data-i18n="kpi_devices_sub">подключено к системе</div>
+            <div class="kpi-sub" data-i18n="kpi_devices_sub">активно в радиоэфире</div>
           </div>
 
           <div class="kpi-card hover-glow-card" onclick="window.switchPage('page-devices');">
@@ -523,21 +538,21 @@
         </div>
       </section>
 
-      <!-- Quick Platform Connect Strip -->
+      <!-- Client Telemetry Ingestion Strip -->
       <section class="quick-connect-strip reveal-on-scroll">
         <div class="quick-connect-card">
           <div class="connect-info-block">
-            <div class="connect-title">Подключите ваше устройство к Xylen Workspace</div>
-            <div class="connect-desc">Скачайте официальный клиент для Android или iOS для мгновенного сбора параметров сотовой сети и проверки установленных SIM-карт. Родина платформы — Гулистан.</div>
+            <div class="connect-title">Шлюз приёма мобильных клиентов Xylen</div>
+            <div class="connect-desc">Приложение Xylen SIM Platform (Android / iOS) автоматически передает телеметрию в фоновом режиме. При обнаружении SIM-карты данные направляются в модуль аудита сотового трафика. Родина платформы — Гулистан.</div>
           </div>
           <div class="connect-actions-block">
             <button class="btn btn-cyan" onclick="window.switchPage('page-releases');">
               <img src="assets/icon-android.svg" alt="Android" style="width:16px; height:16px;">
-              <span>Android</span>
+              <span>Android клиент</span>
             </button>
             <button class="btn btn-secondary" onclick="window.switchPage('page-releases');">
               <img src="assets/icon-ios.svg" alt="iOS" style="width:16px; height:16px;">
-              <span>iOS</span>
+              <span>iOS клиент</span>
             </button>
           </div>
         </div>
@@ -546,7 +561,7 @@
   </main>
 
   <!-- ========================================================================
-       02 — SECTION: DEVICES (Strictly Real Devices / Pair Listener)
+       02 — SECTION: DEVICES (Live Cellular Radio Receiver & SIM Registry)
        Zero Fake Devices • Cellular-Only Data Rules
        ======================================================================== -->
   <main id="page-devices" class="page-section">
@@ -554,15 +569,16 @@
       <div class="section-title-strip reveal-on-scroll">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%; flex-wrap:wrap; gap:16px;">
           <div>
-            <h1 class="section-heading" data-i18n="devices_hero_title">Подключенные устройства и SIM-карты</h1>
-            <p class="section-desc" data-i18n="devices_hero_sub">Контролируйте каждый аппарат и мгновенно просматривайте установленные в него SIM-карты, силу сигнала и сотовые вышки.</p>
+            <h1 class="section-heading" data-i18n="devices_hero_title">Радиоэфир и реестр SIM-карт</h1>
+            <p class="section-desc" data-i18n="devices_hero_sub">Режим постоянного радиоприёма. Платформа ожидает сигналы от фоновых служб мобильного приложения: данные SIM-карт, вышки CID/TAC, радиоуровень RSRP dBm и полный сотовый аудит.</p>
           </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button class="btn btn-secondary btn-compact" onclick="window.injectTestRealDevice();">
-              + Подключить тестовый смартфон
-            </button>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <div class="card-status-badge">
+              <span class="pulse-dot green"></span>
+              <span>РАДИОПРИЁМНИК АКТИВЕН</span>
+            </div>
             <button class="btn btn-danger-subtle btn-compact" id="btn-clear-devices" onclick="window.clearAllDevices();" style="display:none;" data-i18n="devices_btn_clear_all">
-              Отключить все устройства
+              Очистить список устройств
             </button>
           </div>
         </div>
@@ -1080,15 +1096,15 @@
 
       <!-- Clean Legal Badge -->
       <div class="footer-legal-badge">
-        <span data-i18n="footer_copyright">© 2026 Xylen • ЗРУ-547 & UK GDPR</span>
+        <span data-i18n="footer_copyright">© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256 • ЗРУ-547 & UK GDPR</span>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/storage.js?v=2.2.0"></script>
-  <script src="js/i18n.js?v=2.2.0"></script>
-  <script src="js/app.js?v=2.2.0"></script>
+  <script src="js/storage.js?v=2.3.0"></script>
+  <script src="js/i18n.js?v=2.3.0"></script>
+  <script src="js/app.js?v=2.3.0"></script>
 </body>
 </html>

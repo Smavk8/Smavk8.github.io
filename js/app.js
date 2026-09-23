@@ -230,34 +230,66 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const totalCards = stackCards.length;
     const triggerStart = window.innerHeight;
-    const triggerEnd = 130;
+    const triggerEnd = 96; // Cards lock and replace each other at exactly top 96px!
 
     stackCards.forEach((card, index) => {
-      // Calculate how much successor cards have advanced towards sticky lock
-      let totalProgress = 0;
-      for (let j = index + 1; j < totalCards; j++) {
-        const nextRect = stackCards[j].getBoundingClientRect();
+      const nextCard = stackCards[index + 1];
+      if (nextCard) {
+        const nextRect = nextCard.getBoundingClientRect();
         if (nextRect.top < triggerStart) {
           const rawProgress = (triggerStart - nextRect.top) / (triggerStart - triggerEnd);
           const progress = Math.min(Math.max(rawProgress, 0), 1);
-          totalProgress += progress;
+          // Current card smoothly scales down and fades out completely as the next card covers its exact spot!
+          const scale = 1 - progress * 0.05;
+          const opacity = Math.max(0, 1 - progress * 1.15);
+          card.style.transform = `scale(${scale.toFixed(3)})`;
+          card.style.opacity = `${opacity.toFixed(2)}`;
+          card.style.pointerEvents = progress > 0.85 ? 'none' : 'auto';
+        } else {
+          card.style.transform = 'scale(1)';
+          card.style.opacity = '1';
+          card.style.pointerEvents = 'auto';
         }
-      }
-
-      if (totalProgress > 0) {
-        const scale = Math.max(0.88, 1 - totalProgress * 0.05);
-        const translateY = totalProgress * -8;
-        const opacity = Math.max(0.7, 1 - totalProgress * 0.15);
-        card.style.transform = `scale(${scale.toFixed(3)}) translateY(${translateY.toFixed(1)}px)`;
-        card.style.opacity = `${opacity.toFixed(2)}`;
       } else {
-        card.style.transform = 'scale(1) translateY(0)';
+        // Last card: stays full scale and full opacity at top: 96px
+        card.style.transform = 'scale(1)';
         card.style.opacity = '1';
+        card.style.pointerEvents = 'auto';
       }
     });
   }
 
   window.addEventListener('resize', updateCardStackEffect, { passive: true });
+
+  // --------------------------------------------------------------------------
+  // GLOBE LANGUAGE DROPDOWN CONTROLLER
+  // --------------------------------------------------------------------------
+  window.toggleLangDropdown = function(open) {
+    const menu = document.getElementById('lang-dropdown-menu');
+    if (!menu) return;
+    if (open !== undefined) {
+      menu.classList.toggle('active', Boolean(open));
+    } else {
+      menu.classList.toggle('active');
+    }
+  };
+
+  window.selectLanguage = function(lang) {
+    if (window.i18n) {
+      window.i18n.setLang(lang);
+    }
+    const currentCode = document.getElementById('current-lang-code');
+    if (currentCode) {
+      currentCode.textContent = (lang || 'ru').toUpperCase();
+    }
+    window.toggleLangDropdown(false);
+  };
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#lang-dropdown-wrapper')) {
+      window.toggleLangDropdown(false);
+    }
+  });
 
   setTimeout(triggerScrollReveal, 120);
 
@@ -558,32 +590,39 @@ document.addEventListener('DOMContentLoaded', () => {
         devicesContainer.innerHTML = `
           <div class="devices-empty-state-card hover-glow-card">
             <div class="devices-empty-icon-wrap">
-              <span>📡</span>
+              <span class="beacon-pulse-icon">📡</span>
             </div>
-            <h3 class="devices-empty-heading" data-i18n="devices_empty_title">Ожидание подключения реального устройства</h3>
+            <h3 class="devices-empty-heading" data-i18n="devices_empty_title">Радиоэфир активен • Ожидание передачи данных</h3>
             <p class="devices-empty-text" data-i18n="devices_empty_desc">
-              В системе нет искусственных имитаций или случайных чисел. Подключите реальный смартфон с установленным приложением Xylen для начала сбора телеметрии.
+              Шлюз телеметрии слушает входящие соединения в реальном времени. Как только мобильное приложение запускается на устройстве, данные его активных SIM-карт и сотового радиоканала мгновенно поступают на экран и направляются в модуль анализа трафика.
             </p>
 
             <div class="pairing-box">
-              <div style="font-size:0.82rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);" data-i18n="devices_pair_token_label">
-                Ключ сопряжения узла:
+              <div style="font-size:0.82rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);">
+                Узел приёма сотовой телеметрии:
               </div>
               <div class="pairing-token-pill" id="display-pairing-token">${pairToken}</div>
-              <div id="devices-qr-box" class="qrcode-box" style="margin-top:8px;"></div>
+              <div class="active-node-specs-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; text-align:left; font-size:0.82rem;">
+                <div style="background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px;">
+                  <span style="color:var(--text-muted); display:block; font-size:0.72rem; text-transform:uppercase;">Маршрут:</span>
+                  <strong style="color:var(--green-neon);">Гулистан (ЗРУ-547) ↔ Лондон (UK GDPR)</strong>
+                </div>
+                <div style="background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px;">
+                  <span style="color:var(--text-muted); display:block; font-size:0.72rem; text-transform:uppercase;">Сотовые сети:</span>
+                  <strong style="color:var(--cyan-bright);">Ucell, UMS, Beeline UZ, O2 UK, Three UK</strong>
+                </div>
+              </div>
+              <div id="devices-qr-box" class="qrcode-box" style="margin-top:14px;"></div>
             </div>
 
             <div class="gateway-live-status">
               <span class="pulse-dot green"></span>
-              <span data-i18n="devices_listening_status">Шлюз телеметрии активен: ожидание пакетов p.xylen.workers.dev / WebSocket</span>
+              <span data-i18n="devices_listening_status">Шлюз телеметрии активен: радиоприёмник p.xylen.workers.dev (Wi-Fi строго исключён)</span>
             </div>
 
-            <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
-              <button class="btn btn-cyan btn-large" onclick="window.injectTestRealDevice();" data-i18n="devices_empty_btn_test">
-                + Подключить тестовый смартфон (Real Packet)
-              </button>
-              <button class="btn btn-secondary btn-large" onclick="window.switchPage('page-releases');">
-                Инструкция по установке
+            <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:12px;">
+              <button class="btn btn-secondary btn-large" onclick="window.switchPage('page-releases');" data-i18n="btn_hero_releases">
+                Центр загрузки клиентов (Android / iOS)
               </button>
             </div>
           </div>

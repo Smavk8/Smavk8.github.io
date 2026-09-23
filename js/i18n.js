@@ -26,13 +26,13 @@ const TRANSLATIONS = {
     hero_badge: "Реальная сотовая телеметрия • Ядро связи v5.2",
     overview_hero_title: "Контроль в движении. Телеметрия без имитаций.",
     overview_hero_sub: "Инженерная платформа для фиксации параметров радиоканала, проверки активных SIM-слотов и аудита сотового трафика в реальном времени. Разработана в Гулистане с защищённым шлюзом в Лондоне. В строгом соответствии с законами Республики Узбекистан (ЗРУ-547) и Великобритании (UK GDPR).",
-    btn_hero_connect: "Подключить устройство",
+    btn_hero_connect: "Мониторинг радиоэфира",
     btn_hero_releases: "Центр загрузки клиентов",
     social_proof_title: "Прямая совместимость с базовыми станциями операторов связи Узбекистана и Великобритании:",
 
     // KPI Cards
     kpi_devices: "Реальные устройства",
-    kpi_devices_sub: "подключено к системе",
+    kpi_devices_sub: "активно в радиоэфире",
     kpi_sims: "Активные SIM-слоты",
     kpi_sims_sub: "обнаружено в аппаратах",
     kpi_traffic: "Сотовый трафик",
@@ -70,19 +70,19 @@ const TRANSLATIONS = {
     mod5_sub: "Аудит сотового трафика • Wi-Fi полностью исключён",
 
     // Devices Section
-    devices_hero_title: "Подключенные устройства и SIM-карты",
-    devices_hero_sub: "Контролируйте каждый аппарат и мгновенно просматривайте установленные в него SIM-карты, силу сигнала и сотовые вышки.",
-    devices_empty_title: "Ожидание подключения реального устройства",
-    devices_empty_desc: "В системе нет искусственных имитаций или случайных чисел. Подключите реальный смартфон с установленным приложением Xylen для начала сбора телеметрии.",
+    devices_hero_title: "Радиоэфир и реестр SIM-карт",
+    devices_hero_sub: "Режим постоянного радиоприёма. Платформа ожидает сигналы от фоновых служб мобильного приложения: данные SIM-карт, вышки CID/TAC, радиоуровень RSRP dBm и полный сотовый аудит.",
+    devices_empty_title: "Радиоэфир активен • Ожидание передачи данных",
+    devices_empty_desc: "Шлюз телеметрии слушает входящие соединения в реальном времени. Как только мобильное приложение запускается на устройстве, данные его активных SIM-карт и сотового радиоканала мгновенно поступают на экран и направляются в модуль анализа трафика.",
     devices_cellular_rule: "ВНИМАНИЕ: Учитывается ТОЛЬКО мобильный сотовый трафик через активные SIM-карты (2G/3G/LTE/5G). Wi-Fi трафик строго игнорируется и не регистрируется.",
-    devices_empty_btn_test: "Подключить тестовый смартфон (Real Packet)",
-    devices_pair_token_label: "Ключ сопряжения узла:",
-    devices_listening_status: "Шлюз телеметрии активен: ожидание пакетов p.xylen.workers.dev / WebSocket",
-    devices_connected_sims: "Текущие подключенные SIM-карты:",
-    devices_status_online: "Online (В сети)",
+    devices_empty_btn_test: "Принять тестовый поток (Real Packet)",
+    devices_pair_token_label: "Узел приёма сотовой телеметрии:",
+    devices_listening_status: "Шлюз телеметрии активен: радиоприёмник p.xylen.workers.dev (Wi-Fi строго исключён)",
+    devices_connected_sims: "Текущие зарегистрированные SIM-карты:",
+    devices_status_online: "Online (В эфире)",
     devices_status_offline: "Offline",
     devices_btn_inspect: "Инспектор телеметрии ➔",
-    devices_btn_clear_all: "Отключить все устройства",
+    devices_btn_clear_all: "Очистить список устройств",
 
     // Traffic Section
     traffic_hero_title: "Мониторинг сотового трафика",
@@ -168,7 +168,7 @@ const TRANSLATIONS = {
     admin_visitors_title: "Журнал аудита сессий и подключений",
 
     // Footer
-    footer_copyright: "© 2026 Xylen • ЗРУ-547 & UK GDPR",
+    footer_copyright: "© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256 • ЗРУ-547 & UK GDPR",
 
     // General
     btn_close: "Закрыть",
@@ -191,13 +191,13 @@ const TRANSLATIONS = {
     hero_badge: "Haqiqiy mobil telemetriya • Aloqa yadrosi v5.2",
     overview_hero_title: "Harakatdagi nazorat. Soxtaliklarsiz telemetriya.",
     overview_hero_sub: "Radiokanal parametrlarini aniqlash, faol SIM-slotlarni tekshirish va mobil internet sarfini real vaqtda audit qilish muhandislik platformasi. Gulistonda yaratilgan, London bilan himoyalangan shlyuz. O'zbekiston Respublikasining O'RQ-547 Qonuni va Buyuk Britaniya UK GDPR standartlariga qat'iy muvofiq.",
-    btn_hero_connect: "Qurilmani ulash",
+    btn_hero_connect: "Radioefir monitoringi",
     btn_hero_releases: "Mijozlarni yuklab olish",
     social_proof_title: "O'zbekiston va Buyuk Britaniya aloqa operatorlari tayanch minoralari bilan to'g'ridan-to'g'ri moslik:",
 
     // KPI Cards
     kpi_devices: "Haqiqiy qurilmalar",
-    kpi_devices_sub: "tizimga ulangan",
+    kpi_devices_sub: "efirda faol",
     kpi_sims: "Faol SIM-slotlar",
     kpi_sims_sub: "apparatda aniqlangan",
     kpi_traffic: "Mobil internet sarfi",
@@ -235,19 +235,19 @@ const TRANSLATIONS = {
     mod5_sub: "Mobil internet auditi • Wi-Fi butunlay chiqarib tashlangan",
 
     // Devices Section
-    devices_hero_title: "Ulangan qurilmalar va SIM-kartalar",
-    devices_hero_sub: "Har bir apparatni nazorat qiling va unga o'rnatilgan SIM-kartalar, signal kuchi va aloqa minoralarini ko'ring.",
-    devices_empty_title: "Haqiqiy qurilma ulanishi kutilmoqda",
-    devices_empty_desc: "Tizimda hech qanday soxta emulyatsiyalar yoki tasodifiy sonlar yo'q. Telemetriyani boshlash uchun Xylen o'rnatilgan haqiqiy smartfonni ulang.",
+    devices_hero_title: "Radioefir va SIM-kartalar reestri",
+    devices_hero_sub: "Doimiy radioqabul rejimi. Platforma mobil ilovaning fon xizmatlaridan signallarni kutadi: SIM-karta parametrlari, CID/TAC minoralari, RSRP dBm darajasi va to'liq audit.",
+    devices_empty_title: "Radioefir faol • Ma'lumot uzatilishini kutish",
+    devices_empty_desc: "Telemetriya shlyuzi real vaqt rejimida kiruvchi ulanishlarni eshitadi. Mobil ilova qurilmada ishga tushishi bilanoq, uning faol SIM-kartalari va radiokanal ma'lumotlari ekranga uzatiladi hamda trafik auditiga yo'naltiriladi.",
     devices_cellular_rule: "DIQQAT: FAQAT faol SIM-karta orqali mobil tarmoq trafigi (2G/3G/LTE/5G) hisobga olinadi. Wi-Fi trafigi qat'iyan inobatga olinmaydi.",
-    devices_empty_btn_test: "Sinov smartfonini ulash (Real Packet)",
-    devices_pair_token_label: "Tugun juftlash kaliti:",
-    devices_listening_status: "Telemetriya shlyuzi faol: p.xylen.workers.dev / WebSocket paketlari kutilmoqda",
-    devices_connected_sims: "Joriy ulangan SIM-kartalar:",
-    devices_status_online: "Online (Tarmoqda)",
+    devices_empty_btn_test: "Sinov oqimini qabul qilish (Real Packet)",
+    devices_pair_token_label: "Mobil telemetriyani qabul qilish tuguni:",
+    devices_listening_status: "Telemetriya shlyuzi faol: p.xylen.workers.dev radioqabul qilgich (Wi-Fi qat'iyan chiqarilgan)",
+    devices_connected_sims: "Joriy ro'yxatdan o'tgan SIM-kartalar:",
+    devices_status_online: "Online (Efirda)",
     devices_status_offline: "Offline",
     devices_btn_inspect: "Telemetriya inspektori ➔",
-    devices_btn_clear_all: "Barcha qurilmalarni uzish",
+    devices_btn_clear_all: "Qurilmalar ro'yxatini tozalash",
 
     // Traffic Section
     traffic_hero_title: "Mobil internet trafigi monitoringi",
@@ -333,7 +333,7 @@ const TRANSLATIONS = {
     admin_visitors_title: "Sessiyalar va ulanishlar auditi jurnali",
 
     // Footer
-    footer_copyright: "© 2026 Xylen • O'RQ-547 & UK GDPR",
+    footer_copyright: "© 2026 Xylen Inc. • Barcha huquqlar himoyalangan • AES-256 Shifrlangan • O'RQ-547 & UK GDPR",
 
     // General
     btn_close: "Yopish",
@@ -356,13 +356,13 @@ const TRANSLATIONS = {
     hero_badge: "Real Cellular Telemetry • Network Core v5.2",
     overview_hero_title: "Design in Motion. Telemetry Without Mockups.",
     overview_hero_sub: "Engineering platform for live cellular radio telemetry, active SIM slot verification, and bandwidth audits. Born in Gulistan with an encrypted gateway in London. Strictly compliant with the laws of the Republic of Uzbekistan (Law ZRU-547) and the United Kingdom (UK GDPR).",
-    btn_hero_connect: "Pair Device",
+    btn_hero_connect: "Radio Ether Monitoring",
     btn_hero_releases: "Download Clients",
     social_proof_title: "Direct base station compatibility with mobile operators in Uzbekistan and the United Kingdom:",
 
     // KPI Cards
     kpi_devices: "Real Devices",
-    kpi_devices_sub: "connected to system",
+    kpi_devices_sub: "active in radio ether",
     kpi_sims: "Active SIM Slots",
     kpi_sims_sub: "detected in hardware",
     kpi_traffic: "Cellular Traffic",
@@ -400,19 +400,19 @@ const TRANSLATIONS = {
     mod5_sub: "Cellular data byte audit • Wi-Fi traffic completely excluded",
 
     // Devices Section
-    devices_hero_title: "Connected Devices & SIM Cards",
-    devices_hero_sub: "Control each physical device and inspect installed SIM cards, signal metrics, and serving cell towers.",
-    devices_empty_title: "Awaiting Real Device Connection",
-    devices_empty_desc: "Zero synthetic mockups or random numbers. Connect a physical smartphone with the Xylen app installed to begin streaming real hardware telemetry.",
+    devices_hero_title: "Radio Ether & SIM Registry",
+    devices_hero_sub: "Continuous listening mode. The platform awaits telemetry signals from mobile app background services: SIM card data, CID/TAC towers, RSRP dBm signal strength, and deep cellular audit.",
+    devices_empty_title: "Radio Ether Active • Waiting for Ingestion Stream",
+    devices_empty_desc: "The telemetry gateway listens for real-time incoming connections. As soon as the mobile app launches, active SIM cards and cellular radio metrics are streamed to the screen and forwarded to the traffic audit module.",
     devices_cellular_rule: "ATTENTION: ONLY cellular mobile data via active SIM cards (2G/3G/LTE/5G) is metered. Wi-Fi traffic is strictly ignored and unrecorded.",
-    devices_empty_btn_test: "Connect Test Smartphone (Real Packet)",
-    devices_pair_token_label: "Node Pairing Key:",
-    devices_listening_status: "Telemetry Gateway active: awaiting p.xylen.workers.dev / WebSocket packets",
-    devices_connected_sims: "Currently Installed SIM Cards:",
-    devices_status_online: "Online",
+    devices_empty_btn_test: "Ingest Test Packet (Real Packet)",
+    devices_pair_token_label: "Cellular Telemetry Ingestion Node:",
+    devices_listening_status: "Telemetry Gateway active: p.xylen.workers.dev receiver (Wi-Fi strictly excluded)",
+    devices_connected_sims: "Currently Registered SIM Cards:",
+    devices_status_online: "Online (On Air)",
     devices_status_offline: "Offline",
     devices_btn_inspect: "Telemetry Inspector ➔",
-    devices_btn_clear_all: "Disconnect All Devices",
+    devices_btn_clear_all: "Clear Device List",
 
     // Traffic Section
     traffic_hero_title: "Cellular Traffic Monitoring",
@@ -498,7 +498,7 @@ const TRANSLATIONS = {
     admin_visitors_title: "Session & Telemetry Audit Log",
 
     // Footer
-    footer_copyright: "© 2026 Xylen • ZRU-547 & UK GDPR",
+    footer_copyright: "© 2026 Xylen Inc. • All Rights Reserved • AES-256 End-to-End Encrypted • ZRU-547 & UK GDPR",
 
     // General
     btn_close: "Close",
