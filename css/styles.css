@@ -4247,11 +4247,18 @@ body.theme-light .spend-table td {
 .compact-nav-drawer .drawer-sheet::-webkit-scrollbar { width: 6px; }
 .compact-nav-drawer .drawer-sheet::-webkit-scrollbar-thumb { border-radius: 99px; background: color-mix(in srgb, var(--text-muted) 35%, transparent); }
 
-/* The first two architecture cards hand off at one sticky position; the final card stays in flow. */
+/* Give each architecture card the same scroll runway so each sticky handoff has matching timing. */
 .jitter-stack-container { padding-bottom: clamp(20px, 5vh, 56px); }
-#stack-card-1 { margin-bottom: clamp(160px, 24vh, 280px); }
-#stack-card-2 { margin-bottom: clamp(48px, 9vh, 96px); }
-#stack-card-3 { position: relative; top: auto; margin-bottom: 0; align-self: stretch; }
+#stack-card-1, #stack-card-2 {
+  position: sticky;
+  top: 96px;
+  margin-bottom: clamp(220px, 28vh, 320px);
+}
+#stack-card-3 {
+  position: sticky;
+  top: 96px;
+  margin-bottom: clamp(80px, 12vh, 140px);
+}
 .motion-carousel-section {
   margin-top: clamp(-72px, -8vh, -36px);
   padding-top: clamp(56px, 7vh, 84px);
@@ -4292,9 +4299,8 @@ body.theme-light .spend-table td {
 
 @media (max-width: 700px) {
   .compact-nav-drawer .drawer-sheet { inset: 64px 12px auto auto; width: min(360px, calc(100vw - 24px)); max-height: calc(100dvh - 78px); }
-  #stack-card-1 { margin-bottom: clamp(130px, 18vh, 190px); }
-  #stack-card-2 { margin-bottom: clamp(34px, 8vh, 64px); }
-  #stack-card-3 { top: auto; margin-bottom: 0; }
+  #stack-card-1, #stack-card-2 { top: 80px; margin-bottom: clamp(160px, 24vh, 240px); }
+  #stack-card-3 { top: 80px; margin-bottom: clamp(64px, 10vh, 96px); }
   .motion-carousel-section { margin-top: -16px; padding-top: 56px; }
   .motion-carousel-track {
     animation: infiniteOrbitScroll 30s linear infinite !important;
