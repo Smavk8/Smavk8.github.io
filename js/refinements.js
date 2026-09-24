@@ -261,7 +261,7 @@
         ? ['Согласие', 'Отчёт Android', 'Сводка', 'Доступ владельца']
         : lang === 'uz' ? ['Rozilik', 'Android hisoboti', 'Jamlanma', 'Ega kirishi']
           : ['Consent', 'Android report', 'Summary', 'Owner access'];
-      visual.innerHTML = `<div class="silent-motion-orbit" aria-hidden="true"><div class="orbit-ring orbit-ring-a"></div><div class="orbit-ring orbit-ring-b"></div><div class="orbit-core"><span>XYLEN</span><small>SILENT MOTION</small></div>${stage.map((label, i) => `<span class="orbit-node orbit-node-${i + 1}"><b>0${i + 1}</b><small>${escapeHtml(label)}</small></span>`).join('')}<span class="orbit-sweep"></span></div><div class="motion-caption">${escapeHtml(homeCopy[2])}</div>`;
+      visual.innerHTML = `<div class="silent-motion-orbit" aria-hidden="true"><div class="orbit-depth-plane"></div><div class="orbit-ring orbit-ring-a"></div><div class="orbit-ring orbit-ring-b"></div><div class="orbit-ring-c"></div><svg class="silent-motion-route" viewBox="0 0 600 600" aria-hidden="true"><defs><linearGradient id="xylen-route-glow"><stop stop-color="#6cecff" stop-opacity="0"/><stop offset=".46" stop-color="#70eaff"/><stop offset="1" stop-color="#67d9ff" stop-opacity="0"/></linearGradient><linearGradient id="xylen-route-violet"><stop stop-color="#af8cff" stop-opacity="0"/><stop offset=".54" stop-color="#c6a4ff"/><stop offset="1" stop-color="#af8cff" stop-opacity="0"/></linearGradient></defs><path d="M62 300C120 83 461 73 538 300S120 520 62 300Z"/><path d="M300 57C520 117 518 469 300 540S79 118 300 57Z"/><path class="route-highlight" d="M62 300C120 83 461 73 538 300S120 520 62 300Z"/><path class="route-highlight" d="M300 57C520 117 518 469 300 540S79 118 300 57Z"/></svg><div class="orbit-core"><span>XYLEN</span><small>SILENT MOTION</small></div>${stage.map((label, i) => `<span class="orbit-node orbit-node-${i + 1}"><b>0${i + 1}</b><small>${escapeHtml(label)}</small></span>`).join('')}<span class="orbit-sweep"></span></div><div class="motion-caption">${escapeHtml(homeCopy[2])}</div>`;
     }
     if (heroTitle) heroTitle.textContent = 'Silent Motion';
     if (heroDesc) heroDesc.textContent = homeCopy[0];
@@ -298,7 +298,7 @@
       if (titleNode) titleNode.textContent = title;
       if (subNode) subNode.textContent = sub;
       if (badge) badge.textContent = `0${moduleIndex + 1} · ${title}`;
-       if (play) play.textContent = lang === 'ru' ? '• Иллюстрация процесса' : lang === 'uz' ? '• Jarayon sxemasi' : '• Flow illustration';
+       if (play) play.textContent = lang === 'ru' ? '↻ Анимированная схема' : lang === 'uz' ? '↻ Animatsion sxema' : '↻ Animated schematic';
       if (moduleIndex === 0) card.querySelectorAll('.radar-point').forEach(point => point.remove());
       if (moduleIndex === 2) { const lock = card.querySelector('.shield-lock'); if (lock) lock.textContent = '✓'; }
       if (moduleIndex === 3) { const tower = card.querySelector('.tower-beacon'); if (tower) tower.textContent = '↗'; }
@@ -308,23 +308,23 @@
       const labels = {
         'mod-spectrum': ['Согласие и отчёт', 'Android отправляет веб-аудит только после согласия пользователя.'],
         'mod-deltastream': ['Поля события', 'JSON-отчёт может включать ID установки, модель, экран, действие, детали, время и клиентские счётчики.'],
-        'mod-vault': ['Доступ владельца', 'Подробные записи доступны после проверки Cloudflare Access и email владельца.'],
-        'mod-celltower': ['Журнал iOS', 'Изученная версия приложения iOS сохраняет события на устройстве; веб-аудит их не получает.'],
-        'mod-billing': ['Сотовые счётчики', 'Android сообщает дневные счётчики мобильной загрузки и данные активных или использованных сегодня SIM-профилей.']
+        'mod-vault': ['Публичная сводка', 'Открытая часть показывает агрегированные числа, а не подробные записи устройства.'],
+        'mod-celltower': ['Доступ владельца', 'Подробные записи доступны после проверки Cloudflare Access и email владельца.'],
+        'mod-billing': ['Журнал iOS', 'Изученная версия приложения iOS сохраняет события на устройстве; веб-аудит их не получает.']
       };
       const english = {
         'mod-spectrum': ['Consent and report', 'Android sends web-audit reports only after user consent.'],
         'mod-deltastream': ['Event fields', 'A JSON report can include an installation ID, model, screen, action, details, timestamp, and client-reported counters.'],
-        'mod-vault': ['Owner access', 'Detailed records require Cloudflare Access verification and a matching owner email.'],
-        'mod-celltower': ['iOS activity log', 'The reviewed iOS app stores activity events on-device; the web audit does not receive them.'],
-        'mod-billing': ['Cellular counters', 'Android reports daily cellular-download counters and active or used-today SIM profiles.']
+        'mod-vault': ['Public summary', 'The public view displays aggregate counts rather than detailed device records.'],
+        'mod-celltower': ['Owner access', 'Detailed records require Cloudflare Access verification and a matching owner email.'],
+        'mod-billing': ['iOS activity log', 'The reviewed iOS app stores activity events on-device; the web audit does not receive them.']
       };
       const uzbek = {
         'mod-spectrum': ['Rozilik va hisobot', 'Android veb audit hisobotlarini faqat foydalanuvchi roziligidan keyin yuboradi.'],
         'mod-deltastream': ['Hodisa maydonlari', 'JSON hisobotda o‘rnatish IDsi, model, ekran, amal, tafsilot, vaqt va mijoz hisoblagichlari bo‘lishi mumkin.'],
-        'mod-vault': ['Ega kirishi', 'Batafsil yozuvlar Cloudflare Access va egasining emaili tekshirilgandan keyin ochiladi.'],
-        'mod-celltower': ['iOS jurnali', 'Ko‘rib chiqilgan iOS ilovasi hodisalarni qurilmada saqlaydi; veb audit ularni olmaydi.'],
-        'mod-billing': ['Mobil hisoblagichlar', 'Android kunlik mobil yuklab olish hisoblagichlari va faol yoki bugun ishlatilgan SIM profillarini yuboradi.']
+        'mod-vault': ['Ochiq jamlanma', 'Ochiq qism batafsil qurilma yozuvlarini emas, umumiy sonlarni ko‘rsatadi.'],
+        'mod-celltower': ['Ega kirishi', 'Batafsil yozuvlar Cloudflare Access va egasining emaili tekshirilgandan keyin ochiladi.'],
+        'mod-billing': ['iOS jurnali', 'Ko‘rib chiqilgan iOS ilovasi hodisalarni qurilmada saqlaydi; veb audit ularni olmaydi.']
       };
       const item = (lang === 'en' ? english : lang === 'uz' ? uzbek : labels)[moduleId] || [copy.traffic, copy.intro];
       const modal = document.getElementById('motion-modal');
@@ -531,60 +531,151 @@
       entry.target.classList.toggle('motion-paused', !entry.isIntersecting);
     }), { threshold: 0.05 });
     document.querySelectorAll('.stack-card, .motion-card').forEach(card => motionObserver.observe(card));
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     animateHeroField();
   });
 
   function animateHeroField() {
     const canvas = document.getElementById('hero-field');
     if (!canvas) return;
-    const context = canvas.getContext('2d');
+    const context = canvas.getContext('2d', { alpha: true });
     if (!context) return;
     const hero = canvas.parentElement;
-    let width = 0, height = 0, frame = 0;
-    let pointerX = 0.5, pointerY = 0.45, targetX = 0.5, targetY = 0.45;
-    const points = Array.from({ length: 48 }, (_, index) => ({
-      x: ((index * 0.61803398875) % 1), y: ((index * 0.754877666) % 1),
-      phase: index * 0.73, radius: index % 7 === 0 ? 2.2 : 1.35
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let width = 0, height = 0, pixelRatio = 1, frame = 0, lastPaint = 0, visible = true;
+    let pointerX = .5, pointerY = .42, targetX = .5, targetY = .42;
+    const points = Array.from({ length: 84 }, (_, index) => ({
+      x: ((index * .61803398875) % 1), y: ((index * .754877666) % 1),
+      phase: index * .73, radius: index % 11 === 0 ? 2.5 : index % 4 === 0 ? 1.7 : 1.1,
+      speed: .00015 + (index % 5) * .000035
     }));
     const resize = () => {
       const box = hero.getBoundingClientRect();
-      const ratio = Math.min(devicePixelRatio || 1, 1.5);
+      pixelRatio = Math.min(devicePixelRatio || 1, 1.5);
       width = box.width; height = box.height;
-      canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      canvas.width = Math.round(width * pixelRatio); canvas.height = Math.round(height * pixelRatio);
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      schedule();
     };
     resize();
     new ResizeObserver(resize).observe(hero);
     hero.addEventListener('pointermove', event => {
       const box = hero.getBoundingClientRect();
-      targetX = (event.clientX - box.left) / box.width;
-      targetY = (event.clientY - box.top) / box.height;
+      targetX = Math.min(1, Math.max(0, (event.clientX - box.left) / Math.max(box.width, 1)));
+      targetY = Math.min(1, Math.max(0, (event.clientY - box.top) / Math.max(box.height, 1)));
+      schedule();
     }, { passive: true });
-    hero.addEventListener('pointerleave', () => { targetX = 0.5; targetY = 0.45; }, { passive: true });
-    let heroInView = true;
-    const heroObserver = new IntersectionObserver(entries => { heroInView = entries.some(entry => entry.isIntersecting); }, { threshold: 0 });
+    hero.addEventListener('pointerleave', () => { targetX = .5; targetY = .42; schedule(); }, { passive: true });
+    const heroObserver = new IntersectionObserver(entries => {
+      visible = entries.some(entry => entry.isIntersecting);
+      if (visible) schedule();
+      else if (frame) { cancelAnimationFrame(frame); frame = 0; }
+    }, { threshold: 0 });
     heroObserver.observe(hero);
+
+    function schedule() {
+      if (!frame && visible && !document.hidden) frame = requestAnimationFrame(draw);
+    }
+
     function draw(time) {
-      frame = requestAnimationFrame(draw);
-      if (document.hidden || !heroInView) return;
-      pointerX += (targetX - pointerX) * 0.025;
-      pointerY += (targetY - pointerY) * 0.025;
+      frame = 0;
+      if (!visible || document.hidden) return;
+      if (!reducedMotion.matches && time - lastPaint < 30) { schedule(); return; }
+      lastPaint = time;
+      pointerX += (targetX - pointerX) * .1;
+      pointerY += (targetY - pointerY) * .1;
       context.clearRect(0, 0, width, height);
-      const nodes = points.map(point => {
-        const drift = Math.sin(time * 0.00018 + point.phase) * 0.006;
-        return { x: (point.x + pointerX * 0.028 + drift) * width, y: (point.y + pointerY * 0.028 + drift) * height, r: point.radius };
+
+      const visual = hero.querySelector('.silent-motion-visual');
+      const heroRect = hero.getBoundingClientRect();
+      const visualRect = visual?.getBoundingClientRect();
+      const cx = visualRect ? visualRect.left - heroRect.left + visualRect.width * .5 : width * .74;
+      const cy = visualRect ? visualRect.top - heroRect.top + visualRect.height * .48 : height * .32;
+      const radius = Math.min(visualRect?.width ? visualRect.width * .58 : width * .3, width * .36, 360);
+      const shiftX = (pointerX - .5) * Math.min(width * .035, 34);
+      const shiftY = (pointerY - .5) * 26;
+
+      const halo = context.createRadialGradient(cx + shiftX, cy + shiftY, radius * .04, cx + shiftX, cy + shiftY, radius * 1.9);
+      halo.addColorStop(0, 'rgba(12,166,220,.15)');
+      halo.addColorStop(.4, 'rgba(19,111,165,.075)');
+      halo.addColorStop(1, 'rgba(6,13,23,0)');
+      context.fillStyle = halo;
+      context.beginPath(); context.arc(cx + shiftX, cy + shiftY, radius * 1.9, 0, Math.PI * 2); context.fill();
+
+      context.save();
+      context.translate(cx + shiftX, cy + shiftY);
+      context.rotate(reducedMotion.matches ? -.16 : time * .000035 - .16);
+      for (let ring = 0; ring < 5; ring += 1) {
+        const scale = .47 + ring * .155;
+        context.beginPath();
+        context.ellipse(0, 0, radius * scale, radius * scale * (.68 + (ring % 2) * .12), 0, 0, Math.PI * 2);
+        context.strokeStyle = ring % 2 ? 'rgba(127,110,231,.12)' : 'rgba(84,209,240,.18)';
+        context.lineWidth = ring === 2 ? 1.5 : .85;
+        context.setLineDash(ring === 1 || ring === 4 ? [3, 9] : []);
+        context.stroke();
+      }
+      context.setLineDash([]);
+      context.restore();
+
+      // Luminous data paths orbit the Xylen core; their pulses are illustrative, not measurements.
+      const routes = [
+        [[cx - radius * 1.14, cy + radius * .56], [cx - radius * .52, cy - radius * .84], [cx + radius * .68, cy - radius * .82], [cx + radius * 1.04, cy + radius * .34]],
+        [[cx + radius * 1.08, cy - radius * .22], [cx + radius * .72, cy + radius * .88], [cx - radius * .58, cy + radius * .96], [cx - radius * 1.12, cy + radius * .2]],
+        [[cx - radius * .98, cy - radius * .54], [cx - radius * .22, cy - radius * 1.02], [cx + radius * .62, cy - radius * .54], [cx + radius * .95, cy + radius * .06]]
+      ];
+      routes.forEach((points, index) => {
+        context.beginPath();
+        context.moveTo(points[0][0], points[0][1]);
+        context.bezierCurveTo(points[1][0], points[1][1], points[2][0], points[2][1], points[3][0], points[3][1]);
+        context.strokeStyle = index === 1 ? 'rgba(168,127,255,.24)' : 'rgba(77,202,235,.28)';
+        context.lineWidth = index === 0 ? 1.4 : .9;
+        context.stroke();
+        if (!reducedMotion.matches) {
+          const p = (time * .00016 * (index % 2 ? -1 : 1) + index * .31 + 1) % 1;
+          const inv = 1 - p;
+          const x = inv ** 3 * points[0][0] + 3 * inv ** 2 * p * points[1][0] + 3 * inv * p ** 2 * points[2][0] + p ** 3 * points[3][0];
+          const y = inv ** 3 * points[0][1] + 3 * inv ** 2 * p * points[1][1] + 3 * inv * p ** 2 * points[2][1] + p ** 3 * points[3][1];
+          const glow = context.createRadialGradient(x, y, 0, x, y, 23);
+          glow.addColorStop(0, index === 1 ? 'rgba(223,206,255,.95)' : 'rgba(191,245,255,.96)');
+          glow.addColorStop(.18, index === 1 ? 'rgba(163,119,255,.78)' : 'rgba(41,199,234,.82)');
+          glow.addColorStop(1, 'rgba(26,157,204,0)');
+          context.fillStyle = glow; context.beginPath(); context.arc(x, y, 23, 0, Math.PI * 2); context.fill();
+          context.fillStyle = '#e1fbff'; context.beginPath(); context.arc(x, y, 2.2, 0, Math.PI * 2); context.fill();
+        }
       });
-      for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+
+      const nodes = points.map(point => {
+        const drift = reducedMotion.matches ? 0 : Math.sin(time * point.speed + point.phase) * .009;
+        return { x: (point.x + (pointerX - .5) * .045 + drift) * width, y: (point.y + (pointerY - .5) * .05 + drift) * height, r: point.radius, phase: point.phase };
+      });
+      for (let i = 0; i < nodes.length; i += 1) for (let j = i + 1; j < nodes.length; j += 1) {
         const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y;
         const distance = Math.hypot(dx, dy);
-        if (distance < 165) {
-          context.strokeStyle = `rgba(99,205,238,${(1 - distance / 165) * 0.24})`;
-          context.lineWidth = 0.7; context.beginPath(); context.moveTo(nodes[i].x, nodes[i].y); context.lineTo(nodes[j].x, nodes[j].y); context.stroke();
+        if (distance < 132) {
+          context.strokeStyle = `rgba(84,198,230,${(1 - distance / 132) * .19})`;
+          context.lineWidth = .65;
+          context.beginPath(); context.moveTo(nodes[i].x, nodes[i].y); context.lineTo(nodes[j].x, nodes[j].y); context.stroke();
         }
       }
-      nodes.forEach(node => { context.fillStyle = 'rgba(167,235,251,0.72)'; context.beginPath(); context.arc(node.x, node.y, node.r, 0, Math.PI * 2); context.fill(); });
+      nodes.forEach(node => {
+        const pulse = reducedMotion.matches ? .5 : .5 + .5 * Math.sin(time * .001 + node.phase);
+        context.fillStyle = `rgba(177,239,250,${.36 + pulse * .48})`;
+        context.shadowColor = '#3cbddf'; context.shadowBlur = node.r > 2 ? 12 : 5;
+        context.beginPath(); context.arc(node.x, node.y, node.r * (.8 + pulse * .45), 0, Math.PI * 2); context.fill();
+      });
+      context.shadowBlur = 0;
+
+      const mouseX = pointerX * width, mouseY = pointerY * height;
+      const cursorGlow = context.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, Math.min(width, height) * .22);
+      cursorGlow.addColorStop(0, 'rgba(44,187,226,.09)'); cursorGlow.addColorStop(1, 'rgba(44,187,226,0)');
+      context.fillStyle = cursorGlow; context.fillRect(0, 0, width, height);
+      if (!reducedMotion.matches) schedule();
     }
-    frame = requestAnimationFrame(draw);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && frame) { cancelAnimationFrame(frame); frame = 0; }
+      else schedule();
+    });
+    reducedMotion.addEventListener?.('change', schedule);
+    schedule();
   }
 })();

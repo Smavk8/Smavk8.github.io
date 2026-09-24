@@ -34,16 +34,6 @@
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const ease = value => value * value * (3 - 2 * value);
 
-  function offsetWithin(node, parent) {
-    let result = 0;
-    let current = node;
-    while (current && current !== parent) {
-      result += current.offsetTop;
-      current = current.offsetParent;
-    }
-    return current === parent ? result : node.getBoundingClientRect().top - parent.getBoundingClientRect().top;
-  }
-
   function measure() {
     width = section.clientWidth;
     height = section.scrollHeight;
@@ -59,27 +49,34 @@
   }
 
   function journeyMetrics() {
-    const sectionDocTop = section.getBoundingClientRect().top + window.scrollY;
-    const stickyTop = parseFloat(getComputedStyle(cards[0]).top) || 96;
-    const starts = cards.map(card => sectionDocTop + offsetWithin(card, section) - stickyTop);
     const runway = Math.max(320, parseFloat(getComputedStyle(section).getPropertyValue('--architecture-runway')) || window.innerHeight * .7);
-    return { starts, runway };
+    return { runway };
   }
 
   function updateJourney() {
-    const { starts, runway } = journeyMetrics();
-    const scrollY = window.scrollY;
+    const { runway } = journeyMetrics();
+    const stickyTop = parseFloat(getComputedStyle(cards[0]).top) || 96;
     let index = 0;
-    while (index < cards.length - 1 && scrollY >= starts[index + 1]) index += 1;
-    const end = index < cards.length - 1 ? starts[index + 1] : starts[index] + runway;
+    // offsetTop is browser-dependent for sticky elements. Read the visible top
+    // edge instead so the topmost card changes exactly when it reaches the line.
+    for (let cardIndex = 1; cardIndex < cards.length; cardIndex += 1) {
+      if (cards[cardIndex].getBoundingClientRect().top <= stickyTop + 2) index = cardIndex;
+      else break;
+    }
+    const nextCard = cards[index + 1];
     stage = index;
-    stageProgress = clamp((scrollY - starts[index]) / Math.max(1, end - starts[index]), 0, 1);
+    stageProgress = nextCard
+      ? clamp(1 - (nextCard.getBoundingClientRect().top - stickyTop) / Math.max(runway, 1), 0, .98)
+      : 0;
 
     cards.forEach((card, cardIndex) => {
       const distance = Math.abs((stage + stageProgress) - cardIndex);
       const energy = clamp(1 - distance, 0, 1);
       card.classList.toggle('is-architecture-active', energy >= .5 || (cardIndex === stage && stageProgress < .5));
       card.dataset.architectureState = energy > .6 ? 'active' : energy > .04 ? 'handoff' : 'queued';
+      // Promote only the card which has reached the shared sticky line. This lets
+      // it cover the prior card as a complete rectangle without resizing either.
+      card.style.zIndex = cardIndex === stage ? '60' : cardIndex < stage ? String(20 + cardIndex) : String(10 + cardIndex);
     });
   }
 
@@ -139,9 +136,7 @@
     pointerY += (targetY - pointerY) * .045;
     const parallaxX = (pointerX - .5) * Math.min(width * .018, 22);
     const parallaxY = (pointerY - .5) * 18;
-    const { starts } = journeyMetrics();
-    const sectionDocTop = section.getBoundingClientRect().top + window.scrollY;
-    const stageCenters = cards.map(card => sectionDocTop + offsetWithin(card, section) + card.offsetHeight * .5 - sectionDocTop);
+    const stageCenters = cards.map(card => card.offsetTop + card.offsetHeight * .5);
 
     // A quiet perspective grid gives the stack a dimensional stage without covering card media.
     const gridTop = Math.max(visibleTop - 90, 0);

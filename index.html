@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
   <link rel="stylesheet" href="css/experience.css?v=1.0.0">
   <link rel="stylesheet" href="css/architecture-motion.css?v=1.0.0">
+  <link rel="stylesheet" href="css/xylen-motion.css?v=1.0.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -307,7 +308,7 @@
       <section class="stack-showcase-section">
         <div class="section-title-center reveal-on-scroll">
           <h2 class="section-heading-large" data-i18n="stack_title">Архитектура контроля телеметрии</h2>
-          <p class="section-desc-center" data-i18n="stack_sub">Инструменты для инженеров и менеджеров: от аппаратных микрочипов до сотовых вышек.</p>
+          <p class="section-desc-center" data-i18n="stack_sub">Путь согласованного Android-отчёта: от решения пользователя до агрегированной сводки и защищённого просмотра.</p>
         </div>
 
         <div class="jitter-stack-container">
@@ -325,8 +326,8 @@
             </div>
             <div class="stack-card-visual">
               <div class="visual-media-frame">
-                <video class="stack-video-cover" autoplay loop muted playsinline poster="assets/telemetry-preview.jpg">
-                  <source src="assets/telemetry-preview.mp4" type="video/mp4">
+                <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
+                  <source src="assets/motion-report.webm" type="video/webm">
                 </video>
                 <div class="media-live-badge"><span class="pulse-dot green"></span> Иллюстрация интерфейса</div>
               </div>
@@ -351,8 +352,8 @@
             </div>
             <div class="stack-card-visual">
               <div class="visual-media-frame">
-                <video class="stack-video-cover" autoplay loop muted playsinline>
-                  <source src="assets/stream-preview.mp4" type="video/mp4">
+                <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
+                  <source src="assets/motion-consent.webm" type="video/webm">
                 </video>
                 <div class="media-live-badge"><span class="pulse-dot cyan"></span> Отчёт отправлен клиентом</div>
               </div>
@@ -373,8 +374,8 @@
             </div>
             <div class="stack-card-visual">
               <div class="visual-media-frame">
-                <video class="stack-video-cover" autoplay loop muted playsinline poster="assets/spectrum-preview.jpg">
-                  <source src="assets/spectrum-preview.mp4" type="video/mp4">
+                <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
+                  <source src="assets/motion-summary.webm" type="video/webm">
                 </video>
                 <div class="media-live-badge"><span class="pulse-dot green"></span> Декоративная иллюстрация</div>
               </div>
@@ -406,14 +407,10 @@
             <!-- Module 1: 5G NR Spectrum -->
             <div class="motion-card hover-glow-card" data-module-id="mod-spectrum" onclick="window.openMotionModal('mod-spectrum');">
               <div class="motion-preview-box">
-                <div class="motion-radar-animation">
-                  <div class="radar-circle rc1"></div>
-                  <div class="radar-circle rc2"></div>
-                  <div class="radar-sweep"></div>
-                  <div class="radar-point p1" title="Ucell 5G n78 (Гулистан)"></div>
-                  <div class="radar-point p2" title="O2 UK 5G (Лондон)"></div>
-                </div>
-                <div class="motion-play-tag">▶ Orbit Active</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-consent.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 01 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">01 • Спектр</div>
@@ -425,14 +422,10 @@
             <!-- Module 2: DeltaStream 24B -->
             <div class="motion-card hover-glow-card" data-module-id="mod-deltastream" onclick="window.openMotionModal('mod-deltastream');">
               <div class="motion-preview-box">
-                <div class="motion-bars-animation">
-                  <span class="bar b1"></span>
-                  <span class="bar b2"></span>
-                  <span class="bar b3"></span>
-                  <span class="bar b4"></span>
-                  <span class="bar b5"></span>
-                </div>
-                <div class="motion-play-tag">▶ 60 FPS Telemetry</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-report.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 02 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">02 • Дельта</div>
@@ -444,11 +437,10 @@
             <!-- Module 3: Hardware Vault AES-256 -->
             <div class="motion-card hover-glow-card" data-module-id="mod-vault" onclick="window.openMotionModal('mod-vault');">
               <div class="motion-preview-box">
-                <div class="crypto-shield-anim">
-                  <div class="shield-ring"></div>
-                  <div class="shield-lock">🔒</div>
-                </div>
-                <div class="motion-play-tag">▶ Hardware Vault</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-summary.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 03 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">03 • Безопасность</div>
@@ -460,12 +452,10 @@
             <!-- Module 4: CellTower Matrix CID/TAC -->
             <div class="motion-card hover-glow-card" data-module-id="mod-celltower" onclick="window.openMotionModal('mod-celltower');">
               <div class="motion-preview-box">
-                <div class="celltower-matrix-anim">
-                  <div class="tower-beacon">🗼</div>
-                  <div class="tower-pulse-ring tr1"></div>
-                  <div class="tower-pulse-ring tr2"></div>
-                </div>
-                <div class="motion-play-tag">▶ Base Station Matrix</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-access.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 04 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">04 • Вышки</div>
@@ -477,13 +467,10 @@
             <!-- Module 5: Billing Guard -->
             <div class="motion-card hover-glow-card" data-module-id="mod-billing" onclick="window.openMotionModal('mod-billing');">
               <div class="motion-preview-box">
-                <div class="billing-guard-anim">
-                  <div class="meter-dial">
-                    <div class="meter-needle"></div>
-                  </div>
-                  <span class="meter-txt">0.0% LEAK</span>
-                </div>
-                <div class="motion-play-tag">▶ Billing Guard</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-ios-local.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 05 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">05 • Биллинг</div>
@@ -496,14 +483,10 @@
             <!-- Module 1 Dup: 5G NR Spectrum -->
             <div class="motion-card hover-glow-card" data-module-id="mod-spectrum" onclick="window.openMotionModal('mod-spectrum');">
               <div class="motion-preview-box">
-                <div class="motion-radar-animation">
-                  <div class="radar-circle rc1"></div>
-                  <div class="radar-circle rc2"></div>
-                  <div class="radar-sweep"></div>
-                  <div class="radar-point p1" title="Ucell 5G n78 (Гулистан)"></div>
-                  <div class="radar-point p2" title="O2 UK 5G (Лондон)"></div>
-                </div>
-                <div class="motion-play-tag">▶ Orbit Active</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-consent.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 01 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">01 • Спектр</div>
@@ -515,14 +498,10 @@
             <!-- Module 2 Dup: DeltaStream 24B -->
             <div class="motion-card hover-glow-card" data-module-id="mod-deltastream" onclick="window.openMotionModal('mod-deltastream');">
               <div class="motion-preview-box">
-                <div class="motion-bars-animation">
-                  <span class="bar b1"></span>
-                  <span class="bar b2"></span>
-                  <span class="bar b3"></span>
-                  <span class="bar b4"></span>
-                  <span class="bar b5"></span>
-                </div>
-                <div class="motion-play-tag">▶ 60 FPS Telemetry</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-report.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 02 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">02 • Дельта</div>
@@ -534,11 +513,10 @@
             <!-- Module 3 Dup: Hardware Vault AES-256 -->
             <div class="motion-card hover-glow-card" data-module-id="mod-vault" onclick="window.openMotionModal('mod-vault');">
               <div class="motion-preview-box">
-                <div class="crypto-shield-anim">
-                  <div class="shield-ring"></div>
-                  <div class="shield-lock">🔒</div>
-                </div>
-                <div class="motion-play-tag">▶ Hardware Vault</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-summary.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 03 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">03 • Безопасность</div>
@@ -550,12 +528,10 @@
             <!-- Module 4 Dup: CellTower Matrix CID/TAC -->
             <div class="motion-card hover-glow-card" data-module-id="mod-celltower" onclick="window.openMotionModal('mod-celltower');">
               <div class="motion-preview-box">
-                <div class="celltower-matrix-anim">
-                  <div class="tower-beacon">🗼</div>
-                  <div class="tower-pulse-ring tr1"></div>
-                  <div class="tower-pulse-ring tr2"></div>
-                </div>
-                <div class="motion-play-tag">▶ Base Station Matrix</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-access.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 04 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">04 • Вышки</div>
@@ -567,13 +543,10 @@
             <!-- Module 5 Dup: Billing Guard -->
             <div class="motion-card hover-glow-card" data-module-id="mod-billing" onclick="window.openMotionModal('mod-billing');">
               <div class="motion-preview-box">
-                <div class="billing-guard-anim">
-                  <div class="meter-dial">
-                    <div class="meter-needle"></div>
-                  </div>
-                  <span class="meter-txt">0.0% LEAK</span>
-                </div>
-                <div class="motion-play-tag">▶ Billing Guard</div>
+                <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-ios-local.webm" type="video/webm"></video>
+                <span class="motion-video-shade" aria-hidden="true"></span>
+                <span class="motion-video-index" aria-hidden="true">XYLEN / 05 — 05</span>
+                <div class="motion-play-tag">↻ Анимированная схема</div>
               </div>
               <div class="motion-card-footer">
                 <div class="motion-badge">05 • Биллинг</div>
@@ -1119,5 +1092,6 @@
   <script src="js/home-expansion.js?v=1.0.0"></script>
   <script src="js/experience.js?v=1.0.0"></script>
   <script src="js/architecture-motion.js?v=1.0.0"></script>
+  <script src="js/xylen-motion.js?v=1.0.0"></script>
 </body>
 </html>

@@ -51,7 +51,7 @@ const TRANSLATIONS = {
 
     // Stack Feature Section (Jitter Style)
     stack_title: "Архитектура контроля телеметрии",
-    stack_sub: "Инструменты для инженеров и менеджеров: от аппаратных микрочипов до сотовых вышек.",
+    stack_sub: "Путь согласованного Android-отчёта: от решения пользователя до агрегированной сводки и защищённого просмотра.",
     stack_card1_tag: "Поля Android-отчёта",
     stack_card1_title: "Счётчики, которые сообщает клиент",
     stack_card1_desc: "Android может передать приложению доступные ему мобильные счётчики, оператора и сведения о SIM-профиле. Это данные отчёта на момент его формирования, а не прямое чтение радиомодема, вышек или уровня сигнала.",
@@ -65,18 +65,18 @@ const TRANSLATIONS = {
     stack_card3_desc: "Публичная страница показывает доступные агрегаты по полученным отчётам. Она не сверяет показания с биллингом оператора, не подтверждает точность клиентских счётчиков и не обещает предотвратить списания.",
 
     // 5 Rotating Motion Modules
-    motion_section_title: "Инженерные модули Xylen Motion",
-    motion_section_sub: "5 интерактивных непрерывно вращающихся компонентов контроля радиоканала и сотовой телеметрии",
-    mod1_title: "Orbit: 5G NR Spectrum",
-    mod1_sub: "Гулистан ↔ Лондон • Агрегация n78, n41, n28 и Sub-6GHz",
-    mod2_title: "DeltaStream: 24-Byte Pulse",
-    mod2_sub: "Сжатие дельты телеметрии без потерь • 60 FPS стрим",
-    mod3_title: "Hardware Vault: AES-256 Enclave",
-    mod3_sub: "Аппаратная защита ключей • Сквозное шифрование AES-256",
-    mod4_title: "CellTower Matrix: CID & TAC",
-    mod4_sub: "Идентификация вышек Ucell, UMS, Beeline без GPS-расхода",
-    mod5_title: "Billing Guard: Mobile Data Audit",
-    mod5_sub: "Аудит сотового трафика • Wi-Fi полностью исключён",
+    motion_section_title: "Путь отчёта",
+    motion_section_sub: "Пять коротких сцен показывают путь Android-отчёта и локальный журнал iOS.",
+    mod1_title: "Согласие и отчёт",
+    mod1_sub: "Android отправляет веб-отчёт только после согласия.",
+    mod2_title: "Поля события",
+    mod2_sub: "Клиент формирует JSON-событие и доступные ему счётчики.",
+    mod3_title: "Публичная сводка",
+    mod3_sub: "Открытая часть показывает агрегированные числа.",
+    mod4_title: "Доступ владельца",
+    mod4_sub: "Подробные записи требуют проверки Cloudflare Access.",
+    mod5_title: "Журнал iOS",
+    mod5_sub: "Изученный клиент хранит журнал на устройстве.",
 
     // Devices Section
     devices_hero_title: "Радиоэфир и реестр SIM-карт",
@@ -225,7 +225,7 @@ const TRANSLATIONS = {
 
     // Stack Feature Section (Jitter Style)
     stack_title: "Telemetriyani boshqarish arxitekturasi",
-    stack_sub: "Muhandislar va menejerlar uchun vositalar: apparat mikrosxemalaridan tortib tayanch minoralarigacha.",
+    stack_sub: "Rozilik asosidagi Android hisoboti yo‘li: foydalanuvchi qaroridan umumiy xulosa va himoyalangan ko‘rishgacha.",
     stack_card1_tag: "Android hisobot maydonlari",
     stack_card1_title: "Mijoz yuborgan hisoblagichlar",
     stack_card1_desc: "Android ilovasi mavjud mobil trafik hisoblagichlari, operator va SIM-profil haqidagi ma’lumotlarni yuborishi mumkin. Bu hisobot olingan paytdagi mijoz ma’lumotlari; radio modem, baza stansiyalari yoki signalni bevosita o‘qish emas.",
@@ -239,18 +239,18 @@ const TRANSLATIONS = {
     stack_card3_desc: "Ochiq sahifa olingan hisobotlardagi mavjud jamlanma qiymatlarni ko‘rsatadi. U operator billingini tekshirmaydi, mijoz hisoblagichlari aniqligini tasdiqlamaydi va kutilmagan to‘lovlarning oldini olishni va’da qilmaydi.",
 
     // 5 Rotating Motion Modules
-    motion_section_title: "Xylen Motion muhandislik modullari",
-    motion_section_sub: "Radiokanal va mobil telemetriyani nazorat qiluvchi 5 ta doimiy aylanuvchi interaktiv modul",
-    mod1_title: "Orbit: 5G NR Spectrum",
-    mod1_sub: "Guliston ↔ London • n78, n41, n28 tashuvchilar agregatsiyasi",
-    mod2_title: "DeltaStream: 24-Byte Pulse",
-    mod2_sub: "Yo'qotishlarsiz telemetriya deltasini siqish • 60 FPS oqim",
-    mod3_title: "Hardware Vault: AES-256 Enclave",
-    mod3_sub: "Apparat kalitlar himoyasi • AES-256 shifrlash",
-    mod4_title: "CellTower Matrix: CID & TAC",
-    mod4_sub: "Ucell, UMS, Beeline minoralarini GPS-siz tezkor aniqlash",
-    mod5_title: "Billing Guard: Mobile Data Audit",
-    mod5_sub: "Mobil internet auditi • Wi-Fi butunlay chiqarib tashlangan",
+    motion_section_title: "Hisobot yo‘li",
+    motion_section_sub: "Besh sahna Android hisobot yo‘li va qurilmada saqlanadigan iOS jurnalini ko‘rsatadi.",
+    mod1_title: "Rozilik va hisobot",
+    mod1_sub: "Android veb hisobotini faqat rozilikdan keyin yuboradi.",
+    mod2_title: "Hodisa maydonlari",
+    mod2_sub: "Mijoz JSON hodisasi va mavjud hisoblagichlarni shakllantiradi.",
+    mod3_title: "Ochiq jamlanma",
+    mod3_sub: "Ochiq qism faqat umumiy sonlarni ko‘rsatadi.",
+    mod4_title: "Ega kirishi",
+    mod4_sub: "Batafsil yozuvlar Cloudflare Access tekshiruvini talab qiladi.",
+    mod5_title: "iOS jurnali",
+    mod5_sub: "Ko‘rib chiqilgan mijoz jurnalni qurilmada saqlaydi.",
 
     // Devices Section
     devices_hero_title: "Radioefir va SIM-kartalar reestri",
@@ -399,7 +399,7 @@ const TRANSLATIONS = {
 
     // Stack Feature Section (Jitter Style)
     stack_title: "Telemetry Control Architecture",
-    stack_sub: "Tools for engineers and network managers: from hardware microchips to cellular towers.",
+    stack_sub: "The consent-based Android report path, from the user's choice to an aggregated summary and access-controlled details.",
     stack_card1_tag: "Android Report Fields",
     stack_card1_title: "Counters reported by the client",
     stack_card1_desc: "The Android app can send available mobile counters, carrier details, and SIM-profile information. These are client-reported values from when a report is created, not direct readings from the radio modem, cell towers, or signal strength.",
@@ -413,18 +413,18 @@ const TRANSLATIONS = {
     stack_card3_desc: "The public page displays available aggregates from received reports. It does not compare readings with carrier billing, independently validate client counters, or promise to prevent charges.",
 
     // 5 Rotating Motion Modules
-    motion_section_title: "Xylen Motion Engineering Modules",
-    motion_section_sub: "5 interactive continuously revolving components for RF monitoring and cellular telemetry",
-    mod1_title: "Orbit: 5G NR Spectrum",
-    mod1_sub: "Gulistan ↔ London • n78, n41, n28 & Sub-6GHz carrier aggregation",
-    mod2_title: "DeltaStream: 24-Byte Pulse",
-    mod2_sub: "Lossless telemetry delta compression • 60 FPS live stream",
-    mod3_title: "Hardware Vault: AES-256 Enclave",
-    mod3_sub: "Hardware-backed keys • AES-256 End-to-End Encryption",
-    mod4_title: "CellTower Matrix: CID & TAC",
-    mod4_sub: "Real-time Ucell, UMS, Beeline tower tracking without GPS drain",
-    mod5_title: "Billing Guard: Mobile Data Audit",
-    mod5_sub: "Cellular data byte audit • Wi-Fi traffic completely excluded",
+    motion_section_title: "Report path",
+    motion_section_sub: "Five scenes trace Android reports and the iOS log kept on-device.",
+    mod1_title: "Consent and report",
+    mod1_sub: "Android sends a web report only after consent.",
+    mod2_title: "Event fields",
+    mod2_sub: "The client forms a JSON event and available counters.",
+    mod3_title: "Public summary",
+    mod3_sub: "The public view shows aggregate counts.",
+    mod4_title: "Owner access",
+    mod4_sub: "Detailed records require Cloudflare Access verification.",
+    mod5_title: "iOS activity log",
+    mod5_sub: "The reviewed client stores its log on-device.",
 
     // Devices Section
     devices_hero_title: "Radio Ether & SIM Registry",
