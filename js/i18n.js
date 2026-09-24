@@ -52,17 +52,17 @@ const TRANSLATIONS = {
     // Stack Feature Section (Jitter Style)
     stack_title: "Архитектура контроля телеметрии",
     stack_sub: "Инструменты для инженеров и менеджеров: от аппаратных микрочипов до сотовых вышек.",
-    stack_card1_tag: "Слоты и радиоканал",
-    stack_card1_title: "Аппаратное считывание SIM и eSIM",
-    stack_card1_desc: "Прямой доступ к параметрам сотового радиоядра: уровень мощности в dBm, сотовые идентификаторы вышки CID/TAC, частотные диапазоны LTE Band и 5G NR NSA/SA. Никаких догадок — только чистые инженерные данные реального чипсета.",
+    stack_card1_tag: "Поля Android-отчёта",
+    stack_card1_title: "Счётчики, которые сообщает клиент",
+    stack_card1_desc: "Android может передать приложению доступные ему мобильные счётчики, оператора и сведения о SIM-профиле. Это данные отчёта на момент его формирования, а не прямое чтение радиомодема, вышек или уровня сигнала.",
     
-    stack_card2_tag: "Микро-дельта протокол",
-    stack_card2_title: "24-байтный пакет для любых сетей",
-    stack_card2_desc: "Специализированный протокол сжатия передает полную диагностику устройства за 24 байта. Работает даже при слабом уровне 2G/EDGE в Гулистане, по всей Сырдарьинской области и Узбекистану, а также на транзитных узлах Лондона без задержек.",
+    stack_card2_tag: "Путь отчёта",
+    stack_card2_title: "Передача после согласия",
+    stack_card2_desc: "После согласия Android-клиент отправляет JSON-отчёт в веб API. Доставка зависит от сети и доступности сервиса; специальный размер пакета, собственный протокол сжатия и работу без задержек проект не заявляет.",
     
-    stack_card3_tag: "Аудит операторов",
-    stack_card3_title: "Нулевой перерасход и проверка биллинга",
-    stack_card3_desc: "Сравнение данных радиочипа телефона с тарификацией оператора. Предотвращение скрытых округлений сотового трафика, паразитных фоновых утечек и неожиданных списаний в роуминге (Гулистан ↔ Лондон).",
+    stack_card3_tag: "Сводка без домыслов",
+    stack_card3_title: "Присланные данные — в понятном виде",
+    stack_card3_desc: "Публичная страница показывает доступные агрегаты по полученным отчётам. Она не сверяет показания с биллингом оператора, не подтверждает точность клиентских счётчиков и не обещает предотвратить списания.",
 
     // 5 Rotating Motion Modules
     motion_section_title: "Инженерные модули Xylen Motion",
@@ -226,17 +226,17 @@ const TRANSLATIONS = {
     // Stack Feature Section (Jitter Style)
     stack_title: "Telemetriyani boshqarish arxitekturasi",
     stack_sub: "Muhandislar va menejerlar uchun vositalar: apparat mikrosxemalaridan tortib tayanch minoralarigacha.",
-    stack_card1_tag: "Slotlar va radiokanal",
-    stack_card1_title: "SIM va eSIM apparat tahlili",
-    stack_card1_desc: "Mobil radio yadrosi parametrlariga to'g'ridan-to'g'ri kirish: signal quvvati dBm, CID/TAC minora identifikatorlari, LTE va 5G NR diapazonlari. Hech qanday taxminlarsiz — faqat haqiqiy mikrosxema ma'lumotlari.",
+    stack_card1_tag: "Android hisobot maydonlari",
+    stack_card1_title: "Mijoz yuborgan hisoblagichlar",
+    stack_card1_desc: "Android ilovasi mavjud mobil trafik hisoblagichlari, operator va SIM-profil haqidagi ma’lumotlarni yuborishi mumkin. Bu hisobot olingan paytdagi mijoz ma’lumotlari; radio modem, baza stansiyalari yoki signalni bevosita o‘qish emas.",
     
-    stack_card2_tag: "Mikro-delta protokoli",
-    stack_card2_title: "Har qanday tarmoq uchun 24 baytli paket",
-    stack_card2_desc: "Maxsus siqish protokoli qurilma diagnostikasini 24 baytda uzatadi. Gulistonda, butun Sirdaryo viloyatida, O'zbekistonning chekka hududlarida 2G/EDGE orqali yoki Londonning gavjum tugunlarida kechikishlarsiz ishlaydi.",
+    stack_card2_tag: "Hisobot yo‘li",
+    stack_card2_title: "Yuborish rozilikdan so‘ng",
+    stack_card2_desc: "Foydalanuvchi rozilik bergach, Android mijozi JSON hisobotini veb API’ga yuboradi. Yetkazish tarmoq va xizmat mavjudligiga bog‘liq; loyiha maxsus paket hajmi, siqish protokoli yoki kechikishsiz ishlashni va’da qilmaydi.",
     
-    stack_card3_tag: "Operatorlar auditi",
-    stack_card3_title: "Nol ortiqcha sarf va billing tekshiruvi",
-    stack_card3_desc: "Telefon radiochipi ma'lumotlarini operator hisob-kitoblari bilan solishtirish. Yashirin yaxlitlashlar va kutilmagan to'lovlarni oldini olish (Guliston ↔ London).",
+    stack_card3_tag: "Taxminsiz jamlanma",
+    stack_card3_title: "Yuborilgan ma’lumotlar tushunarli shaklda",
+    stack_card3_desc: "Ochiq sahifa olingan hisobotlardagi mavjud jamlanma qiymatlarni ko‘rsatadi. U operator billingini tekshirmaydi, mijoz hisoblagichlari aniqligini tasdiqlamaydi va kutilmagan to‘lovlarning oldini olishni va’da qilmaydi.",
 
     // 5 Rotating Motion Modules
     motion_section_title: "Xylen Motion muhandislik modullari",
@@ -400,17 +400,17 @@ const TRANSLATIONS = {
     // Stack Feature Section (Jitter Style)
     stack_title: "Telemetry Control Architecture",
     stack_sub: "Tools for engineers and network managers: from hardware microchips to cellular towers.",
-    stack_card1_tag: "Slots & RF Modem",
-    stack_card1_title: "Hardware SIM & eSIM Extraction",
-    stack_card1_desc: "Direct access to cellular radio parameters: signal power in dBm, cell tower CID/TAC identifiers, LTE Band and 5G NR NSA/SA frequencies. Zero assumptions — pure engineering telemetry directly from the physical modem.",
+    stack_card1_tag: "Android Report Fields",
+    stack_card1_title: "Counters reported by the client",
+    stack_card1_desc: "The Android app can send available mobile counters, carrier details, and SIM-profile information. These are client-reported values from when a report is created, not direct readings from the radio modem, cell towers, or signal strength.",
     
-    stack_card2_tag: "Micro-Delta Protocol",
-    stack_card2_title: "24-Byte Packet for Any Cellular Network",
-    stack_card2_desc: "Proprietary delta compression protocol transmitting full device diagnostics in just 24 bytes. Seamlessly operates over weak 2G/EDGE in Gulistan, throughout the Syrdarya region and Uzbekistan, as well as high-density transit nodes in London without packet loss.",
+    stack_card2_tag: "Report Path",
+    stack_card2_title: "Sent after consent",
+    stack_card2_desc: "After consent, the Android client sends a JSON report to the web API. Delivery depends on network and service availability; the project does not claim a fixed packet size, a custom compression protocol, or delay-free delivery.",
     
-    stack_card3_tag: "Carrier Billing Audit",
-    stack_card3_title: "Zero Overspend & Billing Verification",
-    stack_card3_desc: "Cross-checks device modem byte counts against carrier billing records. Prevents hidden data rounding, ghost background leaks, and unexpected roaming surcharges (Gulistan ↔ London).",
+    stack_card3_tag: "A summary without assumptions",
+    stack_card3_title: "Reported data, made readable",
+    stack_card3_desc: "The public page displays available aggregates from received reports. It does not compare readings with carrier billing, independently validate client counters, or promise to prevent charges.",
 
     // 5 Rotating Motion Modules
     motion_section_title: "Xylen Motion Engineering Modules",
