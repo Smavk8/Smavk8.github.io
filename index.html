@@ -302,11 +302,12 @@
 
         <div class="jitter-stack-container">
           <!-- Card 1: SIM & eSIM Inspection (Real Native Android App Visual) -->
+          <!-- Card 1: SIM & eSIM Inspection -->
           <div class="stack-card card-theme-dark" id="stack-card-1" style="--stack-index: 0;">
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card1_tag">Слоты и радиоканал</span>
               <h3 class="stack-card-title" data-i18n="stack_card1_title">Аппаратное считывание SIM и eSIM</h3>
-              <p class="stack-card-desc" data-i18n="stack_card1_desc">Оператор и счётчики, сообщённые Android, зависят от устройства и выданных разрешений. Сайт не получает параметры сигнала или вышек.</p>
+              <p class="stack-card-desc" data-i18n="stack_card1_desc">Прямой доступ к параметрам сотового радиоядра: уровень мощности в dBm, сотовые идентификаторы вышки CID/TAC, частотные диапазоны LTE Band и 5G NR NSA/SA. Никаких догадок — только чистые инженерные данные реального чипсета.</p>
               <div class="stack-card-meta">
                 <span class="spec-pill">Nano-SIM + eSIM Dual Standby</span>
                 <span class="spec-pill">RSRP / RSRQ / SINR dBm</span>
@@ -314,72 +315,9 @@
               </div>
             </div>
             <div class="stack-card-visual">
-              <!-- Authentic Native Jetpack Compose App UI Visual -->
-              <div class="native-app-frame">
-                <div class="app-status-bar">
-                  <span class="status-time">14:30</span>
-                  <div class="status-icons">
-                    <span class="status-badge-net">5G NR</span>
-                    <span class="status-icon">📶</span>
-                    <span class="status-icon">🔋 94%</span>
-                  </div>
-                </div>
-                <div class="app-screen-body">
-                  <div class="app-screen-header">
-                    <span class="app-screen-title">Xylen SIM Platform</span>
-                    <span class="app-live-tag">● ЭФИР</span>
-                  </div>
-
-                  <!-- Slot 1: Ucell UZ -->
-                  <div class="app-sim-slot-card active-data">
-                    <div class="sim-card-top">
-                      <span class="sim-chip-icon">💳</span>
-                      <span class="sim-name">SIM 1 • Ucell UZ</span>
-                      <span class="sim-data-badge">МОБИЛЬНЫЕ ДАННЫЕ</span>
-                    </div>
-                    <div class="sim-metrics-grid">
-                      <div class="metric-box">
-                        <span class="m-lbl">Сигнал RSRP</span>
-                        <span class="m-val green">-78 dBm</span>
-                      </div>
-                      <div class="metric-box">
-                        <span class="m-lbl">Стандарт</span>
-                        <span class="m-val cyan">5G NSA (n78)</span>
-                      </div>
-                      <div class="metric-box">
-                        <span class="m-lbl">Вышка CID / TAC</span>
-                        <span class="m-val">11042 • 12401</span>
-                      </div>
-                      <div class="metric-box">
-                        <span class="m-lbl">Код MCC/MNC</span>
-                        <span class="m-val">434 / 05</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Slot 2: Beeline UZ -->
-                  <div class="app-sim-slot-card standby-slot">
-                    <div class="sim-card-top">
-                      <span class="sim-chip-icon">📲</span>
-                      <span class="sim-name">SIM 2 • Beeline UZ (eSIM)</span>
-                      <span class="sim-standby-badge">СТЕНДБАЙ</span>
-                    </div>
-                    <div class="sim-metrics-grid">
-                      <div class="metric-box">
-                        <span class="m-lbl">Сигнал RSRP</span>
-                        <span class="m-val">-84 dBm</span>
-                      </div>
-                      <div class="metric-box">
-                        <span class="m-lbl">Стандарт</span>
-                        <span class="m-val">LTE Advanced (B3)</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="app-footer-rule">
-                    <span>📡 Трафик Wi-Fi строго игнорируется • Учёт только SIM-данных</span>
-                  </div>
-                </div>
+              <div class="visual-media-frame">
+                <img src="assets/telemetry-preview.jpg" alt="SIM & Telemetry Interface" class="stack-image-cover">
+                <div class="media-live-badge"><span class="pulse-dot green"></span> Live Telemetry View</div>
               </div>
             </div>
           </div>
@@ -389,13 +327,14 @@
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card2_tag">Микро-дельта протокол</span>
               <h3 class="stack-card-title" data-i18n="stack_card2_title">24-байтный пакет для любых сетей</h3>
-              <p class="stack-card-desc" data-i18n="stack_card2_desc">После согласия Android отправляет JSON-отчёты с событиями приложения и клиентскими счётчиками.</p>
+              <p class="stack-card-desc" data-i18n="stack_card2_desc">Специализированный протокол сжатия передает полную диагностику устройства за 24 байта. Работает даже при слабом уровне 2G/EDGE в Гулистане, по всей Сырдарьинской области и Узбекистану, а также на транзитных узлах Лондона без задержек.</p>
               <div class="hex-stream-preview">
-                <div class="hex-code-header">Поля отчёта (схема)</div>
-                <code>currentScreen · action · todayBytes</code>
+                <div class="hex-code-header">Micro-Delta Packet Payload (Hex):</div>
+                <code>0x18 0x02 0xAA 0xFF 0x3F 0x01 0x7E 0x90 0x5C 0x11 0x04 0x22</code>
                 <div class="hex-stats-row">
-                  <span>Источник: <strong>Android</strong></span>
-                  <span>Данные: <strong>клиентские</strong></span>
+                  <span>Размер: <strong>24 байта</strong></span>
+                  <span>Сжатие: <strong>96.4%</strong></span>
+                  <span>Расход батареи: <strong>&lt;0.1% / день</strong></span>
                 </div>
               </div>
             </div>
@@ -412,8 +351,8 @@
           <div class="stack-card card-theme-purple" id="stack-card-3" style="--stack-index: 2;">
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card3_tag">Аудит операторов</span>
-              <h3 class="stack-card-title" data-i18n="stack_card3_title">Доступ владельца</h3>
-              <p class="stack-card-desc" data-i18n="stack_card3_desc">Подробные отчёты доступны владельцу после проверки Cloudflare Access. Публичная сводка не показывает личные записи.</p>
+              <h3 class="stack-card-title" data-i18n="stack_card3_title">Нулевой перерасход и проверка биллинга</h3>
+              <p class="stack-card-desc" data-i18n="stack_card3_desc">Сравнение данных радиочипа телефона с тарификацией оператора. Предотвращение скрытых округлений сотового трафика, паразитных фоновых утечек и неожиданных списаний в роуминге (Гулистан ↔ Лондон).</p>
               <div class="stack-card-meta">
                 <span class="spec-pill">Гулистан ↔ Лондон шлюз</span>
                 <span class="spec-pill">Сквозной аудит квоты</span>

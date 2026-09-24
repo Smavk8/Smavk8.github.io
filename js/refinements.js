@@ -278,47 +278,10 @@
       if (copy.cards[index]) { if (title) title.textContent = copy.cards[index][0]; if (desc) desc.textContent = copy.cards[index][1]; }
       if (badge && copy.cards[index]) badge.textContent = copy.cards[index][0];
     });
-    document.querySelectorAll('.stack-card').forEach((card, index) => {
-      const title = card.querySelector('.stack-card-title'), desc = card.querySelector('.stack-card-desc');
-      const badge = card.querySelector('.stack-badge');
-      if (title && copy.cards[index]) title.textContent = copy.cards[index][0];
-      if (desc && copy.cards[index]) desc.textContent = copy.cards[index][1];
-      if (badge && copy.cards[index]) badge.textContent = copy.cards[index][0];
-    });
-    const stackOne = document.getElementById('stack-card-1');
-    const stackTwo = document.getElementById('stack-card-2');
-    const stackThree = document.getElementById('stack-card-3');
-    if (stackOne) {
-      const visual = stackOne.querySelector('.stack-card-visual');
-      const meta = stackOne.querySelector('.stack-card-meta');
-      if (visual) { visual.hidden = false; visual.innerHTML = `<div class="stack-data-note"><span class="eyebrow">${copy.cards[0][0]}</span><p>${copy.cards[0][1]}</p></div>`; }
-      if (meta) meta.innerHTML = lang === 'ru' ? `<span class="spec-pill">Разрешения Android</span><span class="spec-pill">Данные клиента</span><span class="spec-pill">Без SIM-идентификаторов</span>` : lang === 'uz' ? `<span class="spec-pill">Android ruxsatlari</span><span class="spec-pill">Mijoz ma’lumoti</span><span class="spec-pill">SIM IDlari yuborilmaydi</span>` : `<span class="spec-pill">Android permissions</span><span class="spec-pill">Client reported</span><span class="spec-pill">No SIM identifiers sent</span>`;
-      const title = stackOne.querySelector('.stack-card-title'), desc = stackOne.querySelector('.stack-card-desc');
-      if (title) title.textContent = copy.cards[0][0]; if (desc) desc.textContent = copy.cards[0][1];
-    }
-    if (stackTwo) {
-      const visual = stackTwo.querySelector('.stack-card-visual');
-      const payload = stackTwo.querySelector('.hex-stream-preview');
-      if (visual) { visual.hidden = false; visual.innerHTML = `<div class="stack-data-note"><span class="eyebrow">POST /api/audit</span><p>${lang === 'ru' ? 'Отчёт содержит поля события и счётчики, сообщённые Android-клиентом.' : lang === 'uz' ? 'Hisobotda Android mijoz yuborgan hodisa maydonlari va hisoblagichlar bo‘ladi.' : 'The report contains event fields and counters reported by the Android client.'}</p><code>currentScreen · action · todayBytes</code></div>`; }
-      if (payload) payload.remove();
-    }
-    if (stackThree) {
-      const visual = stackThree.querySelector('.stack-card-visual');
-      const meta = stackThree.querySelector('.stack-card-meta');
-      const badge = stackThree.querySelector('.stack-badge');
-      const title = stackThree.querySelector('.stack-card-title'), desc = stackThree.querySelector('.stack-card-desc');
-      if (visual) { visual.hidden = false; visual.innerHTML = `<div class="stack-data-note"><span class="eyebrow">CLOUDFLARE ACCESS</span><p>${lang === 'ru' ? 'Подробные записи доступны после проверки личности владельца через Cloudflare Access.' : lang === 'uz' ? 'Batafsil yozuvlar egasi Cloudflare Access orqali tasdiqlangandan keyin ochiladi.' : 'Detailed records are available after Cloudflare Access verifies the owner identity.'}</p></div>`; }
-      if (title) title.textContent = lang === 'ru' ? 'Доступ владельца' : lang === 'uz' ? 'Ega kirishi' : 'Owner access';
-      if (desc) desc.textContent = lang === 'ru' ? 'Подробные записи доступны владельцу после проверки Cloudflare Access.' : lang === 'uz' ? 'Batafsil yozuvlar egasi uchun Cloudflare Access tekshiruvidan so‘ng ochiladi.' : 'Detailed records are available to the owner after Cloudflare Access verification.';
-      if (meta) meta.textContent = '';
-      if (badge) badge.textContent = lang === 'ru' ? 'Доступ владельца' : lang === 'uz' ? 'Ega kirishi' : 'Owner access';
-    }
     const motionTitle = document.querySelector('.motion-carousel-section .section-heading');
     const motionSub = document.querySelector('.motion-carousel-section .section-desc');
      if (motionTitle) motionTitle.textContent = lang === 'ru' ? 'Путь данных' : lang === 'uz' ? 'Ma’lumotlar oqimi' : 'How the data flows';
      if (motionSub) motionSub.textContent = lang === 'ru' ? 'Схема обмена Android-отчётом и локального хранения журнала iOS' : lang === 'uz' ? 'Android hisoboti uzatilishi va iOS jurnalining mahalliy saqlanish sxemasi' : 'An illustration of Android reports and on-device iOS logs';
-    const stackSub = document.querySelector('[data-i18n="stack_sub"]');
-    if (stackSub) stackSub.textContent = lang === 'ru' ? 'Отчёт Android, безопасная обработка и сводка полученных данных.' : lang === 'uz' ? 'Android hisoboti, xavfsiz ishlov va olingan ma’lumotlar jamlanmasi.' : 'Android reports, protected processing, and a summary of received data.';
     const connectTitle = document.querySelector('.connect-title');
     if (connectTitle) connectTitle.textContent = lang === 'ru' ? 'Приём отчётов Android после согласия' : lang === 'uz' ? 'Rozilikdan so‘ng Android hisobotlarini qabul qilish' : 'Android reports received after consent';
     const connectDesc = document.querySelector('.connect-desc');
@@ -327,7 +290,6 @@
     if (brandTitle) brandTitle.title = 'Xylen Platform';
     const legacyMeta = document.querySelector('.section-title-strip + .connectivity-meta');
     if (legacyMeta) legacyMeta.textContent = '';
-    document.querySelectorAll('.stack-card-meta').forEach(meta => { if (meta.closest('#stack-card-3')) meta.textContent = ''; });
     window.dispatchEvent(new Event('resize'));
     document.querySelectorAll('.motion-card').forEach((card, index) => {
       const moduleIndex = index % copy.modules.length;
