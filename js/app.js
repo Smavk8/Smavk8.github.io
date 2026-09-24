@@ -46,6 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   window.switchPage = function(pageId) {
+    if (pageId === 'page-privacy') {
+      pageId = 'page-about';
+      setTimeout(() => document.getElementById('about-privacy')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 90);
+    }
     if (pageId === 'page-admin' && (!window.activityStorage || !window.activityStorage.isAdmin())) {
       window.requestAdminConsole();
       return;
@@ -116,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'traffic': 'page-traffic',
       'releases': 'page-releases',
       'about': 'page-about',
-      'privacy': 'page-privacy',
+      'privacy': 'page-about',
       'admin': 'page-admin'
     };
 
