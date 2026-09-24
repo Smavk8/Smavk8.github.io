@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
   <link rel="stylesheet" href="css/experience.css?v=1.0.0">
   <link rel="stylesheet" href="css/architecture-motion.css?v=1.0.0">
-  <link rel="stylesheet" href="css/xylen-motion.css?v=1.0.0">
+  <link rel="stylesheet" href="css/xylen-motion.css?v=1.1.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -46,36 +46,14 @@
     <div class="drawer-backdrop" onclick="window.toggleNavDrawer(false);"></div>
     <div class="drawer-sheet">
       <div class="drawer-header">
-        <span class="drawer-menu-title">Навигация</span>
+        <span class="drawer-menu-title">Настройки</span>
         <button class="drawer-close-btn" onclick="window.toggleNavDrawer(false);" aria-label="Закрыть меню">✕</button>
       </div>
-      <nav class="drawer-nav-list">
-        <button class="drawer-nav-item active" data-page="page-overview" onclick="window.switchPage('page-overview'); window.toggleNavDrawer(false);">
-          <span class="item-num">01</span>
-          <span data-i18n="nav_overview">Обзор</span>
-        </button>
-        <button class="drawer-nav-item" data-page="page-devices" onclick="window.switchPage('page-devices'); window.toggleNavDrawer(false);">
-          <span class="item-num">02</span>
-          <span data-i18n="nav_devices">Устройства</span>
-        </button>
-        <button class="drawer-nav-item" data-page="page-traffic" onclick="window.switchPage('page-traffic'); window.toggleNavDrawer(false);">
-          <span class="item-num">03</span>
-          <span data-i18n="nav_traffic">Трафик</span>
-        </button>
-        <button class="drawer-nav-item" data-page="page-releases" onclick="window.switchPage('page-releases'); window.toggleNavDrawer(false);">
-          <span class="item-num">04</span>
-          <span data-i18n="nav_releases">Релизы</span>
-        </button>
-        <button class="drawer-nav-item" data-page="page-about" onclick="window.switchPage('page-about'); window.toggleNavDrawer(false);">
-          <span class="item-num">05</span>
-          <span data-i18n="nav_about">О платформе</span>
-        </button>
-      </nav>
       <div class="drawer-footer-controls">
         <!-- Language Switcher inside Drawer -->
         <div class="drawer-control-group">
           <div class="drawer-group-label">Язык интерфейса / Til / Language</div>
-          <div class="drawer-lang-row">
+          <div class="drawer-lang-row" role="group" aria-label="Язык интерфейса">
             <button class="lang-text-btn active" data-lang="ru" onclick="window.selectLanguage('ru');">
               <span>🇷🇺</span> <span>RU</span>
             </button>
@@ -113,13 +91,15 @@
        ======================================================================== -->
   <header id="top-navbar" class="top-navbar floating-island">
     <div class="nav-island-inner">
-      <!-- Clean Brand Logo: Exact same 48px height rhythm as menu -->
+      <!-- Xylen Management logo lockup -->
       <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Platform">
-        <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="brand-monogram-icon">
-        <span class="brand-clean-name">XYLEN</span>
+        <picture class="brand-lockup">
+          <img src="assets/xylen-logo-white.png" alt="Xylen Management" class="brand-lockup-dark">
+          <img src="assets/xylen-logo.png" alt="" aria-hidden="true" class="brand-lockup-light">
+        </picture>
       </a>
 
-      <!-- Navigation Menu: 48px height with Sliding Pill -->
+      <!-- Wide tab strip with a sliding active state -->
       <nav class="main-nav-menu" id="main-nav-menu" aria-label="Разделы Xylen Workspace">
         <div class="nav-active-pill" id="nav-active-pill"></div>
         <button class="nav-page-btn active" data-page="page-overview" data-i18n="nav_overview">
@@ -382,6 +362,32 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <section class="report-relay-transition reveal-on-scroll" aria-label="Переход от Android-отчёта к сводке">
+        <div class="relay-endpoint relay-source"><span class="relay-endpoint-led"></span><span>ANDROID</span><small>REPORT</small></div>
+        <svg class="relay-route-art" viewBox="0 0 1200 190" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="relay-route-gradient" x1="0" x2="1">
+              <stop offset="0" stop-color="#35d9f7" stop-opacity=".08" />
+              <stop offset=".5" stop-color="#50e5dc" stop-opacity=".82" />
+              <stop offset="1" stop-color="#ac8cff" stop-opacity=".16" />
+            </linearGradient>
+            <filter id="relay-route-blur" x="-30%" y="-100%" width="160%" height="300%">
+              <feGaussianBlur stdDeviation="5" />
+            </filter>
+          </defs>
+          <path class="relay-route-base" d="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" />
+          <path class="relay-route-glow" d="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" />
+          <path class="relay-route-pulse" d="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" />
+          <g class="relay-route-node relay-node-a" transform="translate(220 86)"><circle r="16" /><circle class="relay-node-core" r="4" /></g>
+          <g class="relay-route-node relay-node-b" transform="translate(740 150)"><circle r="16" /><circle class="relay-node-core" r="4" /></g>
+          <g class="relay-route-node relay-node-c" transform="translate(1038 77)"><circle r="16" /><circle class="relay-node-core" r="4" /></g>
+          <circle class="relay-packet" r="4"><animateMotion dur="4.8s" repeatCount="indefinite" path="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" /></circle>
+          <circle class="relay-packet relay-packet-alt" r="2.5"><animateMotion dur="4.8s" begin="-2.4s" repeatCount="indefinite" path="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" /></circle>
+        </svg>
+        <div class="relay-endpoint relay-destination"><span class="relay-endpoint-led"></span><span>API</span><small>SUMMARY</small></div>
+        <span class="relay-caption">ONE CONSENTED REPORT · ONE CLEAR PATH</span>
       </section>
 
       <!-- ====================================================================
@@ -1063,8 +1069,10 @@
     <div class="container footer-centered-wrap">
       <!-- Centered Clickable Brand: Scroll to top / home -->
       <a href="#" class="footer-center-brand" onclick="window.switchPage('page-overview'); window.scrollTo({top:0, behavior:'smooth'}); return false;" title="Xylen Workspace • Наверх">
-        <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="footer-monogram-icon">
-        <span class="brand-clean-name footer-brand-title">XYLEN</span>
+        <picture class="brand-lockup footer-lockup">
+          <img src="assets/xylen-logo-white.png" alt="Xylen Management" class="brand-lockup-dark">
+          <img src="assets/xylen-logo.png" alt="" aria-hidden="true" class="brand-lockup-light">
+        </picture>
       </a>
 
       <!-- Centered Navigation Links -->
@@ -1087,11 +1095,11 @@
   <script src="js/qrcode.min.js"></script>
   <script src="js/storage.js?v=2.6.0"></script>
   <script src="js/i18n.js?v=2.6.0"></script>
-  <script src="js/app.js?v=2.6.0"></script>
+  <script src="js/app.js?v=2.7.0"></script>
   <script src="js/refinements.js?v=2.6.0"></script>
   <script src="js/home-expansion.js?v=1.0.0"></script>
   <script src="js/experience.js?v=1.0.0"></script>
-  <script src="js/architecture-motion.js?v=1.0.0"></script>
+  <script src="js/architecture-motion.js?v=1.1.0"></script>
   <script src="js/xylen-motion.js?v=1.0.0"></script>
 </body>
 </html>

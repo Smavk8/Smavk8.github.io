@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const parentRect = parent.getBoundingClientRect();
     const btnRect = activeBtn.getBoundingClientRect();
-    const offsetLeft = btnRect.left - parentRect.left;
+    const offsetLeft = parent.scrollLeft + btnRect.left - parentRect.left - parent.clientLeft;
 
     navPill.style.left = offsetLeft + 'px';
     navPill.style.width = btnRect.width + 'px';
@@ -74,12 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateNavPill(activeBtn);
     }
 
-    // Update compact drawer buttons as well
-    const drawerButtons = document.querySelectorAll('.drawer-nav-item');
-    drawerButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.page === pageId);
-    });
-
     const hashName = pageId.replace('page-', '');
     if (window.location.hash !== '#' + hashName) {
       history.pushState(null, '', '#' + hashName);
@@ -102,9 +96,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
+      const parent = btn.parentElement;
+      if (parent) {
+        const parentRect = parent.getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+        if (btnRect.left < parentRect.left) parent.scrollBy({ left: btnRect.left - parentRect.left - 8, behavior: 'smooth' });
+        else if (btnRect.right > parentRect.right) parent.scrollBy({ left: btnRect.right - parentRect.right + 8, behavior: 'smooth' });
+      }
       window.switchPage(btn.dataset.page);
     });
   });
+
+  document.getElementById('main-nav-menu')?.addEventListener('scroll', () => {
+    const activeBtn = document.querySelector('.nav-page-btn.active');
+    if (activeBtn) updateNavPill(activeBtn);
+  }, { passive: true });
 
   window.addEventListener('resize', () => {
     const activeBtn = document.querySelector('.nav-page-btn.active');
@@ -137,12 +143,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // COMPACT NAVIGATION DRAWER CONTROLLER
   // --------------------------------------------------------------------------
   const compactNavDrawer = document.getElementById('compact-nav-drawer');
+  const drawerTrigger = document.getElementById('compact-hamburger-btn-header');
 
   window.toggleNavDrawer = function(open) {
     if (!compactNavDrawer) return;
     const shouldOpen = open !== undefined ? Boolean(open) : !compactNavDrawer.classList.contains('active');
     compactNavDrawer.classList.toggle('active', shouldOpen);
+    compactNavDrawer.setAttribute('aria-hidden', String(!shouldOpen));
+    compactNavDrawer.inert = !shouldOpen;
+    drawerTrigger?.setAttribute('aria-expanded', String(shouldOpen));
+    if (shouldOpen) compactNavDrawer.querySelector('.drawer-close-btn')?.focus({ preventScroll: true });
   };
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && compactNavDrawer?.classList.contains('active')) {
+      window.toggleNavDrawer(false);
+      drawerTrigger?.focus({ preventScroll: true });
+    }
+  });
 
   // --------------------------------------------------------------------------
   // PERMANENTLY FLOATING ISLAND NAVBAR

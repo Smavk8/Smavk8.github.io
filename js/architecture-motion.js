@@ -74,9 +74,9 @@
       const energy = clamp(1 - distance, 0, 1);
       card.classList.toggle('is-architecture-active', energy >= .5 || (cardIndex === stage && stageProgress < .5));
       card.dataset.architectureState = energy > .6 ? 'active' : energy > .04 ? 'handoff' : 'queued';
-      // Promote only the card which has reached the shared sticky line. This lets
-      // it cover the prior card as a complete rectangle without resizing either.
-      card.style.zIndex = cardIndex === stage ? '60' : cardIndex < stage ? String(20 + cardIndex) : String(10 + cardIndex);
+      // Keep the card order fixed while they approach the sticky line. The next
+      // rectangle then travels over its predecessor instead of appearing behind
+      // it and popping above only after reaching the top.
     });
   }
 
