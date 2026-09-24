@@ -13,11 +13,11 @@ const I18N_STORAGE_KEY = 'xylen_selected_language_v4';
 const TRANSLATIONS = {
   ru: {
     // Navigation
-    nav_overview: "Обзор",
-    nav_devices: "Устройства",
+    nav_overview: "Главное",
+    nav_devices: "Устройство",
     nav_traffic: "Трафик",
     nav_releases: "Релизы",
-    nav_about: "О платформе",
+    nav_about: "О телефоне",
     nav_privacy: "Конфиденциальность",
     manager_btn: "Менеджер",
     menu_btn: "Меню",
@@ -25,7 +25,7 @@ const TRANSLATIONS = {
 
     // Overview Hero
     hero_badge: "Реальная сотовая телеметрия • Ядро связи v5.2",
-    overview_hero_title: "Контроль в движении. Телеметрия без имитаций.",
+    overview_hero_title: "Silent Motion",
     overview_hero_sub: "Независимый инженерный комплекс аппаратного контроля сотового радиоканала, проверки активных SIM-слотов и сквозного аудита мобильного трафика. Прямой доступ к параметрам радиомодема без посредников и эмуляций.",
     btn_hero_connect: "Мониторинг радиоэфира",
     btn_hero_releases: "Центр загрузки клиентов",
@@ -179,11 +179,11 @@ const TRANSLATIONS = {
 
   uz: {
     // Navigation
-    nav_overview: "Umumiy ko'rinish",
-    nav_devices: "Qurilmalar",
+    nav_overview: "Asosiy",
+    nav_devices: "Qurilma",
     nav_traffic: "Trafik",
     nav_releases: "Relizlar",
-    nav_about: "Platforma haqida",
+    nav_about: "Telefon haqida",
     nav_privacy: "Maxfiylik va qonuniylik",
     manager_btn: "Menejer",
     menu_btn: "Menyu",
@@ -191,7 +191,7 @@ const TRANSLATIONS = {
 
     // Overview Hero
     hero_badge: "Haqiqiy mobil telemetriya • Aloqa yadrosi v5.2",
-    overview_hero_title: "Harakatdagi nazorat. Soxtaliklarsiz telemetriya.",
+    overview_hero_title: "Silent Motion",
     overview_hero_sub: "Radiokanal parametrlarini aniqlash, faol SIM-slotlarni tekshirish va mobil internet sarfini to'liq audit qilish mustaqil muhandislik platformasi. Radiomodem parametrlariga vositachilarsiz to'g'ridan-to'g'ri kirish.",
     btn_hero_connect: "Radioefir monitoringi",
     btn_hero_releases: "Mijozlarni yuklab olish",
@@ -345,11 +345,11 @@ const TRANSLATIONS = {
 
   en: {
     // Navigation
-    nav_overview: "Overview",
-    nav_devices: "Devices",
+    nav_overview: "Home",
+    nav_devices: "Device",
     nav_traffic: "Traffic",
     nav_releases: "Releases",
-    nav_about: "About",
+    nav_about: "About phone",
     nav_privacy: "Privacy & Legal",
     manager_btn: "Manager",
     menu_btn: "Menu",
@@ -357,7 +357,7 @@ const TRANSLATIONS = {
 
     // Overview Hero
     hero_badge: "Real Cellular Telemetry • Network Core v5.2",
-    overview_hero_title: "Design in Motion. Telemetry Without Mockups.",
+    overview_hero_title: "Silent Motion",
     overview_hero_sub: "Independent engineering suite for cellular RF telemetry, active SIM slot inspection, and end-to-end mobile data auditing. Direct hardware modem parameters without intermediaries or emulations.",
     btn_hero_connect: "Radio Ether Monitoring",
     btn_hero_releases: "Download Clients",

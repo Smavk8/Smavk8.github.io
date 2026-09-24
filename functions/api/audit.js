@@ -56,14 +56,40 @@ export async function onRequestGet({ request, env }) {
   // Public endpoint returns aggregate counts only. Device identities, screen
   // names, carrier details and activity records are served by /api/admin.
   const onlineUsers = users.filter(u => u.status !== 'offline' && now - (u.lastSeenMs || 0) < 75000);
+  const dayCounts = new Map();
+  users.forEach(user => dayCounts.set(user.todayDate, (dayCounts.get(user.todayDate) || 0) + 1));
+  const reportedDay = [...dayCounts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  const latestBytesByDevice = new Map();
+  const trafficSeries = [];
+  for (const activity of [...activities].sort((a, b) => (Number(a.timestamp) || 0) - (Number(b.timestamp) || 0))) {
+    const timestamp = Number(activity.timestamp) || 0;
+    const userId = String(activity.userId || '');
+    if (!timestamp || !userId) continue;
+    const previousBytes = latestBytesByDevice.get(userId);
+    const nextBytes = Math.max(0, Number(activity.todayBytes) || 0);
+    if (!previousBytes || previousBytes.day !== activity.todayDate || nextBytes >= previousBytes.bytes) {
+      latestBytesByDevice.set(userId, { bytes: nextBytes, day: activity.todayDate });
+    }
+    if (timestamp >= now - 24 * 60 * 60 * 1000) {
+      const day = String(activity.todayDate || '');
+      trafficSeries.push({
+        timestamp,
+        bytes: [...latestBytesByDevice.values()].filter(value => !day || value.day === day).reduce((sum, value) => sum + value.bytes, 0)
+      });
+    }
+  }
+  const sampledTrafficSeries = trafficSeries.filter((point, index) =>
+    index === trafficSeries.length - 1 || Math.floor(point.timestamp / 1800000) !== Math.floor(trafficSeries[index + 1].timestamp / 1800000)
+  );
   const responsePayload = {
     ok: true,
     serverTime: now,
     totalUsersCount: users.length,
     onlineUsersCount: onlineUsers.length,
-    todayBytes: users.reduce((total, user) => total + (Number(user.todayBytes) || 0), 0),
+    todayBytes: users.filter(user => !reportedDay || user.todayDate === reportedDay).reduce((total, user) => total + (Number(user.todayBytes) || 0), 0),
     activityCount: activities.length,
-    lastActivityAt: activities.length ? activities[0].timestamp : null
+    lastActivityAt: activities.length ? activities[0].timestamp : null,
+    trafficSeries: sampledTrafficSeries.slice(-48)
   };
 
   return new Response(JSON.stringify(responsePayload, null, 2), {
@@ -104,6 +130,16 @@ export async function onRequestPost({ request, env }) {
     const lastAction = String(data.action || data.lastAction || 'App activity').trim().slice(0, 160);
     const actionDetails = String(data.details || '').trim().slice(0, 1000);
     const carrier = String(data.carrier || data.activeCarrier || 'Cellular').trim().slice(0, 100);
+    const todayDate = /^\d{2}\.\d{2}\.\d{4}$/.test(String(data.dayKey || ''))
+      ? String(data.dayKey)
+      : new Date(now).toISOString().slice(0, 10);
+    const simProfiles = Array.isArray(data.simProfiles) ? data.simProfiles.slice(0, 8).map(profile => ({
+      slot: Math.max(0, Math.min(7, Number(profile.slot) || 0)),
+      carrier: String(profile.carrier || '').trim().slice(0, 100),
+      type: profile.type === 'esim' ? 'esim' : 'sim',
+      active: profile.active === true,
+      todayBytes: Math.max(0, Math.min(Number(profile.todayBytes) || 0, Number.MAX_SAFE_INTEGER))
+    })) : [];
     const asCounter = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(Number(value), Number.MAX_SAFE_INTEGER)) : 0;
     const todayBytes = asCounter(data.todayBytes);
     const sessionBytes = asCounter(data.sessionBytes);
@@ -119,7 +155,9 @@ export async function onRequestPost({ request, env }) {
       currentScreen,
       lastAction,
       carrier,
-      todayBytes: Math.max(todayBytes, existingUser.todayBytes || 0),
+      simProfiles,
+      todayBytes: existingUser.todayDate === todayDate ? Math.max(todayBytes, existingUser.todayBytes || 0) : todayBytes,
+      todayDate,
       sessionBytes,
       totalBytes: Math.max(totalBytes, existingUser.totalBytes || 0),
       status: data.status === 'offline' ? 'offline' : 'online',
@@ -139,8 +177,10 @@ export async function onRequestPost({ request, env }) {
       action: lastAction,
       details: actionDetails,
       carrier,
+      simProfiles,
       bytesDelta: asCounter(data.bytesDelta),
       todayBytes: updatedUser.todayBytes,
+      todayDate: updatedUser.todayDate,
       timestamp: now,
       timeDisplay: new Date(now).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
     };

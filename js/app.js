@@ -182,15 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!stackCards || stackCards.length === 0) return;
 
     const triggerStart = window.innerHeight;
-    const triggerEnd = 96; // Fixed sticky lock coordinate for all cards!
+    const triggerEnd = window.innerWidth <= 900 ? 80 : 96;
 
     stackCards.forEach((card, index) => {
-      if (index === 2) {
-        card.style.transform = 'none';
-        card.style.opacity = '1';
-        card.style.pointerEvents = 'auto';
-        return;
-      }
       const nextCard = stackCards[index + 1];
       if (nextCard) {
         const nextRect = nextCard.getBoundingClientRect();
