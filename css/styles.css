@@ -1264,10 +1264,7 @@ body.theme-light .header-hamburger-trigger {
 }
 
 .stack-card {
-  position: sticky;
-  top: 96px; /* Cards completely replace each other in the exact same spot! */
   z-index: calc(10 + var(--stack-index, 0));
-  margin-bottom: 55vh; /* Smooth runway for Card 1 -> Card 2 in-place transition */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 36px;
@@ -1283,10 +1280,6 @@ body.theme-light .header-hamburger-trigger {
   transform-origin: center top;
 }
 
-.stack-card:last-child {
-  margin-bottom: 45vh; /* Sufficient runway for Card 2 -> Card 3 transition and Xylen Motion reveal */
-}
-
 @media (max-width: 900px) {
   .jitter-stack-container {
     padding-bottom: 4vh;
@@ -1294,11 +1287,6 @@ body.theme-light .header-hamburger-trigger {
   .stack-card {
     grid-template-columns: 1fr;
     padding: 26px;
-    top: 80px;
-    margin-bottom: 35vh;
-  }
-  .stack-card:last-child {
-    margin-bottom: 30vh;
   }
 }
 
@@ -3891,20 +3879,6 @@ body.theme-light .spend-table td {
 .top-navbar .brand-badge-clean,
 .top-navbar .main-nav-menu { transition: opacity .2s ease, transform .25s ease, visibility .2s; }
 
-/* Let the first two architecture panels hand off; the final panel flows into Motion. */
-.jitter-stack-container > .stack-card:nth-child(3) {
-  position: sticky;
-  top: 96px;
-  z-index: 12;
-  margin: 0 0 50vh;
-  backdrop-filter: blur(20px);
-}
-.stack-card { margin-bottom: 50vh; transition-duration: .45s; }
-.stack-card:nth-child(2) { margin-bottom: 50vh; }
-.stack-card:last-child { margin-bottom: 50vh; }
-.motion-carousel-section { margin-top: 2vh; padding-top: clamp(28px, 5vh, 64px); }
-.motion-carousel-section::before { opacity: .55; }
-
 .devices-page { padding-top: clamp(28px, 5vh, 64px); padding-bottom: clamp(54px, 9vh, 112px); }
 .devices-page .section-title-strip { align-items: flex-end; gap: 24px; }
 .device-toolbar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -3948,9 +3922,6 @@ body.theme-light .spend-table td {
   .device-summary-mark span:nth-child(3) { height: 30px; }
   .devices-page .section-title-strip { align-items: flex-start; }
   .device-toolbar { width: 100%; }
-  .jitter-stack-container > .stack-card:nth-child(3) { top: 80px; margin-bottom: 42vh; }
-  .stack-card, .stack-card:nth-child(2), .stack-card:last-child { margin-bottom: 42vh; }
-  .motion-carousel-section { margin-top: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4247,23 +4218,6 @@ body.theme-light .spend-table td {
 .compact-nav-drawer .drawer-sheet::-webkit-scrollbar { width: 6px; }
 .compact-nav-drawer .drawer-sheet::-webkit-scrollbar-thumb { border-radius: 99px; background: color-mix(in srgb, var(--text-muted) 35%, transparent); }
 
-/* Give each architecture card the same scroll runway so each sticky handoff has matching timing. */
-.jitter-stack-container { padding-bottom: clamp(20px, 5vh, 56px); }
-#stack-card-1, #stack-card-2 {
-  position: sticky;
-  top: 96px;
-  margin-bottom: clamp(220px, 28vh, 320px);
-}
-#stack-card-3 {
-  position: sticky;
-  top: 96px;
-  margin-bottom: clamp(80px, 12vh, 140px);
-}
-.motion-carousel-section {
-  margin-top: clamp(-72px, -8vh, -36px);
-  padding-top: clamp(56px, 7vh, 84px);
-  background: transparent;
-}
 .motion-carousel-section::before {
   display: block !important;
   position: absolute;
@@ -4299,9 +4253,6 @@ body.theme-light .spend-table td {
 
 @media (max-width: 700px) {
   .compact-nav-drawer .drawer-sheet { inset: 64px 12px auto auto; width: min(360px, calc(100vw - 24px)); max-height: calc(100dvh - 78px); }
-  #stack-card-1, #stack-card-2 { top: 80px; margin-bottom: clamp(160px, 24vh, 240px); }
-  #stack-card-3 { top: 80px; margin-bottom: clamp(64px, 10vh, 96px); }
-  .motion-carousel-section { margin-top: -16px; padding-top: 56px; }
   .motion-carousel-track {
     animation: infiniteOrbitScroll 30s linear infinite !important;
     padding-left: 18px;
