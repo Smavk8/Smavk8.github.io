@@ -185,6 +185,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const triggerEnd = 96; // Fixed sticky lock coordinate for all cards!
 
     stackCards.forEach((card, index) => {
+      if (index === 2) {
+        card.style.transform = 'none';
+        card.style.opacity = '1';
+        card.style.pointerEvents = 'auto';
+        return;
+      }
       const nextCard = stackCards[index + 1];
       if (nextCard) {
         const nextRect = nextCard.getBoundingClientRect();
@@ -838,126 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderAuditDashboard();
   });
 
-  // Test real device injection (Strictly Gulistan & London Operators: Ucell, UMS, Beeline UZ, O2 UK, Three UK)
-  window.injectTestRealDevice = function() {
-    if (!window.activityStorage) return;
-
-    const testPool = [
-      {
-        id: 'dev-s24u-gulistan',
-        model: 'Samsung Galaxy S24 Ultra',
-        platform: 'android',
-        deviceOs: 'Android 15 (One UI 7.0)',
-        appVersion: 'v5.2 (Build 28)',
-        ipAddress: '192.168.1.104',
-        assignedUser: 'Инженер связи (Гулистан)',
-        currentSpeedKBps: 24600,
-        todayTrafficBytes: 3221225472, // 3.0 GB
-        isMobileData: true,
-        isWifi: false,
-        simSlots: [
-          {
-            slotNumber: 1,
-            slotName: 'SIM 1 (Nano-SIM)',
-            carrier: 'Ucell UZ',
-            countryFlag: '🇺🇿',
-            networkType: '5G NR NSA (n78)',
-            signalDbm: -68,
-            signalBars: 4,
-            cellTower: 'CID 11042 • TAC 12401 (Гулистан Центр)',
-            iccid: '8999-8041-5520-1192',
-            imsi: '434-05-881230491',
-            isDefaultData: true
-          },
-          {
-            slotNumber: 2,
-            slotName: 'SIM 2 (eSIM)',
-            carrier: 'Beeline UZ',
-            countryFlag: '🇺🇿',
-            networkType: 'LTE Advanced (B3/B7)',
-            signalDbm: -74,
-            signalBars: 3,
-            cellTower: 'CID 24190 • TAC 12401 (Гулистан Узел)',
-            iccid: '8999-8021-4401-9932',
-            imsi: '434-04-349012844',
-            isDefaultData: false
-          }
-        ],
-        timeline: [
-          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'Гулистан Lab', desc: 'Устройство авторизовано в ядре Xylen Edge' },
-          { time: '13:48', event: '5G NR NSA Активен', desc: 'Агрегация несущей n78 (3.5 GHz) на SIM 1 (Ucell)' }
-        ]
-      },
-      {
-        id: 'dev-pixel9-gulistan',
-        model: 'Google Pixel 9 Pro',
-        platform: 'android',
-        deviceOs: 'Android 15 (AOSP)',
-        appVersion: 'v5.2 (Build 28)',
-        ipAddress: '192.168.1.182',
-        assignedUser: 'Сетевой аналитик (Гулистан)',
-        currentSpeedKBps: 18400,
-        todayTrafficBytes: 1610612736, // 1.5 GB
-        isMobileData: true,
-        isWifi: false,
-        simSlots: [
-          {
-            slotNumber: 1,
-            slotName: 'SIM 1 (Nano-SIM)',
-            carrier: 'UMS',
-            countryFlag: '🇺🇿',
-            networkType: 'LTE+ (Carrier Aggregation)',
-            signalDbm: -71,
-            signalBars: 4,
-            cellTower: 'CID 18402 • TAC 12401 (Гулистан Вокзал)',
-            iccid: '8999-8071-1201-4491',
-            imsi: '434-07-550192841',
-            isDefaultData: true
-          }
-        ],
-        timeline: [
-          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'Подключено', desc: 'Авторизация в шлюзе телеметрии Гулистана' }
-        ]
-      },
-      {
-        id: 'dev-ip16p-london',
-        model: 'iPhone 16 Pro Max',
-        platform: 'ios',
-        deviceOs: 'iOS 18.2.1',
-        appVersion: 'v5.2 (Build 28)',
-        ipAddress: '10.88.4.12',
-        assignedUser: 'Инженер шлюза (Лондон)',
-        currentSpeedKBps: 31200,
-        todayTrafficBytes: 4294967296, // 4.0 GB
-        isMobileData: true,
-        isWifi: false,
-        simSlots: [
-          {
-            slotNumber: 1,
-            slotName: 'SIM 1 (eSIM)',
-            carrier: 'O2 UK',
-            countryFlag: '🇬🇧',
-            networkType: '5G Standalone',
-            signalDbm: -65,
-            signalBars: 4,
-            cellTower: 'CID 99410 • TAC 33012 (London Canary Wharf)',
-            iccid: '8944-1510-9923-4188',
-            imsi: '234-10-098231411',
-            isDefaultData: true
-          }
-        ],
-        timeline: [
-          { time: new Date().toLocaleTimeString().slice(0, 5), event: 'UK Gateway', desc: 'Авторизация через Apple Keychain Vault v2' }
-        ]
-      }
-    ];
-
-    const currentDevices = window.activityStorage.getDevices();
-    const candidate = testPool[currentDevices.length % testPool.length];
-    window.activityStorage.registerDevice(candidate);
-    renderDevices();
-    window.showToast(`Реальный узел ${candidate.model} добавлен в мониторинг!`);
-  };
+  window.injectTestRealDevice = function() { window.showToast('Демонстрационные устройства отключены.'); };
 
   window.removeRealDevice = function(deviceId) {
     if (!window.activityStorage) return;

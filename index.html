@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0A0C10">
-  <meta name="description" content="Xylen Workspace: Инженерная платформа сотовой телеметрии, аппаратных SIM-карт и аудита мобильного трафика. Родина проекта — Гулистан с защищённым шлюзом в Лондоне (Cloudflare Edge).">
-  <title>Xylen Workspace • Сотовая телеметрия и SIM-контроль (Гулистан ↔ Лондон)</title>
-  <link rel="stylesheet" href="css/styles.css?v=2.4.0">
+  <meta name="description" content="Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения.">
+  <title>Xylen Platform • Сводка мобильных отчётов</title>
+  <link rel="stylesheet" href="css/styles.css?v=2.6.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -42,15 +42,8 @@
     <div class="drawer-backdrop" onclick="window.toggleNavDrawer(false);"></div>
     <div class="drawer-sheet">
       <div class="drawer-header">
-        <div class="brand-badge-clean">
-          <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="brand-monogram-icon">
-          <span class="brand-clean-name">XYLEN</span>
-        </div>
+        <span class="drawer-menu-title">Навигация</span>
         <button class="drawer-close-btn" onclick="window.toggleNavDrawer(false);" aria-label="Закрыть меню">✕</button>
-      </div>
-      <div class="drawer-origin-badge">
-        <span class="pulse-dot cyan"></span>
-        <span>Гулистан • Ядро сотовой телеметрии</span>
       </div>
       <nav class="drawer-nav-list">
         <button class="drawer-nav-item active" data-page="page-overview" onclick="window.switchPage('page-overview'); window.toggleNavDrawer(false);">
@@ -107,7 +100,7 @@
         <!-- Manager Access Console Button -->
         <button class="btn btn-secondary btn-full" onclick="window.requestAdminConsole(); window.toggleNavDrawer(false);">
           <span class="pulse-dot green"></span>
-          <span data-i18n="manager_btn">Менеджер</span> (7700)
+          <span data-i18n="manager_btn">Менеджер</span>
         </button>
       </div>
     </div>
@@ -121,7 +114,7 @@
   <header id="top-navbar" class="top-navbar floating-island">
     <div class="nav-island-inner">
       <!-- Clean Brand Logo: Exact same 48px height rhythm as menu -->
-      <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Workspace • Гулистан">
+      <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Platform">
         <img src="assets/xylen-icon.png" alt="Xylen Monogram" class="brand-monogram-icon">
         <span class="brand-clean-name">XYLEN</span>
       </a>
@@ -151,7 +144,7 @@
 
       <!-- Right Menu Trigger: Exact same 48px height rhythm -->
       <div class="header-menu-pill">
-        <button id="compact-hamburger-btn-header" class="header-hamburger-trigger" title="Меню, языки и тема" aria-label="Открыть меню" onclick="window.toggleNavDrawer(true);">
+        <button id="compact-hamburger-btn-header" class="header-hamburger-trigger" title="Меню, языки и тема" aria-label="Открыть меню" aria-controls="compact-nav-drawer" aria-expanded="false" onclick="window.toggleNavDrawer(true);">
           <span class="hamburger-bars-wrap">
             <span class="hamburger-bar"></span>
             <span class="hamburger-bar"></span>
@@ -170,6 +163,7 @@
     <div class="container">
       <!-- Spacious Hero Block Inspired by Jitter -->
       <section class="overview-hero-block reveal-on-scroll">
+        <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
         <h1 class="hero-statement-title" data-i18n="overview_hero_title">
           Контроль в движении. Телеметрия без имитаций.
         </h1>
@@ -263,7 +257,7 @@
               <span class="kpi-tag" data-i18n="kpi_devices">Реальные устройства</span>
               <span class="pulse-dot green"></span>
             </div>
-            <div class="kpi-number count-up" data-target="0" id="kpi-devices-count">0</div>
+            <div class="kpi-number" id="kpi-devices-count">—</div>
             <div class="kpi-sub" data-i18n="kpi_devices_sub">активно в радиоэфире</div>
           </div>
 
@@ -272,7 +266,7 @@
               <span class="kpi-tag" data-i18n="kpi_sims">Активные SIM-слоты</span>
               <span class="pulse-dot cyan"></span>
             </div>
-            <div class="kpi-number count-up" data-target="0" id="kpi-sims-count">0</div>
+            <div class="kpi-number" id="kpi-sims-count">—</div>
             <div class="kpi-sub" data-i18n="kpi_sims_sub">обнаружено в аппаратах</div>
           </div>
 
@@ -281,7 +275,7 @@
               <span class="kpi-tag" data-i18n="kpi_traffic">Сотовый трафик</span>
               <span class="pulse-dot green"></span>
             </div>
-            <div class="kpi-number count-up" data-target="0" id="kpi-traffic-count">0.0 МБ</div>
+            <div class="kpi-number" id="kpi-traffic-count">—</div>
             <div class="kpi-sub" data-i18n="kpi_traffic_sub">Wi-Fi строго исключён</div>
           </div>
 
@@ -290,7 +284,7 @@
               <span class="kpi-tag" data-i18n="kpi_speed">Скорость радиоканала</span>
               <span class="pulse-dot cyan"></span>
             </div>
-            <div class="kpi-number count-up" data-target="0" id="kpi-speed-count">0.0 МБ/с</div>
+            <div class="kpi-number" id="kpi-speed-count">—</div>
             <div class="kpi-sub" data-i18n="kpi_speed_sub">текущий поток SIM-данных</div>
           </div>
         </div>
@@ -1073,30 +1067,6 @@
   </main>
 
   <!-- ========================================================================
-       MODAL: PIN AUTH FOR MANAGER CONSOLE
-       ======================================================================== -->
-  <div id="admin-pin-modal" class="xylen-modal">
-    <div class="modal-overlay" onclick="window.closeAdminPinModal();"></div>
-    <div class="modal-window">
-      <div class="modal-header">
-        <div class="modal-title-row">
-          <span class="pulse-dot green"></span>
-          <h3 data-i18n="admin_auth_title">Консоль Мастер-Менеджера</h3>
-        </div>
-        <button class="modal-close-btn" onclick="window.closeAdminPinModal();">✕</button>
-      </div>
-      <div class="modal-body">
-        <p class="modal-desc" data-i18n="admin_auth_sub">Введите защитный PIN-код доступа (7700):</p>
-        <div class="pin-input-group">
-          <input type="password" id="admin-pin-input" class="pin-input" maxlength="8" placeholder="••••" autocomplete="off">
-          <button class="btn btn-cyan" onclick="window.submitAdminPin();" data-i18n="admin_auth_btn_login">Войти в консоль</button>
-        </div>
-        <div id="admin-pin-error" class="pin-error-msg" data-i18n="admin_auth_error">Неверный код доступа. Повторите попытку.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================
        MODAL: QR CODE FOR MOBILE INSTALLATION
        ======================================================================== -->
   <div id="qr-modal" class="xylen-modal">
@@ -1174,8 +1144,9 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/storage.js?v=2.4.0"></script>
-  <script src="js/i18n.js?v=2.4.0"></script>
-  <script src="js/app.js?v=2.4.0"></script>
+  <script src="js/storage.js?v=2.6.0"></script>
+  <script src="js/i18n.js?v=2.6.0"></script>
+  <script src="js/app.js?v=2.6.0"></script>
+  <script src="js/refinements.js?v=2.6.0"></script>
 </body>
 </html>

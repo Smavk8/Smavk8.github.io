@@ -163,13 +163,13 @@ const TRANSLATIONS = {
 
     // Admin
     admin_auth_title: "Консоль Мастер-Менеджера",
-    admin_auth_sub: "Введите защитный PIN-код доступа (7700):",
+    admin_auth_sub: "Вход выполняется через Cloudflare Access.",
     admin_auth_btn_login: "Войти в консоль",
-    admin_auth_error: "Неверный код доступа. Повторите попытку.",
+    admin_auth_error: "Требуется авторизация владельца через Cloudflare Access.",
     admin_visitors_title: "Журнал аудита сессий и подключений",
 
     // Footer
-    footer_copyright: "© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256",
+    footer_copyright: "© 2026 Xylen • Все права защищены",
 
     // General
     btn_close: "Закрыть",
@@ -329,13 +329,13 @@ const TRANSLATIONS = {
 
     // Admin
     admin_auth_title: "Master-Menejer Konsoli",
-    admin_auth_sub: "Xavfsizlik PIN-kodini kiriting (7700):",
+    admin_auth_sub: "Kirish Cloudflare Access orqali amalga oshiriladi.",
     admin_auth_btn_login: "Konsolga kirish",
-    admin_auth_error: "Noto'g'ri kirish kodi. Qayta urinib ko'ring.",
+    admin_auth_error: "Cloudflare Access orqali egasi tasdiqlanishi kerak.",
     admin_visitors_title: "Sessiyalar va ulanishlar auditi jurnali",
 
     // Footer
-    footer_copyright: "© 2026 Xylen Inc. • Barcha huquqlar himoyalangan • AES-256 Shifrlangan",
+    footer_copyright: "© 2026 Xylen • Barcha huquqlar himoyalangan",
 
     // General
     btn_close: "Yopish",
@@ -495,13 +495,13 @@ const TRANSLATIONS = {
 
     // Admin
     admin_auth_title: "Master Manager Console",
-    admin_auth_sub: "Enter security PIN code (7700):",
+    admin_auth_sub: "Sign in through Cloudflare Access.",
     admin_auth_btn_login: "Access Console",
-    admin_auth_error: "Invalid access PIN. Please retry.",
+    admin_auth_error: "Owner authentication through Cloudflare Access is required.",
     admin_visitors_title: "Session & Telemetry Audit Log",
 
     // Footer
-    footer_copyright: "© 2026 Xylen Inc. • All Rights Reserved • AES-256 End-to-End Encrypted",
+    footer_copyright: "© 2026 Xylen • All rights reserved",
 
     // General
     btn_close: "Close",

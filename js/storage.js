@@ -150,7 +150,7 @@ class ActivityStorage {
     this.auditActivities = [];
     this.init();
     this.initLivePulse();
-    this.setupIncomingTelemetryBridge();
+    // Device telemetry is accepted by the API, never from untrusted page events.
     this.startLiveAuditEngine();
   }
 
@@ -264,110 +264,9 @@ class ActivityStorage {
   /**
    * Real Device Telemetry Registration from Android/iOS apps
    */
-  registerDevice(telemetry) {
-    if (!telemetry || !telemetry.id) return false;
-    const devices = this.getDevices();
-    const existingIndex = devices.findIndex(d => d.id === telemetry.id);
-    const now = new Date().toISOString();
+  registerDevice() { return false; }
 
-    const deviceData = {
-      id: telemetry.id,
-      model: telemetry.model || 'Мобильное устройство',
-      platform: telemetry.platform || (navigator.userAgent.includes('iPhone') ? 'ios' : 'android'),
-      deviceOs: telemetry.deviceOs || 'Android / iOS',
-      appVersion: telemetry.appVersion || 'v5.2 (Build 28)',
-      status: 'online',
-      currentSpeedKBps: Number(telemetry.currentSpeedKBps) || 0,
-      todayTrafficBytes: Number(telemetry.todayTrafficBytes) || 0,
-      totalDataTrafficBytes: Number(telemetry.totalDataTrafficBytes) || Number(telemetry.todayTrafficBytes) || 0,
-      lastSeen: now,
-      ipAddress: telemetry.ipAddress || '127.0.0.1',
-      assignedUser: telemetry.assignedUser || 'Оператор Xylen',
-      simSlots: Array.isArray(telemetry.simSlots) && telemetry.simSlots.length > 0 ? telemetry.simSlots : [
-        {
-          slotNumber: 1,
-          slotName: 'SIM 1 (Nano-SIM)',
-          carrier: telemetry.carrier || 'Ucell UZ',
-          countryFlag: telemetry.countryFlag || '🇺🇿',
-          networkType: telemetry.networkType || '5G NR',
-          signalDbm: telemetry.signalDbm || -72,
-          signalBars: telemetry.signalBars || 4,
-          cellTower: telemetry.cellTower || 'CID 11042 • TAC 12401',
-          iccid: telemetry.iccid || '8999-8041-5520-1192',
-          imsi: telemetry.imsi || '434-05-881230491',
-          isDefaultData: true
-        }
-      ],
-      timeline: telemetry.timeline || [
-        { 
-          time: new Date().toLocaleTimeString().slice(0, 5), 
-          event: 'Подключено', 
-          desc: 'Реальное устройство авторизовано в ядре Xylen Workspace' 
-        }
-      ]
-    };
-
-    if (existingIndex >= 0) {
-      devices[existingIndex] = { ...devices[existingIndex], ...deviceData };
-    } else {
-      devices.unshift(deviceData);
-      this.logActivity(deviceData.id, 'Новое устройство', `${deviceData.model} успешно подключено`, 'security');
-    }
-
-    this.saveDevices(devices);
-    return true;
-  }
-
-  setupIncomingTelemetryBridge() {
-    // 1. PostMessage bridge (webviews, iframes, extension or parent apps)
-    window.addEventListener('message', (event) => {
-      try {
-        if (event.data && (event.data.type === 'xylen:telemetry' || event.data.type === 'xylen:device-connect')) {
-          this.registerDevice(event.data.payload);
-        }
-      } catch (_) {}
-    });
-
-    // 2. BroadcastChannel for cross-tab or native webview communication
-    if (typeof BroadcastChannel !== 'undefined') {
-      try {
-        this.telemetryChannel = new BroadcastChannel('xylen_real_telemetry');
-        this.telemetryChannel.onmessage = (event) => {
-          if (event.data && event.data.type === 'telemetry') {
-            this.registerDevice(event.data.device);
-          }
-        };
-      } catch (_) {}
-    }
-
-    // 3. Custom event listener for on-page or developer injection
-    window.addEventListener('xylen:inject-device', (e) => {
-      if (e.detail) {
-        this.registerDevice(e.detail);
-      }
-    });
-
-    // 4. URL query param device auto-registration: e.g. ?connect_carrier=Ucell&model=Xiaomi%2014
-    try {
-      const params = new URLSearchParams(window.location.search);
-      if (params.has('connect_carrier')) {
-        const carrier = params.get('connect_carrier');
-        const model = params.get('model') || 'Real Smartphone';
-        const id = 'dev-' + Math.random().toString(36).substring(2, 8);
-        const isUK = carrier.includes('UK') || carrier.includes('O2') || carrier.includes('Three');
-        this.registerDevice({
-          id,
-          model,
-          carrier,
-          countryFlag: isUK ? '🇬🇧' : '🇺🇿',
-          currentSpeedKBps: 18500,
-          todayTrafficBytes: 104857600,
-          isMobileData: true,
-          isWifi: false
-        });
-      }
-    } catch (_) {}
-  }
+  setupIncomingTelemetryBridge() {}
 
   /**
    * Continuous Cloudflare Pages Live Audit Sync Engine.
@@ -480,25 +379,18 @@ class ActivityStorage {
   }
 
   isAdmin() {
-    return sessionStorage.getItem('xylen_admin_session_auth') === 'true';
+    return false;
   }
 
   verifyAdminPin(pin) {
-    const clean = String(pin || '').trim();
-    return clean === '7700' || clean === '2026';
+    return false;
   }
 
   loginAdmin(pin) {
-    if (this.verifyAdminPin(pin)) {
-      sessionStorage.setItem('xylen_admin_session_auth', 'true');
-      window.dispatchEvent(new CustomEvent('xylen:admin-changed', { detail: true }));
-      return true;
-    }
     return false;
   }
 
   logoutAdmin() {
-    sessionStorage.removeItem('xylen_admin_session_auth');
     window.dispatchEvent(new CustomEvent('xylen:admin-changed', { detail: false }));
   }
 
