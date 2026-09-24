@@ -241,6 +241,20 @@
         </div>
       </section>
 
+      <section class="consent-interlude reveal-on-scroll" aria-labelledby="consent-interlude-title">
+        <div class="consent-interlude-copy">
+          <span class="consent-interlude-kicker"><i aria-hidden="true"></i><span data-i18n="interlude_kicker">ПРИНЦИП ПЕРЕДАЧИ · 01</span></span>
+          <h2 id="consent-interlude-title"><span data-i18n="interlude_title_lead">Сначала —</span><br><em data-i18n="interlude_title_focus">согласие.</em></h2>
+          <p data-i18n="interlude_desc">Android отправляет отчёт только после согласия. Ниже — путь данных от клиента до сводки.</p>
+        </div>
+        <ol class="consent-interlude-steps" aria-label="Путь отчёта" data-i18n-attr="aria-label:interlude_path_label">
+          <li><span class="interlude-step-index">01</span><span data-i18n="interlude_step_1">РАЗРЕШИТЬ</span></li>
+          <li><span class="interlude-step-index">02</span><span data-i18n="interlude_step_2">ОТПРАВИТЬ ОТЧЁТ</span></li>
+          <li><span class="interlude-step-index">03</span><span data-i18n="interlude_step_3">ПОКАЗАТЬ СВОДКУ</span></li>
+        </ol>
+        <span class="consent-interlude-orbit" aria-hidden="true"></span>
+      </section>
+
       <!-- ====================================================================
            DEDICATED KPI SHOWCASE SECTION (Emerged on scroll below the hero)
            Rare 3D tilt, cyber-borders, live odometer numbers, zero clutter
@@ -301,7 +315,6 @@
         </div>
 
         <div class="jitter-stack-container">
-          <!-- Card 1: SIM & eSIM Inspection (Real Native Android App Visual) -->
           <!-- Card 1: SIM & eSIM Inspection -->
           <div class="stack-card card-theme-dark" id="stack-card-1" style="--stack-index: 0;">
             <div class="stack-card-content">
@@ -316,7 +329,9 @@
             </div>
             <div class="stack-card-visual">
               <div class="visual-media-frame">
-                <img src="assets/telemetry-preview.jpg" alt="SIM & Telemetry Interface" class="stack-image-cover">
+                <video class="stack-video-cover" autoplay loop muted playsinline poster="assets/telemetry-preview.jpg">
+                  <source src="assets/telemetry-preview.mp4" type="video/mp4">
+                </video>
                 <div class="media-live-badge"><span class="pulse-dot green"></span> Live Telemetry View</div>
               </div>
             </div>
@@ -340,8 +355,9 @@
             </div>
             <div class="stack-card-visual">
               <div class="visual-media-frame">
-                <!-- Interactive Waveform Stream -->
-                <canvas id="mini-stream-canvas" class="mini-stream-canvas" width="460" height="240"></canvas>
+                <video class="stack-video-cover" autoplay loop muted playsinline>
+                  <source src="assets/stream-preview.mp4" type="video/mp4">
+                </video>
                 <div class="media-live-badge"><span class="pulse-dot cyan"></span> 24B Stream Active</div>
               </div>
             </div>
@@ -361,7 +377,9 @@
             </div>
             <div class="stack-card-visual">
               <div class="visual-media-frame">
-                <img src="assets/spectrum-preview.jpg" alt="Gulistan & London Telecom Infrastructure" class="stack-image-cover">
+                <video class="stack-video-cover" autoplay loop muted playsinline poster="assets/spectrum-preview.jpg">
+                  <source src="assets/spectrum-preview.mp4" type="video/mp4">
+                </video>
                 <div class="media-live-badge"><span class="pulse-dot green"></span> UZ & UK Base Stations</div>
               </div>
             </div>
