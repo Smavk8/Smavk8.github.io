@@ -161,7 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     triggerScrollReveal();
-    updateCardStackEffect();
   }
 
   window.addEventListener('scroll', handleScroll, { passive: true });
@@ -176,60 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  function updateCardStackEffect() {
-    const stackCards = document.querySelectorAll('.stack-card');
-    if (!stackCards || stackCards.length === 0) return;
-
-    const triggerStart = window.innerHeight;
-    const triggerEnd = window.innerWidth <= 900 ? 80 : 96;
-
-    stackCards.forEach((card, index) => {
-      const nextCard = stackCards[index + 1];
-      if (nextCard) {
-        const nextRect = nextCard.getBoundingClientRect();
-        if (nextRect.top < triggerStart) {
-          const rawProgress = (triggerStart - nextRect.top) / (triggerStart - triggerEnd);
-          const progress = Math.min(Math.max(rawProgress, 0), 1);
-          // Scale down smoothly and fade out to 0 as next card arrives at top: 96px
-          const scale = 1 - progress * 0.06;
-          const opacity = Math.max(0, 1 - progress * 1.15);
-          card.style.transform = `scale(${scale.toFixed(3)})`;
-          card.style.opacity = `${opacity.toFixed(2)}`;
-          card.style.pointerEvents = progress > 0.85 ? 'none' : 'auto';
-        } else {
-          card.style.transform = 'scale(1)';
-          card.style.opacity = '1';
-          card.style.pointerEvents = 'auto';
-        }
-      } else {
-        // Last card (Card 3): track approach of .motion-carousel-section!
-        const motionSection = document.querySelector('.motion-carousel-section');
-        if (motionSection) {
-          const motionRect = motionSection.getBoundingClientRect();
-          if (motionRect.top < triggerStart) {
-            const rawProgress = (triggerStart - motionRect.top) / (triggerStart - triggerEnd);
-            const progress = Math.min(Math.max(rawProgress, 0), 1);
-            const scale = 1 - progress * 0.06;
-            const opacity = Math.max(0, 1 - progress * 1.15);
-            card.style.transform = `scale(${scale.toFixed(3)})`;
-            card.style.opacity = `${opacity.toFixed(2)}`;
-            card.style.pointerEvents = progress > 0.85 ? 'none' : 'auto';
-          } else {
-            card.style.transform = 'scale(1)';
-            card.style.opacity = '1';
-            card.style.pointerEvents = 'auto';
-          }
-        } else {
-          card.style.transform = 'scale(1)';
-          card.style.opacity = '1';
-          card.style.pointerEvents = 'auto';
-        }
-      }
-    });
-  }
-
-  window.addEventListener('resize', updateCardStackEffect, { passive: true });
 
   // --------------------------------------------------------------------------
   // DRAWER LANGUAGE SELECTION CONTROLLER
