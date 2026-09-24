@@ -321,7 +321,7 @@ body.theme-light .brand-lockup-light { display:block !important; }
   border:1px solid color-mix(in srgb,var(--cyan-bright) 25%,var(--border-subtle));
   background:
     radial-gradient(ellipse at 100% 0,rgba(23,164,208,.15),transparent 48%),
-    color-mix(in srgb,var(--card-bg) 96%,transparent);
+    var(--bg-canvas);
   box-shadow:0 30px 90px rgba(0,0,0,.48),0 0 48px rgba(0,153,218,.1);
 }
 .compact-nav-drawer .drawer-sheet::before {
@@ -733,18 +733,134 @@ body.theme-light .brand-lockup-light { display:block !important; }
   .silent-motion-copy .hero-statement-title { font-size:clamp(3rem,12vw,3.5rem); }
 }
 
-/* Give the floating tab bar an opaque glass rail so page headings never bleed through. */
-.top-navbar {
-  padding:5px 8px;
-  border:1px solid rgba(103,190,216,.2) !important;
-  border-radius:24px;
-  background:rgba(4,12,21,.97) !important;
-  box-shadow:0 16px 44px rgba(0,0,0,.36);
-  backdrop-filter:blur(20px) saturate(135%);
-  -webkit-backdrop-filter:blur(20px) saturate(135%);
+/* Spacious navigation, with a compact menu-only state instead of an empty header rail. */
+.top-navbar:not(.navbar-hidden) {
+  width:min(1640px,calc(100% - 48px));
+  max-width:1640px;
+  padding-right:128px;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
 }
-body.theme-light .top-navbar {
-  border-color:rgba(30,73,91,.14) !important;
-  background:rgba(248,251,252,.97) !important;
-  box-shadow:0 14px 38px rgba(17,43,53,.14);
+.nav-island-inner { grid-template-columns:232px minmax(0,1fr) 112px; gap:clamp(14px,1.5vw,26px); }
+.brand-badge-clean { width:232px; height:78px; padding:7px 14px; border-radius:24px; }
+.brand-lockup { width:100%; height:100%; }
+.main-nav-menu { width:100%; max-width:1020px; height:68px; justify-self:center; gap:6px; padding:6px; }
+.nav-page-btn { height:56px; min-width:92px; justify-content:center; padding-inline:clamp(10px,1.25vw,22px); font-size:clamp(.82rem,.92vw,1rem); }
+.header-menu-pill { justify-content:flex-end; }
+.header-hamburger-trigger { min-width:112px; height:68px; padding-inline:18px; border-radius:22px; font-size:.98rem; }
+.top-navbar.navbar-hidden {
+  left:auto;
+  right:max(12px,calc((100vw - 1640px) / 2 + 12px));
+  width:auto;
+  max-width:none;
+  padding:0;
+  transform:translateY(0);
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+.top-navbar.navbar-hidden .nav-island-inner { display:flex; width:auto; justify-content:flex-end; }
+.top-navbar.navbar-hidden .brand-badge-clean,
+.top-navbar.navbar-hidden .main-nav-menu { display:none !important; }
+.top-navbar.navbar-hidden .header-menu-pill { display:flex; }
+.compact-nav-drawer .drawer-nav-list { display:none !important; }
+
+/* Cards have matching faces, a short hand-off runway and a tight exit into Data Path. */
+.jitter-stack-container { --architecture-runway:clamp(420px,52svh,590px); padding-bottom:clamp(34px,5svh,60px); }
+.stack-card[id^="stack-card-"] {
+  top:100px;
+  min-height:clamp(690px,70svh,740px);
+  margin-bottom:var(--architecture-runway) !important;
+  z-index:calc(30 + var(--stack-index,0));
+  isolation:isolate;
+  backface-visibility:hidden;
+}
+.stack-card.card-theme-dark { background:linear-gradient(135deg,#121620,#0c0e14); }
+.stack-card[id^="stack-card-"]:last-child { margin-bottom:clamp(58px,8svh,88px) !important; }
+.motion-carousel-section { padding-top:clamp(48px,6svh,82px); }
+
+/* Stronger directional arrivals and live video finishes across the main page. */
+.reveal-on-scroll {
+  filter:blur(7px);
+  transform:translate3d(0,42px,0) scale(.988);
+  transition:opacity .82s cubic-bezier(.2,.75,.2,1),transform .9s cubic-bezier(.16,1,.3,1),filter .78s ease;
+  will-change:opacity,transform,filter;
+}
+.reveal-on-scroll.revealed { filter:none; transform:translate3d(0,0,0) scale(1); }
+.motion-card { transform-style:preserve-3d; transition:transform .65s cubic-bezier(.16,1,.3,1),box-shadow .5s ease; }
+.motion-card:hover { transform:translateY(-9px) rotateX(1.2deg) scale(1.012); }
+.motion-preview-box { isolation:isolate; }
+.motion-preview-box::after {
+  position:absolute;
+  z-index:2;
+  inset:-30% -45%;
+  content:"";
+  pointer-events:none;
+  opacity:.38;
+  background:linear-gradient(112deg,transparent 43%,rgba(104,237,255,.2) 49%,rgba(171,137,255,.14) 51%,transparent 57%);
+  transform:translateX(-55%) rotate(7deg);
+  animation:video-light-pass 7.8s cubic-bezier(.4,0,.2,1) infinite;
+}
+.motion-preview-video { transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .7s ease; }
+.motion-card:hover .motion-preview-video { transform:scale(1.075); filter:saturate(1.3) contrast(1.05); }
+.stack-card.is-architecture-active { box-shadow:0 30px 80px rgba(0,0,0,.42),0 0 0 1px var(--architecture-trace,#5be5ff),0 0 64px var(--architecture-glow); }
+.stack-card.is-architecture-active::before { opacity:1; animation-duration:2.8s; }
+@keyframes video-light-pass { 0%,18% { transform:translateX(-60%) rotate(7deg); opacity:0; } 38% { opacity:.65; } 72%,100% { transform:translateX(60%) rotate(7deg); opacity:0; } }
+
+/* Soft pointer-responsive light follows the visitor between pages. */
+body { isolation:isolate; }
+body::before {
+  position:fixed;
+  z-index:-1;
+  inset:0;
+  content:"";
+  pointer-events:none;
+  opacity:.58;
+  background:
+    radial-gradient(ellipse 34rem 28rem at var(--ambient-x,52%) var(--ambient-y,35%),rgba(0,153,218,.115),transparent 74%),
+    radial-gradient(ellipse 30rem 24rem at 9% 78%,rgba(23,160,102,.09),transparent 76%),
+    radial-gradient(ellipse 28rem 26rem at 91% 49%,rgba(125,79,220,.09),transparent 76%);
+  animation:ambient-breathe 16s ease-in-out infinite alternate;
+}
+@keyframes ambient-breathe { to { opacity:.82; background-position:8px -12px,-16px 10px,12px 8px; } }
+
+@media (max-width:1100px) {
+  .top-navbar:not(.navbar-hidden) { width:calc(100% - 24px); max-width:none; padding:0; top:8px; }
+  .nav-island-inner { display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:58px 50px; gap:7px 10px; }
+  .brand-badge-clean { grid-column:1; grid-row:1; width:min(232px,58vw); height:58px; padding:5px 10px; border-radius:18px; }
+  .header-menu-pill { grid-column:2; grid-row:1; justify-self:end; }
+  .header-hamburger-trigger { min-width:106px; height:58px; border-radius:18px; }
+  .main-nav-menu { grid-column:1 / -1; grid-row:2; display:flex; max-width:none; width:100%; height:50px; justify-content:flex-start; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none; }
+  .main-nav-menu::-webkit-scrollbar { display:none; }
+  .nav-page-btn { height:42px; min-width:max-content; flex:0 0 auto; padding-inline:clamp(12px,2vw,22px); font-size:.84rem; }
+  .nav-active-pill { display:none; }
+  .nav-page-btn.active { background:var(--cyan-electric); }
+  .top-navbar.navbar-hidden { top:8px; right:10px; width:auto; padding:0; }
+  .top-navbar.navbar-hidden .header-hamburger-trigger { height:58px; }
+  .stack-card[id^="stack-card-"] { top:122px; min-height:clamp(690px,88svh,720px); }
+}
+@media (max-width:700px) {
+  .top-navbar:not(.navbar-hidden) { width:calc(100% - 20px); top:8px; }
+  .nav-island-inner { grid-template-rows:54px 48px; gap:6px 8px; }
+  .brand-badge-clean { width:min(192px,52vw); height:54px; padding:4px 9px; }
+  .header-hamburger-trigger { min-width:94px; height:54px; padding-inline:13px; }
+  .hamburger-txt { display:inline; }
+  .hamburger-bars-wrap,.hamburger-bars-wrap .hamburger-bar { width:17px; }
+  .main-nav-menu { height:48px; gap:3px; padding:3px; border-radius:15px; }
+  .nav-page-btn { height:40px; padding-inline:12px; font-size:.78rem; }
+  .top-navbar.navbar-hidden .header-hamburger-trigger { height:54px; }
+  .stack-card[id^="stack-card-"] { top:116px; }
+  .jitter-stack-container { --architecture-runway:clamp(380px,52svh,460px); }
+  .motion-carousel-track { animation-duration:25s !important; }
+  .motion-card:hover { transform:none; }
+  body::before { opacity:.42; background-size:100% 100%,90% 90%,92% 92%; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body::before,.motion-preview-box::after { animation:none !important; }
+  .reveal-on-scroll { filter:none; transform:none; transition:none; }
+  .motion-card,.motion-preview-video { transition:none !important; }
+  .stack-card.is-architecture-active::before { animation:none !important; }
 }

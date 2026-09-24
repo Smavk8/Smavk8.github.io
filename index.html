@@ -162,7 +162,7 @@
           <div class="eng-pillar-card" style="--pillar-delay: 0.16s;">
             <div class="pillar-top-row">
               <span class="pillar-icon">⚡</span>
-              <span class="pillar-badge">Дельта 24B</span>
+              <span class="pillar-badge">Отчёт клиента</span>
             </div>
             <h4 class="pillar-title">События приложения</h4>
             <p class="pillar-desc">После согласия Android отправляет события и счётчики в JSON-отчётах.</p>
@@ -180,7 +180,7 @@
           <div class="eng-pillar-card" style="--pillar-delay: 0.32s;">
             <div class="pillar-top-row">
               <span class="pillar-icon">🔋</span>
-              <span class="pillar-badge">Daemon &lt;0.1%</span>
+              <span class="pillar-badge">Локальный журнал</span>
             </div>
             <h4 class="pillar-title">Журнал iOS</h4>
             <p class="pillar-desc">Изученный исходный код iOS хранит журнал на устройстве и не отправляет его в веб API.</p>
@@ -314,19 +314,19 @@
             </div>
           </div>
 
-          <!-- Card 2: 24-Byte Micro-Delta Protocol -->
+          <!-- Card 2: consent-based client report -->
           <div class="stack-card card-theme-cyan" id="stack-card-2" style="--stack-index: 1;">
             <div class="stack-card-content">
-              <span class="stack-badge" data-i18n="stack_card2_tag">Микро-дельта протокол</span>
-              <h3 class="stack-card-title" data-i18n="stack_card2_title">24-байтный пакет для любых сетей</h3>
-              <p class="stack-card-desc" data-i18n="stack_card2_desc">Специализированный протокол сжатия передает полную диагностику устройства за 24 байта. Работает даже при слабом уровне 2G/EDGE в Гулистане, по всей Сырдарьинской области и Узбекистану, а также на транзитных узлах Лондона без задержек.</p>
+              <span class="stack-badge" data-i18n="stack_card2_tag">Путь отчёта</span>
+              <h3 class="stack-card-title" data-i18n="stack_card2_title">Передача после согласия</h3>
+              <p class="stack-card-desc" data-i18n="stack_card2_desc">Приложение отправляет JSON с ID установки, моделью, экраном, действием, счётчиками и SIM-профилями. Размер и время доставки зависят от состава отчёта, сети и доступности сервиса.</p>
               <div class="hex-stream-preview">
-                <div class="hex-code-header">Micro-Delta Packet Payload (Hex):</div>
-                <code>0x18 0x02 0xAA 0xFF 0x3F 0x01 0x7E 0x90 0x5C 0x11 0x04 0x22</code>
+                <div class="hex-code-header">ПОЛЯ JSON-ОТЧЁТА</div>
+                <code>{ "screen": "…", "action": "…", "todayBytes": 0, "simProfiles": [] }</code>
                 <div class="hex-stats-row">
-                  <span>Размер: <strong>24 байта</strong></span>
-                  <span>Сжатие: <strong>96.4%</strong></span>
-                  <span>Расход батареи: <strong>&lt;0.1% / день</strong></span>
+                  <span>Условие: <strong>согласие</strong></span>
+                  <span>Формат: <strong>JSON</strong></span>
+                  <span>Публичный вид: <strong>агрегаты</strong></span>
                 </div>
               </div>
             </div>
@@ -340,12 +340,12 @@
             </div>
           </div>
 
-          <!-- Card 3: Operator Audits Gulistan & London -->
+          <!-- Card 3: public summary and its limits -->
           <div class="stack-card card-theme-purple" id="stack-card-3" style="--stack-index: 2;">
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card3_tag">Аудит операторов</span>
-              <h3 class="stack-card-title" data-i18n="stack_card3_title">Нулевой перерасход и проверка биллинга</h3>
-              <p class="stack-card-desc" data-i18n="stack_card3_desc">Сравнение данных радиочипа телефона с тарификацией оператора. Предотвращение скрытых округлений сотового трафика, паразитных фоновых утечек и неожиданных списаний в роуминге (Гулистан ↔ Лондон).</p>
+              <h3 class="stack-card-title" data-i18n="stack_card3_title">Присланные данные — в понятном виде</h3>
+              <p class="stack-card-desc" data-i18n="stack_card3_desc">Публичная страница показывает доступные агрегаты по полученным отчётам. Она не сверяет показания с биллингом оператора и не измеряет радиоканал.</p>
               <div class="stack-card-meta">
                 <span class="spec-pill">География не измеряется</span>
                 <span class="spec-pill">Счётчик сообщает клиент</span>
@@ -410,154 +410,154 @@
         <div class="motion-carousel-viewport" id="motion-carousel-viewport">
           <div class="motion-carousel-track" id="motion-carousel-track">
             
-            <!-- Module 1: 5G NR Spectrum -->
+            <!-- Module 1: user-controlled consent -->
             <div class="motion-card hover-glow-card" data-module-id="mod-spectrum" onclick="window.openMotionModal('mod-spectrum');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-consent.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 01 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">01 • Спектр</div>
-                <div class="motion-title" data-i18n="mod1_title">Orbit: 5G NR Spectrum</div>
-                <div class="motion-sub" data-i18n="mod1_sub">Гулистан ↔ Лондон • Агрегация n78, n41, n28 и Sub-6GHz</div>
+                <div class="motion-badge">01 • Согласие</div>
+                <div class="motion-title" data-i18n="mod1_title">Согласие пользователя</div>
+                <div class="motion-sub" data-i18n="mod1_sub">Отправка Android-отчёта включается самим пользователем.</div>
               </div>
             </div>
 
-            <!-- Module 2: DeltaStream 24B -->
+            <!-- Module 2: Android client report -->
             <div class="motion-card hover-glow-card" data-module-id="mod-deltastream" onclick="window.openMotionModal('mod-deltastream');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-report.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 02 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">02 • Дельта</div>
-                <div class="motion-title" data-i18n="mod2_title">DeltaStream: 24-Byte Pulse</div>
-                <div class="motion-sub" data-i18n="mod2_sub">Сжатие дельты телеметрии без потерь • 60 FPS стрим</div>
+                <div class="motion-badge">02 • Отчёт</div>
+                <div class="motion-title" data-i18n="mod2_title">Отчёт приложения</div>
+                <div class="motion-sub" data-i18n="mod2_sub">JSON-события и доступные клиентские счётчики.</div>
               </div>
             </div>
 
-            <!-- Module 3: Hardware Vault AES-256 -->
+            <!-- Module 3: public aggregate -->
             <div class="motion-card hover-glow-card" data-module-id="mod-vault" onclick="window.openMotionModal('mod-vault');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-summary.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 03 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">03 • Безопасность</div>
-                <div class="motion-title" data-i18n="mod3_title">Hardware Vault: AES-256 Enclave</div>
-                <div class="motion-sub" data-i18n="mod3_sub">Аппаратная защита ключей • Сквозное шифрование AES-256</div>
+                <div class="motion-badge">03 • Сводка</div>
+                <div class="motion-title" data-i18n="mod3_title">Публичная сводка</div>
+                <div class="motion-sub" data-i18n="mod3_sub">Открытый endpoint показывает агрегированные числа.</div>
               </div>
             </div>
 
-            <!-- Module 4: CellTower Matrix CID/TAC -->
+            <!-- Module 4: owner-only access -->
             <div class="motion-card hover-glow-card" data-module-id="mod-celltower" onclick="window.openMotionModal('mod-celltower');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-access.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 04 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">04 • Вышки</div>
-                <div class="motion-title" data-i18n="mod4_title">CellTower Matrix: CID & TAC</div>
-                <div class="motion-sub" data-i18n="mod4_sub">Идентификация вышек Ucell, UMS, Beeline без GPS-расхода</div>
+                <div class="motion-badge">04 • Доступ</div>
+                <div class="motion-title" data-i18n="mod4_title">Просмотр владельцем</div>
+                <div class="motion-sub" data-i18n="mod4_sub">Подробный журнал закрыт проверкой Cloudflare Access.</div>
               </div>
             </div>
 
-            <!-- Module 5: Billing Guard -->
+            <!-- Module 5: local iOS activity log -->
             <div class="motion-card hover-glow-card" data-module-id="mod-billing" onclick="window.openMotionModal('mod-billing');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-ios-local.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 05 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">05 • Биллинг</div>
-                <div class="motion-title" data-i18n="mod5_title">Billing Guard: Mobile Data Audit</div>
-                <div class="motion-sub" data-i18n="mod5_sub">Аудит сотового трафика • Wi-Fi полностью исключён</div>
+                <div class="motion-badge">05 • iOS</div>
+                <div class="motion-title" data-i18n="mod5_title">Журнал iOS</div>
+                <div class="motion-sub" data-i18n="mod5_sub">В этой версии приложения журнал остаётся на устройстве.</div>
               </div>
             </div>
 
             <!-- Duplicate Set for Seamless Continuous Infinite Orbit Loop (Cards 6 to 10) -->
-            <!-- Module 1 Dup: 5G NR Spectrum -->
+            <!-- Module 1 Dup: user-controlled consent -->
             <div class="motion-card hover-glow-card" data-module-id="mod-spectrum" onclick="window.openMotionModal('mod-spectrum');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-consent.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 01 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">01 • Спектр</div>
-                <div class="motion-title" data-i18n="mod1_title">Orbit: 5G NR Spectrum</div>
-                <div class="motion-sub" data-i18n="mod1_sub">Гулистан ↔ Лондон • Агрегация n78, n41, n28 и Sub-6GHz</div>
+                <div class="motion-badge">01 • Согласие</div>
+                <div class="motion-title" data-i18n="mod1_title">Согласие пользователя</div>
+                <div class="motion-sub" data-i18n="mod1_sub">Отправка Android-отчёта включается самим пользователем.</div>
               </div>
             </div>
 
-            <!-- Module 2 Dup: DeltaStream 24B -->
+            <!-- Module 2 Dup: Android client report -->
             <div class="motion-card hover-glow-card" data-module-id="mod-deltastream" onclick="window.openMotionModal('mod-deltastream');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-report.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 02 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">02 • Дельта</div>
-                <div class="motion-title" data-i18n="mod2_title">DeltaStream: 24-Byte Pulse</div>
-                <div class="motion-sub" data-i18n="mod2_sub">Сжатие дельты телеметрии без потерь • 60 FPS стрим</div>
+                <div class="motion-badge">02 • Отчёт</div>
+                <div class="motion-title" data-i18n="mod2_title">Отчёт приложения</div>
+                <div class="motion-sub" data-i18n="mod2_sub">JSON-события и доступные клиентские счётчики.</div>
               </div>
             </div>
 
-            <!-- Module 3 Dup: Hardware Vault AES-256 -->
+            <!-- Module 3 Dup: public aggregate -->
             <div class="motion-card hover-glow-card" data-module-id="mod-vault" onclick="window.openMotionModal('mod-vault');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-summary.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 03 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">03 • Безопасность</div>
-                <div class="motion-title" data-i18n="mod3_title">Hardware Vault: AES-256 Enclave</div>
-                <div class="motion-sub" data-i18n="mod3_sub">Аппаратная защита ключей • Сквозное шифрование AES-256</div>
+                <div class="motion-badge">03 • Сводка</div>
+                <div class="motion-title" data-i18n="mod3_title">Публичная сводка</div>
+                <div class="motion-sub" data-i18n="mod3_sub">Открытый endpoint показывает агрегированные числа.</div>
               </div>
             </div>
 
-            <!-- Module 4 Dup: CellTower Matrix CID/TAC -->
+            <!-- Module 4 Dup: owner-only access -->
             <div class="motion-card hover-glow-card" data-module-id="mod-celltower" onclick="window.openMotionModal('mod-celltower');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-access.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 04 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">04 • Вышки</div>
-                <div class="motion-title" data-i18n="mod4_title">CellTower Matrix: CID & TAC</div>
-                <div class="motion-sub" data-i18n="mod4_sub">Идентификация вышек Ucell, UMS, Beeline без GPS-расхода</div>
+                <div class="motion-badge">04 • Доступ</div>
+                <div class="motion-title" data-i18n="mod4_title">Просмотр владельцем</div>
+                <div class="motion-sub" data-i18n="mod4_sub">Подробный журнал закрыт проверкой Cloudflare Access.</div>
               </div>
             </div>
 
-            <!-- Module 5 Dup: Billing Guard -->
+            <!-- Module 5 Dup: local iOS activity log -->
             <div class="motion-card hover-glow-card" data-module-id="mod-billing" onclick="window.openMotionModal('mod-billing');">
               <div class="motion-preview-box">
                 <video class="motion-preview-video" autoplay loop muted playsinline preload="none" aria-hidden="true"><source src="assets/motion-ios-local.webm" type="video/webm"></video>
                 <span class="motion-video-shade" aria-hidden="true"></span>
                 <span class="motion-video-index" aria-hidden="true">XYLEN / 05 — 05</span>
-                <div class="motion-play-tag">↻ Анимированная схема</div>
+                <div class="motion-play-tag">↻ Видео-схема · цикл</div>
               </div>
               <div class="motion-card-footer">
-                <div class="motion-badge">05 • Биллинг</div>
-                <div class="motion-title" data-i18n="mod5_title">Billing Guard: Mobile Data Audit</div>
-                <div class="motion-sub" data-i18n="mod5_sub">Аудит сотового трафика • Wi-Fi полностью исключён</div>
+                <div class="motion-badge">05 • iOS</div>
+                <div class="motion-title" data-i18n="mod5_title">Журнал iOS</div>
+                <div class="motion-sub" data-i18n="mod5_sub">В этой версии приложения журнал остаётся на устройстве.</div>
               </div>
             </div>
 
@@ -720,8 +720,8 @@
             <div class="stat-number" id="traffic-live-today">0.0 МБ</div>
           </div>
           <div class="traffic-stat-item">
-            <span class="stat-label" data-i18n="traffic_packet_label">Микро-дельта пакет:</span>
-            <div class="stat-number" id="traffic-delta-size">24 байта (96% сжатие)</div>
+            <span class="stat-label" data-i18n="traffic_packet_label">Получено событий:</span>
+            <div class="stat-number" id="traffic-delta-size">—</div>
           </div>
         </div>
       </div>
@@ -840,7 +840,7 @@
             <div class="step-card">
               <div class="step-badge">Шаг 4</div>
               <h4 class="step-title" data-i18n="android_step4_title">4. Автономная фоновая работа</h4>
-              <p class="step-desc" data-i18n="android_step4_desc">Приложение готово к работе! В настройках аккумулятора выберите «Без ограничений», чтобы служба передавала 24-байтные отчеты в фоновом режиме с расходом аккумулятора &lt;0.1% в сутки.</p>
+              <p class="step-desc" data-i18n="android_step4_desc">Работа в фоне зависит от настроек Android, ограничений аккумулятора и доступности сети. Проверьте разрешения приложения и настройте фоновые ограничения так, как вам удобно.</p>
             </div>
           </div>
         </div>
