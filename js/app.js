@@ -319,18 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const carouselPrevBtn = document.getElementById('carousel-prev-btn');
   const carouselNextBtn = document.getElementById('carousel-next-btn');
 
-  // Clone module items to create seamless infinite loop
-  if (carouselTrack) {
-    const originalChildren = Array.from(carouselTrack.children);
-    originalChildren.forEach(child => {
-      const clone = child.cloneNode(true);
-      clone.setAttribute('aria-hidden', 'true');
-      const modId = clone.dataset.moduleId;
-      clone.onclick = () => window.openMotionModal(modId);
-      carouselTrack.appendChild(clone);
-    });
-  }
-
   if (carouselPrevBtn && carouselViewport) {
     carouselPrevBtn.addEventListener('click', () => {
       carouselViewport.scrollBy({ left: -340, behavior: 'smooth' });

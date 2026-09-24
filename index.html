@@ -38,7 +38,7 @@
        COMPACT NAVIGATION DRAWER / MODAL
        Opens on clicking hamburger or on mobile screen
        ======================================================================== -->
-  <div id="compact-nav-drawer" class="compact-nav-drawer">
+  <div id="compact-nav-drawer" class="compact-nav-drawer" role="dialog" aria-label="Меню сайта" aria-modal="false" aria-hidden="true" inert>
     <div class="drawer-backdrop" onclick="window.toggleNavDrawer(false);"></div>
     <div class="drawer-sheet">
       <div class="drawer-header">
@@ -98,7 +98,7 @@
         </div>
 
         <!-- Manager Access Console Button -->
-        <button class="btn btn-secondary btn-full" onclick="window.requestAdminConsole(); window.toggleNavDrawer(false);">
+        <button type="button" class="btn btn-secondary btn-full drawer-manager-btn" onclick="window.requestAdminConsole(); window.toggleNavDrawer(false);">
           <span class="pulse-dot green"></span>
           <span data-i18n="manager_btn">Менеджер</span>
         </button>
@@ -179,7 +179,7 @@
               <span class="pillar-badge">Радиомодем</span>
             </div>
             <h4 class="pillar-title">Прямой съём с радиочипа</h4>
-            <p class="pillar-desc">Мгновенный опрос модема устройства: уровни RSRP/RSRQ в dBm, идентификаторы сотовых вышек CID/TAC и несущие диапазоны LTE & 5G NR NSA/SA.</p>
+            <p class="pillar-desc">Сайт получает от Android разрешённые операторские сведения и сотовые счётчики, но не параметры сигнала или вышки.</p>
           </div>
 
           <div class="eng-pillar-card" style="--pillar-delay: 0.16s;">
@@ -187,8 +187,8 @@
               <span class="pillar-icon">⚡</span>
               <span class="pillar-badge">Дельта 24B</span>
             </div>
-            <h4 class="pillar-title">24-байтный микро-дельта поток</h4>
-            <p class="pillar-desc">Передача только дельты изменившихся параметров. Стабильная работа на слабом покрытии 2G/EDGE и в плотных мегаполисах без задержек.</p>
+            <h4 class="pillar-title">События приложения</h4>
+            <p class="pillar-desc">После согласия Android отправляет события и счётчики в JSON-отчётах.</p>
           </div>
 
           <div class="eng-pillar-card" style="--pillar-delay: 0.24s;">
@@ -196,8 +196,8 @@
               <span class="pillar-icon">🛡️</span>
               <span class="pillar-badge">Billing Guard</span>
             </div>
-            <h4 class="pillar-title">Нулевой перерасход и аудит</h4>
-            <p class="pillar-desc">100% сотовый радиоканал. Аппаратная фильтрация и категорическое исключение любого Wi-Fi трафика для предотвращения переплат оператору.</p>
+            <h4 class="pillar-title">Доступ владельца</h4>
+            <p class="pillar-desc">Подробные отчёты доступны владельцу после проверки Cloudflare Access.</p>
           </div>
 
           <div class="eng-pillar-card" style="--pillar-delay: 0.32s;">
@@ -205,8 +205,8 @@
               <span class="pillar-icon">🔋</span>
               <span class="pillar-badge">Daemon &lt;0.1%</span>
             </div>
-            <h4 class="pillar-title">Автономный фоновый демон</h4>
-            <p class="pillar-desc">Оптимизированная нативная служба для Android и iOS. Фиксация телеметрии в спящем режиме без разряда аккумулятора (&lt;0.1% в сутки).</p>
+            <h4 class="pillar-title">Журнал iOS</h4>
+            <p class="pillar-desc">Изученный исходный код iOS хранит журнал на устройстве и не отправляет его в веб API.</p>
           </div>
         </div>
 
@@ -306,16 +306,14 @@
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card1_tag">Слоты и радиоканал</span>
               <h3 class="stack-card-title" data-i18n="stack_card1_title">Аппаратное считывание SIM и eSIM</h3>
-              <p class="stack-card-desc" data-i18n="stack_card1_desc">
-                Прямой доступ к параметрам сотового радиоядра: уровень мощности в dBm, сотовые идентификаторы вышки CID/TAC, частотные диапазоны LTE Band и 5G NR NSA/SA. Никаких догадок — только чистые инженерные данные реального чипсета.
-              </p>
+              <p class="stack-card-desc" data-i18n="stack_card1_desc">Оператор и счётчики, сообщённые Android, зависят от устройства и выданных разрешений. Сайт не получает параметры сигнала или вышек.</p>
               <div class="stack-card-meta">
                 <span class="spec-pill">Nano-SIM + eSIM Dual Standby</span>
                 <span class="spec-pill">RSRP / RSRQ / SINR dBm</span>
                 <span class="spec-pill">Wi-Fi трафик исключён</span>
               </div>
             </div>
-            <div class="stack-card-visual">
+            <div class="stack-card-visual" hidden>
               <!-- Authentic Native Jetpack Compose App UI Visual -->
               <div class="native-app-frame">
                 <div class="app-status-bar">
@@ -391,20 +389,17 @@
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card2_tag">Микро-дельта протокол</span>
               <h3 class="stack-card-title" data-i18n="stack_card2_title">24-байтный пакет для любых сетей</h3>
-              <p class="stack-card-desc" data-i18n="stack_card2_desc">
-                Специализированный протокол сжатия передает полную диагностику устройства за 24 байта. Работает даже при слабом уровне 2G/EDGE в Гулистане, по всей Сырдарьинской области и Узбекистану, а также на транзитных узлах Лондона без задержек.
-              </p>
+              <p class="stack-card-desc" data-i18n="stack_card2_desc">После согласия Android отправляет JSON-отчёты с событиями приложения и клиентскими счётчиками.</p>
               <div class="hex-stream-preview">
-                <div class="hex-code-header">Micro-Delta Packet Payload (Hex):</div>
-                <code>0x18 0x02 0xAA 0xFF 0x3F 0x01 0x7E 0x90 0x5C 0x11 0x04 0x22</code>
+                <div class="hex-code-header">Поля отчёта (схема)</div>
+                <code>currentScreen · action · todayBytes</code>
                 <div class="hex-stats-row">
-                  <span>Размер: <strong>24 байта</strong></span>
-                  <span>Сжатие: <strong>96.4%</strong></span>
-                  <span>Расход батареи: <strong>&lt;0.1% / день</strong></span>
+                  <span>Источник: <strong>Android</strong></span>
+                  <span>Данные: <strong>клиентские</strong></span>
                 </div>
               </div>
             </div>
-            <div class="stack-card-visual">
+              <div class="stack-card-visual" hidden>
               <div class="visual-media-frame">
                 <!-- Interactive Waveform Stream -->
                 <canvas id="mini-stream-canvas" class="mini-stream-canvas" width="460" height="240"></canvas>
@@ -417,17 +412,15 @@
           <div class="stack-card card-theme-purple" id="stack-card-3" style="--stack-index: 2;">
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card3_tag">Аудит операторов</span>
-              <h3 class="stack-card-title" data-i18n="stack_card3_title">Нулевой перерасход и проверка биллинга</h3>
-              <p class="stack-card-desc" data-i18n="stack_card3_desc">
-                Сравнение данных радиочипа телефона с тарификацией оператора. Предотвращение скрытых округлений сотового трафика, паразитных фоновых утечек и неожиданных списаний в роуминге (Гулистан ↔ Лондон).
-              </p>
+              <h3 class="stack-card-title" data-i18n="stack_card3_title">Доступ владельца</h3>
+              <p class="stack-card-desc" data-i18n="stack_card3_desc">Подробные отчёты доступны владельцу после проверки Cloudflare Access. Публичная сводка не показывает личные записи.</p>
               <div class="stack-card-meta">
                 <span class="spec-pill">Гулистан ↔ Лондон шлюз</span>
                 <span class="spec-pill">Сквозной аудит квоты</span>
                 <span class="spec-pill">Сотовый биллинг</span>
               </div>
             </div>
-            <div class="stack-card-visual">
+            <div class="stack-card-visual" hidden>
               <div class="visual-media-frame">
                 <img src="assets/spectrum-preview.jpg" alt="Gulistan & London Telecom Infrastructure" class="stack-image-cover">
                 <div class="media-live-badge"><span class="pulse-dot green"></span> UZ & UK Base Stations</div>
@@ -555,7 +548,7 @@
         <div class="quick-connect-card">
           <div class="connect-info-block">
             <div class="connect-title">Шлюз приёма мобильных клиентов Xylen</div>
-            <div class="connect-desc">Приложение Xylen SIM Platform (Android / iOS) автоматически передает телеметрию в фоновом режиме. При обнаружении SIM-карты данные направляются в модуль аудита сотового трафика. Родина платформы — Гулистан.</div>
+            <div class="connect-desc">Android отправляет отчёты только после согласия. Изученный исходный код iOS хранит журнал на устройстве.</div>
           </div>
           <div class="connect-actions-block">
             <button class="btn btn-cyan" onclick="window.switchPage('page-releases');">
@@ -881,51 +874,12 @@
   <main id="page-about" class="page-section">
     <div class="container" style="max-width: 1040px;">
       <div class="about-clean-card reveal-on-scroll">
-        <div class="hero-chip">
-          <span class="pulse-dot green"></span>
-          <span data-i18n="about_origin_tag">Родина проекта • Гулистан, Узбекистан</span>
-        </div>
-        <h1 class="section-heading" data-i18n="about_origin_title" style="margin-top:14px; margin-bottom: 20px;">
-          История создания: От лаборатории в Гулистане до транзитного шлюза в Лондоне
-        </h1>
-        <p class="about-body-text" data-i18n="about_origin_p1">
-          Проект Xylen начался в Гулистане (Сырдарьинская область, Узбекистан). Первоначальной задачей была разработка независимого инженерного решения для аудита мобильного интернета и устранения разногласий между реальным аппаратным трафиком и округлениями сотовых операторов.
-        </p>
-        <p class="about-body-text" data-i18n="about_origin_p2">
-          Из-за специфики региональных сетей было создано сверхэффективное ядро телеметрии, способное стабильно работать даже на слабом 2G/EDGE и передавать диагностику пакетами всего по 24 байта без лишнего расхода мегабайтов пользователя.
-        </p>
-
-        <!-- Technical Pillars Grid -->
-        <h2 class="sub-heading-about" data-i18n="about_arch_title" style="margin-top: 36px; margin-bottom: 18px;">
-          Архитектура нативного стека
-        </h2>
-        <div class="pillars-grid">
-          <div class="pillar-box">
-            <div class="pillar-num">01</div>
-            <div class="pillar-title">Android Telephony Kernel</div>
-            <div class="pillar-text">Написан на Kotlin и Jetpack Compose. Задействует TelephonyManager, SubscriptionManager и NetworkStatsManager через изолированный Foreground Service.</div>
-          </div>
-          <div class="pillar-box">
-            <div class="pillar-num">02</div>
-            <div class="pillar-title">24-Byte DeltaStream</div>
-            <div class="pillar-text">Ультра-компактные дельта-пакеты экономят ресурс батареи (&lt;0.1% в день) и функционируют даже при отсутствии 4G/5G покрытия.</div>
-          </div>
-          <div class="pillar-box">
-            <div class="pillar-num">03</div>
-            <div class="pillar-title">Гулистан ↔ Лондон Gateway</div>
-            <div class="pillar-text">Первичный контур обрабатывается локально в РУз. Трансграничный защищённый транзит подключён к Cloudflare Workers Edge в Лондоне.</div>
-          </div>
-          <div class="pillar-box">
-            <div class="pillar-num">04</div>
-            <div class="pillar-title">Wi-Fi трафик исключён</div>
-            <div class="pillar-text">Алгоритмы ядра категорически игнорируют пакеты Wi-Fi сетей. Аудит ведётся строго по сотовому радиомодему активных SIM-карт.</div>
-          </div>
-        </div>
-
-        <div class="about-footer-strip">
-          <span style="font-size: 0.88rem; color: var(--text-secondary);">Xylen Core Operations • Gulistan Lab ↔ London Transit • Cloudflare Edge AES-256</span>
-          <button class="btn btn-secondary btn-compact" onclick="window.switchPage('page-overview');">На главную ➔</button>
-        </div>
+        <span class="eyebrow">XYLEN PLATFORM</span>
+        <h1 class="section-heading">О платформе</h1>
+        <p class="about-body-text">Xylen объединяет Android-клиент и веб-панель для просмотра событий приложения и счётчиков сотовой загрузки, которые клиент отправил с согласия пользователя.</p>
+        <section class="info-article"><h2>Назначение платформы</h2><p>Панель помогает владельцу увидеть зарегистрированные Android-устройства, недавние отчёты, дневные счётчики и действия, сообщённые приложением. Публичная часть показывает только агрегированные сведения.</p></section>
+        <section class="info-article"><h2>Как устроен обмен данными</h2><p>После согласия Android отправляет JSON-отчёт в /api/audit по HTTPS. Cloudflare Pages Function принимает его; постоянное хранение использует настроенный KV binding. Подробные записи доступны после проверки Cloudflare Access и email владельца.</p></section>
+        <section class="info-article"><h2>Границы возможностей</h2><p>Сайт показывает значения, сообщённые клиентом, и не проверяет их независимо. Он не измеряет скорость радио в реальном времени и не получает данные о вышках. Изученный исходный код iOS хранит журнал локально и не отправляет его в этот веб API.</p></section>
       </div>
     </div>
   </main>
@@ -936,42 +890,14 @@
   <main id="page-privacy" class="page-section">
     <div class="container" style="max-width: 1040px;">
       <div class="privacy-clean-card reveal-on-scroll">
-        <div class="privacy-header-badge-row">
-          <span class="privacy-badge" data-i18n="privacy_badge_uz">ЗРУ-547 (Республика Узбекистан)</span>
-          <span class="privacy-badge" data-i18n="privacy_badge_uk">UK GDPR / DPA 2018 (Великобритания)</span>
-        </div>
-        <h1 class="section-heading" data-i18n="privacy_hero_title">Правовая основа и защита данных</h1>
-        <p class="section-desc" data-i18n="privacy_hero_sub" style="margin-bottom: 30px;">
-          Платформа строго соблюдает Закон Республики Узбекистан № ЗРУ-547 «О персональных данных» и законодательство Великобритании UK GDPR / Data Protection Act 2018 (ICO UK).
-        </p>
-
-        <div class="legal-article-block">
-          <h3 class="legal-title" data-i18n="privacy_law_uz_title">Соответствие Закону РУз № ЗРУ-547 «О персональных данных»</h3>
-          <p class="legal-text" data-i18n="privacy_p1">
-            Xylen Platform является инженерным средством диагностики параметров радиоканала и расхода сотового трафика. Платформа собирает исключительно технические параметры радиочастотного спектра (мощность сигнала в dBm, идентификаторы сотовых вышек CID/TAC, стандарт связи LTE/5G).
-          </p>
-        </div>
-
-        <div class="legal-article-block">
-          <h3 class="legal-title">Строгий запрет на сбор персональной информации (Статьи 13, 15, 18 ЗРУ-547)</h3>
-          <p class="legal-text" data-i18n="privacy_p2">
-            В соответствии со статьями 13, 15 и 18 Закона РУз № ЗРУ-547 и принципом минимизации данных UK GDPR, приложение категорически НЕ собирает и НЕ имеет технического доступа к личным сообщениям (SMS), телефонной книге, персональным фотографиям, аудиозаписям звонков, истории браузера и паролям пользователей.
-          </p>
-        </div>
-
-        <div class="legal-article-block">
-          <h3 class="legal-title">Локализация данных и аппаратное шифрование (Статья 27-1 ЗРУ-547)</h3>
-          <p class="legal-text" data-i18n="privacy_p3">
-            Хранение и обработка телеметрических данных локализованы в Республике Узбекистан в соответствии со статьёй 27-1 ЗРУ-547. Все транзитные потоки защищены сквозным аппаратным шифрованием AES-256-GCM с использованием аппаратных анклавов Android Keystore и Apple Secure Enclave.
-          </p>
-        </div>
-
-        <div class="legal-article-block">
-          <h3 class="legal-title" data-i18n="privacy_law_uk_title">Соответствие UK GDPR и Data Protection Act 2018</h3>
-          <p class="legal-text" data-i18n="privacy_p4">
-            Пользователь имеет право в любой момент прекратить сессию и удалить телеметрические логи одним нажатием. Данные не передаются рекламным сетям или сторонним брокерам данных.
-          </p>
-        </div>
+        <span class="eyebrow">XYLEN PLATFORM</span>
+        <h1 class="section-heading">Конфиденциальность</h1>
+        <p class="section-desc">Здесь описан поток данных в изученных версиях сайта и мобильных клиентов. Это техническая информация, а не юридическое заключение; оператор должен определить применимые требования и основания обработки.</p>
+        <section class="legal-article-block"><h2 class="legal-title">Данные Android-отчёта</h2><p class="legal-text">После согласия Android отправляет ID установки, модель, имя тестировщика, экран, действие и детали, оператора, дневные и сессионные счётчики, а также сведения об активных или использованных сегодня SIM-профилях. Значения сообщает клиент, сервер не проверяет их независимо.</p></section>
+        <section class="legal-article-block"><h2 class="legal-title">Что не передаётся в веб-аудит</h2><p class="legal-text">Веб audit API не получает номера телефона, ICCID, IMSI, идентификаторы вышек или измерения радиосигнала. Изученный код iOS хранит журнал на устройстве. Отдельный Android portal API может передавать данные на другой сервис при настройке.</p></section>
+        <section class="legal-article-block"><h2 class="legal-title">Назначение и доступ</h2><p class="legal-text">Публичный endpoint возвращает агрегированные числа и сотовые счётчики. Подробные записи требуют проверки Cloudflare Access и соответствия email владельца.</p></section>
+        <section class="legal-article-block"><h2 class="legal-title">Хранение и удаление</h2><p class="legal-text">Сервер хранит последнюю запись устройства до удаления оператором; журнал ограничен последними 200 событиями. Отзыв согласия прекращает будущую отправку, но сам по себе не удаляет уже сохранённые записи.</p></section>
+        <section class="legal-article-block"><h2 class="legal-title">Защита и правовые сведения</h2><p class="legal-text">Передача идёт по HTTPS. Оператору следует проверить применимость Закона Республики Узбекистан № ЗРУ-547 «О персональных данных», UK GDPR и Data Protection Act 2018. Эта страница не подтверждает соблюдение законодательства, расположение хранилища или шифрование данных на сервере.</p></section>
       </div>
     </div>
   </main>
@@ -1137,7 +1063,7 @@
 
       <!-- Clean Legal Badge -->
       <div class="footer-legal-badge">
-        <span data-i18n="footer_copyright">© 2026 Xylen Inc. • Все права защищены • Сквозное шифрование AES-256</span>
+        <span data-i18n="footer_copyright">© 2026 Xylen • Все права защищены</span>
       </div>
     </div>
   </footer>
