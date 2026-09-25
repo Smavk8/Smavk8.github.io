@@ -6,9 +6,8 @@
  * - 5 Continuously Rotating Interactive Motion Modules (Auto-carousel + Diagnostic Modal)
  * - Calibrated Card Stack Scroll Runway (Smooth gliding & depth scaling)
  * - Standby Flatline Mode for Waveform until real device transmits
- * - Strictly Real Devices & Real Cellular Mobile Data (Wi-Fi 100% ignored)
- * - Origin: Gulistan (Гулистан) ↔ London (Лондон)
- * - Regulatory: Law of Republic of Uzbekistan (ЗРУ-547) & UK GDPR / DPA 2018
+ * - Displays client-reported device summaries; it does not read radio state from the web
+ * - Consent-gated Android reports; iOS activity log remains on-device in the reviewed client
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -400,7 +399,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function buildDeviceCardHtml(device) {
     const mbToday = (device.todayTrafficBytes / (1024 * 1024)).toFixed(1) + ' МБ';
-    const speedStr = (device.currentSpeedKBps / 1024).toFixed(1) + ' МБ/с';
     const isOnline = device.status === 'online';
 
     let simSlotsHtml = '';
@@ -411,14 +409,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="display:flex; align-items:center; gap:8px;">
               <span class="sim-flag">${sim.countryFlag || '🇺🇿'}</span>
               <span class="sim-carrier-title">${sim.carrier}</span>
-              <span class="sim-type-badge">${sim.networkType || '5G NR'}</span>
+              <span class="sim-type-badge">${sim.networkType || sim.type || 'SIM / eSIM'}</span>
             </div>
             ${sim.isDefaultData ? '<span class="default-data-tag">● Мобильные данные</span>' : ''}
           </div>
           <div class="sim-chip-details">
-            <span>Сигнал: <strong>${sim.signalDbm || -75} dBm</strong></span>
-            <span>Вышка: <strong>${sim.cellTower || 'CID 11042'}</strong></span>
-            <span>ICCID: <strong>${sim.iccid ? sim.iccid.substring(0, 10) + '...' : '8999...'}</strong></span>
+            ${sim.slotNumber != null ? '<span>Слот: <strong>' + sim.slotNumber + '</strong></span>' : ''}
+            ${sim.todayBytes != null ? '<span>Счётчик за день: <strong>' + (Number(sim.todayBytes) / (1024 * 1024)).toFixed(1) + ' МБ</strong></span>' : ''}
+            <span>Источник: <strong>отчёт Android</strong></span>
           </div>
         </div>
       `).join('');
@@ -441,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="device-card-header">
             <div>
               <div class="device-model-name">${device.model}</div>
-              <div class="device-os-tag">${device.deviceOs} • ${device.appVersion || 'v5.2'}</div>
+              <div class="device-os-tag">${device.deviceOs}${device.appVersion ? ' • ' + device.appVersion : ''}</div>
             </div>
             <div class="device-status-badge ${isOnline ? 'online' : 'offline'}">
               <span class="pulse-dot ${isOnline ? 'green' : 'gray'}"></span>
@@ -451,16 +449,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
           <!-- Connected SIMs Inside Device -->
           <div class="connected-sims-group" style="margin-top: 16px;">
-            <div class="sim-group-label">Текущие подключенные SIM-карты (Сотовая связь):</div>
-            ${simSlotsHtml}
+            <div class="sim-group-label">SIM / eSIM в отчёте клиента:</div>
+            ${simSlotsHtml || '<p class="sim-data-empty">Этот отчёт не содержит сведений о SIM-профиле.</p>'}
           </div>
         </div>
 
         <div>
           <div class="device-metrics-row">
-            <span>Сотовый трафик: <strong>${mbToday}</strong></span>
-            <span>IP: <strong style="font-family:var(--font-mono);">${device.ipAddress}</strong></span>
-            <span style="color:var(--cyan-electric); font-weight:700;">↓ ${speedStr}</span>
+            <span>Мобильный счётчик за день: <strong>${mbToday}</strong></span>
+            <span>Экран в отчёте: <strong>${device.currentScreen || 'не указан'}</strong></span>
+            <span style="color:var(--cyan-electric); font-weight:700;">Показание клиента</span>
           </div>
 
           <div class="device-timeline-wrap">
@@ -489,55 +487,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (devicesContainer) {
       if (!devices || devices.length === 0) {
-        const pairToken = window.activityStorage.getPairingToken();
-
         devicesContainer.innerHTML = `
           <div class="devices-empty-state-card hover-glow-card">
-            <!-- Animated High-Tech Radio Radar Scanner -->
-            <div class="devices-radar-container">
-              <div class="radar-scope-wrapper">
-                <div class="radar-screen">
-                  <div class="radar-circle rc-1"></div>
-                  <div class="radar-circle rc-2"></div>
-                  <div class="radar-circle rc-3"></div>
-                  <div class="radar-crosshair-h"></div>
-                  <div class="radar-crosshair-v"></div>
-                  <div class="radar-sweep-beam"></div>
-                  <div class="radar-blip rb-1"></div>
-                  <div class="radar-blip rb-2"></div>
-                </div>
+            <div class="devices-empty-visual" aria-hidden="true">
+              <i class="empty-report-orbit empty-report-orbit-outer"></i>
+              <i class="empty-report-orbit empty-report-orbit-inner"></i>
+              <div class="empty-report-sheet">
+                <i></i><i></i><i></i>
+                <span class="empty-report-chart"><b></b><b></b><b></b><b></b><b></b></span>
               </div>
-              <div class="radar-status-caption">
-                <span class="pulse-dot green"></span>
-                <span>Эфир 5G NR / LTE • Автопоиск узлов связи</span>
-              </div>
+              <span class="empty-report-signal"></span>
             </div>
 
             <h3 class="devices-empty-heading" data-i18n="devices_empty_title">Радиоэфир активен • Ожидание передачи данных</h3>
             <p class="devices-empty-text" data-i18n="devices_empty_desc">
-              Шлюз телеметрии слушает входящие соединения в реальном времени. Как только мобильное приложение запускается на устройстве, данные его активных SIM-карт и сотового радиоканала мгновенно поступают на экран и направляются в модуль анализа трафика.
+              Сводка появится после того, как Android-клиент отправит первый отчёт с согласия пользователя. Веб-панель не считывает параметры SIM или радиосети напрямую и не измеряет телефон непрерывно.
             </p>
 
-            <div class="pairing-box">
-              <div style="font-size:0.82rem; text-transform:uppercase; font-weight:700; color:var(--text-muted);">
-                Узел приёма сотовой телеметрии:
-              </div>
-              <div class="pairing-token-pill" id="display-pairing-token">${pairToken}</div>
-              <div class="active-node-specs-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; text-align:left; font-size:0.82rem;">
-                <div style="background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px;">
-                  <span style="color:var(--text-muted); display:block; font-size:0.72rem; text-transform:uppercase;">Маршрут:</span>
-                  <strong style="color:var(--green-neon);">Гулистан ↔ Лондон (Cloudflare Edge)</strong>
-                </div>
-                <div style="background:rgba(0,0,0,0.25); padding:8px 12px; border-radius:6px;">
-                  <span style="color:var(--text-muted); display:block; font-size:0.72rem; text-transform:uppercase;">Сотовые сети:</span>
-                  <strong style="color:var(--cyan-bright);">Ucell, UMS, Beeline UZ, O2 UK, Three UK</strong>
-                </div>
-              </div>
-            </div>
-
-            <div class="gateway-live-status">
-              <span class="pulse-dot green"></span>
-              <span data-i18n="devices_listening_status">Шлюз телеметрии активен: радиоприёмник p.xylen.workers.dev (Wi-Fi строго исключён)</span>
+            <div class="gateway-live-status report-waiting-status">
+              <span class="pulse-dot cyan"></span>
+              <span data-i18n="devices_listening_status">Веб-сводка ожидает клиентские отчёты Android после согласия пользователя.</span>
             </div>
 
             <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:12px;">
@@ -558,6 +527,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnClearDevices) btnClearDevices.style.display = 'inline-block';
       }
     }
+
+    window.i18n?.applyTranslations();
 
     // Update KPI numbers
     const kpiDevices = document.getElementById('kpi-devices-count');
@@ -1121,7 +1092,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update Waveform Status Indicator
     if (waveformStatusText) {
       if (hasActiveStream) {
-        waveformStatusText.textContent = window.i18n ? window.i18n.t('traffic_live_badge') : 'РЕАЛЬНЫЙ СОТОВЫЙ ЭФИР';
+        waveformStatusText.textContent = window.i18n ? window.i18n.t('traffic_live_badge') : 'ПОСЛЕДНИЙ ПОЛУЧЕННЫЙ ОТЧЁТ';
         if (waveformStatusDot) { waveformStatusDot.className = 'pulse-dot green'; }
         if (waveformBadgeDot) { waveformBadgeDot.className = 'pulse-dot green'; }
       } else {

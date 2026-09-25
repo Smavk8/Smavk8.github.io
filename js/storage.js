@@ -2,12 +2,9 @@
  * Xylen Workspace - Core Storage & Real Telemetry Engine
  * STRICTLY REAL DEVICES & REAL CELLULAR DATA ONLY:
  * - Zero simulated devices. Zero synthetic Math.random() noise.
- * - Live Telemetry Waveform stays in standby flatline until a real device transmits.
- * - Counts EXCLUSIVELY Cellular Mobile Data (2G/3G/LTE/5G) via active SIM card.
- * - Wi-Fi traffic is strictly ignored and excluded from billing & telemetry.
- * - Project Origin: Gulistan (Uzbekistan) ↔ London (UK)
- * - Compliant with Law of the Republic of Uzbekistan "On Personal Data" (ЗРУ-547)
- *   and UK GDPR / Data Protection Act 2018 (ICO UK).
+ * - Public figures come from received Android client reports.
+ * - Reported counters are not independently measured by the web server.
+ * - Do not infer radio measurements or precise location from these reports.
  */
 
 const RELEASES_KEY = 'xylen_workspace_releases_v8';
@@ -38,14 +35,8 @@ const DEFAULT_RELEASES = [
       osReq: 'iOS 16.0 – 18.2+ (iPhone SE, 12, 13, 14, 15, 16 Pro)',
       fileSize: '1.8 MB'
     },
-    summary: 'Официальный выпуск v5.3: сквозной онлайн-мониторинг действий пользователей, учет посещаемых экранов, раздельный аудит сотового трафика по тестерам.',
-    changelog: [
-      { type: 'new', text: 'Сквозной аудит действий и навигации пользователей на веб-панели управления в реальном времени.' },
-      { type: 'new', text: 'Учёт сотового трафика отдельно по каждому пользователю/тестеру (кто сколько тратит).' },
-      { type: 'new', text: 'Возможность указать имя или позывной тестера прямо в Настройках приложения.' },
-      { type: 'improved', text: 'Прямое считывание подключенных SIM-карт (Ucell, UMS, Beeline UZ, O2 UK, Three UK).' },
-      { type: 'improved', text: 'Автономная фоновая синхронизация с нулевым расходом батареи.' }
-    ]
+    summary: 'Примечания к конкретным изменениям этой сборки не опубликованы. Перед установкой проверьте источник файла, версию платформы и подпись пакета.',
+    changelog: []
   },
   {
     id: 'rel-5-2',
@@ -66,11 +57,8 @@ const DEFAULT_RELEASES = [
       osReq: 'iOS 16.0 – 18.2+ (iPhone SE, 12, 13, 14, 15, 16 Pro)',
       fileSize: '1.8 MB'
     },
-    summary: 'Выпуск v5.2: 24-байтный микро-дельта протокол связи и прямое считывание сотового модема.',
-    changelog: [
-      { type: 'new', text: 'Прямое считывание подключенных SIM-карт и сотового радиоканала.' },
-      { type: 'new', text: 'Учёт исключительно мобильного сотового интернета через SIM.' }
-    ]
+    summary: 'Примечания к конкретным изменениям этой сборки не опубликованы. Сверяйте версию и источник установщика перед установкой.',
+    changelog: []
   },
   {
     id: 'rel-5-1',
@@ -91,16 +79,27 @@ const DEFAULT_RELEASES = [
       osReq: 'iOS 16.0 – 18.1',
       fileSize: '1.5 MB'
     },
-    summary: 'Обновление сетевого монитора и оптимизация частоты передачи пакетов.',
-    changelog: [
-      { type: 'new', text: 'Сейф Keychain + Documents и AppVault AES-256.' },
-      { type: 'improved', text: 'Поддержка Dynamic Island и Live Activities на iOS 18.' }
-    ]
+    summary: 'Описание изменений этой сборки не подтверждено. Перед установкой проверьте совместимость и источник файла.',
+    changelog: []
   }
 ];
 
 // ZERO FAKE DEVICES BY DEFAULT: ONLY REAL CONNECTED HARDWARE
 const DEFAULT_DEVICES = [];
+const DEFAULT_RELEASE_NOTES = {
+  'rel-5-3': {
+    summary: 'Примечания к конкретным изменениям этой сборки не опубликованы. Перед установкой проверьте источник файла, версию платформы и подпись пакета.',
+    changelog: []
+  },
+  'rel-5-2': {
+    summary: 'Примечания к конкретным изменениям этой сборки не опубликованы. Сверяйте версию и источник установщика перед установкой.',
+    changelog: []
+  },
+  'rel-5-1': {
+    summary: 'Описание изменений этой сборки не подтверждено. Перед установкой проверьте совместимость и источник файла.',
+    changelog: []
+  }
+};
 
 // ----------------------------------------------------------------------------
 // STORAGE CLASSES
@@ -121,7 +120,19 @@ class VersionStorage {
       const data = localStorage.getItem(RELEASES_KEY);
       if (!data) return DEFAULT_RELEASES;
       const parsed = JSON.parse(data);
-      return Array.isArray(parsed) && parsed.length > 0 ? parsed : DEFAULT_RELEASES;
+      if (!Array.isArray(parsed) || parsed.length === 0) return DEFAULT_RELEASES;
+      let changed = false;
+      const safeReleases = parsed.map(release => {
+        const note = DEFAULT_RELEASE_NOTES[release.id];
+        if (!note) return release;
+        if (release.summary === note.summary && Array.isArray(release.changelog) && release.changelog.length === 0) return release;
+        changed = true;
+        return { ...release, ...note };
+      });
+      if (changed) {
+        try { localStorage.setItem(RELEASES_KEY, JSON.stringify(safeReleases)); } catch (_) {}
+      }
+      return safeReleases;
     } catch (_) {
       return DEFAULT_RELEASES;
     }
@@ -292,26 +303,21 @@ class ActivityStorage {
                 model: u.model || 'Смартфон',
                 platform: u.platform || 'Android',
                 deviceOs: `${u.platform || 'Android'} • ${u.model || ''}`,
-                appVersion: 'v5.3 (Build 29)',
                 status: u.status || 'online',
-                currentSpeedKBps: u.currentSpeedKBps || 0,
                 todayTrafficBytes: u.todayBytes || 0,
                 totalDataTrafficBytes: u.totalBytes || u.todayBytes || 0,
                 lastSeen: u.lastSeenIso || new Date(u.lastSeenMs || Date.now()).toISOString(),
                 assignedUser: u.testerName || u.userId,
                 currentScreen: u.currentScreen || 'Главная',
                 lastAction: u.lastAction || 'В сети',
-                simSlots: [
-                  {
-                    slotNumber: 1,
-                    slotName: 'SIM 1 (Сотовая связь)',
-                    carrier: u.carrier || 'Сотовый оператор',
-                    countryFlag: (u.carrier && (u.carrier.includes('O2') || u.carrier.includes('Three') || u.carrier.includes('UK'))) ? '🇬🇧' : '🇺🇿',
-                    networkType: 'LTE / 5G',
-                    signalDbm: -75,
-                    isDefaultData: true
-                  }
-                ]
+                simSlots: Array.isArray(u.simProfiles) ? u.simProfiles.map(profile => ({
+                  slotNumber: profile.slot,
+                  slotName: profile.slot == null ? 'SIM / eSIM' : 'SIM ' + profile.slot,
+                  carrier: profile.carrier || u.carrier || 'Оператор не указан',
+                  networkType: profile.type || '',
+                  todayBytes: profile.todayBytes,
+                  isDefaultData: profile.active === true
+                })) : []
               }));
               this.saveDevices(mappedDevices);
             }

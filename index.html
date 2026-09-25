@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
   <link rel="stylesheet" href="css/experience.css?v=1.0.0">
   <link rel="stylesheet" href="css/architecture-motion.css?v=1.0.0">
-  <link rel="stylesheet" href="css/xylen-motion.css?v=1.1.0">
+  <link rel="stylesheet" href="css/xylen-motion.css?v=1.4.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -267,7 +267,7 @@
               <span class="pulse-dot green"></span>
             </div>
             <div class="kpi-number" id="kpi-traffic-count">—</div>
-            <div class="kpi-sub" data-i18n="kpi_traffic_sub">Wi-Fi строго исключён</div>
+            <div class="kpi-sub" data-i18n="kpi_traffic_sub">счётчики из Android-отчётов</div>
           </div>
 
           <div class="kpi-card hover-glow-card" onclick="window.switchPage('page-traffic');">
@@ -297,11 +297,11 @@
             <div class="stack-card-content">
               <span class="stack-badge" data-i18n="stack_card1_tag">Слоты и радиоканал</span>
               <h3 class="stack-card-title" data-i18n="stack_card1_title">Аппаратное считывание SIM и eSIM</h3>
-              <p class="stack-card-desc" data-i18n="stack_card1_desc">Прямой доступ к параметрам сотового радиоядра: уровень мощности в dBm, сотовые идентификаторы вышки CID/TAC, частотные диапазоны LTE Band и 5G NR NSA/SA. Никаких догадок — только чистые инженерные данные реального чипсета.</p>
+              <p class="stack-card-desc" data-i18n="stack_card1_desc">Android может отправить доступные приложению мобильные счётчики, сведения об операторе и SIM-профиле. Это данные отчёта на момент его формирования, а не прямые измерения радиосети.</p>
               <div class="stack-card-meta">
-                <span class="spec-pill">Поля SIM / eSIM-профиля</span>
-                <span class="spec-pill">RSRP / RSRQ / SINR не передаются</span>
-                <span class="spec-pill">Wi-Fi счётчик не отправляется</span>
+                <span class="spec-pill" data-i18n="stack_card1_fact1">Поля SIM / eSIM-профиля</span>
+                <span class="spec-pill" data-i18n="stack_card1_fact2">RSRP / RSRQ / SINR не передаются</span>
+                <span class="spec-pill" data-i18n="stack_card1_fact3">Сетевой интерфейс не проверяется</span>
               </div>
             </div>
             <div class="stack-card-visual">
@@ -309,7 +309,7 @@
                 <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
                   <source src="assets/motion-report.webm" type="video/webm">
                 </video>
-                <div class="media-live-badge"><span class="pulse-dot green"></span> Иллюстрация интерфейса</div>
+                <div class="media-live-badge"><span class="pulse-dot green"></span><span data-i18n="stack_card1_media">Иллюстрация интерфейса</span></div>
               </div>
             </div>
           </div>
@@ -321,12 +321,12 @@
               <h3 class="stack-card-title" data-i18n="stack_card2_title">Передача после согласия</h3>
               <p class="stack-card-desc" data-i18n="stack_card2_desc">Приложение отправляет JSON с ID установки, моделью, экраном, действием, счётчиками и SIM-профилями. Размер и время доставки зависят от состава отчёта, сети и доступности сервиса.</p>
               <div class="hex-stream-preview">
-                <div class="hex-code-header">ПОЛЯ JSON-ОТЧЁТА</div>
+                <div class="hex-code-header" data-i18n="stack_card2_fields">ПОЛЯ JSON-ОТЧЁТА</div>
                 <code>{ "screen": "…", "action": "…", "todayBytes": 0, "simProfiles": [] }</code>
                 <div class="hex-stats-row">
-                  <span>Условие: <strong>согласие</strong></span>
-                  <span>Формат: <strong>JSON</strong></span>
-                  <span>Публичный вид: <strong>агрегаты</strong></span>
+                  <span><span data-i18n="stack_card2_condition_label">Условие:</span> <strong data-i18n="stack_card2_condition_value">согласие</strong></span>
+                  <span><span data-i18n="stack_card2_format_label">Формат:</span> <strong>JSON</strong></span>
+                  <span><span data-i18n="stack_card2_public_label">Публичный вид:</span> <strong data-i18n="stack_card2_public_value">агрегаты</strong></span>
                 </div>
               </div>
             </div>
@@ -335,7 +335,7 @@
                 <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
                   <source src="assets/motion-consent.webm" type="video/webm">
                 </video>
-                <div class="media-live-badge"><span class="pulse-dot cyan"></span> Отчёт отправлен клиентом</div>
+                <div class="media-live-badge"><span class="pulse-dot cyan"></span><span data-i18n="stack_card2_media">Отчёт отправлен клиентом</span></div>
               </div>
             </div>
           </div>
@@ -347,9 +347,9 @@
               <h3 class="stack-card-title" data-i18n="stack_card3_title">Присланные данные — в понятном виде</h3>
               <p class="stack-card-desc" data-i18n="stack_card3_desc">Публичная страница показывает доступные агрегаты по полученным отчётам. Она не сверяет показания с биллингом оператора и не измеряет радиоканал.</p>
               <div class="stack-card-meta">
-                <span class="spec-pill">География не измеряется</span>
-                <span class="spec-pill">Счётчик сообщает клиент</span>
-                <span class="spec-pill">Сверки с биллингом нет</span>
+                <span class="spec-pill" data-i18n="stack_card3_fact1">География не измеряется</span>
+                <span class="spec-pill" data-i18n="stack_card3_fact2">Счётчик сообщает клиент</span>
+                <span class="spec-pill" data-i18n="stack_card3_fact3">Сверки с биллингом нет</span>
               </div>
             </div>
             <div class="stack-card-visual">
@@ -357,7 +357,7 @@
                 <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
                   <source src="assets/motion-summary.webm" type="video/webm">
                 </video>
-                <div class="media-live-badge"><span class="pulse-dot green"></span> Декоративная иллюстрация</div>
+                <div class="media-live-badge"><span class="pulse-dot green"></span><span data-i18n="stack_card3_media">Декоративная иллюстрация</span></div>
               </div>
             </div>
           </div>
@@ -569,17 +569,17 @@
       <section class="quick-connect-strip reveal-on-scroll">
         <div class="quick-connect-card">
           <div class="connect-info-block">
-            <div class="connect-title">Шлюз приёма мобильных клиентов Xylen</div>
-            <div class="connect-desc">Android отправляет отчёты только после согласия. Изученный исходный код iOS хранит журнал на устройстве.</div>
+            <div class="connect-title" data-i18n="connect_title">Шлюз приёма мобильных клиентов Xylen</div>
+            <div class="connect-desc" data-i18n="connect_desc">Android отправляет отчёты только после согласия. Изученный исходный код iOS хранит журнал на устройстве.</div>
           </div>
           <div class="connect-actions-block">
             <button class="btn btn-cyan" onclick="window.switchPage('page-releases');">
               <img src="assets/icon-android.svg" alt="Android" style="width:16px; height:16px;">
-              <span>Android клиент</span>
+              <span data-i18n="connect_android">Android клиент</span>
             </button>
             <button class="btn btn-secondary" onclick="window.switchPage('page-releases');">
               <img src="assets/icon-ios.svg" alt="iOS" style="width:16px; height:16px;">
-              <span>iOS клиент</span>
+              <span data-i18n="connect_ios">iOS клиент</span>
             </button>
           </div>
         </div>
@@ -689,7 +689,7 @@
           <p class="section-desc" data-i18n="traffic_hero_sub">Прямой поток микро-дельта пакетов (24 байта), мгновенная скорость и учет расхода подключенных устройств. Фиксируется исключительно сотовая связь.</p>
         </div>
         <div class="cellular-only-pill" data-i18n="traffic_cellular_only_badge">
-          ТОЛЬКО СОТОВЫЕ ДАННЫЕ (Wi-Fi ИСКЛЮЧЁН)
+          МОБИЛЬНЫЕ СЧЁТЧИКИ ИЗ ОТЧЁТОВ
         </div>
       </div>
 
@@ -713,7 +713,7 @@
         <div class="traffic-numbers-row">
           <div class="traffic-stat-item">
             <span class="stat-label" data-i18n="traffic_speed_label">Текущая скорость SIM:</span>
-            <div class="stat-number cyan" id="traffic-live-speed">0.0 МБ/с</div>
+            <div class="stat-number cyan" id="traffic-live-speed">—</div>
           </div>
           <div class="traffic-stat-item">
             <span class="stat-label" data-i18n="traffic_today_label">Сотовый расход за сегодня:</span>
@@ -726,10 +726,10 @@
         </div>
       </div>
 
-      <!-- Explicit Wi-Fi Exclusion Notice -->
+      <!-- Client-reported network counters notice -->
       <div class="wifi-exclusion-card reveal-on-scroll">
         <span class="shield-badge">🛡️ БИЛЛИНГ И БЕЗОПАСНОСТЬ</span>
-        <p data-i18n="traffic_wifi_excluded_notice">Инженерное правило: Трафик беспроводных сетей Wi-Fi категорически исключён из учёта. Фиксируются только байты, прошедшие через стек сотового модема TelephonyManager / NetworkStatsManager.</p>
+        <p data-i18n="traffic_wifi_excluded_notice">Сводка строится по мобильным счётчикам, присланным Android-клиентом. Сайт не проверяет тип сетевого интерфейса независимо.</p>
       </div>
     </div>
   </main>
@@ -742,7 +742,7 @@
     <div class="container">
       <div class="section-title-strip reveal-on-scroll">
         <h1 class="section-heading" data-i18n="releases_hero_title">Центр загрузки приложений</h1>
-        <p class="section-desc" data-i18n="releases_hero_sub">Официальные нативные клиенты Xylen для мобильных платформ Google Android и Apple iOS:</p>
+        <p class="section-desc" data-i18n="releases_hero_sub">Актуальные ссылки и сведения о доступных сборках Android и iOS.</p>
       </div>
 
       <!-- Two Clear Platform Cards: Android & iOS -->
@@ -779,14 +779,14 @@
             <img src="assets/icon-ios.svg" alt="iOS" class="platform-big-icon">
             <div>
               <div class="platform-title" data-i18n="platform_ios_title">Apple iOS</div>
-              <div class="platform-subtitle" data-i18n="platform_ios_desc">Нативный клиент телеметрии для iPhone на iOS 16.0 – 18.2+ с защитой ключей в Apple Keychain Vault.</div>
+              <div class="platform-subtitle" data-i18n="platform_ios_desc">Доступность сборки и способ установки зависят от текущей версии. В проверенном клиенте журнал активности хранится на устройстве.</div>
             </div>
           </div>
 
           <div class="platform-meta-strip">
             <span class="spec-pill">Версия v5.2 (Сборка 28)</span>
             <span class="spec-pill">1.8 MB</span>
-            <span class="spec-pill">Apple Keychain Vault</span>
+            <span class="spec-pill" data-i18n="ios_local_log">Журнал активности хранится локально</span>
           </div>
 
           <div class="platform-card-actions">
@@ -835,7 +835,7 @@
             <div class="step-card">
               <div class="step-badge">Шаг 3</div>
               <h4 class="step-title" data-i18n="android_step3_title">3. Выдача системных прав телеметрии</h4>
-              <p class="step-desc" data-i18n="android_step3_desc">При первом запуске предоставьте разрешение «Телефон» (READ_PHONE_STATE) — оно необходимо исключительно для считывания параметров SIM-слотов, и «Местоположение» — для фиксации ID сотовой вышки (CID/TAC).</p>
+              <p class="step-desc" data-i18n="android_step3_desc">Android может запросить разрешение для отдельных функций. Перед выдачей прочитайте системный запрос; разрешения сами по себе не означают, что данные радиосети передаются в веб-отчёте.</p>
             </div>
             <div class="step-card">
               <div class="step-badge">Шаг 4</div>
@@ -851,28 +851,28 @@
             <div class="step-card">
               <div class="step-badge">Шаг 1</div>
               <h4 class="step-title" data-i18n="ios_step1_title">1. Загрузка установочного пакета</h4>
-              <p class="step-desc" data-i18n="ios_step1_desc">Загрузите файл приложения на iPhone через Safari или воспользуйтесь фирменным установщиком (AltStore, Sideloadly, Scarlet или TestFlight).</p>
+              <p class="step-desc" data-i18n="ios_step1_desc">Используйте актуальную ссылку и инструкции владельца; способ установки зависит от доступной сборки.</p>
             </div>
             <div class="step-card">
               <div class="step-badge">Шаг 2</div>
-              <h4 class="step-title" data-i18n="ios_step2_title">2. Доверие профилю разработчика</h4>
-              <p class="step-desc" data-i18n="ios_step2_desc">Перейдите в «Настройки» → «Основные» → «VPN и управление устройством». В разделе «Корпоративные приложения» найдите сертификат разработчика Xylen и нажмите «Доверять».</p>
+              <h4 class="step-title" data-i18n="ios_step2_title">2. Проверьте источник приложения</h4>
+              <p class="step-desc" data-i18n="ios_step2_desc">Используйте инструкцию владельца проекта для текущей сборки. Перед установкой проверьте источник файла и издателя.</p>
             </div>
             <div class="step-card">
               <div class="step-badge">Шаг 3</div>
-              <h4 class="step-title" data-i18n="ios_step3_title">3. Активация Apple Keychain Vault</h4>
-              <p class="step-desc" data-i18n="ios_step3_desc">Запустите приложение. Сессионные токены телеметрии будут автоматически зашифрованы и помещены в защищенное аппаратное хранилище Secure Enclave / Apple Keychain.</p>
+              <h4 class="step-title" data-i18n="ios_step3_title">3. Локальный журнал</h4>
+              <p class="step-desc" data-i18n="ios_step3_desc">В проверенной версии клиента журнал активности хранится на устройстве и не отправляется в веб-аудит.</p>
             </div>
             <div class="step-card">
               <div class="step-badge">Шаг 4</div>
-              <h4 class="step-title" data-i18n="ios_step4_title">4. Интеграция в Live Activities</h4>
-              <p class="step-desc" data-i18n="ios_step4_desc">На iPhone с Dynamic Island текущая скорость и активный SIM-слот отображаются в компактном виджете реального времени.</p>
+              <h4 class="step-title" data-i18n="ios_step4_title">4. Что не подтверждено</h4>
+              <p class="step-desc" data-i18n="ios_step4_desc">Live Activities, SIM-виджет и скорость в реальном времени в этой версии не подтверждены.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- What's new in v5.2 -->
+      <!-- Release notes for the selected build -->
       <div class="whats-new-card reveal-on-scroll">
         <h3 class="whats-new-title" data-i18n="releases_whats_new">Что нового в версии v5.2:</h3>
         <ul class="whats-new-list-items" id="whats-new-list-items">
@@ -933,7 +933,7 @@
         <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%; flex-wrap:wrap; gap:16px;">
           <div>
             <h1 class="section-heading" data-i18n="admin_auth_title">Консоль Мастер-Менеджера</h1>
-            <p class="section-desc">Управление подключенными физическими аппаратами, тарифами и журналом телеметрии (Гулистан ↔ Лондон).</p>
+            <p class="section-desc">Сводка полученных отчётов Android и журнал событий приложения.</p>
           </div>
           <button class="btn btn-secondary btn-compact" onclick="window.logoutAdminConsole();">
             Выйти из консоли
@@ -950,7 +950,7 @@
           </div>
           <div class="admin-actions-list">
             <button class="btn btn-cyan btn-full" onclick="window.injectTestRealDevice();">
-              + Добавить телеметрический узел (Гулистан / Лондон)
+              + Добавить устройство
             </button>
             <button class="btn btn-danger-subtle btn-full" onclick="window.clearAllDevices();">
               Очистить активные узлы
@@ -963,29 +963,29 @@
 
         <div class="admin-panel-card">
           <div class="admin-card-header">
-            <span class="admin-badge">Статус ядра</span>
-            <h3>Шлюз телеметрии связи</h3>
+            <span class="admin-badge">Доступ и отчётность</span>
+            <h3>Как устроена веб-сводка</h3>
           </div>
           <div class="system-health-rows">
             <div class="health-row">
-              <span>Локальный узел связи:</span>
-              <strong class="green">Гулистан (Первичный контур)</strong>
+              <span>Источник показаний:</span>
+              <strong class="green">Android-клиент после согласия</strong>
             </div>
             <div class="health-row">
-              <span>Трансграничный шлюз:</span>
-              <strong class="cyan">Лондон (Cloudflare Edge)</strong>
+              <span>Приём отчёта:</span>
+              <strong class="cyan">Веб API проекта</strong>
             </div>
             <div class="health-row">
-              <span>Edge-сервер:</span>
-              <strong>p.xylen.workers.dev</strong>
+              <span>Публичный ответ:</span>
+              <strong>Агрегированные значения</strong>
             </div>
             <div class="health-row">
-              <span>Фильтрация Wi-Fi:</span>
-              <strong class="green">Активна (100% сотовый учёт)</strong>
+              <span>Радиоизмерения:</span>
+              <strong class="green">В веб-отчёте не передаются</strong>
             </div>
             <div class="health-row">
-              <span>Шифрование сессий:</span>
-              <strong class="green">AES-256-GCM Hardware</strong>
+              <span>Подробные записи:</span>
+              <strong class="green">Доступ владельца через Cloudflare Access</strong>
             </div>
           </div>
         </div>
@@ -1063,7 +1063,7 @@
 
   <!-- ========================================================================
        FOOTER
-       Clean Centered Brand • Clickable Logo/Title • AES-256 Cloudflare Edge
+       Clean Centered Brand • Clickable Logo/Title
        ======================================================================== -->
   <footer class="app-footer">
     <div class="container footer-centered-wrap">
@@ -1093,13 +1093,14 @@
 
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
-  <script src="js/storage.js?v=2.6.0"></script>
-  <script src="js/i18n.js?v=2.6.0"></script>
-  <script src="js/app.js?v=2.7.0"></script>
+  <script src="js/storage.js?v=2.7.0"></script>
+  <script src="js/i18n.js?v=2.8.0"></script>
+  <script src="js/app.js?v=2.8.0"></script>
   <script src="js/refinements.js?v=2.6.0"></script>
   <script src="js/home-expansion.js?v=1.0.0"></script>
   <script src="js/experience.js?v=1.0.0"></script>
   <script src="js/architecture-motion.js?v=1.1.0"></script>
   <script src="js/xylen-motion.js?v=1.0.0"></script>
+  <script src="js/navigation-preview.js?v=1.1.0"></script>
 </body>
 </html>
