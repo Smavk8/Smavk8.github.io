@@ -530,7 +530,7 @@
     const motionObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       entry.target.classList.toggle('motion-paused', !entry.isIntersecting);
     }), { threshold: 0.05 });
-    document.querySelectorAll('.stack-card, .motion-card').forEach(card => motionObserver.observe(card));
+    document.querySelectorAll('.motion-card').forEach(card => motionObserver.observe(card));
     animateHeroField();
   });
 

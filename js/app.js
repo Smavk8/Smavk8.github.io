@@ -853,22 +853,6 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(drawMiniStream);
   }
 
-  // Ensure stack video elements autoplay reliably
-  document.querySelectorAll('.stack-video-cover').forEach(video => {
-    video.muted = true;
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        const startOnInteract = () => {
-          video.play().catch(() => {});
-        };
-        window.addEventListener('click', startOnInteract, { once: true });
-        window.addEventListener('scroll', startOnInteract, { once: true, passive: true });
-        window.addEventListener('touchstart', startOnInteract, { once: true, passive: true });
-      });
-    }
-  });
-
   // --------------------------------------------------------------------------
   // FLUID MULTI-HARMONIC CANVAS WAVEFORM (Traffic Page)
   // Calm Standby Flatline Mode when idle / zero devices

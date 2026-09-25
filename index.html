@@ -6,11 +6,11 @@
   <meta name="theme-color" content="#0A0C10">
   <meta name="description" content="Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения.">
   <title>Xylen Platform • Сводка мобильных отчётов</title>
-  <link rel="stylesheet" href="css/styles.css?v=2.6.0">
+  <link rel="stylesheet" href="css/styles.css?v=2.7.0">
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
   <link rel="stylesheet" href="css/experience.css?v=1.0.0">
-  <link rel="stylesheet" href="css/architecture-motion.css?v=1.0.0">
-  <link rel="stylesheet" href="css/xylen-motion.css?v=1.5.0">
+  <link rel="stylesheet" href="css/architecture-motion.css?v=1.1.0">
+  <link rel="stylesheet" href="css/xylen-motion.css?v=1.6.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -279,115 +279,6 @@
             <div class="kpi-sub" data-i18n="kpi_speed_sub">текущий поток SIM-данных</div>
           </div>
         </div>
-      </section>
-
-      <!-- ====================================================================
-           JITTER-STYLE CARD STACK SECTION (Calibrated Scroll Runway & Real Visuals)
-           Cards slide in and stack on scroll with depth and generous runway
-           ==================================================================== -->
-      <section class="stack-showcase-section">
-        <div class="section-title-center reveal-on-scroll">
-          <h2 class="section-heading-large" data-i18n="stack_title">Архитектура контроля телеметрии</h2>
-          <p class="section-desc-center" data-i18n="stack_sub">Путь согласованного Android-отчёта: от решения пользователя до агрегированной сводки и защищённого просмотра.</p>
-        </div>
-
-        <div class="jitter-stack-container">
-          <!-- Card 1: SIM & eSIM Inspection -->
-          <div class="stack-card card-theme-dark" id="stack-card-1" style="--stack-index: 0;">
-            <div class="stack-card-content">
-              <span class="stack-badge" data-i18n="stack_card1_tag">Слоты и радиоканал</span>
-              <h3 class="stack-card-title" data-i18n="stack_card1_title">Аппаратное считывание SIM и eSIM</h3>
-              <p class="stack-card-desc" data-i18n="stack_card1_desc">Android может отправить доступные приложению мобильные счётчики, сведения об операторе и SIM-профиле. Это данные отчёта на момент его формирования, а не прямые измерения радиосети.</p>
-              <div class="stack-card-meta">
-                <span class="spec-pill" data-i18n="stack_card1_fact1">Поля SIM / eSIM-профиля</span>
-                <span class="spec-pill" data-i18n="stack_card1_fact2">RSRP / RSRQ / SINR не передаются</span>
-                <span class="spec-pill" data-i18n="stack_card1_fact3">Сетевой интерфейс не проверяется</span>
-              </div>
-            </div>
-            <div class="stack-card-visual">
-              <div class="visual-media-frame">
-                <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
-                  <source src="assets/motion-report.webm" type="video/webm">
-                </video>
-                <div class="media-live-badge"><span class="pulse-dot green"></span><span data-i18n="stack_card1_media">Иллюстрация интерфейса</span></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 2: consent-based client report -->
-          <div class="stack-card card-theme-cyan" id="stack-card-2" style="--stack-index: 1;">
-            <div class="stack-card-content">
-              <span class="stack-badge" data-i18n="stack_card2_tag">Путь отчёта</span>
-              <h3 class="stack-card-title" data-i18n="stack_card2_title">Передача после согласия</h3>
-              <p class="stack-card-desc" data-i18n="stack_card2_desc">Приложение отправляет JSON с ID установки, моделью, экраном, действием, счётчиками и SIM-профилями. Размер и время доставки зависят от состава отчёта, сети и доступности сервиса.</p>
-              <div class="hex-stream-preview">
-                <div class="hex-code-header" data-i18n="stack_card2_fields">ПОЛЯ JSON-ОТЧЁТА</div>
-                <code>{ "screen": "…", "action": "…", "todayBytes": 0, "simProfiles": [] }</code>
-                <div class="hex-stats-row">
-                  <span><span data-i18n="stack_card2_condition_label">Условие:</span> <strong data-i18n="stack_card2_condition_value">согласие</strong></span>
-                  <span><span data-i18n="stack_card2_format_label">Формат:</span> <strong>JSON</strong></span>
-                  <span><span data-i18n="stack_card2_public_label">Публичный вид:</span> <strong data-i18n="stack_card2_public_value">агрегаты</strong></span>
-                </div>
-              </div>
-            </div>
-            <div class="stack-card-visual">
-              <div class="visual-media-frame">
-                <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
-                  <source src="assets/motion-consent.webm" type="video/webm">
-                </video>
-                <div class="media-live-badge"><span class="pulse-dot cyan"></span><span data-i18n="stack_card2_media">Отчёт отправлен клиентом</span></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3: public summary and its limits -->
-          <div class="stack-card card-theme-purple" id="stack-card-3" style="--stack-index: 2;">
-            <div class="stack-card-content">
-              <span class="stack-badge" data-i18n="stack_card3_tag">Аудит операторов</span>
-              <h3 class="stack-card-title" data-i18n="stack_card3_title">Присланные данные — в понятном виде</h3>
-              <p class="stack-card-desc" data-i18n="stack_card3_desc">Публичная страница показывает доступные агрегаты по полученным отчётам. Она не сверяет показания с биллингом оператора и не измеряет радиоканал.</p>
-              <div class="stack-card-meta">
-                <span class="spec-pill" data-i18n="stack_card3_fact1">География не измеряется</span>
-                <span class="spec-pill" data-i18n="stack_card3_fact2">Счётчик сообщает клиент</span>
-                <span class="spec-pill" data-i18n="stack_card3_fact3">Сверки с биллингом нет</span>
-              </div>
-            </div>
-            <div class="stack-card-visual">
-              <div class="visual-media-frame">
-                <video class="stack-video-cover" autoplay loop muted playsinline preload="none">
-                  <source src="assets/motion-summary.webm" type="video/webm">
-                </video>
-                <div class="media-live-badge"><span class="pulse-dot green"></span><span data-i18n="stack_card3_media">Декоративная иллюстрация</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="report-relay-transition reveal-on-scroll" aria-label="Переход от Android-отчёта к сводке">
-        <div class="relay-endpoint relay-source"><span class="relay-endpoint-led"></span><span>ANDROID</span><small>REPORT</small></div>
-        <svg class="relay-route-art" viewBox="0 0 1200 190" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="relay-route-gradient" x1="0" x2="1">
-              <stop offset="0" stop-color="#35d9f7" stop-opacity=".08" />
-              <stop offset=".5" stop-color="#50e5dc" stop-opacity=".82" />
-              <stop offset="1" stop-color="#ac8cff" stop-opacity=".16" />
-            </linearGradient>
-            <filter id="relay-route-blur" x="-30%" y="-100%" width="160%" height="300%">
-              <feGaussianBlur stdDeviation="5" />
-            </filter>
-          </defs>
-          <path class="relay-route-base" d="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" />
-          <path class="relay-route-glow" d="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" />
-          <path class="relay-route-pulse" d="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" />
-          <g class="relay-route-node relay-node-a" transform="translate(220 86)"><circle r="16" /><circle class="relay-node-core" r="4" /></g>
-          <g class="relay-route-node relay-node-b" transform="translate(740 150)"><circle r="16" /><circle class="relay-node-core" r="4" /></g>
-          <g class="relay-route-node relay-node-c" transform="translate(1038 77)"><circle r="16" /><circle class="relay-node-core" r="4" /></g>
-          <circle class="relay-packet" r="4"><animateMotion dur="4.8s" repeatCount="indefinite" path="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" /></circle>
-          <circle class="relay-packet relay-packet-alt" r="2.5"><animateMotion dur="4.8s" begin="-2.4s" repeatCount="indefinite" path="M 0 125 C 175 125 178 40 360 40 S 555 150 740 150 928 64 1200 64" /></circle>
-        </svg>
-        <div class="relay-endpoint relay-destination"><span class="relay-endpoint-led"></span><span>API</span><small>SUMMARY</small></div>
-        <span class="relay-caption">ONE CONSENTED REPORT · ONE CLEAR PATH</span>
       </section>
 
       <!-- ====================================================================
@@ -1094,13 +985,12 @@
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
   <script src="js/storage.js?v=2.7.0"></script>
-  <script src="js/i18n.js?v=2.9.0"></script>
-  <script src="js/app.js?v=2.8.0"></script>
-  <script src="js/refinements.js?v=2.6.0"></script>
+  <script src="js/i18n.js?v=3.0.0"></script>
+  <script src="js/app.js?v=2.9.0"></script>
+  <script src="js/refinements.js?v=2.7.0"></script>
   <script src="js/home-expansion.js?v=1.0.0"></script>
   <script src="js/experience.js?v=1.0.0"></script>
-  <script src="js/architecture-motion.js?v=1.2.0"></script>
-  <script src="js/xylen-motion.js?v=1.0.0"></script>
+  <script src="js/xylen-motion.js?v=1.1.0"></script>
   <script src="js/navigation-preview.js?v=1.2.0"></script>
 </body>
 </html>

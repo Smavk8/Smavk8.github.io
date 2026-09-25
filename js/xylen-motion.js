@@ -8,7 +8,7 @@
   body.prepend(ambient);
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const videos = Array.from(document.querySelectorAll('.motion-preview-video, .stack-video-cover'));
+  const videos = Array.from(document.querySelectorAll('.motion-preview-video'));
   const videoObserver = new IntersectionObserver(entries => {
     entries.forEach(({ target: video, isIntersecting }) => {
       if (!isIntersecting || document.hidden) {
