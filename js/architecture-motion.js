@@ -55,28 +55,33 @@
 
   function updateJourney() {
     const { runway } = journeyMetrics();
-    const stickyTop = parseFloat(getComputedStyle(cards[0]).top) || 96;
     let index = 0;
-    // offsetTop is browser-dependent for sticky elements. Read the visible top
-    // edge instead so the topmost card changes exactly when it reaches the line.
+    // Each card can use its own sticky line; read its visible edge rather than
+    // offsetTop, which differs across browsers for sticky elements.
     for (let cardIndex = 1; cardIndex < cards.length; cardIndex += 1) {
+      const stickyTop = parseFloat(getComputedStyle(cards[cardIndex]).top) || 96;
       if (cards[cardIndex].getBoundingClientRect().top <= stickyTop + 2) index = cardIndex;
       else break;
     }
     const nextCard = cards[index + 1];
     stage = index;
+    const nextStickyTop = nextCard ? (parseFloat(getComputedStyle(nextCard).top) || 96) : 96;
     stageProgress = nextCard
-      ? clamp(1 - (nextCard.getBoundingClientRect().top - stickyTop) / Math.max(runway, 1), 0, .98)
+      ? clamp(1 - (nextCard.getBoundingClientRect().top - nextStickyTop) / Math.max(runway, 1), 0, .98)
       : 0;
 
+    const stackPosition = stage + stageProgress;
     cards.forEach((card, cardIndex) => {
       const distance = Math.abs((stage + stageProgress) - cardIndex);
       const energy = clamp(1 - distance, 0, 1);
+      const exitProgress = clamp(stackPosition - cardIndex, 0, 1);
+      card.style.setProperty('--stack-lift', `${(-42 * exitProgress).toFixed(2)}px`);
+      card.style.setProperty('--stack-scale', (1 - .04 * exitProgress).toFixed(4));
+      card.style.setProperty('--stack-opacity', (1 - .12 * exitProgress).toFixed(4));
       card.classList.toggle('is-architecture-active', energy >= .5 || (cardIndex === stage && stageProgress < .5));
       card.dataset.architectureState = energy > .6 ? 'active' : energy > .04 ? 'handoff' : 'queued';
-      // Keep the card order fixed while they approach the sticky line. The next
-      // rectangle then travels over its predecessor instead of appearing behind
-      // it and popping above only after reaching the top.
+      // The next card keeps its fixed stack order while its predecessor lifts
+      // smoothly out of the foreground during the hand-off.
     });
   }
 

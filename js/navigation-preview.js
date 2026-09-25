@@ -2,8 +2,8 @@
 (function () {
   const copy = {
     ru: {
-      overview: ['Обзор', 'Архитектура и принцип согласия', '01 / ОБЗОР'],
-      devices: ['Обзор устройств', 'Сводка полученных Android-отчётов', '02 / УСТРОЙСТВА'],
+      overview: ['Главная', 'Архитектура и принцип согласия', '01 / ГЛАВНАЯ'],
+      devices: ['Обзор устройства', 'Сводка полученных Android-отчётов', '02 / УСТРОЙСТВА'],
       traffic: ['Трафик', 'Клиентские мобильные счётчики', '03 / ТРАФИК'],
       releases: ['Релизы', 'Материалы для Android и iOS', '04 / РЕЛИЗЫ'],
       about: ['О платформе', 'Правила данных и доступ владельца', '05 / О ПЛАТФОРМЕ'],
@@ -89,7 +89,7 @@
       preview.classList.add('has-preview-frame');
       window.setTimeout(() => previewFrame.contentWindow?.switchPage?.(pendingPage), 80);
     });
-    const canHover = window.matchMedia('(min-width: 1101px) and (hover: hover) and (pointer: fine)');
+    const canHover = window.matchMedia('(hover: hover) and (pointer: fine)');
     const hide = () => {
       clearTimeout(hideTimer);
       preview.classList.remove('is-open');
@@ -119,10 +119,13 @@
       activeButton.setAttribute('aria-describedby', preview.id);
 
       const rect = button.getBoundingClientRect();
-      const width = Math.min(420, window.innerWidth - 28);
+      const width = Math.min(460, window.innerWidth - 28);
       const left = Math.max(14, Math.min(window.innerWidth - width - 14, rect.left + rect.width / 2 - width / 2));
       preview.style.left = `${left}px`;
-      preview.style.top = `${Math.min(window.innerHeight - 238, Math.max(14, rect.bottom + 12))}px`;
+      preview.style.setProperty('--nav-preview-scale', (width / 1280).toFixed(6));
+      const previewHeight = preview.getBoundingClientRect().height || 268;
+      const maxTop = Math.max(14, window.innerHeight - previewHeight - 14);
+      preview.style.top = `${Math.min(maxTop, Math.max(14, rect.bottom + 12))}px`;
       pendingPage = button.dataset.page;
       previewFrame.title = `${strings.label}: ${item[0]}`;
       if (!previewFrame.src || previewFrame.src === 'about:blank') {

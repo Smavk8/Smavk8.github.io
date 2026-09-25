@@ -9,7 +9,7 @@ const I18N_STORAGE_KEY = 'xylen_selected_language_v4';
 const TRANSLATIONS = {
   ru: {
     // Navigation
-    nav_overview: "Главное",
+    nav_overview: "Главная",
     nav_devices: "Обзор устройства",
     nav_traffic: "Трафик",
     nav_releases: "Релизы",
