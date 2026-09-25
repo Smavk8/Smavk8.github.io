@@ -15,6 +15,15 @@ const TRANSLATIONS = {
     nav_releases: "Релизы",
     nav_about: "О платформе",
     nav_privacy: "Конфиденциальность",
+    nav_sim_center: "SIM-Центр",
+    nav_auto_download: "Авто Скачивание",
+    nav_today_traffic: "Расход сегодня",
+    nav_usage_history: "История расхода",
+    nav_sim_override: "Переопределение SIM",
+    nav_app_settings: "Настройки",
+    nav_support_app: "Поддержать разработчика",
+    nav_web_downloads: "Загрузки приложений",
+    nav_web_about: "О платформе и конфиденциальность",
     interlude_kicker: "ПРИНЦИП ПЕРЕДАЧИ · 01",
     interlude_title_lead: "Сначала —",
     interlude_title_focus: "согласие.",
@@ -26,10 +35,90 @@ const TRANSLATIONS = {
     manager_btn: "Менеджер",
     menu_btn: "Меню",
     btn_pair_quick: "Подключить",
+    theme_switch_to_light: "Светлая тема",
+    theme_switch_to_dark: "Тёмная тема",
+    app_shell_name: "SIM-ПЛАТФОРМА",
+    app_navigation: "ОСНОВНЫЕ РАЗДЕЛЫ",
+    app_web_tools: "ВЕБ-ПОРТАЛ",
+    drawer_open: "Открыть меню",
+    drawer_owner_login: "ВХОД ВЛАДЕЛЬЦА",
+    drawer_web_note: "ВЕБ-БРАУЗЕР",
+    drawer_web_readonly: "Данные SIM доступны только из отчётов",
+    home_sim_slots: "SIM-карты",
+    home_sim_slot_1: "SIM 1",
+    home_sim_slot_2: "SIM 2",
+    home_sim_selected: "ВЫБРАННАЯ SIM",
+    home_sim_data_boundary: "Сайт не читает SIM и радио с этого устройства. Здесь отображаются только поля, которые Android-клиент передал после согласия; ICCID, IMSI и параметры сигнала в веб-аудит не отправляются.",
+    drawer_close: "Закрыть меню",
+    history_description: "Сводка мобильных отчётов и счётчиков Android. Подробная история действий доступна владельцу после входа.",
+    history_owner_link: "Подробный журнал",
+    home_eyebrow: "МОНИТОРИНГ УСТРОЙСТВ",
+    home_title: "SIM-Центр",
+    home_subtitle: "Сводка отчётов Android и сотовых счётчиков.",
+    home_status_label: "Состояние Android-отчётов",
+    home_status_loading: "Загрузка серверной сводки…",
+    home_last_report: "Последний отчёт:",
+    home_metrics_label: "Сводные показатели",
+    home_quick_actions: "Быстрый переход",
+    home_metric_devices: "Устройства",
+    home_metric_devices_hint: "передавали отчёты",
+    home_metric_active: "Активны",
+    home_metric_active_hint: "за последние 75 секунд",
+    home_metric_traffic: "Сотовый расход",
+    home_metric_traffic_hint: "за день · по отчётам",
+    home_metric_speed: "Скорость SIM",
+    home_speed_unavailable: "Не передаётся",
+    home_metric_speed_hint: "сайт не измеряет радио",
+    home_data_boundary: "Показываются только данные, которые Android отправил после согласия. Браузер не читает SIM-карты и радиопараметры.",
+    refresh_data: "Обновить сводку",
+    auto_eyebrow: "МОБИЛЬНАЯ СЕССИЯ",
+    auto_subtitle: "Управление фоновой сессией сотовой загрузки из Android-приложения.",
+    auto_status_label: "Состояние сессии",
+    auto_status_unavailable: "Требуется Android",
+    auto_status_title: "Автоскачивание работает на телефоне",
+    auto_status_description: "Сессия использует системные SIM-счётчики, фоновые службы и состояние батареи. Веб-страница не может запустить её или управлять ею.",
+    auto_metric_network: "Сеть",
+    auto_metric_network_value: "Только на устройстве",
+    auto_metric_goal: "Цель сессии",
+    auto_metric_goal_value: "Настраивается в приложении",
+    auto_metric_thermal: "Контроль нагрева",
+    auto_metric_thermal_value: "Доступен в Android",
+    auto_open_downloads: "Открыть загрузки Android",
+    auto_history_title: "История сессий",
+    auto_history_note: "Публичная веб-сводка не получает состояние загрузки, цель сессии или температуру батареи. Подробные отчёты доступны владельцу, если Android отправил соответствующие данные.",
+    auto_owner_link: "Открыть консоль владельца",
+    sim_config_eyebrow: "ПРОФИЛИ УСТРОЙСТВА",
+    sim_config_subtitle: "SIM и eSIM профили, которые сообщил Android-клиент.",
+    sim_config_readonly: "Доступ только для чтения",
+    sim_config_boundary: "Переопределения оператора и привязка проекта хранятся на Android-устройстве. Веб-портал не меняет настройки SIM.",
+    sim_config_locked: "Подробные SIM-профили доступны владельцу после входа через Cloudflare Access.",
+    sim_config_owner_link: "Войти как владелец",
+    settings_eyebrow: "ПАРАМЕТРЫ ИНТЕРФЕЙСА",
+    settings_subtitle: "Настройте внешний вид веб-портала.",
+    settings_appearance: "ВНЕШНИЙ ВИД",
+    settings_theme: "Тема",
+    settings_theme_description: "Переключение между светлой и тёмной темой.",
+    settings_theme_action: "Изменить",
+    settings_amoled: "AMOLED-тема",
+    settings_amoled_description: "Чёрный фон для тёмной темы браузера.",
+    settings_language: "Язык интерфейса",
+    settings_language_description: "Русский, узбекский или английский.",
+    settings_scale: "Масштаб интерфейса",
+    settings_scale_description: "Размер текста и основных элементов управления.",
+    settings_motion: "Уменьшить анимацию",
+    settings_motion_description: "Сократить движение и декоративные эффекты.",
+    settings_device_title: "НАСТРОЙКИ УСТРОЙСТВА",
+    settings_device_note: "Разрешения SIM, фоновые ограничения, автозапуск и защита батареи управляются только в Android-приложении и системных настройках телефона.",
+    support_eyebrow: "ПОДДЕРЖКА ПРОЕКТА",
+    support_intro: "Спасибо, что пользуетесь Xylen Sim Platform. Ваша поддержка помогает проекту развиваться.",
+    support_options: "Способы поддержки",
+    support_copy: "Скопировать номер для перевода",
+    support_copy_note: "Номер копируется только после нажатия кнопки. Платёжная операция на сайте не выполняется.",
+    support_copy_failed: "Не удалось скопировать. Выделите номер вручную.",
 
     // Overview Hero
     hero_badge: "Реальная сотовая телеметрия • Ядро связи v5.2",
-    overview_hero_title: "Silent Motion",
+    overview_hero_title: "Тихое движение",
     overview_hero_sub: "Независимый инженерный комплекс аппаратного контроля сотового радиоканала, проверки активных SIM-слотов и сквозного аудита мобильного трафика. Прямой доступ к параметрам радиомодема без посредников и эмуляций.",
     btn_hero_connect: "Мониторинг радиоэфира",
     btn_hero_releases: "Центр загрузки клиентов",
@@ -90,9 +179,9 @@ const TRANSLATIONS = {
     devices_pair_token_label: "Локальный ключ сопряжения:",
     devices_listening_status: "Ожидается отчёт Android, отправленный после согласия пользователя.",
     devices_connected_sims: "Профили SIM из последнего отчёта:",
-    devices_status_online: "Online (В эфире)",
-    devices_status_offline: "Offline",
-    devices_btn_inspect: "Инспектор телеметрии ➔",
+    devices_status_online: "Недавно передавал отчёт",
+    devices_status_offline: "Нет недавнего отчёта",
+    devices_btn_inspect: "Открыть отчёт ➔",
     devices_btn_clear_all: "Очистить список устройств",
 
     // Traffic Section
@@ -196,6 +285,15 @@ const TRANSLATIONS = {
     nav_releases: "Relizlar",
     nav_about: "Platforma haqida",
     nav_privacy: "Maxfiylik va qonuniylik",
+    nav_sim_center: "SIM-markaz",
+    nav_auto_download: "Avtomatik yuklash",
+    nav_today_traffic: "Bugungi sarf",
+    nav_usage_history: "Sarf tarixi",
+    nav_sim_override: "SIM sozlamalarini almashtirish",
+    nav_app_settings: "Sozlamalar",
+    nav_support_app: "Dasturchini qo‘llab-quvvatlash",
+    nav_web_downloads: "Ilovalarni yuklab olish",
+    nav_web_about: "Platforma va maxfiylik haqida",
     interlude_kicker: "UZATISH TAMOYILI · 01",
     interlude_title_lead: "Avval —",
     interlude_title_focus: "rozilik.",
@@ -207,10 +305,90 @@ const TRANSLATIONS = {
     manager_btn: "Menejer",
     menu_btn: "Menyu",
     btn_pair_quick: "Ulash",
+    theme_switch_to_light: "Yorug‘ mavzu",
+    theme_switch_to_dark: "Qorong‘i mavzu",
+    app_shell_name: "SIM platformasi",
+    app_navigation: "ASOSIY BO‘LIMLAR",
+    app_web_tools: "VEB-PORTAL",
+    drawer_open: "Menyuni ochish",
+    drawer_owner_login: "EGA SIFATIDA KIRISH",
+    drawer_web_note: "VEB-BRAUZER",
+    drawer_web_readonly: "SIM ma’lumotlari faqat hisobotlardan olinadi",
+    home_sim_slots: "SIM kartalar",
+    home_sim_slot_1: "SIM 1",
+    home_sim_slot_2: "SIM 2",
+    home_sim_selected: "TANLANGAN SIM",
+    home_sim_data_boundary: "Sayt bu qurilmadagi SIM yoki radioni o‘qimaydi. Bu yerda faqat Android mijozi rozilikdan so‘ng yuborgan maydonlar ko‘rsatiladi; ICCID, IMSI va signal parametrlari veb auditga yuborilmaydi.",
+    drawer_close: "Menyuni yopish",
+    history_description: "Android mobil hisobotlari va hisoblagichlari jamlanmasi. Batafsil amallar tarixi egaga kirgandan so‘ng ko‘rinadi.",
+    history_owner_link: "Batafsil jurnal",
+    home_eyebrow: "QURILMALAR MONITORINGI",
+    home_title: "SIM-markaz",
+    home_subtitle: "Android hisobotlari va mobil hisoblagichlar jamlanmasi.",
+    home_status_label: "Android hisobotlari holati",
+    home_status_loading: "Server jamlanmasi yuklanmoqda…",
+    home_last_report: "Oxirgi hisobot:",
+    home_metrics_label: "Umumiy ko‘rsatkichlar",
+    home_quick_actions: "Tezkor o‘tish",
+    home_metric_devices: "Qurilmalar",
+    home_metric_devices_hint: "hisobot yuborgan",
+    home_metric_active: "Faol",
+    home_metric_active_hint: "so‘nggi 75 soniyada",
+    home_metric_traffic: "Mobil sarf",
+    home_metric_traffic_hint: "kunlik · hisobotlar bo‘yicha",
+    home_metric_speed: "SIM tezligi",
+    home_speed_unavailable: "Yuborilmaydi",
+    home_metric_speed_hint: "sayt radioaloqani o‘lchamaydi",
+    home_data_boundary: "Faqat Android rozilikdan so‘ng yuborgan ma’lumot ko‘rsatiladi. Brauzer SIM-kartalar yoki radio parametrlarini o‘qimaydi.",
+    refresh_data: "Jamlanmani yangilash",
+    auto_eyebrow: "MOBIL SESSIYA",
+    auto_subtitle: "Android ilovasidagi mobil internetni fonda yuklash sessiyasini boshqarish.",
+    auto_status_label: "Sessiya holati",
+    auto_status_unavailable: "Android kerak",
+    auto_status_title: "Avtomatik yuklash telefonda ishlaydi",
+    auto_status_description: "Sessiya tizim SIM hisoblagichlari, fon xizmatlari va batareya holatidan foydalanadi. Veb-sahifa uni boshlay yoki boshqara olmaydi.",
+    auto_metric_network: "Tarmoq",
+    auto_metric_network_value: "Faqat qurilmada",
+    auto_metric_goal: "Sessiya maqsadi",
+    auto_metric_goal_value: "Ilovada sozlanadi",
+    auto_metric_thermal: "Qizishni nazorat qilish",
+    auto_metric_thermal_value: "Androidda mavjud",
+    auto_open_downloads: "Android yuklamalarini ochish",
+    auto_history_title: "Sessiyalar tarixi",
+    auto_history_note: "Ochiq veb jamlanmasi yuklash holati, sessiya maqsadi yoki batareya haroratini olmaydi. Android yuborgan batafsil hisobotlar egaga ko‘rinadi.",
+    auto_owner_link: "Ega konsolini ochish",
+    sim_config_eyebrow: "QURILMA PROFILLARI",
+    sim_config_subtitle: "Android mijoz xabar qilgan SIM va eSIM profillari.",
+    sim_config_readonly: "Faqat ko‘rish",
+    sim_config_boundary: "Operatorni almashtirish va loyiha biriktirish Android qurilmasida saqlanadi. Veb-portal SIM sozlamalarini o‘zgartirmaydi.",
+    sim_config_locked: "Batafsil SIM profillari Cloudflare Access orqali kirgandan keyin egaga ko‘rinadi.",
+    sim_config_owner_link: "Ega sifatida kirish",
+    settings_eyebrow: "INTERFEYS PARAMETRLARI",
+    settings_subtitle: "Veb-portal ko‘rinishini sozlang.",
+    settings_appearance: "TASHQI KO‘RINISH",
+    settings_theme: "Mavzu",
+    settings_theme_description: "Yorug‘ yoki qorong‘i mavzuga o‘tish.",
+    settings_theme_action: "O‘zgartirish",
+    settings_amoled: "AMOLED mavzu",
+    settings_amoled_description: "Brauzerning qorong‘i mavzusi uchun qora fon.",
+    settings_language: "Interfeys tili",
+    settings_language_description: "Ruscha, o‘zbekcha yoki inglizcha.",
+    settings_scale: "Interfeys masshtabi",
+    settings_scale_description: "Matn va asosiy boshqaruv elementlari o‘lchami.",
+    settings_motion: "Animatsiyani kamaytirish",
+    settings_motion_description: "Harakat va bezak effektlarini kamaytirish.",
+    settings_device_title: "QURILMA SOZLAMALARI",
+    settings_device_note: "SIM ruxsatlari, fon cheklovlari, avtomatik ishga tushish va batareya himoyasi faqat Android ilovasi va telefon tizim sozlamalarida boshqariladi.",
+    support_eyebrow: "LOYIHANI QO‘LLAB-QUVVATLASH",
+    support_intro: "Xylen Sim Platform’dan foydalanayotganingiz uchun rahmat. Qo‘llab-quvvatlashingiz loyihani rivojlantirishga yordam beradi.",
+    support_options: "Qo‘llab-quvvatlash usullari",
+    support_copy: "O‘tkazma raqamini nusxalash",
+    support_copy_note: "Raqam faqat tugma bosilganda nusxalanadi. Sayt orqali to‘lov amalga oshirilmaydi.",
+    support_copy_failed: "Nusxalab bo‘lmadi. Raqamni qo‘lda belgilang.",
 
     // Overview Hero
     hero_badge: "Haqiqiy mobil telemetriya • Aloqa yadrosi v5.2",
-    overview_hero_title: "Silent Motion",
+    overview_hero_title: "Jimjit harakat",
     overview_hero_sub: "Radiokanal parametrlarini aniqlash, faol SIM-slotlarni tekshirish va mobil internet sarfini to'liq audit qilish mustaqil muhandislik platformasi. Radiomodem parametrlariga vositachilarsiz to'g'ridan-to'g'ri kirish.",
     btn_hero_connect: "Radioefir monitoringi",
     btn_hero_releases: "Mijozlarni yuklab olish",
@@ -272,9 +450,9 @@ const TRANSLATIONS = {
     devices_pair_token_label: "Mahalliy ulash kaliti:",
     devices_listening_status: "Foydalanuvchi roziligidan keyin yuborilgan Android hisoboti kutilmoqda.",
     devices_connected_sims: "Oxirgi hisobotdagi SIM profillari:",
-    devices_status_online: "Online (Efirda)",
-    devices_status_offline: "Offline",
-    devices_btn_inspect: "Telemetriya inspektori ➔",
+    devices_status_online: "Yaqinda hisobot yuborgan",
+    devices_status_offline: "Yaqinda hisobot yo‘q",
+    devices_btn_inspect: "Hisobotni ko‘rish ➔",
     devices_btn_clear_all: "Qurilmalar ro'yxatini tozalash",
 
     // Traffic Section
@@ -378,6 +556,15 @@ const TRANSLATIONS = {
     nav_releases: "Releases",
     nav_about: "About the platform",
     nav_privacy: "Privacy & Legal",
+    nav_sim_center: "SIM Center",
+    nav_auto_download: "Auto Download",
+    nav_today_traffic: "Today's Usage",
+    nav_usage_history: "Usage History",
+    nav_sim_override: "SIM Overrides",
+    nav_app_settings: "Settings",
+    nav_support_app: "Support the Developer",
+    nav_web_downloads: "App Downloads",
+    nav_web_about: "About and Privacy",
     interlude_kicker: "TRANSMISSION PRINCIPLE · 01",
     interlude_title_lead: "First,",
     interlude_title_focus: "consent.",
@@ -389,6 +576,86 @@ const TRANSLATIONS = {
     manager_btn: "Manager",
     menu_btn: "Menu",
     btn_pair_quick: "Pair Device",
+    theme_switch_to_light: "Light theme",
+    theme_switch_to_dark: "Dark theme",
+    app_shell_name: "SIM PLATFORM",
+    app_navigation: "MAIN SECTIONS",
+    app_web_tools: "WEB PORTAL",
+    drawer_open: "Open menu",
+    drawer_owner_login: "OWNER SIGN IN",
+    drawer_web_note: "WEB BROWSER",
+    drawer_web_readonly: "SIM data is available from reports only",
+    home_sim_slots: "SIM cards",
+    home_sim_slot_1: "SIM 1",
+    home_sim_slot_2: "SIM 2",
+    home_sim_selected: "SELECTED SIM",
+    home_sim_data_boundary: "This site cannot read the SIM or radio on this device. It shows only fields sent by the Android client after consent; ICCID, IMSI, and signal measurements are not sent to the web audit.",
+    drawer_close: "Close menu",
+    history_description: "A summary of Android reports and counters. Detailed activity history is available to the owner after sign-in.",
+    history_owner_link: "Detailed activity log",
+    home_eyebrow: "DEVICE MONITORING",
+    home_title: "SIM Center",
+    home_subtitle: "Android reports and cellular counters at a glance.",
+    home_status_label: "Android report status",
+    home_status_loading: "Loading server summary…",
+    home_last_report: "Last report:",
+    home_metrics_label: "Summary metrics",
+    home_quick_actions: "Quick access",
+    home_metric_devices: "Devices",
+    home_metric_devices_hint: "have sent reports",
+    home_metric_active: "Active",
+    home_metric_active_hint: "in the last 75 seconds",
+    home_metric_traffic: "Cellular usage",
+    home_metric_traffic_hint: "today · reported counters",
+    home_metric_speed: "SIM speed",
+    home_speed_unavailable: "Not reported",
+    home_metric_speed_hint: "the site does not measure radio",
+    home_data_boundary: "Only data Android sent after consent is shown. This browser cannot read SIM cards or radio measurements.",
+    refresh_data: "Refresh summary",
+    auto_eyebrow: "MOBILE SESSION",
+    auto_subtitle: "Manage a background cellular download session in the Android app.",
+    auto_status_label: "Session status",
+    auto_status_unavailable: "Android required",
+    auto_status_title: "Auto download runs on the phone",
+    auto_status_description: "The session uses system SIM counters, background services, and battery state. A web page cannot start or control it.",
+    auto_metric_network: "Network",
+    auto_metric_network_value: "On device only",
+    auto_metric_goal: "Session target",
+    auto_metric_goal_value: "Set in the app",
+    auto_metric_thermal: "Thermal guard",
+    auto_metric_thermal_value: "Available on Android",
+    auto_open_downloads: "Open Android downloads",
+    auto_history_title: "Session history",
+    auto_history_note: "The public web summary does not receive download state, a session target, or battery temperature. Detailed reports are owner-only when Android sends those fields.",
+    auto_owner_link: "Open owner console",
+    sim_config_eyebrow: "DEVICE PROFILES",
+    sim_config_subtitle: "SIM and eSIM profiles reported by the Android client.",
+    sim_config_readonly: "Read only",
+    sim_config_boundary: "Carrier overrides and project assignment are stored on the Android device. The web portal cannot change SIM settings.",
+    sim_config_locked: "Detailed SIM profiles are available to the owner after Cloudflare Access sign-in.",
+    sim_config_owner_link: "Sign in as owner",
+    settings_eyebrow: "INTERFACE OPTIONS",
+    settings_subtitle: "Adjust the appearance of this web portal.",
+    settings_appearance: "APPEARANCE",
+    settings_theme: "Theme",
+    settings_theme_description: "Switch between light and dark themes.",
+    settings_theme_action: "Change",
+    settings_amoled: "AMOLED theme",
+    settings_amoled_description: "Black background for the browser dark theme.",
+    settings_language: "Interface language",
+    settings_language_description: "Russian, Uzbek, or English.",
+    settings_scale: "Interface scale",
+    settings_scale_description: "Text and primary control size.",
+    settings_motion: "Reduce motion",
+    settings_motion_description: "Limit movement and decorative effects.",
+    settings_device_title: "DEVICE SETTINGS",
+    settings_device_note: "SIM permissions, background limits, auto-start, and battery protection are managed in the Android app and phone settings.",
+    support_eyebrow: "PROJECT SUPPORT",
+    support_intro: "Thank you for using Xylen Sim Platform. Your support helps the project continue to grow.",
+    support_options: "Ways to support",
+    support_copy: "Copy transfer number",
+    support_copy_note: "The number is copied only after you press the button. No payment is processed on this website.",
+    support_copy_failed: "Could not copy. Select the number manually.",
 
     // Overview Hero
     hero_badge: "Real Cellular Telemetry • Network Core v5.2",
@@ -454,9 +721,9 @@ const TRANSLATIONS = {
     devices_pair_token_label: "Local pairing key:",
     devices_listening_status: "Waiting for an Android report sent with the user’s consent.",
     devices_connected_sims: "SIM profiles in the latest report:",
-    devices_status_online: "Online (On Air)",
-    devices_status_offline: "Offline",
-    devices_btn_inspect: "Telemetry Inspector ➔",
+    devices_status_online: "Recently reported",
+    devices_status_offline: "No recent report",
+    devices_btn_inspect: "View report ➔",
     devices_btn_clear_all: "Clear Device List",
 
     // Traffic Section
@@ -553,9 +820,256 @@ const TRANSLATIONS = {
   }
 };
 
+/* Exact-copy fallback for legacy markup and content created after the first render.
+   Values are ordered RU, EN, UZ so translated labels survive page rerenders too. */
+const INLINE_COPY = [
+  ['Платформа Xylen • Сводка мобильных отчётов', 'Xylen Platform • Mobile report summary', 'Xylen platformasi • Mobil hisobotlar jamlanmasi'],
+  ['Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения.', 'Xylen Platform: a summary of Android client reports, network counters, and app activity logs.', 'Xylen Platform: Android mijoz hisobotlari, tarmoq hisoblagichlari va ilova hodisalari jurnali jamlanmasi.'],
+  ['Настройки', 'Settings', 'Sozlamalar'],
+  ['Язык интерфейса', 'Interface language', 'Interfeys tili'],
+  ['Режим оформления', 'Appearance', 'Ko‘rinish'],
+  ['Тёмная тема', 'Dark theme', 'Qorong‘i mavzu'],
+  ['Светлая тема', 'Light theme', 'Yorug‘ mavzu'],
+  ['Меню сайта', 'Site menu', 'Sayt menyusi'],
+  ['Закрыть меню', 'Close menu', 'Menyuni yopish'],
+  ['Язык интерфейса', 'Interface language', 'Interfeys tili'],
+  ['Разделы Xylen Workspace', 'Xylen Workspace sections', 'Xylen Workspace bo‘limlari'],
+  ['Меню, языки и тема', 'Menu, language, and theme', 'Menyu, til va mavzu'],
+  ['Открыть меню', 'Open menu', 'Menyuni ochish'],
+  ['Предпросмотр страницы', 'Page preview', 'Sahifa ko‘rinishi'],
+  ['Путь отчёта', 'Report path', 'Hisobot yo‘li'],
+  ['Назад', 'Previous', 'Oldingi'],
+  ['Вперед', 'Next', 'Keyingi'],
+  ['Обновить сейчас', 'Refresh now', 'Hozir yangilash'],
+  ['Наверх', 'Back to top', 'Yuqoriga'],
+  ['Xylen Workspace • Наверх', 'Xylen Workspace • Back to top', 'Xylen Workspace • Yuqoriga'],
+  ['Xylen Monogram', 'Xylen monogram', 'Xylen monogrammasi'],
+  ['Xylen Management', 'Xylen Management', 'Xylen boshqaruv tizimi'],
+  ['Радиомодем Android', 'Android radio modem', 'Android radio modemi'],
+  ['Прямой съём с радиочипа', 'Direct radio-chip readings', 'Radiochipdan to‘g‘ridan-to‘g‘ri ko‘rsatkichlar'],
+  ['Сайт получает от Android разрешённые операторские сведения и сотовые счётчики, но не параметры сигнала или вышки.', 'The site receives carrier details and cellular counters reported by Android, but no signal or cell-tower measurements.', 'Sayt Android yuborgan operator ma’lumotlari va mobil hisoblagichlarni oladi, ammo signal yoki baza stansiyasi o‘lchovlarini olmaydi.'],
+  ['Отчёт клиента', 'Client report', 'Mijoz hisoboti'],
+  ['События приложения', 'App events', 'Ilova hodisalari'],
+  ['После согласия Android отправляет события и счётчики в JSON-отчётах.', 'After consent, Android sends events and counters in JSON reports.', 'Rozilikdan so‘ng Android hodisalar va hisoblagichlarni JSON hisobotlarida yuboradi.'],
+  ['Billing Guard', 'Access control', 'Kirish nazorati'],
+  ['Подробные отчёты доступны владельцу после проверки Cloudflare Access.', 'Detailed reports are available to the owner after Cloudflare Access verification.', 'Batafsil hisobotlar Cloudflare Access tekshiruvidan keyin egasiga ochiladi.'],
+  ['Локальный журнал', 'On-device log', 'Qurilmadagi jurnal'],
+  ['Журнал iOS', 'iOS activity log', 'iOS hodisalar jurnali'],
+  ['Изученный исходный код iOS хранит журнал на устройстве и не отправляет его в веб API.', 'The reviewed iOS source keeps the activity log on-device and does not send it to the web API.', 'Ko‘rib chiqilgan iOS manba kodi jurnalni qurilmada saqlaydi va veb APIga yubormaydi.'],
+  ['ШАГ СОГЛАСИЯ', 'CONSENT GATE', 'ROZILIK BOSQICHI'],
+  ['СОГЛАСИЕ ПОЛЬЗОВАТЕЛЯ', 'USER CONSENT', 'FOYDALANUVCHI ROZILIGI'],
+  ['TRANSMISSION READY', 'READY TO SEND', 'YUBORISHGA TAYYOR'],
+  ['ANDROID REPORT', 'ANDROID REPORT', 'ANDROID HISOBOTI'],
+  ['REPORT / JSON', 'REPORT / JSON', 'HISOBOT / JSON'],
+  ['СОБЫТИЕ КЛИЕНТА', 'CLIENT EVENT', 'MIJOZ HODISASI'],
+  ['СОБЫТИЕ', 'EVENT', 'HODISA'],
+  ['COUNTERS', 'COUNTERS', 'HISOBLAGICHLAR'],
+  ['WEB API', 'WEB API', 'VEB API'],
+  ['ПОЛУЧЕНО', 'RECEIVED', 'QABUL QILINDI'],
+  ['ОТКРЫТАЯ СВОДКА', 'PUBLIC SUMMARY', 'OCHIQ JAMLAMA'],
+  ['AGGREGATE VIEW', 'AGGREGATE VIEW', 'UMUMIY KO‘RINISH'],
+  ['ТОЛЬКО НА УСТРОЙСТВЕ', 'ON-DEVICE ONLY', 'FAQAT QURILMADA'],
+  ['ЛОКАЛЬНЫЙ ЖУРНАЛ СОБЫТИЙ', 'LOCAL ACTIVITY LOG', 'MAHALLIY HODISALAR JURNALI'],
+  ['НА ЭТОМ УСТРОЙСТВЕ', 'ON THIS DEVICE', 'USHBU QURILMADA'],
+  ['Ключевые показатели сотовой телеметрии', 'Cellular report summary', 'Mobil tarmoq hisoboti jamlanmasi'],
+  ['↻ Видео-схема · цикл', '↻ Animated video · loop', '↻ Animatsion video · takror'],
+  ['01 • Согласие', '01 • Consent', '01 • Rozilik'],
+  ['02 • Отчёт', '02 • Report', '02 • Hisobot'],
+  ['03 • Сводка', '03 • Summary', '03 • Jamlanma'],
+  ['04 • Доступ', '04 • Access', '04 • Kirish'],
+  ['05 • iOS', '05 • iOS', '05 • iOS'],
+  ['ШЛЮЗ СИНХРОНИЗАЦИИ АКТИВЕН', 'SYNC GATEWAY ACTIVE', 'SINXRONLASH SHLYUZI FAOL'],
+  ['🔄 Обновить', '🔄 Refresh', '🔄 Yangilash'],
+  ['Всего тестировщиков', 'Total testers', 'Jami sinovchilar'],
+  ['Сейчас в сети', 'Online now', 'Hozir onlayn'],
+  ['Израсходовано за сегодня', 'Used today', 'Bugun sarflangan'],
+  ['0 МБ', '0 MB', '0 MB'],
+  ['Зафиксировано действий', 'Actions recorded', 'Qayd etilgan amallar'],
+  ['Тестировщики приложения (Кто где находится и что использует)', 'App testers (where they are and what they use)', 'Ilova sinovchilari (joylashuvi va ishlatayotgan funksiyalari)'],
+  ['Хронология действий (Кто куда заходит)', 'Activity timeline (where users go)', 'Amallar tarixi (foydalanuvchi kirgan bo‘limlar)'],
+  ['LIVE STREAM', 'LIVE STREAM', 'JONLI OQIM'],
+  ['Расход трафика по пользователям', 'Traffic usage by user', 'Foydalanuvchilar bo‘yicha trafik sarfi'],
+  ['МОБИЛЬНЫЕ ДАННЫЕ', 'CELLULAR DATA', 'MOBIL TARMOQ MA’LUMOTLARI'],
+  ['Live Telemetry Waveform', 'Live report waveform', 'Jonli hisobot to‘lqini'],
+  ['0.0 МБ', '0.0 MB', '0.0 MB'],
+  ['🛡️ БИЛЛИНГ И БЕЗОПАСНОСТЬ', '🛡️ ACCESS AND DATA SAFETY', '🛡️ KIRISH VA MA’LUMOTLAR XAVFSIZLIGI'],
+  ['Версия v5.3 (Сборка 29)', 'Version v5.3 (Build 29)', 'v5.3 versiya (29-yig‘ilma)'],
+  ['Расход батареи <0.1%', 'Battery use <0.1%', 'Batareya sarfi <0.1%'],
+  ['Показать QR-код для установки', 'Show installation QR code', 'O‘rnatish QR kodini ko‘rsatish'],
+  ['Версия v5.2 (Сборка 28)', 'Version v5.2 (Build 28)', 'v5.2 versiya (28-yig‘ilma)'],
+  ['Шаг 1', 'Step 1', '1-qadam'],
+  ['Шаг 2', 'Step 2', '2-qadam'],
+  ['Шаг 3', 'Step 3', '3-qadam'],
+  ['Шаг 4', 'Step 4', '4-qadam'],
+  ['О платформе', 'About the platform', 'Platforma haqida'],
+  ['Назначение платформы', 'Platform purpose', 'Platformaning vazifasi'],
+  ['Панель помогает владельцу увидеть зарегистрированные Android-устройства, недавние отчёты, дневные счётчики и действия, сообщённые приложением. Публичная часть показывает только агрегированные сведения.', 'The console helps the owner review registered Android devices, recent reports, daily counters, and app-reported actions. The public view shows aggregate information only.', 'Panel egasiga ro‘yxatdan o‘tgan Android qurilmalari, so‘nggi hisobotlar, kunlik hisoblagichlar va ilova yuborgan amallarni ko‘rishga yordam beradi. Ochiq qism faqat umumiy ma’lumotni ko‘rsatadi.'],
+  ['Как устроен обмен данными', 'How data is exchanged', 'Ma’lumot almashinuvi qanday ishlaydi'],
+  ['После согласия Android отправляет JSON-отчёт в /api/audit по HTTPS. Cloudflare Pages Function принимает его; постоянное хранение использует настроенный KV binding. Подробные записи доступны после проверки Cloudflare Access и email владельца.', 'After consent, Android sends a JSON report to /api/audit over HTTPS. A Cloudflare Pages Function receives it; persistent storage uses the configured KV binding. Detailed records require Cloudflare Access verification and the owner email.', 'Rozilikdan so‘ng Android HTTPS orqali /api/audit manziliga JSON hisobot yuboradi. Uni Cloudflare Pages Function qabul qiladi; doimiy saqlash sozlangan KV bindingdan foydalanadi. Batafsil yozuvlar Cloudflare Access va egasining emaili tekshirilgandan keyin ochiladi.'],
+  ['Границы возможностей', 'Platform boundaries', 'Platforma imkoniyatlari chegaralari'],
+  ['Сайт показывает значения, сообщённые клиентом, и не проверяет их независимо. Он не измеряет скорость радио в реальном времени и не получает данные о вышках. Изученный исходный код iOS хранит журнал локально и не отправляет его в этот веб API.', 'The site displays client-reported values and does not verify them independently. It does not measure live radio speed or receive cell-tower data. The reviewed iOS source stores its log locally and does not send it to this web API.', 'Sayt mijoz yuborgan qiymatlarni ko‘rsatadi va ularni mustaqil tekshirmaydi. U radio tezligini jonli o‘lchamaydi yoki baza stansiyasi ma’lumotlarini olmaydi. Ko‘rib chiqilgan iOS kodi jurnalni mahalliy saqlaydi va ushbu veb APIga yubormaydi.'],
+  ['Здесь описан поток данных в изученных версиях сайта и мобильных клиентов. Это техническая информация, а не юридическое заключение; оператор должен определить применимые требования и основания обработки.', 'This describes the data flow in the reviewed website and mobile-client versions. It is technical information, not legal advice; the operator must determine applicable requirements and processing grounds.', 'Bu yerda sayt va mobil mijozlarning ko‘rib chiqilgan versiyalaridagi ma’lumot oqimi tasvirlangan. Bu texnik ma’lumot, yuridik xulosa emas; operator tegishli talablar va qayta ishlash asoslarini belgilashi kerak.'],
+  ['Данные Android-отчёта', 'Android report data', 'Android hisoboti ma’lumotlari'],
+  ['После согласия Android отправляет ID установки, модель, имя тестировщика, экран, действие и детали, оператора, дневные и сессионные счётчики, а также сведения об активных или использованных сегодня SIM-профилях. Значения сообщает клиент, сервер не проверяет их независимо.', 'After consent, Android sends an installation ID, model, tester name, screen, action and details, carrier, daily and session counters, and details of SIM profiles active or used today. The client reports these values; the server does not verify them independently.', 'Rozilikdan so‘ng Android o‘rnatish IDsi, model, sinovchi nomi, ekran, amal va tafsilotlar, operator, kunlik va seans hisoblagichlari, shuningdek faol yoki bugun ishlatilgan SIM profillari haqidagi ma’lumotlarni yuboradi. Qiymatlarni mijoz yuboradi, server mustaqil tekshirmaydi.'],
+  ['Что не передаётся в веб-аудит', 'What web audit does not receive', 'Veb auditga nimalar yuborilmaydi'],
+  ['Веб audit API не получает номера телефона, ICCID, IMSI, идентификаторы вышек или измерения радиосигнала. Изученный код iOS хранит журнал на устройстве. Отдельный Android portal API может передавать данные на другой сервис при настройке.', 'The web audit API does not receive phone numbers, ICCID, IMSI, cell IDs, or radio measurements. The reviewed iOS code keeps its log on-device. A separate Android portal API may send data to another service when configured.', 'Veb audit API telefon raqami, ICCID, IMSI, baza stansiyasi IDlari yoki radio o‘lchovlarini olmaydi. Ko‘rib chiqilgan iOS kodi jurnalni qurilmada saqlaydi. Alohida Android portal API sozlangan bo‘lsa, boshqa xizmatga ma’lumot yuborishi mumkin.'],
+  ['Назначение и доступ', 'Purpose and access', 'Maqsad va kirish'],
+  ['Публичный endpoint возвращает агрегированные числа и сотовые счётчики. Подробные записи требуют проверки Cloudflare Access и соответствия email владельца.', 'The public endpoint returns aggregate counts and cellular counters. Detailed records require Cloudflare Access verification and a matching owner email.', 'Ochiq endpoint umumiy sonlar va mobil hisoblagichlarni qaytaradi. Batafsil yozuvlar uchun Cloudflare Access tekshiruvi va egasining emaili mos kelishi talab qilinadi.'],
+  ['Хранение и удаление', 'Retention and deletion', 'Saqlash va o‘chirish'],
+  ['Сервер хранит последнюю запись устройства до удаления оператором; журнал ограничен последними 200 событиями. Отзыв согласия прекращает будущую отправку, но сам по себе не удаляет уже сохранённые записи.', 'The server keeps each device’s latest record until the operator deletes it; the log is limited to the latest 200 events. Revoking consent stops future uploads but does not itself delete records already stored.', 'Server har bir qurilmaning so‘nggi yozuvini operator o‘chirguncha saqlaydi; jurnal oxirgi 200 hodisa bilan cheklangan. Rozilikni bekor qilish yangi yuborishlarni to‘xtatadi, ammo saqlangan yozuvlarni o‘z-o‘zidan o‘chirmaydi.'],
+  ['Защита и правовые сведения', 'Security and legal information', 'Xavfsizlik va huquqiy ma’lumot'],
+  ['Передача идёт по HTTPS. Оператору следует проверить применимость Закона Республики Узбекистан № ЗРУ-547 «О персональных данных», UK GDPR и Data Protection Act 2018. Эта страница не подтверждает соблюдение законодательства, расположение хранилища или шифрование данных на сервере.', 'Data is transmitted over HTTPS. The operator should assess whether Uzbekistan’s Law No. ZRU-547 on Personal Data, the UK GDPR, and the Data Protection Act 2018 apply. This page does not certify legal compliance, storage location, or server-side encryption.', 'Ma’lumot HTTPS orqali uzatiladi. Operator O‘zbekiston Respublikasining O‘RQ-547-son “Shaxsga doir ma’lumotlar to‘g‘risida”gi Qonuni, UK GDPR va Data Protection Act 2018 qo‘llanishini tekshirishi kerak. Bu sahifa qonunlarga muvofiqlik, saqlash joyi yoki serverdagi shifrlashni tasdiqlamaydi.'],
+  ['Сводка полученных отчётов Android и журнал событий приложения.', 'Summary of received Android reports and app activity logs.', 'Olingan Android hisobotlari va ilova hodisalari jurnali jamlanmasi.'],
+  ['Выйти из консоли', 'Sign out of console', 'Konsoldan chiqish'],
+  ['Служебные действия', 'Administrative actions', 'Xizmat amallari'],
+  ['Управление реальными устройствами', 'Manage reported devices', 'Hisobot yuborgan qurilmalarni boshqarish'],
+  ['+ Добавить устройство', '+ Add device', '+ Qurilma qo‘shish'],
+  ['Очистить активные узлы', 'Clear active devices', 'Faol qurilmalarni tozalash'],
+  ['Обновить ключ сопряжения шлюза', 'Refresh gateway pairing key', 'Shlyuz juftlash kalitini yangilash'],
+  ['Доступ и отчётность', 'Access and reporting', 'Kirish va hisobotlar'],
+  ['Как устроена веб-сводка', 'How the web summary works', 'Veb jamlanma qanday ishlaydi'],
+  ['Источник показаний:', 'Reading source:', 'Ko‘rsatkich manbasi:'],
+  ['Android-клиент после согласия', 'Android client after consent', 'Rozilikdan so‘ng Android mijozi'],
+  ['Приём отчёта:', 'Report intake:', 'Hisobotni qabul qilish:'],
+  ['Веб API проекта', 'Project web API', 'Loyiha veb API'],
+  ['Публичный ответ:', 'Public response:', 'Ochiq javob:'],
+  ['Агрегированные значения', 'Aggregate values', 'Umumlashtirilgan qiymatlar'],
+  ['Радиоизмерения:', 'Radio measurements:', 'Radio o‘lchovlari:'],
+  ['В веб-отчёте не передаются', 'Not sent in web reports', 'Veb hisobotlarda yuborilmaydi'],
+  ['Подробные записи:', 'Detailed records:', 'Batafsil yozuvlar:'],
+  ['Доступ владельца через Cloudflare Access', 'Owner access through Cloudflare Access', 'Cloudflare Access orqali egaga kirish'],
+  ['Время', 'Time', 'Vaqt'],
+  ['Устройство / Узел', 'Device / Node', 'Qurilma / Tugun'],
+  ['Категория', 'Category', 'Turkum'],
+  ['Действие', 'Action', 'Amal'],
+  ['Инженерные детали', 'Technical details', 'Texnik tafsilotlar'],
+  ['QR-код для установки', 'Installation QR code', 'O‘rnatish uchun QR kod'],
+  ['Инженерный модуль Xylen Motion', 'Xylen Motion engineering module', 'Xylen Motion muhandislik moduli'],
+  ['Закрыть инспектор', 'Close inspector', 'Inspektorni yopish'],
+  ['● Мобильные данные', '● Cellular data', '● Mobil ma’lumotlar'],
+  ['Слот:', 'Slot:', 'Slot:'],
+  ['Счётчик за день:', 'Daily counter:', 'Kunlik hisoblagich:'],
+  ['Источник:', 'Source:', 'Manba:'],
+  ['отчёт Android', 'Android report', 'Android hisoboti'],
+  ['В сети', 'Online', 'Onlayn'],
+  ['Офлайн', 'Offline', 'Oflayn'],
+  ['SIM / eSIM в отчёте клиента:', 'SIM / eSIM in client report:', 'Mijoz hisobotidagi SIM / eSIM:'],
+  ['Этот отчёт не содержит сведений о SIM-профиле.', 'This report contains no SIM-profile details.', 'Ushbu hisobotda SIM profili tafsilotlari yo‘q.'],
+  ['Мобильный счётчик за день:', 'Daily cellular counter:', 'Kunlik mobil hisoblagich:'],
+  ['Экран в отчёте:', 'Screen in report:', 'Hisobotdagi ekran:'],
+  ['Показание клиента', 'Client-reported reading', 'Mijoz yuborgan ko‘rsatkich'],
+  ['не указан', 'not provided', 'ko‘rsatilmagan'],
+  ['Хронология подключений', 'Connection timeline', 'Ulanishlar tarixi'],
+  ['Удалить узел', 'Remove device', 'Qurilmani o‘chirish'],
+  ['Инспектор телеметрии ➔', 'Report inspector ➔', 'Hisobot inspektori ➔'],
+  ['Радиоэфир активен • Ожидание передачи данных', 'Radio status • Waiting for a report', 'Radio holati • Hisobot kutilmoqda'],
+  ['Сводка появится после того, как Android-клиент отправит первый отчёт с согласия пользователя. Веб-панель не считывает параметры SIM или радиосети напрямую и не измеряет телефон непрерывно.', 'The summary appears after the Android client sends its first report with user consent. The web console does not read SIM or radio parameters directly or monitor the phone continuously.', 'Android mijozi foydalanuvchi roziligi bilan birinchi hisobotni yuborgach jamlanma ko‘rinadi. Veb panel SIM yoki radio parametrlarini bevosita o‘qimaydi va telefonni uzluksiz kuzatmaydi.'],
+  ['Веб-сводка ожидает клиентские отчёты Android после согласия пользователя.', 'The web summary is waiting for Android reports submitted with user consent.', 'Veb jamlanma foydalanuvchi roziligidan so‘ng yuboriladigan Android hisobotlarini kutmoqda.'],
+  ['Центр загрузки клиентов (Android / iOS)', 'Client downloads (Android / iOS)', 'Mijoz ilovalarini yuklab olish (Android / iOS)'],
+  ['Согласие и отправка отчёта', 'Consent and report submission', 'Rozilik va hisobot yuborish'],
+  ['КОНТРОЛЬ ПОЛЬЗОВАТЕЛЯ', 'USER CONTROL', 'FOYDALANUVCHI NAZORATI'],
+  ['Android-клиент отправляет отчёт в веб API только при включённом согласии. Отключение согласия останавливает последующую отправку; уже сохранённые записи при этом автоматически не удаляются.', 'The Android client sends reports to the web API only while consent is enabled. Turning consent off stops future uploads; records already stored are not automatically deleted.', 'Android mijozi veb APIga faqat rozilik yoqilganida hisobot yuboradi. Rozilikni o‘chirish keyingi yuborishlarni to‘xtatadi; avval saqlangan yozuvlar avtomatik o‘chirilmaydi.'],
+  ['Условие отправки', 'Upload condition', 'Yuborish sharti'],
+  ['Согласие включено в клиенте', 'Consent enabled in the client', 'Mijoz ilovasida rozilik yoqilgan'],
+  ['После отключения', 'After consent is turned off', 'Rozilik o‘chirilgandan so‘ng'],
+  ['Новые отчёты не отправляются', 'No new reports are sent', 'Yangi hisobotlar yuborilmaydi'],
+  ['Уже полученные записи', 'Previously received records', 'Avval olingan yozuvlar'],
+  ['Не удаляются автоматически', 'Are not deleted automatically', 'Avtomatik o‘chirilmaydi'],
+  ['Поля Android-отчёта', 'Android report fields', 'Android hisoboti maydonlari'],
+  ['JSON ОТ КЛИЕНТА', 'CLIENT JSON', 'MIJOZ JSONI'],
+  ['После согласия клиент отправляет событие с данными установки и приложения, временем, оператором, мобильными счётчиками и доступными SIM-профилями. Состав отчёта зависит от версии клиента и устройства.', 'After consent, the client sends an event with installation and app data, time, carrier, cellular counters, and available SIM profiles. Report fields depend on the client version and device.', 'Rozilikdan so‘ng mijoz o‘rnatish va ilova ma’lumotlari, vaqt, operator, mobil hisoblagichlar va mavjud SIM profillari bo‘lgan hodisani yuboradi. Hisobot maydonlari mijoz versiyasi va qurilmaga bog‘liq.'],
+  ['Событие', 'Event', 'Hodisa'],
+  ['Экран, действие, время, детали', 'Screen, action, time, details', 'Ekran, amal, vaqt, tafsilotlar'],
+  ['Счётчики', 'Counters', 'Hisoblagichlar'],
+  ['Дневной и сессионный отчёт клиента', 'Client-reported daily and session totals', 'Mijoz yuborgan kunlik va seans jami'],
+  ['SIM-профиль', 'SIM profile', 'SIM profili'],
+  ['Слот, оператор, тип и счётчик', 'Slot, carrier, type, and counter', 'Slot, operator, tur va hisoblagich'],
+  ['Публичная сводка', 'Public summary', 'Ochiq jamlanma'],
+  ['АГРЕГИРОВАННЫЕ ДАННЫЕ', 'AGGREGATE DATA', 'UMUMLASHTIRILGAN MA’LUMOT'],
+  ['Открытая часть API возвращает суммарные числа по полученным отчётам. Она не показывает подробный журнал и не подтверждает независимым измерением значения, присланные телефоном.', 'The public API returns aggregate counts from received reports. It does not show detailed logs or independently verify values reported by the phone.', 'Ochiq API olingan hisobotlardagi umumiy sonlarni qaytaradi. U batafsil jurnalni ko‘rsatmaydi va telefon yuborgan qiymatlarni mustaqil o‘lchov bilan tasdiqlamaydi.'],
+  ['Публичный ответ', 'Public response', 'Ochiq javob'],
+  ['Агрегированные числа', 'Aggregate counts', 'Umumiy sonlar'],
+  ['Подробные события', 'Detailed events', 'Batafsil hodisalar'],
+  ['Не публикуются', 'Not published', 'Ochiq e’lon qilinmaydi'],
+  ['Источник показаний', 'Reading source', 'Ko‘rsatkich manbasi'],
+  ['Данные, сообщённые клиентом', 'Client-reported data', 'Mijoz yuborgan ma’lumot'],
+  ['Подробный доступ владельца', 'Detailed owner access', 'Egaga batafsil kirish'],
+  ['ОТДЕЛЬНАЯ ПРОВЕРКА', 'SEPARATE VERIFICATION', 'ALOHIDA TEKSHIRUV'],
+  ['Детальные записи выдаются через защищённый маршрут после проверки Cloudflare Access и совпадения учётной записи с адресом владельца, настроенным для проекта.', 'Detailed records are served through a protected route after Cloudflare Access verification and a match with the owner account configured for the project.', 'Batafsil yozuvlar himoyalangan yo‘l orqali Cloudflare Access tekshiruvi va loyiha uchun sozlangan egasi hisobi mos kelgandan keyin beriladi.'],
+  ['Вход', 'Sign-in', 'Kirish'],
+  ['Проверка владельца', 'Owner verification', 'Egani tekshirish'],
+  ['Совпадение email', 'Email match', 'Email mosligi'],
+  ['Область доступа', 'Access scope', 'Kirish doirasi'],
+  ['Подробные записи отчётов', 'Detailed report records', 'Hisobotlarning batafsil yozuvlari'],
+  ['Локальный журнал iOS', 'Local iOS activity log', 'iOS mahalliy hodisalar jurnali'],
+  ['ХРАНЕНИЕ НА УСТРОЙСТВЕ', 'STORED ON-DEVICE', 'QURILMADA SAQLANADI'],
+  ['В проверенной версии iOS-клиента журнал событий хранится на устройстве и не отправляется в веб audit API. Это описание относится к журналу, а не ко всем данным приложения.', 'In the reviewed iOS client version, the activity log stays on-device and is not sent to the web audit API. This describes the log, not all app data.', 'Ko‘rib chiqilgan iOS mijoz versiyasida hodisalar jurnali qurilmada qoladi va veb audit APIga yuborilmaydi. Bu tavsif ilovaning barcha ma’lumotlariga emas, jurnalga tegishli.'],
+  ['Журнал событий', 'Activity log', 'Hodisalar jurnali'],
+  ['Хранится локально', 'Stored locally', 'Mahalliy saqlanadi'],
+  ['Веб audit API', 'Web audit API', 'Veb audit API'],
+  ['Журнал не отправляется', 'The log is not sent', 'Jurnal yuborilmaydi'],
+  ['Область описания', 'Description scope', 'Tavsif doirasi'],
+  ['Проверенная версия клиента', 'Reviewed client version', 'Ko‘rib chiqilgan mijoz versiyasi'],
+  ['Телеметрия, которая движется только по явному согласию.', 'Telemetry moves only with explicit consent.', 'Telemetriya faqat aniq rozilik bilan uzatiladi.'],
+  ['Счётчики, сообщённые клиентом', 'Client-reported counters', 'Mijoz yuborgan hisoblagichlar'],
+  ['Смотреть устройства', 'View devices', 'Qurilmalarni ko‘rish'],
+  ['Путь данных', 'Data path', 'Ma’lumotlar oqimi'],
+  ['Схема обмена Android-отчётом и локального хранения журнала iOS', 'Android reports and the locally stored iOS log', 'Android hisobotlari va mahalliy saqlanadigan iOS jurnali'],
+  ['Приём отчётов Android после согласия', 'Android reports received after consent', 'Rozilikdan so‘ng Android hisobotlarini qabul qilish'],
+  ['Веб API принимает клиентские события и счётчики. iOS пока сохраняет журнал локально.', 'The web API accepts client events and counters. iOS currently keeps its log on-device.', 'Veb API mijoz hodisalari va hisoblagichlarini qabul qiladi. iOS jurnali hozircha qurilmada saqlanadi.'],
+  ['↻ Анимированная схема', '↻ Animated schematic', '↻ Animatsion sxema'],
+  ['Счётчики, сообщённые клиентом', 'Client-reported counters', 'Mijoz yuborgan hisoblagichlar'],
+  ['Согласие и отчёт', 'Consent and report', 'Rozilik va hisobot'],
+  ['Android отправляет веб-аудит только после согласия пользователя.', 'Android sends web-audit reports only after user consent.', 'Android veb audit hisobotlarini faqat foydalanuvchi roziligidan so‘ng yuboradi.'],
+  ['Поля события', 'Event fields', 'Hodisa maydonlari'],
+  ['JSON-отчёт может включать ID установки, модель, экран, действие, детали, время и клиентские счётчики.', 'A JSON report may include an installation ID, model, screen, action, details, time, and client-reported counters.', 'JSON hisobotda o‘rnatish IDsi, model, ekran, amal, tafsilotlar, vaqt va mijoz hisoblagichlari bo‘lishi mumkin.'],
+  ['Открытая часть показывает агрегированные числа, а не подробные записи устройства.', 'The public view shows aggregate counts, not detailed device records.', 'Ochiq qism qurilmaning batafsil yozuvlarini emas, umumiy sonlarni ko‘rsatadi.'],
+  ['Доступ владельца', 'Owner access', 'Egaga kirish'],
+  ['Подробные записи доступны после проверки Cloudflare Access и email владельца.', 'Detailed records are available after Cloudflare Access and owner-email verification.', 'Batafsil yozuvlar Cloudflare Access va egasining emaili tekshirilgandan so‘ng ochiladi.'],
+  ['Изученная версия приложения iOS сохраняет события на устройстве; веб-аудит их не получает.', 'The reviewed iOS app stores events on-device; web audit does not receive them.', 'Ko‘rib chiqilgan iOS ilovasi hodisalarni qurilmada saqlaydi; veb audit ularni olmaydi.'],
+  ['Android отправляет отчёт только после согласия.', 'Android sends reports only after consent.', 'Android hisobotni faqat rozilikdan so‘ng yuboradi.'],
+  ['Мониторинг радиоэфира', 'View reported cellular data', 'Yuborilgan mobil tarmoq ma’lumotlari'],
+  ['Центр загрузки клиентов', 'Client downloads', 'Mijoz ilovalarini yuklab olish'],
+  ['Xylen объединяет Android-клиент и веб-панель для просмотра событий приложения и счётчиков сотовой загрузки, которые клиент отправил с согласия пользователя.', 'Xylen combines an Android client and a web console for reviewing app events and cellular counters submitted with the user’s consent.', 'Xylen Android mijozi va veb panelini birlashtiradi: ular foydalanuvchi roziligi bilan yuborilgan ilova hodisalari va mobil hisoblagichlarni ko‘rsatadi.'],
+  ['Конфиденциальность', 'Privacy', 'Maxfiylik'],
+  ['Навигация приложения', 'App navigation', 'Ilova navigatsiyasi'],
+  ['Навигация', 'Navigation', 'Navigatsiya'],
+  ['XYLEN SIM-ПЛАТФОРМА', 'XYLEN SIM PLATFORM', 'XYLEN SIM platformasi'],
+  ['Обновить сводку', 'Refresh summary', 'Jamlanmani yangilash'],
+  ['Сводные показатели', 'Summary metrics', 'Jamlanma ko‘rsatkichlari'],
+  ['Быстрый переход', 'Quick links', 'Tezkor havolalar'],
+  ['Масштаб интерфейса', 'Interface scale', 'Interfeys masshtabi'],
+  ['XYLEN / ПОЛЕВЫЕ ЗАМЕТКИ', 'XYLEN / FIELD NOTES', 'XYLEN / MAYDON QAYDLARI'],
+  ['ПРИНЦИПЫ ДАННЫХ', 'DATA CHARTER', 'MA’LUMOTLAR NIZOMI'],
+  ['ЗАМЕТКА О ДАННЫХ 01—05', 'DATA NOTE 01—05', 'MA’LUMOT QAYDI 01—05'],
+  ['ЛОКАЛЬНЫЙ ЖУРНАЛ', 'LOCAL LOG', 'MAHALLIY JURNAL'],
+  ['УПРАВЛЕНИЕ', 'MANAGEMENT', 'BOSHQARUV'],
+  ['Тихое движение', 'Silent Motion', 'Jimjit harakat'],
+  ['ТИХОЕ ДВИЖЕНИЕ', 'SILENT MOTION', 'JIMJIT HARAKAT'],
+  ['ОТЧЁТ КЛИЕНТА', 'CLIENT REPORT', 'MIJOZ HISOBOTI'],
+  ['Недавно передавал отчёт', 'Recently reported', 'Yaqinda hisobot yuborgan'],
+  ['Нет недавнего отчёта', 'No recent report', 'Yaqinda hisobot yo‘q'],
+  ['Humo (местная карта)', 'Humo (Local UZ)', 'Humo (mahalliy karta)'],
+  ['Mastercard (международная)', 'Mastercard (Global)', 'Mastercard (xalqaro)'],
+  ['Способы поддержки', 'Support methods', 'Qo‘llab-quvvatlash usullari'],
+  ['Скопировать номер', 'Copy number', 'Raqamni nusxalash'],
+  ['Обновить сейчас', 'Refresh now', 'Hozir yangilash'],
+  ['Меню, языки и тема', 'Menu, language, and theme', 'Menyu, til va mavzu'],
+  ['Открыть меню', 'Open menu', 'Menyuni ochish'],
+  ['Наверх', 'Back to top', 'Yuqoriga'],
+  ['Xylen Workspace • Наверх', 'Xylen Workspace • Back to top', 'Xylen Workspace • Yuqoriga'],
+  ['РАДИОЭФИР В РЕАЛЬНОМ ВРЕМЕНИ', 'REAL-TIME RADIO ACTIVITY', 'RADIOEFIRDA REAL VAQTDAGI FAOLLIK']
+];
+
+const INLINE_COPY_BY_VALUE = new Map();
+INLINE_COPY.forEach(copy => copy.forEach(value => INLINE_COPY_BY_VALUE.set(String(value).replace(/\s+/g, ' ').trim(), copy)));
+const INLINE_COPY_LANG_INDEX = { ru: 0, en: 1, uz: 2 };
+
 class I18nManager {
   constructor() {
     this.currentLang = this.getSavedLang();
+      this.inlineCopyNodes = new WeakMap();
+      this.inlineCopyAttributes = new WeakMap();
     this.init();
   }
 
@@ -577,30 +1091,114 @@ class I18nManager {
     return dict[key] || TRANSLATIONS.ru[key] || key;
   }
 
-  applyTranslations() {
+  applyTranslations(root = document.documentElement) {
     document.documentElement.lang = this.currentLang;
-    const elements = document.querySelectorAll('[data-i18n]');
+    const elements = Array.from(root.querySelectorAll('[data-i18n]'));
+    if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n]')) elements.unshift(root);
     elements.forEach(el => {
       const key = el.getAttribute('data-i18n');
       const text = this.t(key);
       if (text) {
         if (el.tagName === 'INPUT' && el.placeholder) {
-          el.placeholder = text;
-        } else {
+          if (el.placeholder !== text) el.placeholder = text;
+        } else if (el.textContent !== text) {
           el.textContent = text;
         }
       }
     });
 
-    const attrElements = document.querySelectorAll('[data-i18n-attr]');
+    const attrElements = Array.from(root.querySelectorAll('[data-i18n-attr]'));
+    if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n-attr]')) attrElements.unshift(root);
     attrElements.forEach(el => {
-      const config = el.getAttribute('data-i18n-attr').split(':');
-      if (config.length === 2) {
-        const attr = config[0];
-        const key = config[1];
-        el.setAttribute(attr, this.t(key));
-      }
+      el.getAttribute('data-i18n-attr').split(';').forEach(binding => {
+        const config = binding.trim().split(':');
+        if (config.length === 2) {
+          const attr = config[0];
+          const key = config[1];
+          const text = this.t(key);
+          if (el.getAttribute(attr) !== text) el.setAttribute(attr, text);
+        }
+      });
     });
+    this.applyInlineTranslations(root);
+  }
+
+  applyInlineTranslations(root) {
+    const normalize = value => String(value || '').replace(/\s+/g, ' ').trim();
+    const textWalker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let textNode;
+    while ((textNode = textWalker.nextNode())) {
+      const element = textNode.parentElement;
+      if (!element || element.closest('script,style,template,textarea,pre,code,[data-i18n]')) continue;
+      const source = normalize(textNode.nodeValue);
+      const previous = this.inlineCopyNodes.get(textNode);
+      const previousValue = previous && previous.copy[INLINE_COPY_LANG_INDEX[previous.lang]];
+      const copy = previous && normalize(previousValue) === source
+        ? previous.copy
+        : INLINE_COPY_BY_VALUE.get(source);
+      if (!copy) continue;
+      this.inlineCopyNodes.set(textNode, { copy, lang: this.currentLang });
+      const translated = copy[INLINE_COPY_LANG_INDEX[this.currentLang]];
+      if (!translated || source === normalize(translated)) continue;
+      const raw = textNode.nodeValue || '';
+      const leading = raw.match(/^\s*/)?.[0] || '';
+      const trailing = raw.match(/\s*$/)?.[0] || '';
+      textNode.nodeValue = leading + translated + trailing;
+    }
+
+    const attributes = ['aria-label', 'aria-description', 'title', 'placeholder', 'alt', 'value', 'content'];
+    const elements = [];
+    if (root.nodeType === Node.ELEMENT_NODE) elements.push(root);
+    elements.push(...root.querySelectorAll('*'));
+    elements.forEach(element => {
+      attributes.forEach(attribute => {
+        if (!element.hasAttribute(attribute)) return;
+        const value = element.getAttribute(attribute);
+        let previousAttributes = this.inlineCopyAttributes.get(element);
+        const previous = previousAttributes?.get(attribute);
+        const previousValue = previous && previous.copy[INLINE_COPY_LANG_INDEX[previous.lang]];
+        const normalizedValue = normalize(value);
+        const copy = previous && normalize(previousValue) === normalizedValue
+          ? previous.copy
+          : INLINE_COPY_BY_VALUE.get(normalizedValue);
+        if (copy) {
+          const translated = copy[INLINE_COPY_LANG_INDEX[this.currentLang]];
+          if (!previousAttributes) {
+            previousAttributes = new Map();
+            this.inlineCopyAttributes.set(element, previousAttributes);
+          }
+          previousAttributes.set(attribute, { copy, lang: this.currentLang });
+          if (translated && normalizedValue !== normalize(translated)) element.setAttribute(attribute, translated);
+        }
+      });
+    });
+  }
+
+  observeDynamicCopy() {
+    if (!document.body || !('MutationObserver' in window)) return;
+    let scheduled = false;
+    const pending = new Set();
+    const observer = new MutationObserver(records => {
+      records.forEach(record => {
+        if (record.type === 'attributes' || record.type === 'characterData') {
+          if (record.target.nodeType === Node.ELEMENT_NODE) pending.add(record.target);
+          else if (record.target.parentElement) pending.add(record.target.parentElement);
+        }
+        record.addedNodes?.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) pending.add(node);
+          else if (node.parentElement) pending.add(node.parentElement);
+        });
+      });
+      if (scheduled || !pending.size) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        const roots = Array.from(pending);
+        pending.clear();
+        roots.forEach(root => this.applyTranslations(root));
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['aria-label', 'aria-description', 'title', 'placeholder', 'alt', 'value', 'content'] });
   }
 
   updateControls() {
@@ -613,6 +1211,7 @@ class I18nManager {
   init() {
     this.updateControls();
     this.applyTranslations();
+    this.observeDynamicCopy();
 
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('.lang-text-btn[data-lang]');

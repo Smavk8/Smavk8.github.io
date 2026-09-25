@@ -73,7 +73,19 @@ document.addEventListener('DOMContentLoaded', () => {
       updateNavPill(activeBtn);
     }
 
-    const hashName = pageId.replace('page-', '');
+    const routeNames = {
+      'page-overview': 'sim-center',
+      'page-autodownload': 'auto-download',
+      'page-traffic': 'traffic',
+      'page-devices': 'history',
+      'page-sim-config': 'sim-config',
+      'page-settings': 'settings',
+      'page-about': 'about',
+      'page-support': 'support',
+      'page-releases': 'releases',
+      'page-admin': 'admin'
+    };
+    const hashName = routeNames[pageId] || pageId.replace('page-', '');
     if (window.location.hash !== '#' + hashName) {
       history.pushState(null, '', '#' + hashName);
     }
@@ -120,12 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash.replace('#', '').toLowerCase();
     const map = {
       'overview': 'page-overview',
+      'sim-center': 'page-overview',
       'home': 'page-overview',
       'devices': 'page-devices',
+      'history': 'page-devices',
+      'auto-download': 'page-autodownload',
+      'autodownload': 'page-autodownload',
       'traffic': 'page-traffic',
+      'sim-config': 'page-sim-config',
+      'settings': 'page-settings',
+      'support': 'page-support',
       'releases': 'page-releases',
       'about': 'page-about',
-      'privacy': 'page-about',
+      'privacy': 'page-privacy',
       'admin': 'page-admin'
     };
 
@@ -204,9 +223,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.i18n) {
       window.i18n.setLang(lang);
     }
-    document.querySelectorAll('.drawer-lang-row .lang-text-btn').forEach(btn => {
+    document.querySelectorAll('.lang-text-btn[data-lang]').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
+    updateThemeUI(document.body.classList.contains('theme-light') ? 'light' : 'dark');
+    window.dispatchEvent(new CustomEvent('xylen:language-changed', { detail: lang }));
   };
 
   setTimeout(triggerScrollReveal, 120);
@@ -259,8 +280,11 @@ document.addEventListener('DOMContentLoaded', () => {
       drawerThemeIcon.textContent = isLight ? '🌙' : '☀️';
     }
     if (drawerThemeText) {
-      drawerThemeText.textContent = isLight ? 'Светлая тема' : 'Тёмная тема';
+      const labelKey = isLight ? 'theme_switch_to_dark' : 'theme_switch_to_light';
+      drawerThemeText.textContent = window.i18n?.t(labelKey) || (isLight ? 'Тёмная тема' : 'Светлая тема');
     }
+    const settingsThemeIcon = document.getElementById('settings-theme-icon');
+    if (settingsThemeIcon) settingsThemeIcon.textContent = isLight ? '☀' : '☾';
     const activeBtn = document.querySelector('.nav-page-btn.active');
     if (activeBtn) updateNavPill(activeBtn);
   }

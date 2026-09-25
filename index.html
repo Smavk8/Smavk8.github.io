@@ -2,15 +2,16 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0A0C10">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#111726">
   <meta name="description" content="Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения.">
   <title>Xylen Platform • Сводка мобильных отчётов</title>
   <link rel="stylesheet" href="css/styles.css?v=2.7.0">
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
-  <link rel="stylesheet" href="css/experience.css?v=1.0.0">
+  <link rel="stylesheet" href="css/experience.css?v=1.1.0">
   <link rel="stylesheet" href="css/architecture-motion.css?v=1.1.0">
-  <link rel="stylesheet" href="css/xylen-motion.css?v=1.7.0">
+  <link rel="stylesheet" href="css/xylen-motion.css?v=1.8.0">
+  <link rel="stylesheet" href="css/android-parity.css?v=1.0.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -42,18 +43,33 @@
        COMPACT NAVIGATION DRAWER / MODAL
        Opens on clicking hamburger or on mobile screen
        ======================================================================== -->
-  <div id="compact-nav-drawer" class="compact-nav-drawer" role="dialog" aria-label="Меню сайта" aria-modal="false" aria-hidden="true" inert>
+  <div id="compact-nav-drawer" class="compact-nav-drawer" role="dialog" data-i18n-attr="aria-label:app_navigation" aria-label="Навигация приложения" aria-modal="true" aria-hidden="true" inert>
     <div class="drawer-backdrop" onclick="window.toggleNavDrawer(false);"></div>
     <div class="drawer-sheet">
       <div class="drawer-header">
-        <span class="drawer-menu-title">Настройки</span>
-        <button class="drawer-close-btn" onclick="window.toggleNavDrawer(false);" aria-label="Закрыть меню">✕</button>
+        <div class="app-drawer-brand"><span class="app-drawer-brand-kicker">XYLEN</span><strong data-i18n="app_shell_name">SIM PLATFORM</strong></div>
+        <button class="app-drawer-login" type="button" onclick="window.requestAdminConsole?.(); window.toggleNavDrawer(false);"><span class="app-drawer-login-icon" aria-hidden="true">↗</span><span data-i18n="drawer_owner_login">ВХОД ВЛАДЕЛЬЦА</span></button>
+        <button class="drawer-close-btn" onclick="window.toggleNavDrawer(false);" data-i18n-attr="aria-label:drawer_close" aria-label="Закрыть меню">✕</button>
       </div>
+      <nav class="app-drawer-navigation" data-i18n-attr="aria-label:app_navigation" aria-label="Навигация приложения">
+        <div class="app-drawer-section-label" data-i18n="app_navigation">ОСНОВНЫЕ РАЗДЕЛЫ</div>
+        <button class="nav-page-btn active app-drawer-item" data-page="page-overview" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg><span data-i18n="nav_sim_center">SIM-Центр</span></button>
+        <button class="nav-page-btn app-drawer-item" data-page="page-autodownload" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg><span data-i18n="nav_auto_download">Авто Скачивание</span></button>
+        <button class="nav-page-btn app-drawer-item" data-page="page-traffic" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9V3zm2 0v7h7a9 9 0 0 0-7-7z"/></svg><span data-i18n="nav_today_traffic">Расход сегодня</span></button>
+        <button class="nav-page-btn app-drawer-item" data-page="page-devices" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3a9 9 0 1 0 8.94 10h-2.02A7 7 0 1 1 13 6V3zm1 5v5l4 2.4 1-1.64-3-1.76V8h-2z"/></svg><span data-i18n="nav_usage_history">История расхода</span></button>
+        <button class="nav-page-btn app-drawer-item" data-page="page-sim-config" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2H3zm4 6h10v2H7zm3 6h4v2h-4z"/></svg><span data-i18n="nav_sim_override">Переопределение SIM</span></button>
+        <button class="nav-page-btn app-drawer-item" data-page="page-settings" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.4 13a7.7 7.7 0 0 0 0-2l2-1.55-2-3.46-2.36.95a7.2 7.2 0 0 0-1.73-1L15 3h-4l-.36 2.94a7.2 7.2 0 0 0-1.73 1l-2.36-.95-2 3.46L6.55 11a7.7 7.7 0 0 0 0 2l-2 1.55 2 3.46 2.36-.95a7.2 7.2 0 0 0 1.73 1L11 21h4l.36-2.94a7.2 7.2 0 0 0 1.73-1l2.36.95 2-3.46L19.4 13zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg><span data-i18n="nav_app_settings">Настройки</span></button>
+        <button class="nav-page-btn app-drawer-item" data-page="page-support" onclick="window.toggleNavDrawer(false);"><svg class="app-drawer-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-4.9-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.1-8 11-8 11z"/></svg><span data-i18n="nav_support_app">Поддержать разработчика</span></button>
+        <div class="app-drawer-section-label app-drawer-tools-label" data-i18n="app_web_tools">ВЕБ-ПОРТАЛ</div>
+        <button class="app-drawer-tool" onclick="window.switchPage('page-releases'); window.toggleNavDrawer(false);" data-i18n="nav_web_downloads">Загрузки приложений</button>
+        <button class="app-drawer-tool" onclick="window.switchPage('page-about'); window.toggleNavDrawer(false);" data-i18n="nav_about">О платформе</button>
+        <button class="app-drawer-tool" onclick="window.switchPage('page-privacy'); window.toggleNavDrawer(false);" data-i18n="nav_privacy">Конфиденциальность</button>
+      </nav>
       <div class="drawer-footer-controls">
         <!-- Language Switcher inside Drawer -->
         <div class="drawer-control-group">
-          <div class="drawer-group-label">Язык интерфейса / Til / Language</div>
-          <div class="drawer-lang-row" role="group" aria-label="Язык интерфейса">
+          <div class="drawer-group-label" data-i18n="settings_language">Язык интерфейса</div>
+          <div class="drawer-lang-row" role="group" data-i18n-attr="aria-label:settings_language" aria-label="Язык интерфейса">
             <button class="lang-text-btn active" data-lang="ru" onclick="window.selectLanguage('ru');">
               <span>🇷🇺</span> <span>RU</span>
             </button>
@@ -68,18 +84,14 @@
 
         <!-- Theme Toggle inside Drawer -->
         <div class="drawer-control-group">
-          <div class="drawer-group-label">Режим оформления</div>
+          <div class="drawer-group-label" data-i18n="settings_theme">Режим оформления</div>
           <button id="drawer-theme-toggle" class="drawer-theme-pill-btn" onclick="window.toggleTheme();">
             <span id="drawer-theme-icon" class="theme-icon-symbol">☀️</span>
             <span id="drawer-theme-text">Тёмная тема</span>
           </button>
         </div>
 
-        <!-- Manager Access Console Button -->
-        <button type="button" class="btn btn-secondary btn-full drawer-manager-btn" onclick="window.requestAdminConsole(); window.toggleNavDrawer(false);">
-          <span class="pulse-dot green"></span>
-          <span data-i18n="manager_btn">Менеджер</span>
-        </button>
+        <div class="app-drawer-web-note"><span data-i18n="drawer_web_note">ВЕБ-БРАУЗЕР</span><strong data-i18n="drawer_web_readonly">Данные SIM доступны только из отчётов</strong></div>
       </div>
     </div>
   </div>
@@ -89,7 +101,7 @@
        - Equal 48px height across Logo, Menu, and Hamburger
        - Always pinned at the top on scroll. Zero disappearing, zero second manager!
        ======================================================================== -->
-  <header id="top-navbar" class="top-navbar floating-island">
+  <header id="top-navbar" class="top-navbar android-app-bar">
     <div class="nav-island-inner">
       <!-- Xylen Management logo lockup -->
       <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Platform">
@@ -119,9 +131,15 @@
         </button>
       </nav>
 
-      <!-- Right Menu Trigger: Exact same 48px height rhythm -->
+      <div class="android-app-brand" aria-label="XYLEN SIM PLATFORM">
+        <span class="android-brand-pulse" aria-hidden="true"></span>
+        <span class="android-brand-xylen">XYLEN</span>
+        <span class="android-brand-platform" data-i18n="app_shell_name">SIM PLATFORM</span>
+      </div>
+
+      <!-- Android-style menu trigger -->
       <div class="header-menu-pill">
-        <button id="compact-hamburger-btn-header" class="header-hamburger-trigger" title="Меню, языки и тема" aria-label="Открыть меню" aria-controls="compact-nav-drawer" aria-expanded="false" onclick="window.toggleNavDrawer(true);">
+        <button id="compact-hamburger-btn-header" class="header-hamburger-trigger" data-i18n-attr="title:drawer_open;aria-label:drawer_open" title="Открыть меню" aria-label="Открыть меню" aria-controls="compact-nav-drawer" aria-expanded="false" onclick="window.toggleNavDrawer(true);">
           <span class="hamburger-bars-wrap">
             <span class="hamburger-bar"></span>
             <span class="hamburger-bar"></span>
@@ -138,6 +156,32 @@
        ======================================================================== -->
   <main id="page-overview" class="page-section active">
     <div class="container">
+      <section class="android-home-dashboard" aria-labelledby="android-home-title">
+        <div class="android-home-sim-slots" role="tablist" data-i18n-attr="aria-label:home_sim_slots" aria-label="SIM-карты">
+          <button class="android-home-sim-slot is-selected" type="button" role="tab" id="android-home-sim-tab-1" aria-controls="android-home-sim-content" aria-selected="true" data-home-sim-slot="0">
+            <svg class="android-home-sim-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 2H9L3 8v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm0 18H5V8.83L9.83 4H19v16zM8 10h3v3H8zm5 0h3v3h-3zM8 15h3v3H8zm5 0h3v3h-3z"/></svg>
+            <span class="android-home-slot-copy"><strong data-i18n="home_sim_slot_1">SIM 1</strong><small data-home-slot-status="0">—</small></span>
+            <span class="android-home-slot-marker" aria-hidden="true"></span>
+          </button>
+          <button class="android-home-sim-slot" type="button" role="tab" id="android-home-sim-tab-2" aria-controls="android-home-sim-content" aria-selected="false" data-home-sim-slot="1">
+            <svg class="android-home-sim-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 2H9L3 8v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm0 18H5V8.83L9.83 4H19v16zM8 10h3v3H8zm5 0h3v3h-3zM8 15h3v3H8zm5 0h3v3h-3z"/></svg>
+            <span class="android-home-slot-copy"><strong data-i18n="home_sim_slot_2">SIM 2</strong><small data-home-slot-status="1">—</small></span>
+            <span class="android-home-slot-marker" aria-hidden="true"></span>
+          </button>
+        </div>
+        <section class="android-home-sim-card" aria-live="polite">
+          <header class="android-home-sim-header">
+            <div><span class="eyebrow" data-i18n="home_sim_selected">ВЫБРАННАЯ SIM</span><h1 id="android-home-title">SIM 1</h1></div>
+            <button class="android-icon-button" type="button" onclick="window.refreshAuditNow?.();" data-i18n-attr="aria-label:refresh_data" aria-label="Обновить сводку" title="Обновить сводку">↻</button>
+          </header>
+          <div id="android-home-sim-content" class="android-home-sim-content" role="tabpanel" aria-labelledby="android-home-sim-tab-1"></div>
+          <p class="android-data-boundary" data-i18n="home_sim_data_boundary">Сайт не читает SIM и радио с этого устройства. Здесь отображаются только поля, которые Android-клиент передал после согласия; ICCID, IMSI и параметры сигнала в веб-аудит не отправляются.</p>
+          <div class="android-home-sim-actions">
+            <button type="button" class="android-text-action" onclick="window.switchPage('page-sim-config')" data-i18n="nav_sim_override">Переопределение SIM</button>
+            <button type="button" class="android-text-action" onclick="window.switchPage('page-autodownload')" data-i18n="nav_auto_download">Авто Скачивание</button>
+          </div>
+        </section>
+      </section>
       <!-- Spacious Hero Block Inspired by Jitter -->
       <section class="overview-hero-block reveal-on-scroll">
         <canvas id="hero-field" class="hero-field" aria-hidden="true"></canvas>
@@ -598,13 +642,91 @@
        02 — SECTION: DEVICES (Live Cellular Radio Receiver & SIM Registry)
        Zero Fake Devices • Cellular-Only Data Rules
        ======================================================================== -->
+  <main id="page-autodownload" class="page-section">
+    <div class="container android-page-container">
+      <header class="android-page-heading">
+        <span class="eyebrow" data-i18n="auto_eyebrow">МОБИЛЬНАЯ СЕССИЯ</span>
+        <h1 class="android-page-title" data-i18n="nav_auto_download">Авто Скачивание</h1>
+        <p class="android-page-subtitle" data-i18n="auto_subtitle">Управление фоновой сессией сотовой загрузки из Android-приложения.</p>
+      </header>
+      <section class="android-session-card">
+        <div class="android-session-topline"><span class="android-status-indicator muted" aria-hidden="true"></span><span class="android-card-label" data-i18n="auto_status_label">Состояние сессии</span><span class="android-state-pill" data-i18n="auto_status_unavailable">Требуется Android</span></div>
+        <h2 data-i18n="auto_status_title">Автоскачивание работает на телефоне</h2>
+        <p data-i18n="auto_status_description">Сессия использует системные SIM-счётчики, фоновые службы и состояние батареи. Веб-страница не может запустить её или управлять ею.</p>
+        <div class="android-session-metrics">
+          <div><span data-i18n="auto_metric_network">Сеть</span><strong data-i18n="auto_metric_network_value">Только на устройстве</strong></div>
+          <div><span data-i18n="auto_metric_goal">Цель сессии</span><strong data-i18n="auto_metric_goal_value">Настраивается в приложении</strong></div>
+          <div><span data-i18n="auto_metric_thermal">Контроль нагрева</span><strong data-i18n="auto_metric_thermal_value">Доступен в Android</strong></div>
+        </div>
+        <button class="btn btn-cyan android-primary-action" onclick="window.switchPage('page-releases')" data-i18n="auto_open_downloads">Открыть загрузки Android</button>
+      </section>
+      <section class="android-info-card">
+        <h2 data-i18n="auto_history_title">История сессий</h2>
+        <p data-i18n="auto_history_note">Публичная веб-сводка не получает состояние загрузки, цель сессии или температуру батареи. Подробные отчёты доступны владельцу, если Android отправил соответствующие данные.</p>
+        <button class="android-text-action" onclick="window.requestAdminConsole()" data-i18n="auto_owner_link">Открыть консоль владельца</button>
+      </section>
+    </div>
+  </main>
+
+  <main id="page-sim-config" class="page-section">
+    <div class="container android-page-container">
+      <header class="android-page-heading">
+        <span class="eyebrow" data-i18n="sim_config_eyebrow">ПРОФИЛИ УСТРОЙСТВА</span>
+        <h1 class="android-page-title" data-i18n="nav_sim_override">Переопределение SIM</h1>
+        <p class="android-page-subtitle" data-i18n="sim_config_subtitle">SIM и eSIM профили, которые сообщил Android-клиент.</p>
+      </header>
+      <section class="android-info-card">
+        <div class="android-session-topline"><span class="android-status-indicator muted" aria-hidden="true"></span><span class="android-card-label" data-i18n="sim_config_readonly">Доступ только для чтения</span></div>
+        <p data-i18n="sim_config_boundary">Переопределения оператора и привязка проекта хранятся на Android-устройстве. Веб-портал не меняет настройки SIM.</p>
+        <div id="android-sim-profiles-state" class="android-sim-profiles-state" aria-live="polite">Подробные SIM-профили доступны владельцу после входа через Cloudflare Access.</div>
+        <div id="android-sim-profiles-list" class="android-sim-profiles-list" hidden></div>
+        <button class="btn btn-secondary android-secondary-action" onclick="window.requestAdminConsole()" data-i18n="sim_config_owner_link">Войти как владелец</button>
+      </section>
+    </div>
+  </main>
+
+  <main id="page-settings" class="page-section">
+    <div class="container android-page-container">
+      <header class="android-page-heading">
+        <span class="eyebrow" data-i18n="settings_eyebrow">ПАРАМЕТРЫ ИНТЕРФЕЙСА</span>
+        <h1 class="android-page-title" data-i18n="nav_app_settings">Настройки</h1>
+        <p class="android-page-subtitle" data-i18n="settings_subtitle">Настройте внешний вид веб-портала.</p>
+      </header>
+      <section class="android-settings-card">
+        <h2 data-i18n="settings_appearance">ВНЕШНИЙ ВИД</h2>
+        <div class="android-setting-row"><div><strong data-i18n="settings_theme">Тема</strong><small data-i18n="settings_theme_description">Переключение между светлой и тёмной темой.</small></div><button class="android-setting-button" onclick="window.toggleTheme()"><span id="settings-theme-icon" aria-hidden="true">◐</span><span data-i18n="settings_theme_action">Изменить</span></button></div>
+        <div class="android-setting-row"><div><strong data-i18n="settings_amoled">Чёрный фон</strong><small data-i18n="settings_amoled_description">Экономичный AMOLED-вид в тёмной теме браузера.</small></div><label class="android-switch"><input id="android-amoled-mode" type="checkbox" data-i18n-attr="aria-label:settings_amoled" aria-label="Чёрный фон"><span aria-hidden="true"></span></label></div>
+        <div class="android-setting-row"><div><strong data-i18n="settings_language">Язык интерфейса</strong><small data-i18n="settings_language_description">Русский, ўзбекча или English.</small></div><div class="drawer-lang-row android-settings-languages" role="group" data-i18n-attr="aria-label:settings_language" aria-label="Язык интерфейса"><button class="lang-text-btn active" data-lang="ru" onclick="window.selectLanguage('ru')">RU</button><button class="lang-text-btn" data-lang="uz" onclick="window.selectLanguage('uz')">UZ</button><button class="lang-text-btn" data-lang="en" onclick="window.selectLanguage('en')">EN</button></div></div>
+        <div class="android-setting-row android-setting-range"><div><strong data-i18n="settings_scale">Масштаб интерфейса</strong><small data-i18n="settings_scale_description">Размер текста и основных элементов управления.</small></div><div class="android-range-control"><input id="android-ui-scale" type="range" min="90" max="115" step="5" value="100" data-i18n-attr="aria-label:settings_scale" aria-label="Масштаб интерфейса"><output id="android-ui-scale-output" for="android-ui-scale">100%</output></div></div>
+        <div class="android-setting-row"><div><strong data-i18n="settings_motion">Уменьшить анимацию</strong><small data-i18n="settings_motion_description">Сократить движение и декоративные эффекты.</small></div><label class="android-switch"><input id="android-reduced-motion" type="checkbox" data-i18n-attr="aria-label:settings_motion" aria-label="Уменьшить анимацию"><span aria-hidden="true"></span></label></div>
+      </section>
+      <section class="android-info-card android-device-settings-note"><h2 data-i18n="settings_device_title">НАСТРОЙКИ УСТРОЙСТВА</h2><p data-i18n="settings_device_note">Разрешения SIM, фоновые ограничения, автозапуск и защита батареи управляются только в Android-приложении и системных настройках телефона.</p><button class="android-text-action" onclick="window.switchPage('page-privacy')" data-i18n="nav_privacy">Конфиденциальность</button></section>
+    </div>
+  </main>
+
+  <main id="page-support" class="page-section">
+    <div class="container android-page-container">
+      <header class="android-page-heading">
+        <span class="eyebrow" data-i18n="support_eyebrow">XYLEN SIM PLATFORM</span>
+        <h1 class="android-page-title" data-i18n="nav_support_app">Поддержать разработчика</h1>
+        <p class="android-page-subtitle" data-i18n="support_intro">Спасибо, что пользуетесь Xylen Sim Platform. Ваша поддержка помогает проекту развиваться.</p>
+      </header>
+      <section class="android-donation-list" data-i18n-attr="aria-label:support_options" aria-label="Способы поддержки">
+        <article class="android-donation-card"><div><span>Humo (Local UZ)</span><strong>9860 3501 4328 7448</strong></div><button class="android-copy-button" data-copy-value="9860350143287448" onclick="window.copySupportNumber(this)" data-i18n-attr="aria-label:support_copy" aria-label="Скопировать номер">▢</button></article>
+        <article class="android-donation-card"><div><span>Mastercard (Global)</span><strong>5477 3300 4148 1429</strong></div><button class="android-copy-button" data-copy-value="5477330041481429" onclick="window.copySupportNumber(this)" data-i18n-attr="aria-label:support_copy" aria-label="Скопировать номер">▢</button></article>
+      </section>
+      <p class="android-data-boundary" data-i18n="support_copy_note">Номер копируется только после нажатия кнопки. Платёжная операция на сайте не выполняется.</p>
+      <div id="android-support-copy-status" class="visually-hidden" aria-live="polite"></div>
+    </div>
+  </main>
+
   <main id="page-devices" class="page-section">
     <div class="container">
       <div class="section-title-strip reveal-on-scroll">
         <div style="display:flex; justify-content:space-between; align-items:flex-end; width:100%; flex-wrap:wrap; gap:16px;">
           <div>
-            <h1 class="section-heading" data-i18n="devices_hero_title">Мониторинг пользователей и расхода</h1>
-            <p class="section-desc" data-i18n="devices_hero_sub">Контроль команды в реальном времени: кто авторизован в приложении, на каких экранах находится, какие функции запускает и сколько тратит сотового трафика.</p>
+            <h1 class="section-heading" data-i18n="nav_usage_history">История расхода</h1>
+            <p class="section-desc" data-i18n="history_description">Сводка мобильных отчётов и счётчиков Android. Подробная история действий доступна владельцу после входа.</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center;">
             <div class="card-status-badge">
@@ -705,7 +827,7 @@
         <div class="pulse-card-header">
           <div style="display:flex; align-items:center; gap:12px;">
             <span class="pulse-dot" id="waveform-status-dot"></span>
-            <span class="pulse-card-title">Live Telemetry Waveform</span>
+            <span class="pulse-card-title" data-i18n="traffic_live_badge">ПОСЛЕДНИЙ ПОЛУЧЕННЫЙ ОТЧЁТ</span>
           </div>
           <div class="card-status-badge" id="waveform-status-badge">
             <span class="pulse-dot" id="waveform-badge-dot"></span>
@@ -1101,13 +1223,14 @@
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
   <script src="js/storage.js?v=2.7.0"></script>
-  <script src="js/i18n.js?v=3.1.0"></script>
-  <script src="js/app.js?v=2.9.0"></script>
-  <script src="js/refinements.js?v=2.8.0"></script>
+  <script src="js/i18n.js?v=3.2.0"></script>
+  <script src="js/app.js?v=3.0.0"></script>
+  <script src="js/refinements.js?v=2.9.0"></script>
   <script src="js/home-expansion.js?v=1.0.0"></script>
-  <script src="js/experience.js?v=1.0.0"></script>
+  <script src="js/experience.js?v=1.1.0"></script>
   <script src="js/xylen-motion.js?v=1.1.0"></script>
   <script src="js/data-path-story.js?v=1.0.0"></script>
   <script src="js/navigation-preview.js?v=1.3.0"></script>
+  <script src="js/android-parity.js?v=1.0.0"></script>
 </body>
 </html>

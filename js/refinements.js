@@ -116,9 +116,9 @@
     const page = document.getElementById('page-devices');
     if (!page) return;
     const lang = window.i18n?.currentLang || 'ru';
-    const c = lang === 'ru' ? ['УСТРОЙСТВА','Обзор устройств','Сводка отчётов мобильного приложения. Подробные записи доступны владельцу.','Проверка соединения…','Обновить','Устройств с данными','Активны сейчас','Трафик сегодня','Получено событий','ПОСЛЕДНИЕ ДАННЫЕ','Последний отчёт:','Сводка загружается…','Публичная сводка не раскрывает SIM-профили. Владелец видит только слот, оператора, тип SIM/eSIM и мобильный счётчик без ICCID/IMSI. Отчёты Android отправляются после согласия; журнал iOS остаётся локальным.']
-      : lang === 'uz' ? ['QURILMALAR','Qurilmalar sharhi','Mobil ilova yuborgan hisobotlar jamlanmasi. Batafsil yozuvlar egaga ko‘rinadi.','Ulanish tekshirilmoqda…','Yangilash','Hisobot yuborgan qurilmalar','Hozir faol','Bugungi trafik','Qabul qilingan hodisalar','SO‘NGGI MA’LUMOT','So‘nggi hisobot:','Jamlanma yuklanmoqda…','Ochiq jamlanma SIM profillarini ko‘rsatmaydi. Ega ICCID/IMSIisiz faqat slot, operator, SIM/eSIM turi va mobil hisoblagichni ko‘radi. Android rozilikdan keyin hisobot yuboradi; iOS jurnali qurilmada qoladi.']
-        : ['DEVICES','Device overview','Summary of reports from the mobile app. Detailed records are owner-only.','Checking connection…','Refresh','Devices reported','Active now','Traffic today','Events received','LATEST DATA','Last report:','Loading summary…','The public summary does not expose SIM profiles. The owner sees slot, carrier, SIM/eSIM type, and cellular counters without ICCID/IMSI. Android reports require consent; the iOS log stays on-device.'];
+    const c = lang === 'ru' ? ['ИСТОРИЯ РАСХОДА','История расхода','Отчёты Android, число устройств, активность и сотовый расход за день. Подробная история доступна владельцу.','Проверка соединения…','Обновить','Устройств с данными','Активны сейчас','Трафик сегодня','Получено событий','ПОСЛЕДНИЕ ДАННЫЕ','Последний отчёт:','Сводка загружается…','Публичная сводка не раскрывает SIM-профили. Владелец видит только слот, оператора, тип SIM/eSIM и мобильный счётчик без ICCID/IMSI. Отчёты Android отправляются после согласия; журнал iOS остаётся локальным.']
+      : lang === 'uz' ? ['SARF TARIXI','Sarf tarixi','Android hisobotlari, qurilmalar soni, faollik va bugungi mobil sarf. Batafsil tarix egaga kirgandan so‘ng ko‘rinadi.','Ulanish tekshirilmoqda…','Yangilash','Hisobot yuborgan qurilmalar','Hozir faol','Bugungi trafik','Qabul qilingan hodisalar','SO‘NGGI MA’LUMOT','So‘nggi hisobot:','Jamlanma yuklanmoqda…','Ochiq jamlanma SIM profillarini ko‘rsatmaydi. Ega ICCID/IMSIisiz faqat slot, operator, SIM/eSIM turi va mobil hisoblagichni ko‘radi. Android rozilikdan keyin hisobot yuboradi; iOS jurnali qurilmada qoladi.']
+        : ['USAGE HISTORY','Usage history','Android reports, device counts, recent activity, and cellular use today. Detailed history is available to the owner.','Checking connection…','Refresh','Devices reported','Active now','Traffic today','Events received','LATEST DATA','Last report:','Loading summary…','The public summary does not expose SIM profiles. The owner sees slot, carrier, SIM/eSIM type, and cellular counters without ICCID/IMSI. Android reports require consent; the iOS log stays on-device.'];
     page.innerHTML = `
       <div class="container devices-page">
         <header class="section-title-strip reveal-on-scroll">
@@ -138,6 +138,16 @@
         </section>
         <p class="data-scope-note">${c[12]}</p>
       </div>`;
+    const toolbar = page.querySelector('.device-toolbar');
+    if (toolbar) {
+      const ownerButton = document.createElement('button');
+      ownerButton.type = 'button';
+      ownerButton.className = 'btn btn-secondary btn-compact';
+      ownerButton.dataset.i18n = 'history_owner_link';
+      ownerButton.textContent = window.i18n?.t('history_owner_link') || 'Detailed activity log';
+      ownerButton.addEventListener('click', () => window.requestAdminConsole?.());
+      toolbar.appendChild(ownerButton);
+    }
     document.getElementById('refresh-public-audit')?.addEventListener('click', fetchPublicSummary);
     fetchPublicSummary();
   }
@@ -298,7 +308,18 @@
       if (titleNode) titleNode.textContent = title;
       if (subNode) subNode.textContent = sub;
       if (badge) badge.textContent = `0${moduleIndex + 1} · ${title}`;
-       if (play) play.textContent = lang === 'ru' ? '↻ Анимированная схема' : lang === 'uz' ? '↻ Animatsion sxema' : '↻ Animated schematic';
+      if (play) play.textContent = lang === 'ru' ? '↻ Анимированная схема' : lang === 'uz' ? '↻ Animatsion sxema' : '↻ Animated schematic';
+      const videoFrame = card.querySelector('.motion-preview-box');
+      let videoHeading = card.querySelector('.motion-video-heading');
+      if (!videoHeading && videoFrame) {
+        videoHeading = document.createElement('span');
+        videoHeading.className = 'motion-video-heading';
+        videoHeading.setAttribute('aria-hidden', 'true');
+        videoFrame.appendChild(videoHeading);
+      }
+      if (videoHeading) videoHeading.textContent = title.toLocaleUpperCase(lang === 'uz' ? 'uz-UZ' : lang === 'en' ? 'en-US' : 'ru-RU');
+      const videoIndex = card.querySelector('.motion-video-index');
+      if (videoIndex) videoIndex.textContent = `XYLEN / ${lang === 'ru' ? 'ЭТАП' : lang === 'uz' ? 'BOSQICH' : 'STEP'} 0${moduleIndex + 1} / 05`;
       if (moduleIndex === 0) card.querySelectorAll('.radar-point').forEach(point => point.remove());
       if (moduleIndex === 2) { const lock = card.querySelector('.shield-lock'); if (lock) lock.textContent = '✓'; }
       if (moduleIndex === 3) { const tower = card.querySelector('.tower-beacon'); if (tower) tower.textContent = '↗'; }
@@ -413,7 +434,7 @@
     document.getElementById('owner-refresh')?.addEventListener('click', loadOwnerConsole);
   }
 
-  async function loadOwnerConsole() {
+  async function loadOwnerConsole({ navigate = true } = {}) {
     try {
       const response = await fetch('/api/admin', { cache: 'no-store', headers: { Accept: 'application/json' } });
       const type = response.headers.get('content-type') || '';
@@ -422,23 +443,30 @@
       if (!data.ok) throw new Error('Owner sign-in required');
       ownerAudit = data;
       ownerReady = true;
-      window.switchPage('page-admin');
+      window.dispatchEvent(new CustomEvent('xylen:owner-audit-sync', { detail: ownerAudit }));
+      if (navigate) window.switchPage('page-admin');
       renderOwnerConsole(ownerAudit);
       renderTrafficOwnerList(ownerAudit);
     } catch (_) {
       ownerReady = false;
+      window.dispatchEvent(new CustomEvent('xylen:owner-audit-sync', { detail: null }));
       if (location.pathname === '/manager') {
         if (window.showToast) window.showToast('Доступ не настроен или эта учётная запись не является владельцем.');
         return;
       }
-      location.assign('/manager');
+      if (navigate) location.assign('/manager');
     }
   }
 
   window.requestAdminConsole = loadOwnerConsole;
+  window.refreshAuditNow = async function () {
+    await fetchPublicSummary();
+    if (ownerReady) await loadOwnerConsole({ navigate: false });
+  };
   window.logoutAdminConsole = function () {
     ownerReady = false;
     ownerAudit = null;
+    window.dispatchEvent(new CustomEvent('xylen:owner-audit-sync', { detail: null }));
     window.switchPage('page-overview');
     window.showToast?.('Консоль закрыта. Завершите сеанс Cloudflare Access в браузере, если он больше не нужен.');
   };
@@ -451,6 +479,7 @@
     window.logoutAdminConsole = function () {
       ownerReady = false;
       ownerAudit = null;
+      window.dispatchEvent(new CustomEvent('xylen:owner-audit-sync', { detail: null }));
       window.switchPage('page-overview');
       window.showToast?.('Консоль закрыта. Завершите сеанс Cloudflare Access в браузере, если он больше не нужен.');
     };
@@ -479,8 +508,7 @@
     renderOperationalCopy();
     const menuButton = document.getElementById('compact-hamburger-btn-header');
     if (menuButton) {
-      menuButton.classList.add('fixed-menu-trigger');
-      document.body.append(menuButton);
+      menuButton.classList.remove('fixed-menu-trigger');
     }
     fetchPublicSummary();
     if (location.hash === '#admin') loadOwnerConsole();
