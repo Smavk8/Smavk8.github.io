@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
   <link rel="stylesheet" href="css/experience.css?v=1.0.0">
   <link rel="stylesheet" href="css/architecture-motion.css?v=1.1.0">
-  <link rel="stylesheet" href="css/xylen-motion.css?v=1.6.0">
+  <link rel="stylesheet" href="css/xylen-motion.css?v=1.7.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
 </head>
 <body>
@@ -230,6 +230,122 @@
           <li><span class="interlude-step-index">03</span><span data-i18n="interlude_step_3">ПОКАЗАТЬ СВОДКУ</span></li>
         </ol>
         <span class="consent-interlude-orbit" aria-hidden="true"></span>
+      </section>
+
+      <section class="data-path-story" id="data-path-story" aria-labelledby="data-path-story-title">
+        <div class="data-path-story-heading">
+          <div class="data-path-story-copy">
+            <span class="data-path-story-kicker"><i aria-hidden="true"></i><span data-i18n="path_story_kicker">XYLEN / ПУТЬ ДАННЫХ · 01—05</span></span>
+            <h2 id="data-path-story-title" data-i18n="path_story_title">От согласия до сводки</h2>
+            <p data-i18n="path_story_desc">Пять сцен показывают, что сообщает Android, что получает сайт и какие данные остаются на устройстве.</p>
+          </div>
+          <div class="data-path-progress" aria-hidden="true">
+            <span class="data-path-progress-label" data-i18n="path_story_progress">ПЯТЬ ЭТАПОВ</span>
+            <span class="data-path-progress-count"><b>01</b><i>/</i>05</span>
+            <span class="data-path-progress-track"><i></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+
+        <div class="data-path-stack">
+          <article class="data-path-card" data-path-card data-path-side="1" aria-labelledby="path-story-card-1-title">
+            <div class="path-card-shell">
+              <div class="path-card-copy">
+                <div class="path-card-overline"><span>01</span><i></i><span>CONSENT GATE</span></div>
+                <h3 id="path-story-card-1-title" data-i18n="path_story_1_title">Согласие включает передачу</h3>
+                <p data-i18n="path_story_1_desc">Отчёт Android отправляется в веб-сервис только после действия пользователя.</p>
+                <span class="path-card-footnote" data-i18n="path_story_visual_note">АНИМИРОВАННАЯ СХЕМА · НЕ ЖИВЫЕ ДАННЫЕ</span>
+              </div>
+              <div class="path-card-visual" aria-hidden="true">
+                <div class="path-scene-stage scene-consent">
+                  <div class="scene-horizon"></div><i class="scene-ring scene-ring-a"></i><i class="scene-ring scene-ring-b"></i><i class="scene-ring scene-ring-c"></i>
+                  <span class="scene-signal scene-signal-a"></span><span class="scene-signal scene-signal-b"></span><span class="scene-signal scene-signal-c"></span>
+                  <div class="scene-permission-card"><span>XYLEN / ANDROID</span><b>USER CONSENT</b><i class="scene-toggle"><i></i></i><small>TRANSMISSION READY</small></div>
+                  <div class="scene-consent-shield"><b>✓</b><small>01</small></div>
+                  <span class="scene-shard scene-shard-a"></span><span class="scene-shard scene-shard-b"></span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-path-card" data-path-card data-path-side="-1" aria-labelledby="path-story-card-2-title">
+            <div class="path-card-shell">
+              <div class="path-card-copy">
+                <div class="path-card-overline"><span>02</span><i></i><span>ANDROID REPORT</span></div>
+                <h3 id="path-story-card-2-title" data-i18n="path_story_2_title">Клиент формирует отчёт</h3>
+                <p data-i18n="path_story_2_desc">Приложение собирает JSON-событие и доступные ему счётчики устройства.</p>
+                <span class="path-card-footnote" data-i18n="path_story_visual_note">АНИМИРОВАННАЯ СХЕМА · НЕ ЖИВЫЕ ДАННЫЕ</span>
+              </div>
+              <div class="path-card-visual" aria-hidden="true">
+                <div class="path-scene-stage scene-report">
+                  <div class="scene-horizon"></div><i class="scene-ring scene-ring-a"></i><i class="scene-ring scene-ring-b"></i>
+                  <div class="scene-report-phone"><i class="scene-phone-speaker"></i><span>REPORT / JSON</span><b>{</b><i class="scene-code-line w-1"></i><i class="scene-code-line w-2"></i><i class="scene-code-line w-3"></i><i class="scene-code-line w-4"></i><b>}</b><small>CLIENT EVENT</small></div>
+                  <div class="scene-report-chip scene-report-chip-a"><i></i><span>EVENT</span><b>→</b></div>
+                  <div class="scene-report-chip scene-report-chip-b"><i></i><span>COUNTERS</span><b>+</b></div>
+                  <span class="scene-report-trail"></span><span class="scene-report-node"></span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-path-card" data-path-card data-path-side="1" aria-labelledby="path-story-card-3-title">
+            <div class="path-card-shell">
+              <div class="path-card-copy">
+                <div class="path-card-overline"><span>03</span><i></i><span>WEB API</span></div>
+                <h3 id="path-story-card-3-title" data-i18n="path_story_3_title">API принимает полученные данные</h3>
+                <p data-i18n="path_story_3_desc">Доставка зависит от сети. Сервер принимает только те события и счётчики, которые действительно пришли.</p>
+                <span class="path-card-footnote" data-i18n="path_story_visual_note">АНИМИРОВАННАЯ СХЕМА · НЕ ЖИВЫЕ ДАННЫЕ</span>
+              </div>
+              <div class="path-card-visual" aria-hidden="true">
+                <div class="path-scene-stage scene-api">
+                  <div class="scene-horizon"></div><i class="scene-ring scene-ring-a"></i><i class="scene-ring scene-ring-b"></i><i class="scene-ring scene-ring-c"></i>
+                  <span class="scene-api-lane scene-api-lane-a"></span><span class="scene-api-lane scene-api-lane-b"></span><span class="scene-api-lane scene-api-lane-c"></span>
+                  <i class="scene-api-packet scene-api-packet-a"></i><i class="scene-api-packet scene-api-packet-b"></i><i class="scene-api-packet scene-api-packet-c"></i>
+                  <div class="scene-api-gateway"><i class="scene-gateway-face"></i><i class="scene-gateway-face"></i><i class="scene-gateway-face"></i><b>API</b><small>RECEIVED</small></div>
+                  <span class="scene-api-base"></span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-path-card" data-path-card data-path-side="-1" aria-labelledby="path-story-card-4-title">
+            <div class="path-card-shell">
+              <div class="path-card-copy">
+                <div class="path-card-overline"><span>04</span><i></i><span>PUBLIC SUMMARY</span></div>
+                <h3 id="path-story-card-4-title" data-i18n="path_story_4_title">Публичная часть показывает сводку</h3>
+                <p data-i18n="path_story_4_desc">Открытая страница использует агрегированные полученные отчёты и не выдаёт иллюстрацию за измерение.</p>
+                <span class="path-card-footnote" data-i18n="path_story_visual_note">АНИМИРОВАННАЯ СХЕМА · НЕ ЖИВЫЕ ДАННЫЕ</span>
+              </div>
+              <div class="path-card-visual" aria-hidden="true">
+                <div class="path-scene-stage scene-summary">
+                  <div class="scene-horizon"></div><i class="scene-ring scene-ring-a"></i><i class="scene-ring scene-ring-b"></i>
+                  <div class="scene-summary-orbit"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                  <div class="scene-summary-chart"><span class="scene-chart-label">AGGREGATE VIEW</span><div class="scene-chart-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="scene-chart-floor"></span></div>
+                  <span class="scene-summary-ray scene-summary-ray-a"></span><span class="scene-summary-ray scene-summary-ray-b"></span>
+                  <i class="scene-summary-node scene-summary-node-a"></i><i class="scene-summary-node scene-summary-node-b"></i><i class="scene-summary-node scene-summary-node-c"></i>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-path-card" data-path-card data-path-side="1" aria-labelledby="path-story-card-5-title">
+            <div class="path-card-shell">
+              <div class="path-card-copy">
+                <div class="path-card-overline"><span>05</span><i></i><span>ON-DEVICE ONLY</span></div>
+                <h3 id="path-story-card-5-title" data-i18n="path_story_5_title">Журнал iOS остаётся на устройстве</h3>
+                <p data-i18n="path_story_5_desc">Изученная версия iOS-клиента хранит журнал локально и не отправляет его в веб API.</p>
+                <span class="path-card-footnote" data-i18n="path_story_visual_note">АНИМИРОВАННАЯ СХЕМА · НЕ ЖИВЫЕ ДАННЫЕ</span>
+              </div>
+              <div class="path-card-visual" aria-hidden="true">
+                <div class="path-scene-stage scene-ios">
+                  <div class="scene-horizon"></div><i class="scene-ring scene-ring-a"></i><i class="scene-ring scene-ring-b"></i>
+                  <div class="scene-ios-phone"><i class="scene-ios-notch"></i><span>LOCAL ACTIVITY LOG</span><i class="scene-log-line l-1"></i><i class="scene-log-line l-2"></i><i class="scene-log-line l-3"></i><i class="scene-log-line l-4"></i><i class="scene-log-line l-5"></i><small>ON THIS DEVICE</small></div>
+                  <span class="scene-ios-boundary"></span><span class="scene-ios-route"></span><span class="scene-ios-stop">×</span>
+                  <i class="scene-ios-node scene-ios-node-a"></i><i class="scene-ios-node scene-ios-node-b"></i>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       </section>
 
       <!-- ====================================================================
@@ -985,12 +1101,13 @@
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
   <script src="js/storage.js?v=2.7.0"></script>
-  <script src="js/i18n.js?v=3.0.0"></script>
+  <script src="js/i18n.js?v=3.1.0"></script>
   <script src="js/app.js?v=2.9.0"></script>
-  <script src="js/refinements.js?v=2.7.0"></script>
+  <script src="js/refinements.js?v=2.8.0"></script>
   <script src="js/home-expansion.js?v=1.0.0"></script>
   <script src="js/experience.js?v=1.0.0"></script>
   <script src="js/xylen-motion.js?v=1.1.0"></script>
-  <script src="js/navigation-preview.js?v=1.2.0"></script>
+  <script src="js/data-path-story.js?v=1.0.0"></script>
+  <script src="js/navigation-preview.js?v=1.3.0"></script>
 </body>
 </html>

@@ -119,11 +119,11 @@
       activeButton.setAttribute('aria-describedby', preview.id);
 
       const rect = button.getBoundingClientRect();
-      const width = Math.min(460, window.innerWidth - 28);
+      const width = Math.min(360, window.innerWidth - 28);
       const left = Math.max(14, Math.min(window.innerWidth - width - 14, rect.left + rect.width / 2 - width / 2));
       preview.style.left = `${left}px`;
       preview.style.setProperty('--nav-preview-scale', (width / 1280).toFixed(6));
-      const previewHeight = preview.getBoundingClientRect().height || 268;
+      const previewHeight = preview.getBoundingClientRect().height || 236;
       const maxTop = Math.max(14, window.innerHeight - previewHeight - 14);
       preview.style.top = `${Math.min(maxTop, Math.max(14, rect.bottom + 12))}px`;
       pendingPage = button.dataset.page;

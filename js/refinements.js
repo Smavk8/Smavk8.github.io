@@ -488,30 +488,57 @@
     window.addEventListener('xylen:lang-changed', () => { renderPublicPage(); renderInfoPages(); renderOperationalCopy(); });
     const header = document.getElementById('top-navbar');
     let previousY = window.scrollY;
-    let scrollDirection = 0;
+    let direction = 0;
     let directionTravel = 0;
-    let ticking = false;
+    let lastWheelAt = 0;
+    let scrollFrame = 0;
+    const resetTravel = nextDirection => {
+      if (nextDirection && nextDirection !== direction) directionTravel = 0;
+      if (nextDirection) direction = nextDirection;
+    };
+    const applyNavigationIntent = (nextDirection, distance, y) => {
+      const drawerOpen = document.getElementById('compact-nav-drawer')?.classList.contains('active');
+      if (y < 56 || drawerOpen) {
+        header?.classList.remove('navbar-hidden');
+        directionTravel = 0;
+        return;
+      }
+      if (nextDirection > 0 && y > 150 && !header?.classList.contains('navbar-hidden') && distance >= 64) {
+        header?.classList.add('navbar-hidden');
+        directionTravel = 0;
+      } else if (nextDirection < 0 && header?.classList.contains('navbar-hidden') && distance >= 36) {
+        header.classList.remove('navbar-hidden');
+        directionTravel = 0;
+      }
+    };
+    window.addEventListener('wheel', event => {
+      if (event.ctrlKey || Math.abs(event.deltaY) < Math.abs(event.deltaX) * .7) return;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1;
+      const delta = Math.max(-120, Math.min(120, event.deltaY * unit));
+      if (Math.abs(delta) < 2) return;
+      lastWheelAt = performance.now();
+      const nextDirection = Math.sign(delta);
+      resetTravel(nextDirection);
+      directionTravel += Math.abs(delta);
+      applyNavigationIntent(nextDirection, directionTravel, window.scrollY);
+    }, { passive: true });
     window.addEventListener('scroll', () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => {
+        scrollFrame = 0;
         const y = window.scrollY;
         const delta = y - previousY;
-        const direction = Math.sign(delta);
-        if (direction && direction !== scrollDirection) {
-          scrollDirection = direction;
-          directionTravel = 0;
-        }
-        directionTravel += Math.abs(delta);
-        if (y < 50) {
+        previousY = y;
+        if (y < 56) {
           header?.classList.remove('navbar-hidden');
           directionTravel = 0;
-        } else if (directionTravel >= 10) {
-          header?.classList.toggle('navbar-hidden', scrollDirection > 0 && y > 120);
-          directionTravel = 0;
+          return;
         }
-        previousY = y;
-        ticking = false;
+        if (performance.now() - lastWheelAt < 180 || Math.abs(delta) < 1) return;
+        const nextDirection = Math.sign(delta);
+        resetTravel(nextDirection);
+        directionTravel += Math.abs(delta);
+        applyNavigationIntent(nextDirection, directionTravel, y);
       });
     }, { passive: true });
     document.addEventListener('keydown', event => { if (event.key === 'Escape') window.toggleNavDrawer?.(false); });
