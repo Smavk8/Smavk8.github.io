@@ -24,7 +24,6 @@
 .about-hero-orbit i:nth-child(3) { top:84%; left:79%; width:5px; height:5px; }
 .about-ticker { display:flex; overflow:hidden; margin:18px 0 48px; padding:14px 0; border-block:1px solid rgba(104,213,243,.16); color:#79a3b7; font:700 11px/1 ui-monospace,Consolas,monospace; letter-spacing:.2em; white-space:nowrap; }
 .about-ticker span { flex:0 0 auto; min-width:100%; animation:about-marquee 34s linear infinite; }
-.about-ticker span+span { animation-delay:-17s; }
 .about-index { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); margin:0 0 clamp(90px,13vw,180px); border-top:1px solid var(--x-line); border-bottom:1px solid var(--x-line); }
 .about-index-link { display:grid; grid-template-columns:36px 1fr 18px; align-items:center; gap:7px; min-height:64px; padding:13px 12px; border-right:1px solid var(--x-line); color:#dbe7ed; text-decoration:none; font-size:13px; transition:background .25s,color .25s; }
 .about-index-link:last-child { border-right:0; }
