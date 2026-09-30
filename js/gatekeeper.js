@@ -4,7 +4,7 @@
  * or manual key entry. Provides real login and logout functions.
  */
 (() => {
-  const VALID_KEYS = ['xylen', 'xylen2026', 'xylen-team', 'preview'];
+  const VALID_KEYS = ['topup', 'xylen'];
   const STORAGE_KEY = 'xylen_private_access_authorized';
 
   // Normalize key string
@@ -73,7 +73,7 @@
         grantAccess();
       } else {
         if (errorMsg) {
-          errorMsg.textContent = 'Неверный ключ доступа. Попробуйте снова.';
+          errorMsg.textContent = window.i18n?.t('gatekeeper_error') || 'The access key is incorrect. Try again.';
           errorMsg.classList.add('show');
         }
         input.focus();
