@@ -7,8 +7,8 @@
   <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="yandex" content="none">
   <meta name="theme-color" content="#0A0C10">
-  <meta name="description" content="Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения.">
-  <title>Xylen Platform • Сводка мобильных отчётов</title>
+  <meta name="description" content="Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения." data-i18n-attr="content:page_description">
+  <title data-i18n="page_title">Xylen Platform • Сводка мобильных отчётов</title>
   <link rel="stylesheet" href="css/styles.css?v=2.7.0">
   <link rel="stylesheet" href="css/home-expansion.css?v=1.0.0">
   <link rel="stylesheet" href="css/experience.css?v=1.0.0">
@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="css/xylen-motion.css?v=1.7.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
   <link rel="stylesheet" href="css/gatekeeper.css?v=1.0.0">
+  <link rel="stylesheet" href="css/theme-palette.css?v=1.1.0">
   <script src="js/gatekeeper.js?v=1.0.0"></script>
 </head>
 <body>
@@ -29,21 +30,30 @@
       </picture>
       <div class="gatekeeper-badge">
         <span class="gatekeeper-badge-dot"></span>
-        <span>Приватный прототип</span>
+        <span data-i18n="gatekeeper_badge">Приватный прототип</span>
       </div>
       <h1 class="gatekeeper-title">Xylen Platform</h1>
-      <p class="gatekeeper-desc">
+      <p class="gatekeeper-desc" data-i18n="gatekeeper_desc">
         Данный портал находится в стадии закрытого тестирования. Просмотр доступен только по персональной пригласительной ссылке владельца проекта.
       </p>
+      <div class="gatekeeper-lang-row" role="group" data-i18n-attr="aria-label:settings_language" aria-label="Язык интерфейса">
+        <button class="lang-text-btn active" type="button" data-lang="ru" aria-pressed="true">RU</button>
+        <button class="lang-text-btn" type="button" data-lang="uz" aria-pressed="false">UZ</button>
+        <button class="lang-text-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button id="gatekeeper-theme-toggle" class="gatekeeper-theme-toggle" type="button" onclick="window.toggleTheme();" data-i18n-attr="aria-label:settings_theme" aria-label="Режим оформления" aria-pressed="false">
+        <span id="gatekeeper-theme-icon" aria-hidden="true">☀️</span>
+        <span id="gatekeeper-theme-text">Тёмная тема</span>
+      </button>
       <form id="gatekeeper-form" class="gatekeeper-form" autocomplete="off">
         <div class="gatekeeper-input-wrap">
           <span class="gatekeeper-icon" aria-hidden="true">🔒</span>
-          <input type="password" id="gatekeeper-key-input" class="gatekeeper-input" placeholder="Введите ключ доступа..." autocomplete="current-password" required>
+          <input type="password" id="gatekeeper-key-input" class="gatekeeper-input" placeholder="Введите ключ доступа…" data-i18n-attr="placeholder:gatekeeper_placeholder" autocomplete="current-password" required>
         </div>
         <div id="gatekeeper-error" class="gatekeeper-error"></div>
-        <button type="submit" class="gatekeeper-submit-btn">Разблокировать доступ</button>
+        <button type="submit" class="gatekeeper-submit-btn" data-i18n="gatekeeper_submit">Разблокировать доступ</button>
       </form>
-      <div class="gatekeeper-foot-note">
+      <div class="gatekeeper-foot-note" data-i18n="gatekeeper_footnote">
         Если вы перешли по специальной ссылке с ключом, сайт откроется автоматически.
       </div>
     </div>
@@ -76,18 +86,18 @@
        COMPACT NAVIGATION DRAWER / MODAL
        Opens on clicking hamburger or on mobile screen
        ======================================================================== -->
-  <div id="compact-nav-drawer" class="compact-nav-drawer" role="dialog" aria-label="Меню сайта" aria-modal="false" aria-hidden="true" inert>
+  <div id="compact-nav-drawer" class="compact-nav-drawer" role="dialog" data-i18n-attr="aria-label:menu_title" aria-label="Меню сайта" aria-modal="false" aria-hidden="true" inert>
     <div class="drawer-backdrop" onclick="window.toggleNavDrawer(false);"></div>
     <div class="drawer-sheet">
       <div class="drawer-header">
-        <span class="drawer-menu-title">Настройки</span>
-        <button class="drawer-close-btn" onclick="window.toggleNavDrawer(false);" aria-label="Закрыть меню">✕</button>
+        <span class="drawer-menu-title" data-i18n="menu_title">Настройки</span>
+        <button class="drawer-close-btn" onclick="window.toggleNavDrawer(false);" data-i18n-attr="aria-label:drawer_close" aria-label="Закрыть меню">✕</button>
       </div>
       <div class="drawer-footer-controls">
         <!-- Language Switcher inside Drawer -->
         <div class="drawer-control-group">
-          <div class="drawer-group-label">Язык интерфейса / Til / Language</div>
-          <div class="drawer-lang-row" role="group" aria-label="Язык интерфейса">
+          <div class="drawer-group-label" data-i18n="settings_language">Язык интерфейса</div>
+          <div class="drawer-lang-row" role="group" data-i18n-attr="aria-label:settings_language" aria-label="Язык интерфейса">
             <button class="lang-text-btn active" data-lang="ru" onclick="window.selectLanguage('ru');">
               <span>🇷🇺</span> <span>RU</span>
             </button>
@@ -102,17 +112,17 @@
 
         <!-- Theme Toggle inside Drawer -->
         <div class="drawer-control-group">
-          <div class="drawer-group-label">Режим оформления</div>
+          <div class="drawer-group-label" data-i18n="settings_theme">Режим оформления</div>
           <button id="drawer-theme-toggle" class="drawer-theme-pill-btn" onclick="window.toggleTheme();">
             <span id="drawer-theme-icon" class="theme-icon-symbol">☀️</span>
-            <span id="drawer-theme-text">Тёмная тема</span>
+            <span id="drawer-theme-text" data-i18n="theme_current_dark">Тёмная тема</span>
           </button>
         </div>
 
         <div class="app-drawer-logout-row">
           <button class="app-drawer-logout-btn" type="button" onclick="window.toggleNavDrawer(false); window.xylenLogout();">
             <span aria-hidden="true">🔒</span>
-            <span>Выйти из защищённого режима</span>
+            <span data-i18n="gatekeeper_logout">Выйти из защищённого режима</span>
           </button>
         </div>
         <!-- Manager Access Console Button -->
@@ -132,15 +142,15 @@
   <header id="top-navbar" class="top-navbar floating-island">
     <div class="nav-island-inner">
       <!-- Xylen Management logo lockup -->
-      <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" title="Xylen Platform">
+      <a href="#" class="brand-badge-clean" id="brand-badge-logo" onclick="window.switchPage('page-overview'); return false;" data-i18n-attr="title:brand_platform" title="Xylen Platform">
         <picture class="brand-lockup">
-          <img src="assets/xylen-logo-white.png" alt="Xylen Management" class="brand-lockup-dark">
+          <img src="assets/xylen-logo-white.png" alt="Xylen Management" data-i18n-attr="alt:brand_management" class="brand-lockup-dark">
           <img src="assets/xylen-logo.png" alt="" aria-hidden="true" class="brand-lockup-light">
         </picture>
       </a>
 
       <!-- Wide tab strip with a sliding active state -->
-      <nav class="main-nav-menu" id="main-nav-menu" aria-label="Разделы Xylen Workspace">
+      <nav class="main-nav-menu" id="main-nav-menu" data-i18n-attr="aria-label:nav_aria" aria-label="Разделы Xylen Workspace">
         <div class="nav-active-pill" id="nav-active-pill"></div>
         <button class="nav-page-btn active" data-page="page-overview" data-i18n="nav_overview">
           Обзор
@@ -1145,11 +1155,11 @@
   <!-- Scripts -->
   <script src="js/qrcode.min.js"></script>
   <script src="js/storage.js?v=2.7.0"></script>
-  <script src="js/i18n.js?v=3.1.0"></script>
-  <script src="js/app.js?v=2.9.0"></script>
-  <script src="js/refinements.js?v=2.8.0"></script>
+<script src="js/i18n.js?v=3.2.0"></script>
+<script src="js/app.js?v=3.0.0"></script>
+<script src="js/refinements.js?v=2.10.0"></script>
   <script src="js/home-expansion.js?v=1.0.0"></script>
-  <script src="js/experience.js?v=1.0.0"></script>
+<script src="js/experience.js?v=1.1.0"></script>
   <script src="js/xylen-motion.js?v=1.1.0"></script>
   <script src="js/data-path-story.js?v=1.0.0"></script>
   <script src="js/navigation-preview.js?v=1.3.0"></script>

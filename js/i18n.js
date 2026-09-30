@@ -29,7 +29,7 @@ const TRANSLATIONS = {
 
     // Overview Hero
     hero_badge: "Реальная сотовая телеметрия • Ядро связи v5.2",
-    overview_hero_title: "Silent Motion",
+    overview_hero_title: "Тихое движение",
     overview_hero_sub: "Независимый инженерный комплекс аппаратного контроля сотового радиоканала, проверки активных SIM-слотов и сквозного аудита мобильного трафика. Прямой доступ к параметрам радиомодема без посредников и эмуляций.",
     btn_hero_connect: "Мониторинг радиоэфира",
     btn_hero_releases: "Центр загрузки клиентов",
@@ -154,8 +154,8 @@ const TRANSLATIONS = {
     about_origin_p2: "Сводка строится по событиям и счётчикам из отчёта. Их состав зависит от клиента, устройства и версии Android; сайт не измеряет радиоканал и не сверяет расход с биллингом оператора.",
     about_arch_title: "Архитектура нативного стека",
     about_p1: "Платформа показывает агрегированные отчёты и даёт владельцу доступ к подробным записям после отдельной проверки. Она не измеряет радиосигнал и не сверяет мобильный расход с биллингом оператора.",
-    about_p2: "Android-клиент написан на Kotlin и Jetpack Compose. После согласия он передаёт в веб API поля, перечисленные в Data Charter; состав отчёта зависит от приложения, устройства и версии Android.",
-    about_p3: "Веб API принимает отчёты через Cloudflare Pages Functions. Публичный endpoint возвращает агрегаты, а подробные записи доступны через Cloudflare Access. Постоянное хранение зависит от настройки Cloudflare KV.",
+    about_p2: "Android-клиент написан на Kotlin и Jetpack Compose. После согласия он передаёт в веб API поля, перечисленные в описании состава отчёта; состав отчёта зависит от приложения, устройства и версии Android.",
+    about_p3: "Веб API принимает отчёты через Cloudflare Pages Functions. Публичная точка API возвращает агрегированные значения, а подробные записи доступны после проверки Cloudflare Access. Постоянное хранение зависит от настройки Cloudflare KV.",
     about_p4: "Сводки мобильного трафика основаны на счётчиках, которые сообщает клиент. Сайт не получает CID/TAC или измерения радиосигнала и не подтверждает точность показаний оператора.",
 
     // Privacy
@@ -165,7 +165,7 @@ const TRANSLATIONS = {
     privacy_badge_uk: "ДОСТУП И ХРАНЕНИЕ",
     privacy_p1: "После согласия Android передаёт ID установки, модель, имя тестировщика, экран, действие и детали, оператора, временную отметку, состояние, дневные и сессионные счётчики, а также активные или использованные сегодня SIM-профили.",
     privacy_p2: "Веб audit API не получает номер телефона, ICCID, IMSI, идентификаторы вышек или измерения радиосигнала. Изученный исходный код iOS хранит журнал на устройстве и не отправляет его в этот веб API.",
-    privacy_p3: "Публичный endpoint возвращает только агрегированные сведения. Подробные записи защищены проверкой Cloudflare Access и email владельца; постоянное хранение зависит от настройки Cloudflare KV.",
+    privacy_p3: "Публичная точка API возвращает только агрегированные сведения. Подробные записи защищены проверкой Cloudflare Access и совпадением адреса электронной почты владельца; постоянное хранение зависит от настройки Cloudflare KV.",
     privacy_p4: "Журнал на сервере ограничен последними 200 событиями, а последняя запись устройства хранится до удаления оператором. Отзыв согласия прекращает будущую отправку, но не удаляет ранее сохранённые серверные записи.",
     privacy_law_uz_title: "Описание передачи данных",
     privacy_law_uz_desc: "Эта страница описывает поля и поведение веб API. Она не подтверждает юридическое соответствие и не заменяет политику обработки данных, которую определяет оператор платформы.",
@@ -210,7 +210,7 @@ const TRANSLATIONS = {
 
     // Overview Hero
     hero_badge: "Haqiqiy mobil telemetriya • Aloqa yadrosi v5.2",
-    overview_hero_title: "Silent Motion",
+    overview_hero_title: "Jimjit harakat",
     overview_hero_sub: "Radiokanal parametrlarini aniqlash, faol SIM-slotlarni tekshirish va mobil internet sarfini to'liq audit qilish mustaqil muhandislik platformasi. Radiomodem parametrlariga vositachilarsiz to'g'ridan-to'g'ri kirish.",
     btn_hero_connect: "Radioefir monitoringi",
     btn_hero_releases: "Mijozlarni yuklab olish",
@@ -336,8 +336,8 @@ const TRANSLATIONS = {
     about_origin_p2: "Jamlanma hisobotdagi hodisalar va hisoblagichlarga tayanadi. Ularning tarkibi mijoz, qurilma va Android versiyasiga bog‘liq; sayt radio kanalni o‘lchamaydi va operator billingini tekshirmaydi.",
     about_arch_title: "Nativ dasturiy arxitektura",
     about_p1: "Platforma umumiy hisobotlarni ko‘rsatadi va egasiga batafsil yozuvlarni alohida tekshiruvdan so‘ng ochadi. U radio signalni o‘lchamaydi va mobil sarfni operator billingiga solishtirmaydi.",
-    about_p2: "Android mijozi Kotlin va Jetpack Compose-da yozilgan. Rozilikdan so‘ng u Data Charter’da ko‘rsatilgan maydonlarni veb APIga yuboradi; hisobot tarkibi ilova, qurilma va Android versiyasiga bog‘liq.",
-    about_p3: "Veb API hisobotlarni Cloudflare Pages Functions orqali qabul qiladi. Ochiq endpoint jamlanmalarni qaytaradi, batafsil yozuvlar esa Cloudflare Access orqali cheklanadi. Doimiy saqlash Cloudflare KV sozlamasiga bog‘liq.",
+    about_p2: "Android mijozi Kotlin va Jetpack Compose-da yozilgan. Rozilikdan so‘ng u hisobot tarkibi tavsifida ko‘rsatilgan maydonlarni veb APIga yuboradi; hisobot tarkibi ilova, qurilma va Android versiyasiga bog‘liq.",
+    about_p3: "Veb API hisobotlarni Cloudflare Pages Functions orqali qabul qiladi. Ochiq API manzili umumlashtirilgan qiymatlarni qaytaradi, batafsil yozuvlar esa Cloudflare Access orqali cheklanadi. Doimiy saqlash Cloudflare KV sozlamasiga bog‘liq.",
     about_p4: "Mobil trafik jamlanmalari mijoz yuborgan hisoblagichlarga asoslanadi. Sayt CID/TAC yoki radio o‘lchovlarini olmaydi va operator ko‘rsatkichlarining aniqligini tasdiqlamaydi.",
 
     // Privacy
@@ -347,7 +347,7 @@ const TRANSLATIONS = {
     privacy_badge_uk: "KIRISH VA SAQLASH",
     privacy_p1: "Rozilikdan so‘ng Android o‘rnatish IDsi, model, sinovchi ismi, ekran, amal va tafsilot, operator, vaqt, holat, kunlik va sessiya hisoblagichlari hamda faol yoki bugun ishlatilgan SIM profillarini yuboradi.",
     privacy_p2: "Veb audit API telefon raqami, ICCID, IMSI, baza stansiyasi IDlari yoki radio o‘lchovlarini olmaydi. Ko‘rib chiqilgan iOS kodi jurnalni qurilmada saqlaydi va ushbu veb APIga yubormaydi.",
-    privacy_p3: "Ochiq endpoint faqat umumiy ma’lumotlarni qaytaradi. Batafsil yozuvlar Cloudflare Access va egasi emaili bilan himoyalangan; doimiy saqlash Cloudflare KV sozlamasiga bog‘liq.",
+    privacy_p3: "Ochiq API manzili faqat umumiy ma’lumotlarni qaytaradi. Batafsil yozuvlar Cloudflare Access tekshiruvi va loyiha egasining elektron pochta manzili mosligi bilan himoyalangan; doimiy saqlash Cloudflare KV sozlamasiga bog‘liq.",
     privacy_p4: "Server jurnali oxirgi 200 hodisa bilan cheklangan, qurilmaning so‘nggi yozuvi operator o‘chirmaguncha saqlanadi. Rozilikni bekor qilish keyingi yuborishni to‘xtatadi, avvalgi yozuvlarni o‘chirmaydi.",
     privacy_law_uz_title: "Ma’lumot uzatish tavsifi",
     privacy_law_uz_desc: "Bu sahifa veb API maydonlari va ishlashini tasvirlaydi. U qonuniy muvofiqlikni tasdiqlamaydi va platforma operatori belgilaydigan ma’lumotlarni qayta ishlash siyosatini almashtirmaydi.",
@@ -355,7 +355,7 @@ const TRANSLATIONS = {
     privacy_law_uk_desc: "Batafsil yozuvlar Cloudflare Access orqali cheklanadi. Doimiy saqlash Cloudflare KV sozlamasiga bog‘liq; o‘chirish muddati va murojaat tartibini platforma operatori belgilaydi.",
 
     // Admin
-    admin_auth_title: "Master-Menejer Konsoli",
+    admin_auth_title: "Bosh menejer konsoli",
     admin_auth_sub: "Kirish Cloudflare Access orqali amalga oshiriladi.",
     admin_auth_btn_login: "Konsolga kirish",
     admin_auth_error: "Cloudflare Access orqali egasi tasdiqlanishi kerak.",
@@ -553,6 +553,175 @@ const TRANSLATIONS = {
   }
 };
 
+const EXTRA_TRANSLATIONS = {
+  ru: {
+    page_title: 'Xylen Platform • Сводка мобильных отчётов',
+    page_description: 'Xylen Platform: сводка отчётов Android, клиентских сетевых счётчиков и событий приложения.',
+    drawer_open: 'Открыть меню', nav_aria: 'Разделы Xylen', menu_title: 'Настройки', drawer_close: 'Закрыть меню',
+    settings_language: 'Язык интерфейса', settings_theme: 'Режим оформления',
+    theme_current_light: 'Светлая тема', theme_current_dark: 'Тёмная тема',
+    brand_platform: 'Xylen Platform', brand_management: 'Xylen Management',
+    about_field_notes: 'ПОЛЕВЫЕ ЗАМЕТКИ', about_data_charter: 'ПАСПОРТ ДАННЫХ', about_data_note: 'ЗАПИСКА О ДАННЫХ', about_end: 'КОНЕЦ',
+    release_client_label: 'КЛИЕНТ', release_clients_label: 'КЛИЕНТЫ',
+    gatekeeper_badge: 'Приватный прототип',
+    gatekeeper_desc: 'Портал проходит закрытое тестирование. Просмотр доступен по персональной пригласительной ссылке владельца проекта.',
+    gatekeeper_placeholder: 'Введите ключ доступа…', gatekeeper_submit: 'Разблокировать доступ',
+    gatekeeper_footnote: 'Если вы открыли специальную ссылку с ключом, сайт разблокируется автоматически.',
+    gatekeeper_error: 'Неверный ключ доступа. Попробуйте снова.',
+    gatekeeper_logout: 'Выйти из защищённого режима',
+    qr_install_title: 'QR-код для установки', pairing_token_created: 'Создан новый ключ сопряжения',
+    video_heading_1: 'Согласие', video_heading_2: 'Поля отчёта', video_heading_3: 'Сводка', video_heading_4: 'Доступ владельца', video_heading_5: 'Журнал iOS',
+    video_caption_1: 'Android отправляет отчёт только после согласия пользователя.',
+    video_caption_2: 'Клиент передаёт доступные поля события и счётчики.',
+    video_caption_3: 'Сводка включает только полученные отчёты.',
+    video_caption_4: 'Для подробных записей нужна проверка владельца.',
+    video_caption_5: 'Проверенный журнал iOS остаётся на устройстве.',
+    video_index_1: 'ЭТАП 01 / 05', video_index_2: 'ЭТАП 02 / 05', video_index_3: 'ЭТАП 03 / 05', video_index_4: 'ЭТАП 04 / 05', video_index_5: 'ЭТАП 05 / 05',
+    video_play_tag: '↻ Анимированная схема',
+    mod1_badge: '01 • Согласие', mod2_badge: '02 • Отчёт', mod3_badge: '03 • Сводка', mod4_badge: '04 • Доступ', mod5_badge: '05 • iOS'
+  },
+  uz: {
+    page_title: 'Xylen Platform • Mobil hisobotlar jamlanmasi',
+    page_description: 'Xylen Platform: Android hisobotlari, mijoz yuborgan tarmoq hisoblagichlari va ilova hodisalari jamlanmasi.',
+    drawer_open: 'Menyuni ochish', nav_aria: 'Xylen bo‘limlari', menu_title: 'Sozlamalar', drawer_close: 'Menyuni yopish',
+    settings_language: 'Interfeys tili', settings_theme: 'Ko‘rinish rejimi',
+    theme_current_light: 'Yorug‘ mavzu', theme_current_dark: 'Qorong‘i mavzu',
+    brand_platform: 'Xylen Platform', brand_management: 'Xylen Management',
+    about_field_notes: 'QAYDLAR', about_data_charter: 'MA’LUMOTLAR NIZOMI', about_data_note: 'MA’LUMOT HAQIDA', about_end: 'YAKUN',
+    release_client_label: 'MIJOZ', release_clients_label: 'MIJOZLAR',
+    gatekeeper_badge: 'Yopiq sinov versiyasi',
+    gatekeeper_desc: 'Portal yopiq sinovdan o‘tmoqda. Uni loyiha egasining shaxsiy taklif havolasi orqali ko‘rish mumkin.',
+    gatekeeper_placeholder: 'Kirish kalitini kiriting…', gatekeeper_submit: 'Kirishni ochish',
+    gatekeeper_footnote: 'Maxsus kalitli havolani ochsangiz, sayt avtomatik ravishda ochiladi.',
+    gatekeeper_error: 'Kirish kaliti noto‘g‘ri. Qayta urinib ko‘ring.',
+    gatekeeper_logout: 'Himoyalangan rejimdan chiqish',
+    qr_install_title: 'O‘rnatish uchun QR-kod', pairing_token_created: 'Yangi ulash kaliti yaratildi',
+    video_heading_1: 'Rozilik', video_heading_2: 'Hisobot maydonlari', video_heading_3: 'Jamlanma', video_heading_4: 'Ega kirishi', video_heading_5: 'iOS jurnali',
+    video_caption_1: 'Android hisobotni faqat foydalanuvchi roziligidan keyin yuboradi.',
+    video_caption_2: 'Mijoz mavjud hodisa maydonlari va hisoblagichlarni yuboradi.',
+    video_caption_3: 'Jamlanma faqat qabul qilingan hisobotlarni qamrab oladi.',
+    video_caption_4: 'Batafsil yozuvlar uchun egani tekshirish talab qilinadi.',
+    video_caption_5: 'Ko‘rib chiqilgan iOS jurnali qurilmada qoladi.',
+    video_index_1: 'BOSQICH 01 / 05', video_index_2: 'BOSQICH 02 / 05', video_index_3: 'BOSQICH 03 / 05', video_index_4: 'BOSQICH 04 / 05', video_index_5: 'BOSQICH 05 / 05',
+    video_play_tag: '↻ Animatsion sxema',
+    mod1_badge: '01 • Rozilik', mod2_badge: '02 • Hisobot', mod3_badge: '03 • Jamlanma', mod4_badge: '04 • Kirish', mod5_badge: '05 • iOS'
+  },
+  en: {
+    page_title: 'Xylen Platform • Mobile report summary',
+    page_description: 'Xylen Platform: summaries of Android reports, client-reported network counters, and app events.',
+    drawer_open: 'Open menu', nav_aria: 'Xylen sections', menu_title: 'Settings', drawer_close: 'Close menu',
+    settings_language: 'Interface language', settings_theme: 'Appearance',
+    theme_current_light: 'Light theme', theme_current_dark: 'Dark theme',
+    brand_platform: 'Xylen Platform', brand_management: 'Xylen Management',
+    about_field_notes: 'FIELD NOTES', about_data_charter: 'DATA CHARTER', about_data_note: 'DATA NOTE', about_end: 'END',
+    release_client_label: 'CLIENT', release_clients_label: 'CLIENTS',
+    gatekeeper_badge: 'Private prototype',
+    gatekeeper_desc: 'This portal is in closed testing. View it with a personal invitation link from the project owner.',
+    gatekeeper_placeholder: 'Enter access key…', gatekeeper_submit: 'Unlock access',
+    gatekeeper_footnote: 'Open a special link with a key to unlock the site automatically.',
+    gatekeeper_error: 'The access key is incorrect. Try again.',
+    gatekeeper_logout: 'Exit protected mode',
+    qr_install_title: 'QR code for installation', pairing_token_created: 'New pairing key generated',
+    video_heading_1: 'Consent', video_heading_2: 'Report fields', video_heading_3: 'Summary', video_heading_4: 'Owner access', video_heading_5: 'iOS activity log',
+    video_caption_1: 'Android sends a report only after the user gives consent.',
+    video_caption_2: 'The client sends available event fields and counters.',
+    video_caption_3: 'The summary includes received reports only.',
+    video_caption_4: 'Detailed records require owner verification.',
+    video_caption_5: 'The reviewed iOS activity log stays on-device.',
+    video_index_1: 'STEP 01 / 05', video_index_2: 'STEP 02 / 05', video_index_3: 'STEP 03 / 05', video_index_4: 'STEP 04 / 05', video_index_5: 'STEP 05 / 05',
+    video_play_tag: '↻ Animated schematic',
+    mod1_badge: '01 • Consent', mod2_badge: '02 • Report', mod3_badge: '03 • Summary', mod4_badge: '04 • Access', mod5_badge: '05 • iOS'
+  }
+};
+
+const INLINE_COPY = [
+  ['Приватный прототип', 'Yopiq sinov versiyasi', 'Private prototype'],
+  ['Данный портал находится в стадии закрытого тестирования. Просмотр доступен только по персональной пригласительной ссылке владельца проекта.', 'Portal yopiq sinovdan o‘tmoqda. Uni loyiha egasining shaxsiy taklif havolasi orqali ko‘rish mumkin.', 'This portal is in closed testing. View it with a personal invitation link from the project owner.'],
+  ['Если вы перешли по специальной ссылке с ключом, сайт откроется автоматически.', 'Maxsus kalitli havolani ochsangiz, sayt avtomatik ravishda ochiladi.', 'Open a special link with a key to unlock the site automatically.'],
+  ['Введите ключ доступа...', 'Kirish kalitini kiriting…', 'Enter access key…'],
+  ['Разблокировать доступ', 'Kirishni ochish', 'Unlock access'],
+  ['Выйти из защищённого режима', 'Himoyalangan rejimdan chiqish', 'Exit protected mode'],
+  ['Язык интерфейса / Til / Language', 'Interfeys tili', 'Interface language'],
+  ['Режим оформления', 'Ko‘rinish rejimi', 'Appearance'],
+  ['Настройки', 'Sozlamalar', 'Settings'],
+  ['Меню сайта', 'Sayt menyusi', 'Site menu'],
+  ['Закрыть меню', 'Menyuni yopish', 'Close menu'],
+  ['Заблокировать доступ / Выйти', 'Kirishni yopish / Chiqish', 'Lock access / Sign out'],
+  ['Выйти', 'Chiqish', 'Sign out'],
+  ['Назад', 'Orqaga', 'Back'], ['Вперед', 'Oldinga', 'Next'],
+  ['Открыть меню', 'Menyuni ochish', 'Open menu'],
+  ['Прямой съём с радиочипа', 'Radio chipidan bevosita olish', 'Direct read from the radio chip'],
+  ['События приложения', 'Ilova hodisalari', 'App events'],
+  ['Доступ владельца', 'Ega kirishi', 'Owner access'],
+  ['Журнал iOS', 'iOS jurnali', 'iOS activity log'],
+  ['Сайт получает от Android разрешённые операторские сведения и сотовые счётчики, но не параметры сигнала или вышки.', 'Sayt Android yuborgan operator ma’lumotlari va mobil hisoblagichlarni oladi, ammo signal yoki baza stansiyasi parametrlarini olmaydi.', 'The site receives carrier details and cellular counters reported by Android, but no signal or cell-tower measurements.'],
+  ['После согласия Android отправляет события и счётчики в JSON-отчётах.', 'Rozilikdan so‘ng Android hodisalar va hisoblagichlarni JSON hisobotlarida yuboradi.', 'After consent, Android sends events and counters in JSON reports.'],
+  ['Подробные отчёты доступны владельцу после проверки Cloudflare Access.', 'Batafsil hisobotlar Cloudflare Access tekshiruvidan keyin egasiga ochiladi.', 'Detailed reports are available to the owner after Cloudflare Access verification.'],
+  ['Изученный исходный код iOS хранит журнал на устройстве и не отправляет его в веб API.', 'Ko‘rib chiqilgan iOS kodi jurnalni qurilmada saqlaydi va veb APIga yubormaydi.', 'The reviewed iOS source stores its activity log on-device and does not send it to the web API.'],
+  ['ЭТАП СОГЛАСИЯ', 'ROZILIK BOSQICHI', 'CONSENT GATE'],
+  ['XYLEN / ANDROID', 'XYLEN / ANDROID', 'XYLEN / ANDROID'],
+  ['СОГЛАСИЕ ПОЛЬЗОВАТЕЛЯ', 'FOYDALANUVCHI ROZILIGI', 'USER CONSENT'],
+  ['ГОТОВНОСТЬ К ПЕРЕДАЧЕ', 'UZATISHGA TAYYOR', 'TRANSMISSION READY'],
+  ['ОТЧЁТ ANDROID', 'ANDROID HISOBOTI', 'ANDROID REPORT'],
+  ['ОТЧЁТ / JSON', 'HISOBOT / JSON', 'REPORT / JSON'],
+  ['СОБЫТИЕ КЛИЕНТА', 'MIJOZ HODISASI', 'CLIENT EVENT'],
+  ['СОБЫТИЕ', 'HODISA', 'EVENT'], ['СЧЁТЧИКИ', 'HISOBLAGICHLAR', 'COUNTERS'],
+  ['ВЕБ API', 'VEB API', 'WEB API'], ['ПОЛУЧЕНО', 'QABUL QILINDI', 'RECEIVED'],
+  ['ПУБЛИЧНАЯ СВОДКА', 'OCHIQ JAMLANMA', 'PUBLIC SUMMARY'],
+  ['ОБЩАЯ СВОДКА', 'UMUMLASHTIRILGAN KO‘RINISH', 'AGGREGATE VIEW'],
+  ['ТОЛЬКО НА УСТРОЙСТВЕ', 'FAQAT QURILMADA', 'ON-DEVICE ONLY'],
+  ['ЛОКАЛЬНЫЙ ЖУРНАЛ ДЕЙСТВИЙ', 'MAHALLIY FAOLIYAT JURNALI', 'LOCAL ACTIVITY LOG'],
+  ['НА ЭТОМ УСТРОЙСТВЕ', 'SHU QURILMADA', 'ON THIS DEVICE'],
+  ['РАДИОЭФИР В РЕАЛЬНОМ ВРЕМЕНИ', 'JONLI RADIO EFIRI', 'LIVE RADIO ACTIVITY'],
+  ['Всего тестировщиков', 'Sinovchilar jami', 'Total testers'],
+  ['Сейчас в сети', 'Hozir tarmoqda', 'Online now'],
+  ['Израсходовано за сегодня', 'Bugun sarflandi', 'Used today'],
+  ['Зафиксировано действий', 'Qayd etilgan amallar', 'Actions recorded'],
+  ['ПРЯМОЙ ПОТОК', 'JONLI OQIM', 'LIVE STREAM'],
+  ['ДАННЫЕ МОБИЛЬНОЙ СЕТИ', 'MOBIL TARMOQ MA’LUMOTLARI', 'CELLULAR DATA'],
+  ['Шаг 1', '1-bosqich', 'Step 1'], ['Шаг 2', '2-bosqich', 'Step 2'], ['Шаг 3', '3-bosqich', 'Step 3'], ['Шаг 4', '4-bosqich', 'Step 4'],
+  ['XYLEN / ПЛАТФОРМА', 'XYLEN / PLATFORMA', 'XYLEN PLATFORM'],
+  ['XYLEN / ПОЛЕВЫЕ ЗАМЕТКИ', 'XYLEN / QAYDLAR', 'XYLEN / FIELD NOTES'],
+  ['ПАСПОРТ ДАННЫХ', 'MA’LUMOTLAR NIZOMI', 'DATA CHARTER'],
+  ['XYLEN / ЗАПИСКА О ДАННЫХ 01—05', 'XYLEN / MA’LUMOT IZOHI 01—05', 'XYLEN / DATA NOTE 01—05'],
+  ['Публичная сводка ≠ подробная запись', 'Ochiq jamlanma ≠ batafsil yozuv', 'Public summary ≠ detailed record'],
+  ['Прозрачно по умолчанию.', 'Shaffoflik — asosiy tamoyil.', 'Transparent by design.'],
+  ['КОНЕЦ / 04', 'YAKUN / 04', 'END / 04'],
+  ['Android · клиентские отчёты', 'Android · mijoz hisobotlari', 'Android · client reports'],
+  ['ПЕРЕД УСТАНОВКОЙ', 'O‘RNATISHDAN OLDIN', 'BEFORE INSTALLATION'],
+  ['Три проверки. Никакой магии.', 'Uch tekshiruv. Asossiz va’da yo‘q.', 'Three checks. No magic claims.'],
+  ['XYLEN / КЛИЕНТ', 'XYLEN / MIJOZ', 'XYLEN / CLIENT'],
+  ['КЛИЕНТЫ XYLEN', 'XYLEN MIJOZLARI', 'XYLEN CLIENTS'],
+  ['Время', 'Vaqt', 'Time'], ['Устройство / Узел', 'Qurilma / Tugun', 'Device / Node'],
+  ['Категория', 'Turkum', 'Category'], ['Действие', 'Amal', 'Action'], ['Инженерные детали', 'Texnik tafsilotlar', 'Technical details'],
+  ['Источник показаний:', 'Ko‘rsatkich manbasi:', 'Reading source:'],
+  ['Android-клиент после согласия', 'Rozilikdan so‘ng Android mijozi', 'Android client after consent'],
+  ['Приём отчёта:', 'Hisobotni qabul qilish:', 'Report intake:'],
+  ['Веб API проекта', 'Loyiha veb API', 'Project web API'],
+  ['Публичный ответ:', 'Ochiq javob:', 'Public response:'],
+  ['Агрегированные значения', 'Umumlashtirilgan qiymatlar', 'Aggregated values'],
+  ['Радиоизмерения:', 'Radio o‘lchovlari:', 'Radio measurements:'],
+  ['В веб-отчёте не передаются', 'Veb hisobotda yuborilmaydi', 'Not sent in web reports'],
+  ['Подробные записи:', 'Batafsil yozuvlar:', 'Detailed records:'],
+  ['Доступ владельца через Cloudflare Access', 'Cloudflare Access orqali ega kirishi', 'Owner access through Cloudflare Access'],
+  ['Доступ не настроен или эта учётная запись не является владельцем.', 'Kirish sozlanmagan yoki bu hisob loyiha egasiga tegishli emas.', 'Access is not configured, or this account is not the owner.'],
+  ['Консоль закрыта. Завершите сеанс Cloudflare Access в браузере, если он больше не нужен.', 'Konsol yopildi. Endi kerak bo‘lmasa, brauzerdagi Cloudflare Access seansini ham yakunlang.', 'The console is closed. End your Cloudflare Access session in the browser if you no longer need it.'],
+  ['Демонстрационные устройства отключены.', 'Namoyish qurilmalari o‘chirib qo‘yilgan.', 'Demo devices are disabled.'],
+  ['Удаление устройств недоступно из публичной панели.', 'Ommaviy paneldan qurilmalarni o‘chirib bo‘lmaydi.', 'Device deletion is not available from the public panel.'],
+  ['Узел удален из мониторинга.', 'Tugun kuzatuvdan olib tashlandi.', 'Node removed from monitoring.'],
+  ['Все активные узлы удалены из мониторинга.', 'Barcha faol tugunlar kuzatuvdan olib tashlandi.', 'All active nodes were removed from monitoring.'],
+  ['Успешная авторизация в консоли менеджера!', 'Menejer konsoliga muvaffaqiyatli kirdingiz!', 'Manager console sign-in successful!'],
+  ['Вы вышли из консоли менеджера.', 'Menejer konsolidan chiqdingiz.', 'You signed out of the manager console.'],
+  ['Ссылка скопирована в буфер обмена!', 'Havola buferga nusxalandi!', 'Link copied to clipboard!']
+];
+
+const INLINE_COPY_LOOKUP = new Map();
+const normalizeInlineCopy = value => String(value || '').replace(/\s+/g, ' ').trim().toLocaleLowerCase();
+INLINE_COPY.forEach(([ru, uz, en]) => {
+  const copy = { ru, uz, en };
+  [ru, uz, en].forEach(value => INLINE_COPY_LOOKUP.set(normalizeInlineCopy(value), copy));
+});
+
 class I18nManager {
   constructor() {
     this.currentLang = this.getSavedLang();
@@ -560,13 +729,18 @@ class I18nManager {
   }
 
   getSavedLang() {
-    return localStorage.getItem(I18N_STORAGE_KEY) || 'ru';
+    try {
+      const saved = localStorage.getItem(I18N_STORAGE_KEY) || 'ru';
+      return TRANSLATIONS[saved] ? saved : 'ru';
+    } catch (error) {
+      return 'ru';
+    }
   }
 
   setLang(lang) {
     if (!TRANSLATIONS[lang]) return;
     this.currentLang = lang;
-    localStorage.setItem(I18N_STORAGE_KEY, lang);
+    try { localStorage.setItem(I18N_STORAGE_KEY, lang); } catch (error) {}
     this.applyTranslations();
     this.updateControls();
     window.dispatchEvent(new CustomEvent('xylen:lang-changed', { detail: lang }));
@@ -574,16 +748,18 @@ class I18nManager {
 
   t(key) {
     const dict = TRANSLATIONS[this.currentLang] || TRANSLATIONS.ru;
-    return dict[key] || TRANSLATIONS.ru[key] || key;
+    return dict[key] || EXTRA_TRANSLATIONS[this.currentLang]?.[key] || TRANSLATIONS.ru[key] || EXTRA_TRANSLATIONS.ru[key] || key;
   }
 
-  applyTranslations() {
+  applyTranslations(root = document) {
     document.documentElement.lang = this.currentLang;
-    const elements = document.querySelectorAll('[data-i18n]');
+    const elements = [];
+    if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n]')) elements.push(root);
+    elements.push(...(root.querySelectorAll?.('[data-i18n]') || []));
     elements.forEach(el => {
       const key = el.getAttribute('data-i18n');
       const text = this.t(key);
-      if (text) {
+      if (text && el.textContent !== text) {
         if (el.tagName === 'INPUT' && el.placeholder) {
           el.placeholder = text;
         } else {
@@ -592,27 +768,77 @@ class I18nManager {
       }
     });
 
-    const attrElements = document.querySelectorAll('[data-i18n-attr]');
+    const attrElements = [];
+    if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n-attr]')) attrElements.push(root);
+    attrElements.push(...(root.querySelectorAll?.('[data-i18n-attr]') || []));
     attrElements.forEach(el => {
-      const config = el.getAttribute('data-i18n-attr').split(':');
-      if (config.length === 2) {
-        const attr = config[0];
-        const key = config[1];
-        el.setAttribute(attr, this.t(key));
-      }
+      el.getAttribute('data-i18n-attr').split(';').forEach(binding => {
+        const separator = binding.indexOf(':');
+        if (separator < 1) return;
+        const attr = binding.slice(0, separator).trim();
+        const key = binding.slice(separator + 1).trim();
+        if (!attr || !key) return;
+        const value = this.t(key);
+        if (el.getAttribute(attr) !== value) el.setAttribute(attr, value);
+      });
     });
+
+    const elementsWithCopyAttrs = [];
+    if (root.nodeType === Node.ELEMENT_NODE) elementsWithCopyAttrs.push(root);
+    elementsWithCopyAttrs.push(...(root.querySelectorAll?.('*') || []));
+    elementsWithCopyAttrs.forEach(el => {
+      if (el.hasAttribute('data-i18n-attr')) return;
+      ['title', 'aria-label', 'placeholder', 'alt', 'value', 'content'].forEach(attr => {
+        if (!el.hasAttribute(attr)) return;
+        const source = el.getAttribute(attr);
+        const copy = INLINE_COPY_LOOKUP.get(normalizeInlineCopy(source));
+        if (copy && copy[this.currentLang] !== source) el.setAttribute(attr, copy[this.currentLang]);
+      });
+    });
+
+    const treeRoot = root.nodeType === Node.TEXT_NODE ? root.parentElement : root;
+    if (!treeRoot?.ownerDocument && treeRoot !== document) return;
+    const walker = (treeRoot.ownerDocument || document).createTreeWalker(treeRoot, NodeFilter.SHOW_TEXT);
+    let textNode;
+    while ((textNode = walker.nextNode())) {
+      const parent = textNode.parentElement;
+      if (!parent || parent.closest('script,style,template,textarea,pre,code,[data-i18n]')) continue;
+      const original = textNode.nodeValue || '';
+      const normalized = normalizeInlineCopy(original);
+      const copy = INLINE_COPY_LOOKUP.get(normalized);
+      if (!copy) continue;
+      const leading = original.length - original.trimStart().length;
+      const trailing = original.length - original.trimEnd().length;
+      const translated = original.slice(0, leading) + copy[this.currentLang] + (trailing ? original.slice(-trailing) : '');
+      if (translated !== original) textNode.nodeValue = translated;
+    }
   }
 
   updateControls() {
     const langButtons = document.querySelectorAll('.lang-text-btn[data-lang]');
     langButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.lang === this.currentLang);
+      const active = btn.dataset.lang === this.currentLang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', String(active));
     });
   }
 
   init() {
     this.updateControls();
     this.applyTranslations();
+
+    this.observer = new MutationObserver(records => {
+      const roots = new Set();
+      records.forEach(record => {
+        if (record.type === 'characterData' && record.target.parentElement) roots.add(record.target.parentElement);
+        record.addedNodes?.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) roots.add(node);
+          else if (node.parentElement) roots.add(node.parentElement);
+        });
+      });
+      roots.forEach(root => this.applyTranslations(root));
+    });
+    this.observer.observe(document.documentElement, { childList: true, characterData: true, subtree: true });
 
     document.addEventListener('click', (e) => {
       const btn = e.target.closest('.lang-text-btn[data-lang]');

@@ -151,14 +151,14 @@
         aboutPurpose: 'Назначение платформы',
         aboutPurposeText: 'Панель помогает владельцу увидеть зарегистрированные Android-устройства, недавние отчёты, дневные счётчики и действия, сообщённые приложением. Публичная часть показывает только агрегированные сведения.',
         aboutFlow: 'Как устроен обмен данными',
-        aboutFlowText: 'После согласия Android отправляет JSON-отчёт в /api/audit по HTTPS. Cloudflare Pages Function принимает его; постоянное хранение использует настроенный KV binding. Подробные записи доступны только после проверки Cloudflare Access и email владельца.',
+        aboutFlowText: 'После согласия Android отправляет JSON-отчёт в /api/audit по HTTPS. Функция Cloudflare Pages принимает его; постоянное хранение зависит от настроенной привязки Cloudflare KV. Подробные записи доступны после проверки Cloudflare Access и совпадения адреса электронной почты владельца.',
         aboutLimits: 'Границы возможностей',
         aboutLimitsText: 'Сайт показывает значения, сообщённые клиентом, и не проверяет их независимо. Он не измеряет скорость радио в реальном времени и не получает данные о вышках. Найденный исходный код iOS хранит журнал локально и не отправляет его в этот веб API.',
         privacy: 'Конфиденциальность',
         privacyIntro: 'Ниже описан поток данных в изученных версиях сайта и мобильных клиентов. Это техническая информация, а не юридическое заключение; оператор должен определить применимые требования и основания обработки.',
         privacyData: 'Android после согласия отправляет идентификатор установки, модель и платформу, имя тестировщика, экран, действие и детали, имя сотового оператора, дневной и сессионный счётчики, а также для каждого активного или использованного сегодня SIM-профиля номер слота, оператора, тип SIM/eSIM, признак активного профиля и мобильную загрузку за день. ICCID и IMSI в веб audit API не передаются. Счётчики формирует клиент и сервер независимо не проверяет.',
         privacyNot: 'Веб API получает только номер SIM-слота, оператора, тип SIM/eSIM и мобильный счётчик активных или использованных сегодня профилей; номер телефона, ICCID/IMSI, CID/TAC и уровни сигнала не отправляются. iOS хранит журнал локально. Отдельный Android portal API может передавать записи на p.xylen.workers.dev при настроенном ключе.',
-        privacyUse: 'Сведения используются для отображения сводки и, владельцем, для разбора полученных событий и показаний счётчиков. Публичный endpoint возвращает только число зарегистрированных устройств, число недавних активных устройств, сумму присланных счётчиков и размер журнала. Подробный endpoint требует JWT Cloudflare Access, действующую аудиторию и совпадение email с настроенным email владельца.',
+        privacyUse: 'Сведения используются для отображения сводки и, владельцем, для разбора полученных событий и показаний счётчиков. Публичная точка API возвращает только число зарегистрированных устройств, число недавних активных устройств, сумму присланных счётчиков и размер журнала. Для подробной точки API нужны действительный JWT Cloudflare Access, настроенная аудитория и совпадение адреса электронной почты с адресом владельца в настройках.',
         privacyKeep: 'На сервере сохраняется последняя запись по каждому ID устройства до удаления из хранилища оператором. Журнал ограничен последними 200 событиями. Отключение согласия останавливает последующую отправку из клиента, но само по себе не стирает уже сохранённые записи; в текущей веб-панели пользовательского удаления нет.',
         privacySecurity: 'Передача идёт по HTTPS. Дополнительные заявления о месте хранения, сквозном шифровании, сертификации, соблюдении конкретного закона или сроке удаления не делаются: это зависит от фактических настроек Cloudflare и процедур оператора.',
         privacyScopeTitle: 'Что не передаётся в веб-аудит',
@@ -193,18 +193,18 @@
         aboutPurpose: 'Platformaning vazifasi',
         aboutPurposeText: 'Panel egasiga ro‘yxatdan o‘tgan Android qurilmalari, so‘nggi hisobotlar, kunlik hisoblagichlar va ilova yuborgan amallarni ko‘rishga yordam beradi. Ochiq qism faqat umumiy ma’lumotlarni ko‘rsatadi.',
         aboutFlow: 'Ma’lumot uzatish tartibi',
-        aboutFlowText: 'Rozilikdan keyin Android HTTPS orqali /api/audit manziliga JSON hisobot yuboradi. Uni Cloudflare Pages Function qabul qiladi; doimiy saqlash sozlangan KV binding orqali ishlaydi. Batafsil yozuvlar Cloudflare Access va egasi emaili tekshirilgandan keyin ochiladi.',
+        aboutFlowText: 'Rozilikdan keyin Android HTTPS orqali /api/audit manziliga JSON hisobot yuboradi. Uni Cloudflare Pages funksiyasi qabul qiladi; doimiy saqlash sozlangan Cloudflare KV bog‘lamasiga bog‘liq. Batafsil yozuvlar Cloudflare Access tekshiruvi va loyiha egasining elektron pochta manzili mosligi tasdiqlangandan keyin ochiladi.',
         aboutLimits: 'Joriy imkoniyatlar chegarasi',
         aboutLimitsText: 'Sayt mijoz yuborgan qiymatlarni ko‘rsatadi, ularni mustaqil tekshirmaydi. Jonli radio tezligi yoki baza stansiyalari ma’lumotlarini olmaydi. Ko‘rib chiqilgan iOS kodi jurnalni qurilmada saqlaydi va ushbu veb APIga yubormaydi.',
         aboutAndroid: 'Rozilik berilganda Android mijoz /api/audit manziliga doimiy tasodifiy o‘rnatish IDsi, model, sinovchi ismi, ekran, amal va matnli tafsilotlar, operator, kunlik mobil yuklab olish hisoblagichi hamda faol yoki bugun ishlatilgan SIM profillarining sloti, operatori, SIM/eSIM turi, faolligi va kunlik hisoblagichini yuboradi. ICCID va IMSI yuborilmaydi. Server bu qiymatlarni mustaqil tekshirmaydi.',
-        aboutStorage: 'Cloudflare Pages Function hisobotlarni qabul qiladi va loyiha sozlamasi Cloudflare KV bilan bog‘laydi. Ochiq sahifa faqat umumiy sonlarni oladi. Batafsil yozuvlar imzolangan Cloudflare Access JWT va egasining emaili tekshiriladigan alohida endpoint orqali beriladi.',
+        aboutStorage: 'Cloudflare Pages funksiyasi hisobotlarni qabul qiladi, loyiha sozlamasi esa uni Cloudflare KV bilan bog‘laydi. Ochiq sahifa faqat umumiy sonlarni oladi. Batafsil yozuvlar imzolangan Cloudflare Access JWT va egasining elektron pochta manzili tekshiriladigan alohida API manzili orqali beriladi.',
         aboutLimits: 'Veb API faol yoki bugun ishlatilgan SIM profillarining sloti, operator, SIM/eSIM turi va kunlik mobil yuklab olish hisoblagichini oladi. ICCID, IMSI, baza stansiyasi IDlari va radio o‘lchovlari yuborilmaydi. Android portal API alohida server va kalitdan foydalanadi. iOS jurnali qurilmada qoladi.',
         aboutMotion: 'Mobil operatsion tizimlar fonda ishlash va SIM, baza stansiyasi hamda radio identifikatorlariga kirishni cheklaydi. Shu bois sayt doimiy qurilma aniqlash, o‘lchangan jonli radio tezligi yoki veb API olmaydigan baza stansiyasi o‘lchovlarini va’da qilmaydi.',
         privacy: 'Maxfiylik',
         privacyIntro: 'Bu sahifada ko‘rib chiqilgan sayt va mobil mijoz kodidagi ma’lumot oqimi bayon etiladi. Bu texnik ma’lumot, yuridik maslahat emas; operator qo‘llanadigan talablar va qayta ishlash asoslarini belgilashi kerak.',
         privacyData: 'Rozilikdan so‘ng Android o‘rnatish IDsi, model, sinovchi ismi, ekran, amal va tafsilotlar, operator, kunlik va sessiya hisoblagichlari, faol yoki bugun ishlatilgan SIM profillari (slot, operator, SIM/eSIM turi, faol holati va kunlik mobil yuklab olish hisoblagichi)ni yuboradi. ICCID va IMSI veb audit APIga yuborilmaydi. Qiymatlarni mijoz yuboradi, server mustaqil tekshirmaydi.',
         privacyNot: 'Veb audit API telefon raqami, ICCID, IMSI, baza stansiyasi IDlari yoki radio signal o‘lchovlarini olmaydi. Ko‘rib chiqilgan iOS kodi faoliyat jurnalini qurilmada saqlaydi. Alohida Android portal API sozlanganida boshqa xizmatga hisob yozuvlarini yuborishi mumkin; u ushbu sayt audit APIsi emas.',
-        privacyUse: 'Ma’lumotlar umumiy ochiq jamlanma hamda egasining batafsil hodisalar va hisoblagichlarni ko‘rishi uchun ishlatiladi. Ochiq endpoint faqat sonlar, yuborilgan hisoblagichlar yig‘indisi va saqlangan hodisalar miqdorini qaytaradi. Batafsil endpoint amaldagi Cloudflare Access JWT, auditoriya va sozlangan egasi emailiga moslikni talab qiladi.',
+        privacyUse: 'Ma’lumotlar umumiy ochiq jamlanma hamda egasining batafsil hodisalar va hisoblagichlarni ko‘rishi uchun ishlatiladi. Ochiq API manzili faqat sonlar, yuborilgan hisoblagichlar yig‘indisi va saqlangan hodisalar miqdorini qaytaradi. Batafsil API manzili amaldagi Cloudflare Access JWT, sozlangan auditoriya va loyiha egasining elektron pochta manzili mosligini talab qiladi.',
         privacyKeep: 'Server har bir qurilma IDsi bo‘yicha so‘nggi yozuvni operator xotiradan o‘chirmaguncha saqlaydi. Hodisalar jurnali eng so‘nggi 200 yozuv bilan cheklangan. Rozilikni bekor qilish keyingi yuborishni to‘xtatadi, ammo avval saqlangan ma’lumotlarni o‘chirmaydi. Veb-panelda foydalanuvchi o‘chirish boshqaruvi yo‘q.',
         privacySecurity: 'Ma’lumot HTTPS orqali uzatiladi. Saqlash joyi, to‘liq shifrlash, sertifikat, qonunchilikka muvofiqlik yoki o‘chirish muddati haqida da’vo qilinmaydi; bular Cloudflare sozlamalari va operator jarayonlariga bog‘liq.',
         privacyScopeTitle: 'Veb audit olmaydigan ma’lumotlar',
@@ -228,9 +228,9 @@
   function renderOperationalCopy() {
     const lang = window.i18n?.currentLang || 'ru';
     const copy = {
-      ru: { cards: [['Данные Android','Оператор и сетевые сведения зависят от разрешений, устройства и версии ОС. Сайт не получает параметры сигнала или вышки.'],['События и счётчики','После согласия Android отправляет JSON-отчёты с действиями приложения и клиентскими счётчиками.'],['Доступ владельца','Подробные записи доступны владельцу после проверки Cloudflare Access.']], traffic:'Сотовые счётчики', intro:'Сводка отражает показания Android-клиента. Сервер не измеряет радиоканал в реальном времени.', active:'Устройства · последние 75 секунд', day:'Трафик за день', events:'Событий в журнале', speed:'Мгновенная скорость', unavailable:'Не передаётся', note:'iOS-журнал остаётся на устройстве. ICCID/IMSI и параметры сигнала или вышки веб-аудиту не передаются.', modules:[['Согласие и отчёт','Android отправляет отчёты только после согласия.'],['Поля события','ID установки, экран, действие, счётчики и SIM-профили, сообщённые клиентом.'],['Сводка','Публичный endpoint возвращает агрегированные числа.'],['Доступ владельца','Детальные записи защищает Cloudflare Access.'],['Журнал iOS','Изученный исходный код iOS хранит журнал локально.']] },
+      ru: { cards: [['Данные Android','Оператор и сетевые сведения зависят от разрешений, устройства и версии ОС. Сайт не получает параметры сигнала или вышки.'],['События и счётчики','После согласия Android отправляет JSON-отчёты с действиями приложения и клиентскими счётчиками.'],['Доступ владельца','Подробные записи доступны владельцу после проверки Cloudflare Access.']], traffic:'Сотовые счётчики', intro:'Сводка отражает показания Android-клиента. Сервер не измеряет радиоканал в реальном времени.', active:'Устройства · последние 75 секунд', day:'Трафик за день', events:'Событий в журнале', speed:'Мгновенная скорость', unavailable:'Не передаётся', note:'iOS-журнал остаётся на устройстве. ICCID/IMSI и параметры сигнала или вышки веб-аудиту не передаются.', modules:[['Согласие и отчёт','Android отправляет отчёты только после согласия.'],['Поля события','ID установки, экран, действие, счётчики и SIM-профили, сообщённые клиентом.'],['Сводка','Публичная точка API возвращает агрегированные числа.'],['Доступ владельца','Детальные записи защищает Cloudflare Access.'],['Журнал iOS','Изученный исходный код iOS хранит журнал локально.']] },
       en: { cards: [['Android-reported data','Carrier and network details depend on permissions, device, and OS. The website receives no signal or cell-tower measurements.'],['Events and counters','With consent, Android sends JSON reports containing app actions and client-reported counters.'],['Owner access','Detailed records are available to the owner after Cloudflare Access verification.']], traffic:'Cellular counters', intro:'This summary reflects readings submitted by Android. The server does not measure the radio channel live.', active:'Devices · last 75 seconds', day:'Traffic today', events:'Events retained', speed:'Instantaneous speed', unavailable:'Not reported', note:'The iOS log stays on-device. ICCID/IMSI and radio or cell measurements are not sent to web audit.', modules:[['Consent and report','Android sends reports only after consent.'],['Event fields','Install ID, screen, action, counters, and SIM profiles reported by the client.'],['Summary','The public endpoint returns aggregate counts.'],['Owner access','Cloudflare Access protects detailed records.'],['iOS activity log','The reviewed iOS source stores its log on-device.']] },
-      uz: { cards: [['Android yuboradigan ma’lumotlar','Operator va tarmoq tafsilotlari ruxsat, qurilma va OTga bog‘liq. Sayt signal yoki baza stansiyasi o‘lchovlarini olmaydi.'],['Hodisalar va hisoblagichlar','Rozilik bo‘lsa Android ilova amallari va mijoz hisoblagichlari bo‘lgan JSON hisobotlarni yuboradi.'],['Ega kirishi','Batafsil yozuvlar egasi uchun Cloudflare Access tekshiruvidan keyin ochiladi.']], traffic:'Mobil tarmoq hisoblagichlari', intro:'Jamlanma Android mijoz yuborgan ko‘rsatkichlarni aks ettiradi. Server radio kanalni jonli o‘lchamaydi.', active:'Qurilmalar · so‘nggi 75 soniya', day:'Bugungi trafik', events:'Jurnaldagi hodisalar', speed:'Oniy tezlik', unavailable:'Yuborilmaydi', note:'iOS jurnali qurilmada qoladi. ICCID/IMSI va radio yoki baza stansiyasi o‘lchovlari veb auditga yuborilmaydi.', modules:[['Rozilik va hisobot','Android hisobotlarni faqat rozilikdan keyin yuboradi.'],['Hodisa maydonlari','O‘rnatish IDsi, ekran, amal, hisoblagichlar va mijoz yuborgan SIM profillari.'],['Jamlanma','Ochiq endpoint umumiy sonlarni qaytaradi.'],['Ega kirishi','Batafsil yozuvlar Cloudflare Access bilan himoyalanadi.'],['iOS jurnali','Ko‘rib chiqilgan iOS kodi jurnalni qurilmada saqlaydi.']] }
+      uz: { cards: [['Android yuboradigan ma’lumotlar','Operator va tarmoq tafsilotlari ruxsat, qurilma va OTga bog‘liq. Sayt signal yoki baza stansiyasi o‘lchovlarini olmaydi.'],['Hodisalar va hisoblagichlar','Rozilik bo‘lsa Android ilova amallari va mijoz hisoblagichlari bo‘lgan JSON hisobotlarni yuboradi.'],['Ega kirishi','Batafsil yozuvlar egasi uchun Cloudflare Access tekshiruvidan keyin ochiladi.']], traffic:'Mobil tarmoq hisoblagichlari', intro:'Jamlanma Android mijoz yuborgan ko‘rsatkichlarni aks ettiradi. Server radio kanalni jonli o‘lchamaydi.', active:'Qurilmalar · so‘nggi 75 soniya', day:'Bugungi trafik', events:'Jurnaldagi hodisalar', speed:'Oniy tezlik', unavailable:'Yuborilmaydi', note:'iOS jurnali qurilmada qoladi. ICCID/IMSI va radio yoki baza stansiyasi o‘lchovlari veb auditga yuborilmaydi.', modules:[['Rozilik va hisobot','Android hisobotlarni faqat rozilikdan keyin yuboradi.'],['Hodisa maydonlari','O‘rnatish IDsi, ekran, amal, hisoblagichlar va mijoz yuborgan SIM profillari.'],['Jamlanma','Ochiq API manzili umumiy sonlarni qaytaradi.'],['Ega kirishi','Batafsil yozuvlar Cloudflare Access bilan himoyalanadi.'],['iOS jurnali','Ko‘rib chiqilgan iOS kodi jurnalni qurilmada saqlaydi.']] }
     }[lang];
     if (!copy) return;
     const homeCopy = {
@@ -238,6 +238,7 @@
       en: ['The platform receives Android reports only after consent: cellular counters and app events. Radio-modem measurements and the iOS log are not sent to this site.', 'CONNECTED CLIENTS', 'Telemetry moves only when the user allows it.', ['Consent','Cellular counter','Owner access']],
       uz: ['Platforma Android hisobotlarini faqat rozilikdan so‘ng oladi: mobil hisoblagichlar va ilova hodisalari. Radio modem o‘lchovlari va iOS jurnali saytga yuborilmaydi.', 'ULANGAN MIJOZLAR', 'Telemetriya faqat foydalanuvchi roziligi bilan uzatiladi.', ['Rozilik','Mobil hisoblagich','Ega kirishi']]
     }[lang];
+    const motionName = lang === 'ru' ? 'Тихое движение' : lang === 'uz' ? 'Jimjit harakat' : 'Silent Motion';
     const hero = document.querySelector('#page-overview .overview-hero-block');
     const heroTitle = hero?.querySelector('.hero-statement-title');
     const heroDesc = hero?.querySelector('.hero-statement-desc');
@@ -261,9 +262,9 @@
         ? ['Согласие', 'Отчёт Android', 'Сводка', 'Доступ владельца']
         : lang === 'uz' ? ['Rozilik', 'Android hisoboti', 'Jamlanma', 'Ega kirishi']
           : ['Consent', 'Android report', 'Summary', 'Owner access'];
-      visual.innerHTML = `<div class="silent-motion-orbit" aria-hidden="true"><div class="orbit-depth-plane"></div><div class="orbit-ring orbit-ring-a"></div><div class="orbit-ring orbit-ring-b"></div><div class="orbit-ring-c"></div><svg class="silent-motion-route" viewBox="0 0 600 600" aria-hidden="true"><defs><linearGradient id="xylen-route-glow"><stop stop-color="#6cecff" stop-opacity="0"/><stop offset=".46" stop-color="#70eaff"/><stop offset="1" stop-color="#67d9ff" stop-opacity="0"/></linearGradient><linearGradient id="xylen-route-violet"><stop stop-color="#af8cff" stop-opacity="0"/><stop offset=".54" stop-color="#c6a4ff"/><stop offset="1" stop-color="#af8cff" stop-opacity="0"/></linearGradient></defs><path d="M62 300C120 83 461 73 538 300S120 520 62 300Z"/><path d="M300 57C520 117 518 469 300 540S79 118 300 57Z"/><path class="route-highlight" d="M62 300C120 83 461 73 538 300S120 520 62 300Z"/><path class="route-highlight" d="M300 57C520 117 518 469 300 540S79 118 300 57Z"/></svg><div class="orbit-core"><span>XYLEN</span><small>SILENT MOTION</small></div>${stage.map((label, i) => `<span class="orbit-node orbit-node-${i + 1}"><b>0${i + 1}</b><small>${escapeHtml(label)}</small></span>`).join('')}<span class="orbit-sweep"></span></div><div class="motion-caption">${escapeHtml(homeCopy[2])}</div>`;
+      visual.innerHTML = `<div class="silent-motion-orbit" aria-hidden="true"><div class="orbit-depth-plane"></div><div class="orbit-ring orbit-ring-a"></div><div class="orbit-ring orbit-ring-b"></div><div class="orbit-ring-c"></div><svg class="silent-motion-route" viewBox="0 0 600 600" aria-hidden="true"><defs><linearGradient id="xylen-route-glow"><stop stop-color="#6cecff" stop-opacity="0"/><stop offset=".46" stop-color="#70eaff"/><stop offset="1" stop-color="#67d9ff" stop-opacity="0"/></linearGradient><linearGradient id="xylen-route-violet"><stop stop-color="#af8cff" stop-opacity="0"/><stop offset=".54" stop-color="#c6a4ff"/><stop offset="1" stop-color="#af8cff" stop-opacity="0"/></linearGradient></defs><path d="M62 300C120 83 461 73 538 300S120 520 62 300Z"/><path d="M300 57C520 117 518 469 300 540S79 118 300 57Z"/><path class="route-highlight" d="M62 300C120 83 461 73 538 300S120 520 62 300Z"/><path class="route-highlight" d="M300 57C520 117 518 469 300 540S79 118 300 57Z"/></svg><div class="orbit-core"><span>XYLEN</span><small>${escapeHtml(motionName)}</small></div>${stage.map((label, i) => `<span class="orbit-node orbit-node-${i + 1}"><b>0${i + 1}</b><small>${escapeHtml(label)}</small></span>`).join('')}<span class="orbit-sweep"></span></div><div class="motion-caption">${escapeHtml(homeCopy[2])}</div>`;
     }
-    if (heroTitle) heroTitle.textContent = 'Silent Motion';
+    if (heroTitle) heroTitle.textContent = motionName;
     if (heroDesc) heroDesc.textContent = homeCopy[0];
     document.querySelector('#page-overview .kpi-showcase-section')?.remove();
     const liveBadge = document.querySelector('.kpi-lead-badge');
@@ -287,7 +288,7 @@
     const connectDesc = document.querySelector('.connect-desc');
     if (connectDesc) connectDesc.textContent = lang === 'ru' ? 'Веб API принимает клиентские события и счётчики. iOS пока сохраняет журнал локально.' : lang === 'uz' ? 'Veb API mijoz hodisalari va hisoblagichlarini qabul qiladi. iOS jurnali hozircha qurilmada saqlanadi.' : 'The web API accepts client events and counters. iOS currently keeps its log on-device.';
     const brandTitle = document.getElementById('brand-badge-logo');
-    if (brandTitle) brandTitle.title = 'Xylen Platform';
+    if (brandTitle) brandTitle.title = window.i18n?.t('brand_platform') || 'Xylen Platform';
     const legacyMeta = document.querySelector('.section-title-strip + .connectivity-meta');
     if (legacyMeta) legacyMeta.textContent = '';
     window.dispatchEvent(new Event('resize'));
@@ -295,21 +296,44 @@
       const moduleIndex = index % copy.modules.length;
       const [title, sub] = copy.modules[moduleIndex];
       const titleNode = card.querySelector('.motion-title'), subNode = card.querySelector('.motion-sub'), badge = card.querySelector('.motion-badge'), play = card.querySelector('.motion-play-tag');
+      const preview = card.querySelector('.motion-preview-box');
+      const sequence = moduleIndex + 1;
+      const videoKeys = {
+        heading: `video_heading_${sequence}`,
+        caption: `video_caption_${sequence}`,
+        index: `video_index_${sequence}`
+      };
+      if (preview) {
+        let heading = preview.querySelector('.motion-video-heading');
+        if (!heading) { heading = document.createElement('strong'); heading.className = 'motion-video-heading'; preview.append(heading); }
+        heading.dataset.i18n = videoKeys.heading;
+        heading.textContent = window.i18n?.t(videoKeys.heading) || title;
+        let caption = preview.querySelector('.motion-video-caption');
+        if (!caption) { caption = document.createElement('span'); caption.className = 'motion-video-caption'; preview.append(caption); }
+        caption.dataset.i18n = videoKeys.caption;
+        caption.textContent = window.i18n?.t(videoKeys.caption) || sub;
+        const indexLabel = preview.querySelector('.motion-video-index');
+        if (indexLabel) {
+          indexLabel.dataset.i18n = videoKeys.index;
+          indexLabel.textContent = window.i18n?.t(videoKeys.index) || `STEP 0${sequence} / 05`;
+          indexLabel.removeAttribute('aria-hidden');
+        }
+      }
       if (titleNode) titleNode.textContent = title;
       if (subNode) subNode.textContent = sub;
       if (badge) badge.textContent = `0${moduleIndex + 1} · ${title}`;
-       if (play) play.textContent = lang === 'ru' ? '↻ Анимированная схема' : lang === 'uz' ? '↻ Animatsion sxema' : '↻ Animated schematic';
+      if (play) play.textContent = window.i18n?.t('video_play_tag') || (lang === 'ru' ? '↻ Анимированная схема' : lang === 'uz' ? '↻ Animatsion sxema' : '↻ Animated schematic');
       if (moduleIndex === 0) card.querySelectorAll('.radar-point').forEach(point => point.remove());
       if (moduleIndex === 2) { const lock = card.querySelector('.shield-lock'); if (lock) lock.textContent = '✓'; }
       if (moduleIndex === 3) { const tower = card.querySelector('.tower-beacon'); if (tower) tower.textContent = '↗'; }
-      if (moduleIndex === 4) { const meter = card.querySelector('.meter-txt'); if (meter) meter.textContent = 'CLIENT REPORT'; }
+      if (moduleIndex === 4) { const meter = card.querySelector('.meter-txt'); if (meter) meter.textContent = lang === 'ru' ? 'ОТЧЁТ КЛИЕНТА' : lang === 'uz' ? 'MIJOZ HISOBOTI' : 'CLIENT REPORT'; }
     });
     window.openMotionModal = function (moduleId) {
       const labels = {
         'mod-spectrum': ['Согласие и отчёт', 'Android отправляет веб-аудит только после согласия пользователя.'],
         'mod-deltastream': ['Поля события', 'JSON-отчёт может включать ID установки, модель, экран, действие, детали, время и клиентские счётчики.'],
         'mod-vault': ['Публичная сводка', 'Открытая часть показывает агрегированные числа, а не подробные записи устройства.'],
-        'mod-celltower': ['Доступ владельца', 'Подробные записи доступны после проверки Cloudflare Access и email владельца.'],
+        'mod-celltower': ['Доступ владельца', 'Подробные записи доступны после проверки Cloudflare Access и совпадения адреса электронной почты владельца.'],
         'mod-billing': ['Журнал iOS', 'Изученная версия приложения iOS сохраняет события на устройстве; веб-аудит их не получает.']
       };
       const english = {
@@ -323,7 +347,7 @@
         'mod-spectrum': ['Rozilik va hisobot', 'Android veb audit hisobotlarini faqat foydalanuvchi roziligidan keyin yuboradi.'],
         'mod-deltastream': ['Hodisa maydonlari', 'JSON hisobotda o‘rnatish IDsi, model, ekran, amal, tafsilot, vaqt va mijoz hisoblagichlari bo‘lishi mumkin.'],
         'mod-vault': ['Ochiq jamlanma', 'Ochiq qism batafsil qurilma yozuvlarini emas, umumiy sonlarni ko‘rsatadi.'],
-        'mod-celltower': ['Ega kirishi', 'Batafsil yozuvlar Cloudflare Access va egasining emaili tekshirilgandan keyin ochiladi.'],
+        'mod-celltower': ['Ega kirishi', 'Batafsil yozuvlar Cloudflare Access tekshiruvi va egasining elektron pochta manzili tasdiqlangandan keyin ochiladi.'],
         'mod-billing': ['iOS jurnali', 'Ko‘rib chiqilgan iOS ilovasi hodisalarni qurilmada saqlaydi; veb audit ularni olmaydi.']
       };
       const item = (lang === 'en' ? english : lang === 'uz' ? uzbek : labels)[moduleId] || [copy.traffic, copy.intro];
@@ -335,7 +359,8 @@
       modal?.classList.add('active');
     };
     const page = document.getElementById('page-traffic');
-    if (page) page.innerHTML = `<div class="container devices-page traffic-page"><header class="section-title-strip"><div><span class="eyebrow">ANDROID · CLIENT REPORTS</span><h1 class="section-heading">${copy.traffic}</h1><p class="section-desc">${copy.intro}</p></div></header><div class="audit-kpi-bar"><div class="audit-kpi-pill"><span class="kpi-label">${copy.active}</span><strong class="kpi-val cyan" id="traffic-active-devices">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.day}</span><strong class="kpi-val green" id="traffic-public-today">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.events}</span><strong class="kpi-val" id="traffic-public-events">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.speed}</span><strong class="kpi-val" id="traffic-public-speed">${copy.unavailable}</strong></div></div><div class="device-summary-panel"><div class="device-summary-mark" aria-hidden="true"><span></span><span></span><span></span></div><p>${copy.note}</p></div></div>`;
+    const reportEyebrow = lang === 'ru' ? 'ANDROID · ОТЧЁТЫ КЛИЕНТА' : lang === 'uz' ? 'ANDROID · MIJOZ HISOBOTLARI' : 'ANDROID · CLIENT REPORTS';
+    if (page) page.innerHTML = `<div class="container devices-page traffic-page"><header class="section-title-strip"><div><span class="eyebrow">${reportEyebrow}</span><h1 class="section-heading">${copy.traffic}</h1><p class="section-desc">${copy.intro}</p></div></header><div class="audit-kpi-bar"><div class="audit-kpi-pill"><span class="kpi-label">${copy.active}</span><strong class="kpi-val cyan" id="traffic-active-devices">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.day}</span><strong class="kpi-val green" id="traffic-public-today">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.events}</span><strong class="kpi-val" id="traffic-public-events">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.speed}</span><strong class="kpi-val" id="traffic-public-speed">${copy.unavailable}</strong></div></div><div class="device-summary-panel"><div class="device-summary-mark" aria-hidden="true"><span></span><span></span><span></span></div><p>${copy.note}</p></div></div>`;
     renderTrafficPage(copy, lang);
     const kpiCopy = {
       ru: [['Отчёты Android','После согласия'],['SIM-данные не передаются','Нет списка SIM-слотов'],['Счётчики клиента','Отправлено приложением'],['Мгновенная скорость','Не передаётся API']],
@@ -374,7 +399,7 @@
       phoneList: 'Phones and SIM profiles', locked: 'Phone and SIM profile details are owner-only.', enter: 'Owner sign-in', device: 'Phone', slot: 'Slot', carrier: 'Carrier', type: 'Type', amount: 'Cellular download today', state: 'State', empty: 'No phone or SIM profile has reported data.'
     };
     page.innerHTML = `<div class="container devices-page traffic-page">
-      <header class="section-title-strip"><div><span class="eyebrow">ANDROID · CLIENT REPORTS</span><h1 class="section-heading">${escapeHtml(copy.traffic)}</h1><p class="section-desc">${escapeHtml(copy.intro)}</p></div></header>
+      <header class="section-title-strip"><div><span class="eyebrow">${lang === 'ru' ? 'ANDROID · ОТЧЁТЫ КЛИЕНТА' : lang === 'uz' ? 'ANDROID · MIJOZ HISOBOTLARI' : 'ANDROID · CLIENT REPORTS'}</span><h1 class="section-heading">${escapeHtml(copy.traffic)}</h1><p class="section-desc">${escapeHtml(copy.intro)}</p></div></header>
       <div class="audit-kpi-bar"><div class="audit-kpi-pill"><span class="kpi-label">${escapeHtml(copy.active)}</span><strong class="kpi-val cyan" id="traffic-active-devices">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${escapeHtml(copy.day)}</span><strong class="kpi-val green" id="traffic-public-today">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${escapeHtml(copy.events)}</span><strong class="kpi-val" id="traffic-public-events">—</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${escapeHtml(copy.speed)}</span><strong class="kpi-val" id="traffic-public-speed">${escapeHtml(copy.unavailable)}</strong></div></div>
       <section class="traffic-chart-panel"><div class="traffic-chart-heading"><div><span class="eyebrow">${t.chartEyebrow}</span><h2>${t.chartTitle}</h2></div><span id="traffic-chart-range">${t.range}</span></div><p id="traffic-chart-status" class="traffic-chart-status" aria-live="polite">${t.loading}</p><div id="traffic-chart-plot" class="traffic-chart-plot" hidden></div><p class="traffic-chart-note">${t.chartNote}</p></section>
       <section class="traffic-owner-panel"><header class="traffic-owner-heading"><div><span class="eyebrow">CLOUDFLARE ACCESS</span><h2>${t.phoneList}</h2></div></header><p id="traffic-owner-state" class="traffic-owner-state">${t.locked}<a class="btn btn-secondary btn-compact" href="/manager">${t.enter}</a></p><div id="traffic-owner-list" class="table-responsive traffic-owner-list" hidden></div></section>
@@ -392,11 +417,20 @@
     state.hidden = true;
     root.hidden = false;
     const lang = window.i18n?.currentLang || 'ru';
-    const labels = lang === 'ru' ? ['Телефон','Слот','Оператор','Тип','Мобильная загрузка сегодня','Состояние'] : lang === 'uz' ? ['Telefon','Slot','Operator','Tur','Bugungi mobil yuklab olish','Holat'] : ['Phone','Slot','Carrier','Type','Cellular download today','State'];
-    const rows = users.flatMap(user => (Array.isArray(user.simProfiles) && user.simProfiles.length ? user.simProfiles : [null]).map(profile => `<tr><td>${escapeHtml(user.model || '—')} · ${escapeHtml(user.platform || '—')}</td><td>${profile ? escapeHtml(profile.slot) : '—'}</td><td>${escapeHtml(profile?.carrier || user.carrier || '—')}</td><td>${profile ? escapeHtml(profile.type === 'esim' ? 'eSIM' : 'SIM') : '—'}</td><td>${profile ? escapeHtml(formatBytes(profile.todayBytes)) : escapeHtml(formatBytes(user.todayBytes))}</td><td>${profile ? escapeHtml(profile.active ? 'Активна' : 'Неактивна') : escapeHtml(user.status || '—')}</td></tr>`));
+    const copy = lang === 'ru'
+      ? { labels: ['Телефон','Слот SIM','Оператор','Тип','Мобильная загрузка сегодня','Состояние'], active: 'Активна', inactive: 'Неактивна', online: 'В сети', offline: 'Не в сети', carrier: 'Сотовая сеть', empty: 'Нет телефонов, приславших данные.', locale: 'ru-RU' }
+      : lang === 'uz'
+        ? { labels: ['Telefon','SIM uyasi','Operator','Tur','Bugungi mobil yuklab olish','Holat'], active: 'Faol', inactive: 'Faol emas', online: 'Tarmoqda', offline: 'Tarmoqdan tashqari', carrier: 'Mobil tarmoq', empty: 'Ma’lumot yuborgan telefonlar yo‘q.', locale: 'uz-UZ' }
+        : { labels: ['Phone','SIM slot','Carrier','Type','Cellular download today','State'], active: 'Active', inactive: 'Inactive', online: 'Online', offline: 'Offline', carrier: 'Cellular network', empty: 'No phones have reported data.', locale: 'en-US' };
+    const statusLabel = value => value === 'online' ? copy.online : value === 'offline' ? copy.offline : value || '—';
+    const rows = users.flatMap(user => (Array.isArray(user.simProfiles) && user.simProfiles.length ? user.simProfiles : [null]).map(profile => {
+      const carrier = profile?.carrier || user.carrier || copy.carrier;
+      const status = profile ? (profile.active ? copy.active : copy.inactive) : statusLabel(user.status);
+      return `<tr><td>${escapeHtml(user.model || '—')} · ${escapeHtml(user.platform || '—')}</td><td>${profile ? escapeHtml(profile.slot) : '—'}</td><td>${escapeHtml(carrier)}</td><td>${profile ? escapeHtml(profile.type === 'esim' ? 'eSIM' : 'SIM') : '—'}</td><td>${profile ? escapeHtml(formatBytes(profile.todayBytes)) : escapeHtml(formatBytes(user.todayBytes))}</td><td>${escapeHtml(status)}</td></tr>`;
+    }));
     root.innerHTML = users.length
-      ? `<table class="data-table"><thead><tr>${labels.map(label => `<th>${label}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`
-      : `<p class="traffic-chart-status">${lang === 'ru' ? 'Нет телефонов, приславших данные.' : lang === 'uz' ? 'Ma’lumot yuborgan telefonlar yo‘q.' : 'No phones have reported data.'}</p>`;
+      ? `<table class="data-table"><thead><tr>${copy.labels.map(label => `<th>${label}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table>`
+      : `<p class="traffic-chart-status">${copy.empty}</p>`;
   }
 
   function renderOwnerConsole(data) {
@@ -404,12 +438,21 @@
     if (!root) return;
     const users = Array.isArray(data.users) ? data.users : [];
     const events = Array.isArray(data.recentActivities) ? data.recentActivities : [];
+    const lang = window.i18n?.currentLang || 'ru';
+    const copy = lang === 'ru' ? {
+      eyebrow: 'ДОСТУП ВЛАДЕЛЬЦА', title: 'Консоль устройств', description: 'Записи поступают с Android-клиентов после согласия на передачу данных. Время активности определяется по последнему полученному событию.', refresh: 'Обновить', devices: 'Устройства', active: 'Активны · 75 секунд', events: 'События в журнале', headers: ['Состояние','Идентификатор','Модель','Экран','Сеть','Сегодня','Последнее событие'], online: 'Активно', offline: 'Нет связи', noDevices: 'Нет устройств, передавших данные.', activity: 'Журнал действий', eventHeaders: ['Время','Устройство','Экран','Действие','Детали','Трафик'], noEvents: 'Событий пока нет.', note: 'Таблица использует последние поля из отчёта Android: устройство и активные SIM-профили. ICCID/IMSI, CID/TAC и радиосигнал не передаются.', locale: 'ru-RU'
+    } : lang === 'uz' ? {
+      eyebrow: 'EGA KIRISHI', title: 'Qurilmalar konsoli', description: 'Yozuvlar Android mijozlaridan ma’lumot yuborishga rozilik berilgandan keyin keladi. Faollik vaqti oxirgi qabul qilingan hodisa asosida belgilanadi.', refresh: 'Yangilash', devices: 'Qurilmalar', active: 'Faol · 75 soniya', events: 'Jurnaldagi hodisalar', headers: ['Holat','Identifikator','Model','Ekran','Tarmoq','Bugun','Oxirgi hodisa'], online: 'Faol', offline: 'Aloqa yo‘q', noDevices: 'Ma’lumot yuborgan qurilmalar yo‘q.', activity: 'Amallar jurnali', eventHeaders: ['Vaqt','Qurilma','Ekran','Amal','Tafsilotlar','Trafik'], noEvents: 'Hozircha hodisalar yo‘q.', note: 'Jadval Android hisoboti yuborgan so‘nggi maydonlarni ko‘rsatadi: qurilma va faol SIM profillari. ICCID/IMSI, CID/TAC va radio signali yuborilmaydi.', locale: 'uz-UZ'
+    } : {
+      eyebrow: 'OWNER ACCESS', title: 'Device console', description: 'Records arrive from Android clients after the user consents to reporting. Activity time is based on the most recent event received.', refresh: 'Refresh', devices: 'Devices', active: 'Active · 75 seconds', events: 'Events in log', headers: ['State','Identifier','Model','Screen','Network','Today','Last event'], online: 'Active', offline: 'No connection', noDevices: 'No devices have reported data.', activity: 'Activity log', eventHeaders: ['Time','Device','Screen','Action','Details','Traffic'], noEvents: 'No events yet.', note: 'The table uses the latest fields in Android reports: device and active SIM profiles. ICCID/IMSI, CID/TAC, and radio signal are not sent.', locale: 'en-US'
+    };
+    const formatDate = value => value ? new Date(value).toLocaleString(copy.locale) : '—';
     root.innerHTML = `
-      <header class="section-title-strip"><div><span class="eyebrow">ДОСТУП ВЛАДЕЛЬЦА</span><h1 class="section-heading">Консоль устройств</h1><p class="section-desc">Записи поступают с Android-клиентов после согласия на телеметрию. Время активности определяется по последнему полученному событию.</p></div><button class="btn btn-secondary btn-compact" id="owner-refresh">Обновить</button></header>
-      <div class="audit-kpi-bar"><div class="audit-kpi-pill"><span class="kpi-label">Устройства</span><strong class="kpi-val">${users.length}</strong></div><div class="audit-kpi-pill"><span class="kpi-label">Активны · 75 секунд</span><strong class="kpi-val cyan">${users.filter(x => x.status === 'online').length}</strong></div><div class="audit-kpi-pill"><span class="kpi-label">События в журнале</span><strong class="kpi-val">${events.length}</strong></div></div>
-      <section class="owner-table-section"><h2>Устройства</h2><div class="table-responsive"><table class="data-table"><thead><tr><th>Состояние</th><th>Идентификатор</th><th>Модель</th><th>Экран</th><th>Сеть</th><th>Сегодня</th><th>Последнее событие</th></tr></thead><tbody>${users.length ? users.map(u => `<tr><td>${escapeHtml(u.status === 'online' ? 'Активно' : 'Нет связи')}</td><td><code>${escapeHtml(u.userId)}</code></td><td>${escapeHtml(u.model || '—')} · ${escapeHtml(u.platform || '—')}</td><td>${escapeHtml(u.currentScreen || '—')}</td><td>${escapeHtml(u.carrier || '—')}</td><td>${escapeHtml(formatBytes(u.todayBytes))}</td><td>${escapeHtml(u.lastSeenIso ? new Date(u.lastSeenIso).toLocaleString() : '—')}</td></tr>`).join('') : '<tr><td colspan="7">Нет устройств, передавших данные.</td></tr>'}</tbody></table></div></section>
-      <section class="owner-table-section"><h2>Журнал действий</h2><div class="table-responsive"><table class="data-table"><thead><tr><th>Время</th><th>Устройство</th><th>Экран</th><th>Действие</th><th>Детали</th><th>Трафик</th></tr></thead><tbody>${events.length ? events.map(e => `<tr><td>${escapeHtml(e.timeDisplay || (e.timestamp ? new Date(e.timestamp).toLocaleString() : '—'))}</td><td>${escapeHtml(e.userId || '—')}</td><td>${escapeHtml(e.screen || '—')}</td><td>${escapeHtml(e.action || '—')}</td><td>${escapeHtml(e.details || '—')}</td><td>${escapeHtml(formatBytes(e.bytesDelta))}</td></tr>`).join('') : '<tr><td colspan="6">Событий пока нет.</td></tr>'}</tbody></table></div></section>
-      <p class="data-scope-note">Таблица использует последние поля из отчёта Android: устройство и активные SIM-профили. ICCID/IMSI, CID/TAC и радиосигнал не передаются.</p>`;
+      <header class="section-title-strip"><div><span class="eyebrow">${copy.eyebrow}</span><h1 class="section-heading">${copy.title}</h1><p class="section-desc">${copy.description}</p></div><button class="btn btn-secondary btn-compact" id="owner-refresh">${copy.refresh}</button></header>
+      <div class="audit-kpi-bar"><div class="audit-kpi-pill"><span class="kpi-label">${copy.devices}</span><strong class="kpi-val">${users.length}</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.active}</span><strong class="kpi-val cyan">${users.filter(x => x.status === 'online').length}</strong></div><div class="audit-kpi-pill"><span class="kpi-label">${copy.events}</span><strong class="kpi-val">${events.length}</strong></div></div>
+      <section class="owner-table-section"><h2>${copy.devices}</h2><div class="table-responsive"><table class="data-table"><thead><tr>${copy.headers.map(label => `<th>${label}</th>`).join('')}</tr></thead><tbody>${users.length ? users.map(u => `<tr><td>${escapeHtml(u.status === 'online' ? copy.online : copy.offline)}</td><td><code>${escapeHtml(u.userId)}</code></td><td>${escapeHtml(u.model || '—')} · ${escapeHtml(u.platform || '—')}</td><td>${escapeHtml(u.currentScreen || '—')}</td><td>${escapeHtml(u.carrier || '—')}</td><td>${escapeHtml(formatBytes(u.todayBytes))}</td><td>${escapeHtml(formatDate(u.lastSeenIso))}</td></tr>`).join('') : `<tr><td colspan="7">${copy.noDevices}</td></tr>`}</tbody></table></div></section>
+      <section class="owner-table-section"><h2>${copy.activity}</h2><div class="table-responsive"><table class="data-table"><thead><tr>${copy.eventHeaders.map(label => `<th>${label}</th>`).join('')}</tr></thead><tbody>${events.length ? events.map(e => `<tr><td>${escapeHtml(formatDate(e.timestamp))}</td><td>${escapeHtml(e.userId || '—')}</td><td>${escapeHtml(e.screen || '—')}</td><td>${escapeHtml(e.action || '—')}</td><td>${escapeHtml(e.details || '—')}</td><td>${escapeHtml(formatBytes(e.bytesDelta))}</td></tr>`).join('') : `<tr><td colspan="6">${copy.noEvents}</td></tr>`}</tbody></table></div></section>
+      <p class="data-scope-note">${copy.note}</p>`;
     document.getElementById('owner-refresh')?.addEventListener('click', loadOwnerConsole);
   }
 
@@ -485,7 +528,12 @@
     fetchPublicSummary();
     if (location.hash === '#admin') loadOwnerConsole();
 
-    window.addEventListener('xylen:lang-changed', () => { renderPublicPage(); renderInfoPages(); renderOperationalCopy(); });
+    window.addEventListener('xylen:lang-changed', () => {
+      renderPublicPage();
+      renderInfoPages();
+      renderOperationalCopy();
+      if (ownerReady && ownerAudit) renderOwnerConsole(ownerAudit);
+    });
     const header = document.getElementById('top-navbar');
     let previousY = window.scrollY;
     let direction = 0;

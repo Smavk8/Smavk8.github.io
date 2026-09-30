@@ -1,0 +1,361 @@
+/* Shared color tokens and high-contrast theme surfaces. */
+:root {
+  --xy-bg: #080d14;
+  --xy-bg-raised: #0e1722;
+  --xy-surface: #111c28;
+  --xy-surface-raised: #172534;
+  --xy-text: #edf4fa;
+  --xy-muted: #a5b4c3;
+  --xy-faint: #788b9e;
+  --xy-accent: #17a9d4;
+  --xy-accent-strong: #38c8ef;
+  --xy-accent-ink: #062534;
+  --xy-green: #42d4a5;
+  --xy-border: rgba(157, 184, 207, .17);
+  --xy-border-strong: rgba(91, 199, 232, .38);
+  --xy-shadow: 0 18px 54px rgba(0, 0, 0, .28);
+  --xy-shadow-soft: 0 10px 30px rgba(0, 0, 0, .18);
+}
+
+body.theme-light {
+  --xy-bg: #f2f6fa;
+  --xy-bg-raised: #eaf1f7;
+  --xy-surface: #ffffff;
+  --xy-surface-raised: #f7fafc;
+  --xy-text: #172b3e;
+  --xy-muted: #52677b;
+  --xy-faint: #62788b;
+  --xy-accent: #007da9;
+  --xy-accent-strong: #007da9;
+  --xy-accent-ink: #ffffff;
+  --xy-green: #087b60;
+  --xy-border: rgba(20, 47, 68, .14);
+  --xy-border-strong: rgba(0, 125, 169, .36);
+  --xy-shadow: 0 18px 48px rgba(28, 54, 75, .10);
+  --xy-shadow-soft: 0 8px 24px rgba(28, 54, 75, .08);
+  background-color: var(--xy-bg);
+  color: var(--xy-text);
+}
+
+/* Cyan remains an accent on dark surfaces; filled controls use a deeper tone for readable white text. */
+body:not(.theme-light) .nav-active-pill { background: #00749a; }
+body:not(.theme-light) .btn-hero-primary-lg,
+body:not(.theme-light) .btn-cyan,
+body:not(.theme-light) .admin-auth-btn-login,
+body:not(.theme-light) .gatekeeper-submit-btn {
+  background: #00749a;
+  border-color: #00749a;
+  color: #fff;
+}
+body:not(.theme-light) .btn-hero-primary-lg:hover,
+body:not(.theme-light) .btn-cyan:hover,
+body:not(.theme-light) .gatekeeper-submit-btn:hover { background: #006587; }
+
+body.theme-light .top-navbar {
+  background: rgba(242, 246, 250, .72);
+}
+
+body.theme-light .nav-island-inner,
+body.theme-light .main-nav-menu,
+body.theme-light .header-hamburger-trigger,
+body.theme-light .compact-nav-drawer .drawer-sheet {
+  background: rgba(255, 255, 255, .96);
+  border-color: var(--xy-border);
+  box-shadow: var(--xy-shadow-soft);
+  color: var(--xy-text);
+}
+
+body.theme-light .nav-page-btn { color: var(--xy-muted); }
+body.theme-light .nav-page-btn:hover { color: var(--xy-text); }
+body.theme-light .nav-page-btn.active { color: #fff; }
+body.theme-light .nav-active-pill,
+body.theme-light .header-hamburger-trigger:hover {
+  background: var(--xy-accent-strong);
+  color: #fff;
+}
+
+body.theme-light .drawer-backdrop { background: rgba(25, 44, 61, .25); }
+body.theme-light .drawer-menu-title,
+body.theme-light .drawer-group-label,
+body.theme-light .drawer-close-btn,
+body.theme-light .drawer-theme-pill-btn,
+body.theme-light .app-drawer-logout-btn,
+body.theme-light .drawer-manager-btn { color: var(--xy-text); }
+body.theme-light .drawer-theme-pill-btn,
+body.theme-light .drawer-lang-row .lang-text-btn,
+body.theme-light .app-drawer-logout-btn {
+  background: var(--xy-surface-raised);
+  border-color: var(--xy-border);
+}
+body.theme-light .drawer-lang-row .lang-text-btn.active,
+body.theme-light .drawer-manager-btn {
+  background: var(--xy-accent);
+  border-color: var(--xy-accent);
+  color: #fff;
+}
+
+body.theme-light .page-section { color: var(--xy-text); }
+body.theme-light .overview-hero-block,
+body.theme-light .consent-interlude,
+body.theme-light .data-path-story,
+body.theme-light .kpi-showcase-section,
+body.theme-light .motion-carousel-section,
+body.theme-light .connectivity-section,
+body.theme-light .about-clean-card,
+body.theme-light .privacy-clean-card,
+body.theme-light .admin-panel-card,
+body.theme-light .admin-log-card {
+  color: var(--xy-text);
+}
+
+body.theme-light .overview-hero-block {
+  background: linear-gradient(145deg, rgba(255,255,255,.97), rgba(234,241,247,.96));
+  border-color: var(--xy-border);
+  box-shadow: var(--xy-shadow);
+}
+body.theme-light .hero-statement-title,
+body.theme-light .section-heading,
+body.theme-light .kpi-lead-title,
+body.theme-light .pillar-title,
+body.theme-light .data-path-story-heading h2,
+body.theme-light .path-card-copy h3,
+body.theme-light .motion-title,
+body.theme-light .about-clean-card h1,
+body.theme-light .about-clean-card h2,
+body.theme-light .about-clean-card h3,
+body.theme-light .privacy-clean-card h1,
+body.theme-light .privacy-clean-card h2,
+body.theme-light .legal-title,
+body.theme-light .admin-card-header h2,
+body.theme-light .admin-log-title,
+body.theme-light .connect-title {
+  color: var(--xy-text);
+}
+body.theme-light .hero-statement-desc,
+body.theme-light .section-desc,
+body.theme-light .pillar-desc,
+body.theme-light .path-card-copy p,
+body.theme-light .motion-sub,
+body.theme-light .about-body-text,
+body.theme-light .about-clean-card p,
+body.theme-light .privacy-clean-card p,
+body.theme-light .legal-text,
+body.theme-light .connect-desc,
+body.theme-light .drawer-web-note,
+body.theme-light .kpi-sub {
+  color: var(--xy-muted);
+}
+
+body.theme-light .eng-pillar-card,
+body.theme-light .kpi-card,
+body.theme-light .quick-connect-card,
+body.theme-light .motion-card-footer,
+body.theme-light .audit-column-card,
+body.theme-light .audit-feed-item,
+body.theme-light .traffic-pulse-card,
+body.theme-light .traffic-stat-item,
+body.theme-light .wifi-exclusion-card,
+body.theme-light .platform-install-card,
+body.theme-light .step-card,
+body.theme-light .whats-new-card,
+body.theme-light .archive-section,
+body.theme-light .about-clean-card,
+body.theme-light .privacy-clean-card,
+body.theme-light .legal-article-block,
+body.theme-light .device-summary-panel,
+body.theme-light .editorial-panel,
+body.theme-light .editorial-panel-head,
+body.theme-light .about-chapter,
+body.theme-light .privacy-chapter,
+body.theme-light .about-answer,
+body.theme-light .release-editorial-card,
+body.theme-light .release-install-notes,
+body.theme-light .release-archive {
+  background-color: var(--xy-surface);
+  border-color: var(--xy-border);
+  box-shadow: var(--xy-shadow-soft);
+  color: var(--xy-text);
+}
+
+body.theme-light .data-path-story-heading,
+body.theme-light .data-path-progress,
+body.theme-light .path-card-shell,
+body.theme-light .about-book,
+body.theme-light .about-grand-hero,
+body.theme-light .about-manifesto,
+body.theme-light .about-interstitial,
+body.theme-light .about-section-heading,
+body.theme-light .privacy-grand-heading,
+body.theme-light .privacy-story-intro,
+body.theme-light .about-endmark,
+body.theme-light .release-editorial-hero {
+  background-color: var(--xy-surface-raised);
+  border-color: var(--xy-border);
+  color: var(--xy-text);
+}
+
+/* Keep the data artwork itself dark so the cyan and violet motion stays vivid. */
+body.theme-light .path-card-visual,
+body.theme-light .path-scene-stage,
+body.theme-light .scene-consent,
+body.theme-light .motion-preview-box,
+body.theme-light .motion-preview-video,
+body.theme-light .silent-motion-orbit {
+  background-color: #07121d;
+  color: #eef7ff;
+}
+body.theme-light .motion-card { border-color: var(--xy-border); }
+body.theme-light .motion-badge,
+body.theme-light .kpi-tag,
+body.theme-light .editorial-code,
+body.theme-light .about-overline,
+body.theme-light .release-protocol {
+  color: var(--xy-accent);
+}
+body.theme-light .motion-video-heading,
+body.theme-light .motion-video-caption,
+body.theme-light .motion-video-index,
+body.theme-light .motion-play-tag { color: #eef7ff; }
+
+body.theme-light .btn-hero-primary-lg,
+body.theme-light .btn-cyan,
+body.theme-light .admin-auth-btn-login,
+body.theme-light .gatekeeper-submit-btn {
+  background: var(--xy-accent);
+  border-color: var(--xy-accent);
+  color: #fff;
+}
+body.theme-light .btn-hero-secondary-lg,
+body.theme-light .btn-secondary,
+body.theme-light .release-qr,
+body.theme-light .release-open {
+  background: var(--xy-surface);
+  border-color: var(--xy-border-strong);
+  color: var(--xy-accent);
+}
+body.theme-light .btn-hero-primary-lg:hover,
+body.theme-light .btn-cyan:hover,
+body.theme-light .gatekeeper-submit-btn:hover {
+  background: #006b92;
+}
+
+body.theme-light input,
+body.theme-light select,
+body.theme-light textarea,
+body.theme-light .gatekeeper-input,
+body.theme-light .qr-link-input {
+  background: #fff;
+  border-color: var(--xy-border);
+  color: var(--xy-text);
+}
+body.theme-light input::placeholder,
+body.theme-light textarea::placeholder { color: #6b7f91; }
+
+body.theme-light .data-table th,
+body.theme-light .data-table td,
+body.theme-light .spend-table td {
+  border-color: var(--xy-border);
+  color: var(--xy-text);
+}
+body.theme-light .data-table th { background: var(--xy-bg-raised); color: var(--xy-muted); }
+body.theme-light .data-table tr:nth-child(even) { background: rgba(234, 241, 247, .62); }
+body.theme-light .app-footer { border-color: var(--xy-border); color: var(--xy-muted); }
+body.theme-light .footer-nav-links a { color: var(--xy-muted); }
+body.theme-light .footer-nav-links a:hover { color: var(--xy-accent); }
+body.theme-light .scroll-to-top,
+body.theme-light .back-to-top { background: var(--xy-surface); color: var(--xy-text); border-color: var(--xy-border); }
+
+.gatekeeper-lang-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px 0 4px;
+}
+.gatekeeper-lang-row .lang-text-btn {
+  min-width: 48px;
+  padding: 8px 12px;
+  border: 1px solid rgba(140, 176, 204, .24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .05);
+  color: #b9c7d6;
+  font: 700 12px/1 var(--font-family, sans-serif);
+  cursor: pointer;
+}
+.gatekeeper-lang-row .lang-text-btn.active {
+  background: #008fbe;
+  border-color: #25c2ec;
+  color: #fff;
+}
+.gatekeeper-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 38px;
+  margin: 0 auto 8px;
+  padding: 7px 12px;
+  border: 1px solid rgba(140, 176, 204, .2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .035);
+  color: #d5e3ee;
+  font: 600 12px/1.2 var(--font-family, sans-serif);
+  cursor: pointer;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease;
+}
+.gatekeeper-theme-toggle:hover { border-color: rgba(56, 200, 239, .55); background: rgba(56, 200, 239, .08); }
+body.theme-light .gatekeeper-card {
+  background: rgba(255, 255, 255, .98);
+  border-color: var(--xy-border);
+  box-shadow: var(--xy-shadow);
+  color: var(--xy-text);
+}
+body.theme-light .gatekeeper-title { color: var(--xy-text); }
+body.theme-light .gatekeeper-desc,
+body.theme-light .gatekeeper-foot-note { color: var(--xy-muted); }
+body.theme-light .gatekeeper-lang-row .lang-text-btn { background: var(--xy-bg-raised); color: var(--xy-muted); border-color: var(--xy-border); }
+body.theme-light .gatekeeper-lang-row .lang-text-btn.active { background: var(--xy-accent); color: #fff; border-color: var(--xy-accent); }
+body.theme-light .gatekeeper-theme-toggle { background: var(--xy-bg-raised); color: var(--xy-text); border-color: var(--xy-border); }
+body.theme-light .gatekeeper-theme-toggle:hover { border-color: var(--xy-border-strong); background: var(--xy-surface-raised); }
+
+.motion-video-heading {
+  position: absolute;
+  z-index: 2;
+  top: 12px;
+  left: 14px;
+  max-width: 66%;
+  color: #f1f8fc;
+  font-size: clamp(10px, 1.2vw, 13px);
+  font-weight: 800;
+  letter-spacing: .08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-shadow: 0 1px 8px #000;
+  pointer-events: none;
+}
+.motion-video-caption {
+  position: absolute;
+  z-index: 2;
+  left: 12px;
+  bottom: 34px;
+  max-width: min(78%, 330px);
+  padding: 6px 9px;
+  border: 1px solid rgba(128, 214, 239, .2);
+  border-radius: 8px;
+  background: rgba(4, 12, 20, .9);
+  color: #dcebf3;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-shadow: 0 1px 4px #000;
+  pointer-events: none;
+}
+.motion-video-index { right: 14px; left: auto; }
+.motion-video-shade {
+  background: linear-gradient(180deg, rgba(4, 12, 20, .96) 0%, rgba(4, 12, 20, .72) 13%, transparent 23%, transparent 76%, rgba(4, 12, 20, .74) 86%, rgba(4, 12, 20, .97) 100%);
+}
+
+@media (max-width: 560px) {
+  .motion-video-heading { top: 9px; left: 10px; font-size: 9px; }
+  .motion-video-caption { left: 9px; bottom: 28px; max-width: 82%; font-size: 9px; padding: 5px 7px; }
+  .motion-video-index { right: 10px; bottom: 9px; font-size: 8px; }
+}

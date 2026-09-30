@@ -253,13 +253,28 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateThemeUI(theme) {
     const isLight = theme === 'light';
     document.body.classList.toggle('theme-light', isLight);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isLight ? '#f2f6fa' : '#080d14');
     const drawerThemeIcon = document.getElementById('drawer-theme-icon');
     const drawerThemeText = document.getElementById('drawer-theme-text');
+    const gatekeeperThemeIcon = document.getElementById('gatekeeper-theme-icon');
+    const gatekeeperThemeText = document.getElementById('gatekeeper-theme-text');
     if (drawerThemeIcon) {
       drawerThemeIcon.textContent = isLight ? '🌙' : '☀️';
     }
     if (drawerThemeText) {
-      drawerThemeText.textContent = isLight ? 'Светлая тема' : 'Тёмная тема';
+      drawerThemeText.textContent = window.i18n?.t(isLight ? 'theme_current_light' : 'theme_current_dark') || (isLight ? 'Light theme' : 'Dark theme');
+    }
+    if (gatekeeperThemeIcon) gatekeeperThemeIcon.textContent = isLight ? '🌙' : '☀️';
+    if (gatekeeperThemeText) gatekeeperThemeText.textContent = window.i18n?.t(isLight ? 'theme_current_light' : 'theme_current_dark') || (isLight ? 'Light theme' : 'Dark theme');
+    const drawerThemeToggle = document.getElementById('drawer-theme-toggle');
+    if (drawerThemeToggle) {
+      drawerThemeToggle.setAttribute('aria-label', window.i18n?.t('settings_theme') || 'Appearance');
+      drawerThemeToggle.setAttribute('aria-pressed', String(isLight));
+    }
+    const gatekeeperThemeToggle = document.getElementById('gatekeeper-theme-toggle');
+    if (gatekeeperThemeToggle) {
+      gatekeeperThemeToggle.setAttribute('aria-label', window.i18n?.t('settings_theme') || 'Appearance');
+      gatekeeperThemeToggle.setAttribute('aria-pressed', String(isLight));
     }
     const activeBtn = document.querySelector('.nav-page-btn.active');
     if (activeBtn) updateNavPill(activeBtn);
@@ -276,6 +291,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const initialTheme = window.activityStorage ? window.activityStorage.getTheme() : 'dark';
   updateThemeUI(initialTheme);
+  window.addEventListener('xylen:lang-changed', () => {
+    updateThemeUI(document.body.classList.contains('theme-light') ? 'light' : 'dark');
+  });
 
   // --------------------------------------------------------------------------
   // 5 MOTION MODULES CAROUSEL & MODAL INSPECTOR
@@ -1212,7 +1230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!window.activityStorage) return;
     const newToken = window.activityStorage.generateNewPairingToken();
     renderDevices();
-    window.showToast(`Новый ключ сопряжения сгенерирован: ${newToken}`);
+    window.showToast(`${window.i18n?.t('pairing_token_created') || 'New pairing key generated'}: ${newToken}`);
   };
 
   // --------------------------------------------------------------------------
@@ -1225,7 +1243,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.openQrModal = function(url, title) {
     if (!qrModal) return;
-    if (qrTitle) qrTitle.textContent = title || 'QR-код для установки';
+    if (qrTitle) qrTitle.textContent = title || window.i18n?.t('qr_install_title') || 'QR code for installation';
     if (qrLinkInput) qrLinkInput.value = url;
 
     if (qrCanvas && typeof QRCode !== 'undefined') {
@@ -1251,7 +1269,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!qrLinkInput) return;
     qrLinkInput.select();
     navigator.clipboard.writeText(qrLinkInput.value).then(() => {
-      window.showToast('Ссылка скопирована в буфер обмена!');
+      window.showToast(window.i18n?.t('copied_toast') || 'Copied to clipboard!');
     });
   };
 
