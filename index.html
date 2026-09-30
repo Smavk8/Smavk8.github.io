@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="yandex" content="none">
   <meta name="theme-color" content="#111726">
   <meta name="description" content="Xylen Platform: сводка клиентских отчётов Android, сетевых счётчиков и журнала событий приложения.">
   <title>Xylen Platform • Сводка мобильных отчётов</title>
@@ -13,8 +16,39 @@
   <link rel="stylesheet" href="css/xylen-motion.css?v=1.8.0">
   <link rel="stylesheet" href="css/android-parity.css?v=1.0.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
+  <link rel="stylesheet" href="css/gatekeeper.css?v=1.0.0">
+  <script src="js/gatekeeper.js?v=1.0.0"></script>
 </head>
 <body>
+  <!-- ========================================================================
+       PRIVATE PROTOTYPE GATEKEEPER OVERLAY
+       ======================================================================== -->
+  <div id="private-gatekeeper-overlay" class="private-gatekeeper-overlay" style="display:none;">
+    <div class="gatekeeper-card">
+      <picture>
+        <img src="assets/xylen-logo-white.png" alt="Xylen Management" class="gatekeeper-logo">
+      </picture>
+      <div class="gatekeeper-badge">
+        <span class="gatekeeper-badge-dot"></span>
+        <span>Приватный прототип</span>
+      </div>
+      <h1 class="gatekeeper-title">Xylen Platform</h1>
+      <p class="gatekeeper-desc">
+        Данный портал находится в стадии закрытого тестирования. Просмотр доступен только по персональной пригласительной ссылке владельца проекта.
+      </p>
+      <form id="gatekeeper-form" class="gatekeeper-form" autocomplete="off">
+        <div class="gatekeeper-input-wrap">
+          <span class="gatekeeper-icon" aria-hidden="true">🔒</span>
+          <input type="password" id="gatekeeper-key-input" class="gatekeeper-input" placeholder="Введите ключ доступа..." autocomplete="current-password" required>
+        </div>
+        <div id="gatekeeper-error" class="gatekeeper-error"></div>
+        <button type="submit" class="gatekeeper-submit-btn">Разблокировать доступ</button>
+      </form>
+      <div class="gatekeeper-foot-note">
+        Если вы перешли по специальной ссылке с ключом, сайт откроется автоматически.
+      </div>
+    </div>
+  </div>
   <!-- ========================================================================
        00 — SHORT TYPOGRAPHIC LOADER (Benchmark Jitter / ROG)
        ======================================================================== -->
