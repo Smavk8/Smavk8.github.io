@@ -1,7 +1,7 @@
 /**
  * Xylen Private Gatekeeper
  * Restricts access to prototype to only authorized links with a secret key (?key=...)
- * or manual key entry.
+ * or manual key entry. Provides real login and logout functions.
  */
 (() => {
   const VALID_KEYS = ['xylen', 'xylen2026', 'xylen-team', 'preview'];
@@ -88,9 +88,25 @@
     initGatekeeperUI();
   }
 
-  // Global helper for relocking/testing if needed
-  window.xylenRelock = function() {
+  // Global functions for real Login and Logout
+  window.xylenLogout = function() {
     try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-    window.location.reload();
+    lockAccess();
+    const input = document.getElementById('gatekeeper-key-input');
+    if (input) {
+      input.value = '';
+      input.focus();
+    }
   };
+
+  window.xylenLogin = function(key) {
+    const k = clean(key);
+    if (VALID_KEYS.includes(k)) {
+      grantAccess();
+      return true;
+    }
+    return false;
+  };
+
+  window.xylenRelock = window.xylenLogout;
 })();

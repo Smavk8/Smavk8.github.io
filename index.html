@@ -126,6 +126,12 @@
         </div>
 
         <div class="app-drawer-web-note"><span data-i18n="drawer_web_note">ВЕБ-БРАУЗЕР</span><strong data-i18n="drawer_web_readonly">Данные SIM доступны только из отчётов</strong></div>
+        <div class="app-drawer-logout-row">
+          <button class="app-drawer-logout-btn" type="button" onclick="window.toggleNavDrawer(false); window.xylenLogout();">
+            <span aria-hidden="true">🔒</span>
+            <span>Выйти из защищённого режима</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -173,6 +179,10 @@
 
       <!-- Android-style menu trigger -->
       <div class="header-menu-pill">
+        <button class="header-logout-pill-btn" type="button" onclick="window.xylenLogout();" title="Заблокировать доступ / Выйти" aria-label="Выйти">
+          <span class="logout-icon" aria-hidden="true">🔒</span>
+          <span class="logout-label">Выход</span>
+        </button>
         <button id="compact-hamburger-btn-header" class="header-hamburger-trigger" data-i18n-attr="title:drawer_open;aria-label:drawer_open" title="Открыть меню" aria-label="Открыть меню" aria-controls="compact-nav-drawer" aria-expanded="false" onclick="window.toggleNavDrawer(true);">
           <span class="hamburger-bars-wrap">
             <span class="hamburger-bar"></span>
