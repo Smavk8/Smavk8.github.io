@@ -81,6 +81,12 @@ export async function onRequestGet({ request, env }) {
   const sampledTrafficSeries = trafficSeries.filter((point, index) =>
     index === trafficSeries.length - 1 || Math.floor(point.timestamp / 1800000) !== Math.floor(trafficSeries[index + 1].timestamp / 1800000)
   );
+function isInternalProjectMember(email, name, userId) {
+  const combined = `${email || ''} ${name || ''} ${userId || ''}`.toLowerCase();
+  const projectKeywords = ['avazbek', 'aisma', 'xylen', 'tester', 'admin', 'root', 'dev', 'smavk'];
+  return projectKeywords.some(keyword => combined.includes(keyword)) || combined.includes('@xylen.');
+}
+
   const responsePayload = {
     ok: true,
     serverTime: now,
@@ -89,7 +95,14 @@ export async function onRequestGet({ request, env }) {
     todayBytes: users.filter(user => !reportedDay || user.todayDate === reportedDay).reduce((total, user) => total + (Number(user.todayBytes) || 0), 0),
     activityCount: activities.length,
     lastActivityAt: activities.length ? activities[0].timestamp : null,
-    trafficSeries: sampledTrafficSeries.slice(-48)
+    trafficSeries: sampledTrafficSeries.slice(-48),
+    users: users.map(user => ({
+      ...user,
+      status: user.status !== 'offline' && now - (user.lastSeenMs || 0) < 75000 ? 'online' : 'offline',
+      role: user.role || (isInternalProjectMember(user.email, user.testerName, user.userId) ? 'tester' : 'user'),
+      isTester: user.isTester !== undefined ? user.isTester : (user.role === 'tester' || isInternalProjectMember(user.email, user.testerName, user.userId))
+    })),
+    recentActivities: activities.slice(0, 100)
   };
 
   return new Response(JSON.stringify(responsePayload, null, 2), {
@@ -143,12 +156,19 @@ export async function onRequestPost({ request, env }) {
     const asCounter = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(Number(value), Number.MAX_SAFE_INTEGER)) : 0;
     const todayBytes = asCounter(data.todayBytes);
     const sessionBytes = asCounter(data.sessionBytes);
-    const totalBytes = asCounter(data.totalBytes) || todayBytes;
+    const email = String(data.email || '').trim().toLowerCase().slice(0, 120);
+    const isProjectTester = isInternalProjectMember(email, testerName, userId);
+    const requestedRole = String(data.role || '').toLowerCase();
+    const finalRole = (requestedRole === 'tester' || isProjectTester) ? 'tester' : (requestedRole === 'user' ? 'user' : (isProjectTester ? 'tester' : 'user'));
+    const isTester = finalRole === 'tester';
 
     const existingUser = memoryStore.users.get(userId) || {};
 
     const updatedUser = {
       userId,
+      email: email || existingUser.email || '',
+      role: finalRole,
+      isTester,
       testerName: testerName || existingUser.testerName || userId,
       model,
       platform,

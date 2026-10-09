@@ -603,83 +603,132 @@ document.addEventListener('DOMContentLoaded', () => {
     const users = window.activityStorage.getAuditUsers();
     const activities = window.activityStorage.getAuditActivities();
 
-    // 1. Update KPI bar
+    // Helper: detect if account belongs to internal projects / testers
+    function isInternalTester(user) {
+      if (!user) return false;
+      if (user.role === 'tester' || user.isTester === true) return true;
+      const combined = `${user.email || ''} ${user.testerName || ''} ${user.userId || ''}`.toLowerCase();
+      const projectKeywords = ['avazbek', 'aisma', 'xylen', 'tester', 'admin', 'root', 'dev', 'smavk'];
+      return projectKeywords.some(k => combined.includes(k)) || combined.includes('@xylen.');
+    }
+
+    const testers = users.filter(u => isInternalTester(u));
+    const generalUsers = users.filter(u => !isInternalTester(u));
+    const onlineUsers = users.filter(u => u.status === 'online');
+
+    let totalSpendBytes = 0;
+    users.forEach(u => { totalSpendBytes += (Number(u.todayBytes) || 0); });
+
+    // 1. Update KPI bar & Column Badges
+    const kpiTesters = document.getElementById('audit-kpi-testers-count');
+    const kpiUsers = document.getElementById('audit-kpi-users-count');
     const kpiTotalUsers = document.getElementById('audit-kpi-total-users');
     const kpiOnlineUsers = document.getElementById('audit-kpi-online-users');
     const kpiTotalSpend = document.getElementById('audit-kpi-total-spend');
     const kpiTotalActions = document.getElementById('audit-kpi-total-actions');
+    const colTestersCount = document.getElementById('audit-testers-count');
+    const colUsersCount = document.getElementById('audit-users-count');
 
-    const onlineUsers = users.filter(u => u.status === 'online');
-    let totalSpendBytes = 0;
-    users.forEach(u => { totalSpendBytes += (Number(u.todayBytes) || 0); });
-
+    if (kpiTesters) kpiTesters.textContent = testers.length;
+    if (kpiUsers) kpiUsers.textContent = generalUsers.length;
     if (kpiTotalUsers) kpiTotalUsers.textContent = users.length;
+    if (colTestersCount) colTestersCount.textContent = testers.length;
+    if (colUsersCount) colUsersCount.textContent = generalUsers.length;
     if (kpiOnlineUsers) kpiOnlineUsers.textContent = onlineUsers.length;
     if (kpiTotalSpend) kpiTotalSpend.textContent = formatBytes(totalSpendBytes);
     if (kpiTotalActions) kpiTotalActions.textContent = activities.length;
 
-    // 2. Render Users Grid
-    const usersGrid = document.getElementById('audit-users-grid');
-    if (usersGrid) {
-      if (!users || users.length === 0) {
-        usersGrid.innerHTML = `
-          <div class="user-empty-banner" style="grid-column: 1 / -1;">
-            <div style="font-size: 2rem; margin-bottom: 8px;">👥</div>
-            <strong>Ожидание подключения тестировщиков и пользователей</strong>
-            <p style="margin-top: 6px; font-size: 0.86rem; color: var(--text-muted);">
-              Как только пользователь откроет приложение на смартфоне, его карточка с текущим экраном, запущенными функциями и расходом трафика появится здесь в реальном времени.
+    // Helper: Card HTML builder
+    function buildUserCardHtml(u, roleType) {
+      const isOnline = u.status === 'online';
+      const displayName = u.testerName || u.email || 'Пользователь';
+      const initials = (displayName.replace(/[^a-zA-Zа-яА-Я0-9]/g, '') || 'U').substring(0, 2).toUpperCase();
+      const screen = u.currentScreen || 'Главная';
+      const spendFormatted = formatBytes(u.todayBytes);
+      const lastAction = u.lastAction || 'В сети';
+      const timeSince = u.lastSeenMs ? Math.round((Date.now() - u.lastSeenMs) / 1000) : 0;
+      const timeDisplay = timeSince < 60 ? 'Только что' : `${Math.round(timeSince / 60)} мин назад`;
+      const isTester = roleType === 'tester';
+      const badgeLabel = isTester ? 'Тестировщик' : 'Пользователь';
+      const badgeIcon = isTester ? '🧪' : '👤';
+      const roleColor = isTester ? 'var(--cyan-bright)' : 'var(--accent-purple, #a855f7)';
+
+      return `
+        <div class="user-monitor-card ${isOnline ? 'online' : 'offline'} hover-glow-card" style="border-top: 2px solid ${roleColor};">
+          <div class="user-card-top">
+            <div class="user-identity">
+              <div class="user-avatar-circle" style="background: ${isTester ? 'rgba(0, 210, 255, 0.15)' : 'rgba(168, 85, 247, 0.15)'}; color: ${roleColor};">${initials}</div>
+              <div>
+                <div class="user-meta-name" style="display:flex; align-items:center; gap:6px;">
+                  <span>${displayName}</span>
+                  <span style="font-size:0.7rem; font-weight:700; padding:2px 6px; border-radius:6px; background:${isTester ? 'rgba(0, 210, 255, 0.12)' : 'rgba(168, 85, 247, 0.12)'}; color:${roleColor};">${badgeIcon} ${badgeLabel}</span>
+                </div>
+                <div class="user-meta-device">${u.model || 'Смартфон'} • ${u.platform || 'Android'}</div>
+              </div>
+            </div>
+            <div class="user-status-tag ${isOnline ? 'online' : 'offline'}">
+              <span class="pulse-dot ${isOnline ? 'green' : 'gray'}"></span>
+              <span>${isOnline ? 'В сети' : 'Офлайн'}</span>
+            </div>
+          </div>
+
+          <div class="user-screen-indicator">
+            <span class="screen-label">Текущий раздел приложения:</span>
+            <span class="screen-val">📍 ${screen}</span>
+          </div>
+
+          <div class="user-spend-strip">
+            <div class="spend-item">
+              <span class="spend-item-label">Расход за сегодня</span>
+              <span class="spend-item-val">${spendFormatted}</span>
+            </div>
+            <div class="spend-item" style="text-align: right;">
+              <span class="spend-item-label">Сотовая сеть</span>
+              <strong style="color: var(--cyan-bright); font-size: 0.88rem;">${u.carrier || 'Ucell UZ'}</strong>
+            </div>
+          </div>
+
+          <div class="user-last-action">
+            <span>Действие: <strong>${lastAction}</strong></span>
+            <span>${timeDisplay}</span>
+          </div>
+        </div>
+      `;
+    }
+
+    // 2. Render Column 1: Testers Grid
+    const testersGrid = document.getElementById('audit-testers-grid');
+    if (testersGrid) {
+      if (testers.length === 0) {
+        testersGrid.innerHTML = `
+          <div class="user-empty-banner">
+            <div style="font-size: 1.8rem; margin-bottom: 6px;">🧪</div>
+            <strong>Ожидание подключения тестировщиков</strong>
+            <p style="margin-top: 4px; font-size: 0.82rem; color: var(--text-muted);">
+              Когда участник внутренних проектов войдет в аккаунт, его телефон появится в этой колонке.
             </p>
           </div>
         `;
       } else {
-        usersGrid.innerHTML = users.map(u => {
-          const isOnline = u.status === 'online';
-          const initials = (u.testerName || 'U').substring(0, 2).toUpperCase();
-          const screen = u.currentScreen || 'Главная';
-          const spendFormatted = formatBytes(u.todayBytes);
-          const lastAction = u.lastAction || 'В сети';
-          const timeSince = u.lastSeenMs ? Math.round((Date.now() - u.lastSeenMs) / 1000) : 0;
-          const timeDisplay = timeSince < 60 ? 'Только что' : `${Math.round(timeSince / 60)} мин назад`;
+        testersGrid.innerHTML = testers.map(u => buildUserCardHtml(u, 'tester')).join('');
+      }
+    }
 
-          return `
-            <div class="user-monitor-card ${isOnline ? 'online' : 'offline'} hover-glow-card">
-              <div class="user-card-top">
-                <div class="user-identity">
-                  <div class="user-avatar-circle">${initials}</div>
-                  <div>
-                    <div class="user-meta-name">${u.testerName || 'Тестировщик'}</div>
-                    <div class="user-meta-device">${u.model || 'Смартфон'} • ${u.platform || 'Android'}</div>
-                  </div>
-                </div>
-                <div class="user-status-tag ${isOnline ? 'online' : 'offline'}">
-                  <span class="pulse-dot ${isOnline ? 'green' : 'gray'}"></span>
-                  <span>${isOnline ? 'В сети' : 'Офлайн'}</span>
-                </div>
-              </div>
-
-              <div class="user-screen-indicator">
-                <span class="screen-label">Текущий раздел приложения:</span>
-                <span class="screen-val">📍 ${screen}</span>
-              </div>
-
-              <div class="user-spend-strip">
-                <div class="spend-item">
-                  <span class="spend-item-label">Расход за сегодня</span>
-                  <span class="spend-item-val">${spendFormatted}</span>
-                </div>
-                <div class="spend-item" style="text-align: right;">
-                  <span class="spend-item-label">Сотовая сеть</span>
-                  <strong style="color: var(--cyan-bright); font-size: 0.88rem;">${u.carrier || 'Ucell UZ'}</strong>
-                </div>
-              </div>
-
-              <div class="user-last-action">
-                <span>Действие: <strong>${lastAction}</strong></span>
-                <span>${timeDisplay}</span>
-              </div>
-            </div>
-          `;
-        }).join('');
+    // 3. Render Column 2: Users Grid
+    const usersGrid = document.getElementById('audit-users-grid');
+    if (usersGrid) {
+      if (generalUsers.length === 0) {
+        usersGrid.innerHTML = `
+          <div class="user-empty-banner">
+            <div style="font-size: 1.8rem; margin-bottom: 6px;">👥</div>
+            <strong>Ожидание подключения пользователей</strong>
+            <p style="margin-top: 4px; font-size: 0.82rem; color: var(--text-muted);">
+              Пользователи вне проектов Xylen будут отображаться в этой колонке со своими данными.
+            </p>
+          </div>
+        `;
+      } else {
+        usersGrid.innerHTML = generalUsers.map(u => buildUserCardHtml(u, 'user')).join('');
       }
     }
 

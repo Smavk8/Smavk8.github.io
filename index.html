@@ -675,30 +675,69 @@
       <!-- Quick Metrics Bar -->
       <div class="audit-kpi-bar reveal-on-scroll">
         <div class="audit-kpi-pill">
-          <span class="kpi-label">Всего тестировщиков</span>
-          <strong class="kpi-val" id="audit-kpi-total-users">0</strong>
+          <span class="kpi-label">Тестировщики (Testers)</span>
+          <strong class="kpi-val cyan" id="audit-kpi-testers-count">0</strong>
+        </div>
+        <div class="audit-kpi-pill">
+          <span class="kpi-label">Пользователи (Users)</span>
+          <strong class="kpi-val purple" id="audit-kpi-users-count" style="color: var(--accent-purple, #c084fc);">0</strong>
         </div>
         <div class="audit-kpi-pill">
           <span class="kpi-label">Сейчас в сети</span>
-          <strong class="kpi-val cyan" id="audit-kpi-online-users">0</strong>
+          <strong class="kpi-val green" id="audit-kpi-online-users">0</strong>
         </div>
         <div class="audit-kpi-pill">
           <span class="kpi-label">Израсходовано за сегодня</span>
-          <strong class="kpi-val green" id="audit-kpi-total-spend">0 МБ</strong>
+          <strong class="kpi-val" id="audit-kpi-total-spend">0 МБ</strong>
         </div>
         <div class="audit-kpi-pill">
           <span class="kpi-label">Зафиксировано действий</span>
           <strong class="kpi-val" id="audit-kpi-total-actions">0</strong>
         </div>
+        <!-- Hidden fallback for legacy scripts -->
+        <span id="audit-kpi-total-users" style="display:none;">0</span>
       </div>
 
-      <!-- Section: Active Users & Testers Grid -->
-      <div class="user-audit-section reveal-on-scroll">
-        <div class="user-audit-header">
-          <h2 class="user-audit-title">Тестировщики приложения (Кто где находится и что использует)</h2>
+      <!-- Section: User Data (2 Distinct Columns: Testers & Users) -->
+      <div class="user-data-dual-columns reveal-on-scroll">
+        <!-- Column 1: Testers (Тестировщики) -->
+        <div class="user-data-column-card testers-card">
+          <div class="user-data-column-header">
+            <div class="user-data-column-title">
+              <span class="user-data-badge-icon">🧪</span>
+              <div>
+                <h2 style="font-size: 1.15rem; font-weight: 700; margin: 0; color: var(--text-primary);">Тестировщики (Testers)</h2>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Аккаунты внутренних проектов платформы</span>
+              </div>
+            </div>
+            <div class="user-data-counter-pill">
+              <span class="pulse-dot cyan"></span>
+              <span id="audit-testers-count">0</span>
+            </div>
+          </div>
+          <div id="audit-testers-grid" class="user-data-column-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
         </div>
-        <div id="audit-users-grid" class="audit-users-grid">
-          <!-- Rendered dynamically by app.js -->
+
+        <!-- Column 2: Users (Пользователи) -->
+        <div class="user-data-column-card users-card">
+          <div class="user-data-column-header">
+            <div class="user-data-column-title">
+              <span class="user-data-badge-icon">👥</span>
+              <div>
+                <h2 style="font-size: 1.15rem; font-weight: 700; margin: 0; color: var(--text-primary);">Пользователи (Users)</h2>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Обычные пользователи приложения</span>
+              </div>
+            </div>
+            <div class="user-data-counter-pill">
+              <span class="pulse-dot green"></span>
+              <span id="audit-users-count">0</span>
+            </div>
+          </div>
+          <div id="audit-users-grid" class="user-data-column-grid">
+            <!-- Rendered dynamically by app.js -->
+          </div>
         </div>
       </div>
 
