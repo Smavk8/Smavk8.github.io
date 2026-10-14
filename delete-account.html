@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0C10">
+  <meta name="description" content="Удаление аккаунта и связанных данных • Xylen Sim Platform (com.xylen.simmonitor). Официальная форма запроса на удаление данных в соответствии с требованиями Google Play.">
+  <title>Удаление аккаунта и данных • Xylen Sim Platform</title>
+  <link rel="icon" type="image/png" href="assets/xylen-icon.png">
+  <style>
+    :root {
+      --bg: #0A0C10;
+      --card-bg: #121824;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --accent-red: #EF4444;
+      --accent-red-hover: #DC2626;
+      --accent-cyan: #00D2FF;
+      --accent-green: #10B981;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand-pkg {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+    .lang-switch {
+      display: flex;
+      gap: 6px;
+      background: rgba(255,255,255,0.05);
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.15);
+      color: #FFF;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+      margin-bottom: 24px;
+    }
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      color: #FFF;
+    }
+    .desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .policy-box {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .policy-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #F87171;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .policy-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      font-size: 0.88rem;
+      color: #E2E8F0;
+      line-height: 1.6;
+    }
+    .retain-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 24px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      color: #FFF;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus {
+      border-color: var(--accent-cyan);
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+      cursor: pointer;
+    }
+    .checkbox-group input {
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .checkbox-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .btn-delete {
+      width: 100%;
+      background: var(--accent-red);
+      color: #FFF;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-delete:hover:not(:disabled) {
+      background: var(--accent-red-hover);
+    }
+    .btn-delete:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+    .btn-delete:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .status-msg {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      display: none;
+      line-height: 1.5;
+    }
+    .status-msg.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: var(--accent-green);
+    }
+    .status-msg.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #F87171;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="/" class="brand">
+        <img src="assets/xylen-icon.png" alt="Xylen Sim Platform Logo">
+        <div>
+          <div class="brand-title">Xylen Sim Platform</div>
+          <div class="brand-pkg">com.xylen.simmonitor</div>
+        </div>
+      </a>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('uz')">UZ</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </header>
+
+    <main class="card">
+      <h1 id="txt-title">Запрос на удаление аккаунта и данных</h1>
+      <p class="desc" id="txt-desc">
+        В соответствии с политикой Google Play (User Data Policy), пользователи приложения <strong>Xylen Sim Platform</strong> имеют право запросить полное и безвозвратное удаление своей учетной записи и всех связанных данных.
+      </p>
+
+      <div class="policy-box">
+        <div class="policy-title">
+          <span>⚠️</span>
+          <span id="txt-will-delete-title">Что будет удалено:</span>
+        </div>
+        <ul class="policy-list" id="txt-delete-list">
+          <li>Учетная запись, адрес электронной почты и имя профиля</li>
+          <li>Привязанные устройства и идентификаторы SIM-карт</li>
+          <li>Вся история учета сетевого трафика и показателей скорости</li>
+          <li>Облачные резервные копии оформления, тем и настроек</li>
+          <li>Все записи в журнале действий и мониторинга</li>
+        </ul>
+      </div>
+
+      <div class="retain-box" id="txt-retain-note">
+        <strong>Сроки хранения и исключения:</strong> Данные удаляются из активных баз данных немедленно при обработке запроса. Обезличенные финансовые чеки покупок в Google Play сохраняются исключительно в биллинговой системе Google Play в рамках установленных законодательством финансовых обязательств.
+      </div>
+
+      <form id="delete-form" onsubmit="handleAccountDelete(event)">
+        <div class="form-group">
+          <label for="input-email" id="lbl-email">Адрес электронной почты (Email аккаунта):</label>
+          <input type="email" id="input-email" required placeholder="example@gmail.com или example@xylen.io">
+        </div>
+
+        <div class="form-group">
+          <label for="input-device" id="lbl-device">Идентификатор устройства / установки (опционально):</label>
+          <input type="text" id="input-device" placeholder="Например: s24_sim_s0 или оставьте пустым">
+        </div>
+
+        <label class="checkbox-group">
+          <input type="checkbox" id="chk-confirm" required>
+          <span class="checkbox-label" id="lbl-confirm">
+            Я подтверждаю, что хочу безвозвратно удалить свой аккаунт Xylen Sim Platform и все связанные с ним данные телеметрии и профиля.
+          </span>
+        </label>
+
+        <button type="submit" class="btn-delete" id="btn-submit">
+          <span>🗑️</span>
+          <span id="txt-btn-delete">Удалить аккаунт и все данные</span>
+        </button>
+
+        <div id="status-message" class="status-msg"></div>
+      </form>
+    </main>
+
+    <footer>
+      <p id="txt-footer">
+        Xylen Sim Platform • Разработчик: Avazbek Ismailov • 
+        <a href="privacy.html">Политика конфиденциальности</a> • 
+        <a href="mailto:support@xylen.io">Служба поддержки: support@xylen.io</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    const i18n = {
+      ru: {
+        title: "Запрос на удаление аккаунта и данных",
+        desc: "В соответствии с политикой Google Play (User Data Policy), пользователи приложения <strong>Xylen Sim Platform</strong> имеют право запросить полное и безвозвратное удаление своей учетной записи и всех связанных данных.",
+        willDeleteTitle: "Что будет удалено:",
+        deleteList: [
+          "Учетная запись, адрес электронной почты и имя профиля",
+          "Привязанные устройства и идентификаторы SIM-карт",
+          "Вся история учета сетевого трафика и показателей скорости",
+          "Облачные резервные копии оформления, тем и настроек",
+          "Все записи в журнале действий и мониторинга"
+        ],
+        retainNote: "<strong>Сроки хранения и исключения:</strong> Данные удаляются из активных баз данных немедленно при обработке запроса. Обезличенные финансовые чеки покупок в Google Play сохраняются исключительно в биллинговой системе Google Play в рамках установленных законодательством финансовых обязательств.",
+        lblEmail: "Адрес электронной почты (Email аккаунта):",
+        lblDevice: "Идентификатор устройства / установки (опционально):",
+        lblConfirm: "Я подтверждаю, что хочу безвозвратно удалить свой аккаунт Xylen Sim Platform и все связанные с ним данные телеметрии и профиля.",
+        btnDelete: "Удалить аккаунт и все данные",
+        btnProcessing: "Удаление данных...",
+        success: "✓ Ваш аккаунт и связанные данные успешно удалены из базы данных и облачного хранилища.",
+        footer: 'Xylen Sim Platform • Разработчик: Avazbek Ismailov • <a href="privacy.html">Политика конфиденциальности</a> • <a href="mailto:support@xylen.io">Служба поддержки: support@xylen.io</a>'
+      },
+      uz: {
+        title: "Hisob va ma'lumotlarni o'chirish so'rovi",
+        desc: "Google Play qoidalariga (User Data Policy) muvofiq, <strong>Xylen Sim Platform</strong> ilovasi foydalanuvchilari o'z hisoblarini va barcha bog'liq ma'lumotlarni to'liq o'chirishni so'rash huquqiga ega.",
+        willDeleteTitle: "Qanday ma'lumotlar o'chiriladi:",
+        deleteList: [
+          "Hisob qaydnomasi, elektron pochta manzili va profil nomi",
+          "Ulangan qurilmalar va SIM-karta identifikatorlari",
+          "Barcha tarmoq trafigi hisobi va tezlik ko'rsatkichlari tarixi",
+          "Mavzular, dizayn va sozlamalarning bulutli nusxalari",
+          "Faoliyat va monitoring jurnalidagi barcha yozuvlar"
+        ],
+        retainNote: "<strong>Saqlash muddati va istisnolar:</strong> Ma'lumotlar so'rov qabul qilinganda zudlik bilan o'chiriladi. Google Play to'lov cheklari qonuniy moliyaviy talablar doirasida faqat Google Play billing tizimida saqlanadi.",
+        lblEmail: "Elektron pochta manzili (Hisob emaili):",
+        lblDevice: "Qurilma / o'rnatish identifikatori (ixtiyoriy):",
+        lblConfirm: "Xylen Sim Platform hisobimni va barcha bog'liq ma'lumotlarni qaytarib bo'lmas tarzda o'chirishni tasdiqlayman.",
+        btnDelete: "Hisobni va barcha ma'lumotlarni o'chirish",
+        btnProcessing: "O'chirilmoqda...",
+        success: "✓ Sizning hisobingiz va bog'liq barcha ma'lumotlar muvaffaqiyatli o'chirildi.",
+        footer: 'Xylen Sim Platform • Dasturchi: Avazbek Ismailov • <a href="privacy.html">Maxfiylik siyosati</a> • <a href="mailto:support@xylen.io">Qo\'llab-quvvatlash: support@xylen.io</a>'
+      },
+      en: {
+        title: "Account and Data Deletion Request",
+        desc: "In accordance with Google Play User Data Policy, users of <strong>Xylen Sim Platform</strong> may request complete and permanent deletion of their account and all associated data.",
+        willDeleteTitle: "What will be deleted:",
+        deleteList: [
+          "Account credentials, email address, and profile name",
+          "Registered devices and SIM profile identifiers",
+          "Complete network traffic history and speed metrics",
+          "Cloud backups of themes, backdrops, and preferences",
+          "All records in the activity and audit logs"
+        ],
+        retainNote: "<strong>Retention & Exceptions:</strong> Data is purged immediately from active databases upon request processing. Transaction receipts for Google Play purchases are retained strictly within Google Play Billing in compliance with statutory financial regulations.",
+        lblEmail: "Account Email Address:",
+        lblDevice: "Device / Installation ID (optional):",
+        lblConfirm: "I confirm that I want to permanently delete my Xylen Sim Platform account and all associated telemetry and profile data.",
+        btnDelete: "Delete Account and All Data",
+        btnProcessing: "Deleting data...",
+        success: "✓ Your account and associated data have been permanently deleted.",
+        footer: 'Xylen Sim Platform • Developer: Avazbek Ismailov • <a href="privacy.html">Privacy Policy</a> • <a href="mailto:support@xylen.io">Support: support@xylen.io</a>'
+      }
+    };
+
+    let currentLang = 'ru';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+      });
+      const t = i18n[lang] || i18n.ru;
+      document.getElementById('txt-title').textContent = t.title;
+      document.getElementById('txt-desc').innerHTML = t.desc;
+      document.getElementById('txt-will-delete-title').textContent = t.willDeleteTitle;
+      const listContainer = document.getElementById('txt-delete-list');
+      listContainer.innerHTML = t.deleteList.map(item => `<li>${item}</li>`).join('');
+      document.getElementById('txt-retain-note').innerHTML = t.retainNote;
+      document.getElementById('lbl-email').textContent = t.lblEmail;
+      document.getElementById('lbl-device').textContent = t.lblDevice;
+      document.getElementById('lbl-confirm').textContent = t.lblConfirm;
+      document.getElementById('txt-btn-delete').textContent = t.btnDelete;
+      document.getElementById('txt-footer').innerHTML = t.footer;
+    }
+
+    async function handleAccountDelete(e) {
+      e.preventDefault();
+      const email = document.getElementById('input-email').value.trim();
+      const userId = document.getElementById('input-device').value.trim();
+      const btn = document.getElementById('btn-submit');
+      const status = document.getElementById('status-message');
+      const t = i18n[currentLang] || i18n.ru;
+
+      btn.disabled = true;
+      document.getElementById('txt-btn-delete').textContent = t.btnProcessing;
+      status.className = 'status-msg';
+      status.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/account/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, userId })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) {
+          status.className = 'status-msg success';
+          status.textContent = t.success;
+          status.style.display = 'block';
+          document.getElementById('delete-form').reset();
+        } else {
+          status.className = 'status-msg error';
+          status.textContent = data.error || 'Произошла ошибка при отправке запроса. Пожалуйста, напишите нам на support@xylen.io';
+          status.style.display = 'block';
+        }
+      } catch (err) {
+        status.className = 'status-msg error';
+        status.textContent = 'Ошибка сети: ' + err.message + '. Пожалуйста, свяжитесь с поддержкой: support@xylen.io';
+        status.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        document.getElementById('txt-btn-delete').textContent = t.btnDelete;
+      }
+    }
+  </script>
+</body>
+</html>

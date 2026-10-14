@@ -4,6 +4,12 @@
  * or manual key entry. Provides real login and logout functions.
  */
 (() => {
+  // Always grant public access to policy and deletion pages
+  const currentPath = (window.location.pathname || '').toLowerCase();
+  if (currentPath.includes('privacy') || currentPath.includes('delete-account')) {
+    return;
+  }
+
   const VALID_KEYS = ['topup', 'xylen'];
   const STORAGE_KEY = 'xylen_private_access_authorized';
 

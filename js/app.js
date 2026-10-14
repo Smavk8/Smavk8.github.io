@@ -702,10 +702,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (testers.length === 0) {
         testersGrid.innerHTML = `
           <div class="user-empty-banner">
-            <div style="font-size: 1.8rem; margin-bottom: 6px;">🧪</div>
-            <strong>Ожидание подключения тестировщиков</strong>
+            <div style="font-size: 1.8rem; margin-bottom: 6px;">🛡️</div>
+            <strong>Защищенный реестр тестировщиков</strong>
             <p style="margin-top: 4px; font-size: 0.82rem; color: var(--text-muted);">
-              Когда участник внутренних проектов войдет в аккаунт, его телефон появится в этой колонке.
+              Подробные данные внутренних участников защищены и доступны владельцу в авторизованной панели.
             </p>
           </div>
         `;
@@ -720,10 +720,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (generalUsers.length === 0) {
         usersGrid.innerHTML = `
           <div class="user-empty-banner">
-            <div style="font-size: 1.8rem; margin-bottom: 6px;">👥</div>
-            <strong>Ожидание подключения пользователей</strong>
+            <div style="font-size: 1.8rem; margin-bottom: 6px;">🔒</div>
+            <strong>Конфиденциальность защищена</strong>
             <p style="margin-top: 4px; font-size: 0.82rem; color: var(--text-muted);">
-              Пользователи вне проектов Xylen будут отображаться в этой колонке со своими данными.
+              Персональные профили и идентификаторы устройств скрыты в соответствии с политикой Google Play User Data.
             </p>
           </div>
         `;
@@ -739,7 +739,7 @@ document.addEventListener('DOMContentLoaded', () => {
         feedContainer.innerHTML = `
           <div class="user-empty-banner">
             <span style="font-size: 1.4rem;">📜</span>
-            <div style="margin-top: 6px;">Журнал ожидает действий пользователей...</div>
+            <div style="margin-top: 6px;">Журнал активности защищен политикой приватности. Доступен в консоли администратора.</div>
           </div>
         `;
       } else {

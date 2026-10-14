@@ -9,6 +9,17 @@
  * 4. Who is spending how much (sessionBytes, todayBytes, totalBytes, carrier).
  */
 
+import { requireOwner } from './_access.js';
+
+function isInternalProjectMember(email, name, userId) {
+  const cleanEmail = String(email || '').trim().toLowerCase();
+  if (!cleanEmail) return false;
+  const projectDomains = ['@xylen.io', '@xylen.dev', '@xylen.org', '@xylen.space'];
+  if (projectDomains.some(d => cleanEmail.endsWith(d))) return true;
+  const developerEmails = ['avazbek@gmail.com', 'aismailov.dev@gmail.com', 'smavk.dev@gmail.com'];
+  return developerEmails.includes(cleanEmail);
+}
+
 const memoryStore = {
   users: new Map(),
   activities: [],
@@ -31,30 +42,38 @@ export async function onRequestOptions() {
 
 export async function onRequestGet({ request, env }) {
   const now = Date.now();
+  const isOwner = await requireOwner(request, env);
 
   let users = [];
   let activities = [];
 
+  let loadedFromKv = false;
   // 1. Check persistent Cloudflare KV
   if (env && env.XYLEN_KV) {
     try {
       const storedUsers = await env.XYLEN_KV.get('audit_users_json', 'json');
-      if (Array.isArray(storedUsers)) users = storedUsers;
+      if (Array.isArray(storedUsers)) {
+        users = storedUsers;
+        loadedFromKv = true;
+      }
       const storedActs = await env.XYLEN_KV.get('audit_activities_json', 'json');
-      if (Array.isArray(storedActs)) activities = storedActs;
+      if (Array.isArray(storedActs)) {
+        activities = storedActs;
+      }
     } catch (_) {}
   }
 
-  // 2. Fallback to memoryStore
-  if (users.length === 0 && memoryStore.users.size > 0) {
+  // 2. Fallback to memoryStore only if KV was not bound or not yet initialized
+  if (!loadedFromKv && users.length === 0 && memoryStore.users.size > 0) {
     users = Array.from(memoryStore.users.values());
   }
-  if (activities.length === 0 && memoryStore.activities.length > 0) {
+  if (!loadedFromKv && activities.length === 0 && memoryStore.activities.length > 0) {
     activities = memoryStore.activities;
   }
 
-  // Public endpoint returns aggregate counts only. Device identities, screen
-  // names, carrier details and activity records are served by /api/admin.
+  // Public endpoint returns aggregate counts only. Detailed device identities,
+  // screen names, carrier details and activity records are strictly protected
+  // and served only to authorized project owners.
   const onlineUsers = users.filter(u => u.status !== 'offline' && now - (u.lastSeenMs || 0) < 75000);
   const dayCounts = new Map();
   users.forEach(user => dayCounts.set(user.todayDate, (dayCounts.get(user.todayDate) || 0) + 1));
@@ -81,11 +100,6 @@ export async function onRequestGet({ request, env }) {
   const sampledTrafficSeries = trafficSeries.filter((point, index) =>
     index === trafficSeries.length - 1 || Math.floor(point.timestamp / 1800000) !== Math.floor(trafficSeries[index + 1].timestamp / 1800000)
   );
-function isInternalProjectMember(email, name, userId) {
-  const combined = `${email || ''} ${name || ''} ${userId || ''}`.toLowerCase();
-  const projectKeywords = ['avazbek', 'aisma', 'xylen', 'tester', 'admin', 'root', 'dev', 'smavk'];
-  return projectKeywords.some(keyword => combined.includes(keyword)) || combined.includes('@xylen.');
-}
 
   const responsePayload = {
     ok: true,
@@ -96,13 +110,14 @@ function isInternalProjectMember(email, name, userId) {
     activityCount: activities.length,
     lastActivityAt: activities.length ? activities[0].timestamp : null,
     trafficSeries: sampledTrafficSeries.slice(-48),
-    users: users.map(user => ({
+    // Detailed identities and activity streams are restricted strictly to authorized owner:
+    users: isOwner ? users.map(user => ({
       ...user,
       status: user.status !== 'offline' && now - (user.lastSeenMs || 0) < 75000 ? 'online' : 'offline',
       role: user.role || (isInternalProjectMember(user.email, user.testerName, user.userId) ? 'tester' : 'user'),
       isTester: user.isTester !== undefined ? user.isTester : (user.role === 'tester' || isInternalProjectMember(user.email, user.testerName, user.userId))
-    })),
-    recentActivities: activities.slice(0, 100)
+    })) : [],
+    recentActivities: isOwner ? activities.slice(0, 100) : []
   };
 
   return new Response(JSON.stringify(responsePayload, null, 2), {
@@ -156,6 +171,7 @@ export async function onRequestPost({ request, env }) {
     const asCounter = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(Number(value), Number.MAX_SAFE_INTEGER)) : 0;
     const todayBytes = asCounter(data.todayBytes);
     const sessionBytes = asCounter(data.sessionBytes);
+    const totalBytes = asCounter(data.totalBytes || (todayBytes + sessionBytes));
     const email = String(data.email || '').trim().toLowerCase().slice(0, 120);
     const isProjectTester = isInternalProjectMember(email, testerName, userId);
     const requestedRole = String(data.role || '').toLowerCase();
@@ -191,6 +207,7 @@ export async function onRequestPost({ request, env }) {
     const activityEntry = {
       id: 'act-' + now + '-' + Math.random().toString(36).substring(2, 6),
       userId,
+      email: updatedUser.email || '',
       testerName: updatedUser.testerName,
       model,
       screen: currentScreen,
