@@ -41,15 +41,13 @@ body.theme-light {
 body:not(.theme-light) .nav-active-pill { background: #00749a; }
 body:not(.theme-light) .btn-hero-primary-lg,
 body:not(.theme-light) .btn-cyan,
-body:not(.theme-light) .admin-auth-btn-login,
-body:not(.theme-light) .gatekeeper-submit-btn {
+body:not(.theme-light) .admin-auth-btn-login {
   background: #00749a;
   border-color: #00749a;
   color: #fff;
 }
 body:not(.theme-light) .btn-hero-primary-lg:hover,
-body:not(.theme-light) .btn-cyan:hover,
-body:not(.theme-light) .gatekeeper-submit-btn:hover { background: #006587; }
+body:not(.theme-light) .btn-cyan:hover { background: #006587; }
 
 body.theme-light .top-navbar {
   background: rgba(242, 246, 250, .72);

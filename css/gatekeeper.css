@@ -8,6 +8,10 @@ html.access-locked body > *:not(#private-gatekeeper-overlay) {
   display: none !important;
 }
 
+html.access-locked #private-gatekeeper-overlay {
+  display: flex !important;
+}
+
 html.access-granted #private-gatekeeper-overlay {
   display: none !important;
 }
@@ -16,7 +20,7 @@ html.access-granted #private-gatekeeper-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999999;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   padding: 24px;
@@ -192,33 +196,7 @@ html.access-granted #private-gatekeeper-overlay {
   color: #64748b;
 }
 
-/* Real Logout Buttons in Header and Drawer */
-.header-logout-pill-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  height: 48px;
-  padding: 0 14px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #ff6b8b;
-  background: rgba(255, 107, 139, 0.09);
-  border: 1px solid rgba(255, 107, 139, 0.28);
-  border-radius: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.header-logout-pill-btn:hover {
-  background: rgba(255, 107, 139, 0.18);
-  border-color: rgba(255, 107, 139, 0.5);
-  transform: translateY(-1px);
-}
-
-.header-logout-pill-btn .logout-icon {
-  font-size: 14px;
-}
-
+/* Real Logout Button in Drawer */
 .app-drawer-logout-row {
   margin-top: 14px;
   padding-top: 14px;
@@ -245,13 +223,4 @@ html.access-granted #private-gatekeeper-overlay {
 .app-drawer-logout-btn:hover {
   background: rgba(255, 107, 139, 0.18);
   border-color: rgba(255, 107, 139, 0.5);
-}
-
-@media (max-width: 600px) {
-  .header-logout-pill-btn .logout-label {
-    display: none;
-  }
-  .header-logout-pill-btn {
-    padding: 0 10px;
-  }
 }

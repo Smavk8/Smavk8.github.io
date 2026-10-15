@@ -752,65 +752,76 @@ class I18nManager {
   }
 
   applyTranslations(root = document) {
-    document.documentElement.lang = this.currentLang;
-    const elements = [];
-    if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n]')) elements.push(root);
-    elements.push(...(root.querySelectorAll?.('[data-i18n]') || []));
-    elements.forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      const text = this.t(key);
-      if (text && el.textContent !== text) {
-        if (el.tagName === 'INPUT' && el.placeholder) {
-          el.placeholder = text;
-        } else {
-          el.textContent = text;
+    if (this.isTranslating) return;
+    this.isTranslating = true;
+    try {
+      document.documentElement.lang = this.currentLang;
+      const elements = [];
+      if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n]')) elements.push(root);
+      elements.push(...(root.querySelectorAll?.('[data-i18n]') || []));
+      elements.forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const text = this.t(key);
+        if (text && el.textContent !== text) {
+          if (el.tagName === 'INPUT' && el.placeholder) {
+            el.placeholder = text;
+          } else {
+            el.textContent = text;
+          }
         }
+      });
+
+      const attrElements = [];
+      if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n-attr]')) attrElements.push(root);
+      attrElements.push(...(root.querySelectorAll?.('[data-i18n-attr]') || []));
+      attrElements.forEach(el => {
+        const rawAttr = el.getAttribute('data-i18n-attr');
+        if (!rawAttr) return;
+        rawAttr.split(';').forEach(binding => {
+          const separator = binding.indexOf(':');
+          if (separator < 1) return;
+          const attr = binding.slice(0, separator).trim();
+          const key = binding.slice(separator + 1).trim();
+          if (!attr || !key) return;
+          const value = this.t(key);
+          if (el.getAttribute(attr) !== value) el.setAttribute(attr, value);
+        });
+      });
+
+      const elementsWithCopyAttrs = [];
+      if (root.nodeType === Node.ELEMENT_NODE) elementsWithCopyAttrs.push(root);
+      elementsWithCopyAttrs.push(...(root.querySelectorAll?.('*') || []));
+      elementsWithCopyAttrs.forEach(el => {
+        if (el.hasAttribute('data-i18n-attr')) return;
+        ['title', 'aria-label', 'placeholder', 'alt', 'value', 'content'].forEach(attr => {
+          if (!el.hasAttribute(attr)) return;
+          const source = el.getAttribute(attr);
+          const copy = INLINE_COPY_LOOKUP.get(normalizeInlineCopy(source));
+          if (copy && copy[this.currentLang] !== source) el.setAttribute(attr, copy[this.currentLang]);
+        });
+      });
+
+      const treeRoot = root.nodeType === Node.TEXT_NODE ? root.parentElement : root;
+      if (!treeRoot) return;
+      const doc = treeRoot.ownerDocument || document;
+      if (!doc || typeof doc.createTreeWalker !== 'function') return;
+      const walker = doc.createTreeWalker(treeRoot, NodeFilter.SHOW_TEXT);
+      if (!walker) return;
+      let textNode;
+      while ((textNode = walker.nextNode())) {
+        const parent = textNode.parentElement;
+        if (!parent || parent.closest('script,style,template,textarea,pre,code,[data-i18n]')) continue;
+        const original = textNode.nodeValue || '';
+        const normalized = normalizeInlineCopy(original);
+        const copy = INLINE_COPY_LOOKUP.get(normalized);
+        if (!copy) continue;
+        const leading = original.length - original.trimStart().length;
+        const trailing = original.length - original.trimEnd().length;
+        const translated = original.slice(0, leading) + copy[this.currentLang] + (trailing ? original.slice(-trailing) : '');
+        if (translated !== original) textNode.nodeValue = translated;
       }
-    });
-
-    const attrElements = [];
-    if (root.nodeType === Node.ELEMENT_NODE && root.matches('[data-i18n-attr]')) attrElements.push(root);
-    attrElements.push(...(root.querySelectorAll?.('[data-i18n-attr]') || []));
-    attrElements.forEach(el => {
-      el.getAttribute('data-i18n-attr').split(';').forEach(binding => {
-        const separator = binding.indexOf(':');
-        if (separator < 1) return;
-        const attr = binding.slice(0, separator).trim();
-        const key = binding.slice(separator + 1).trim();
-        if (!attr || !key) return;
-        const value = this.t(key);
-        if (el.getAttribute(attr) !== value) el.setAttribute(attr, value);
-      });
-    });
-
-    const elementsWithCopyAttrs = [];
-    if (root.nodeType === Node.ELEMENT_NODE) elementsWithCopyAttrs.push(root);
-    elementsWithCopyAttrs.push(...(root.querySelectorAll?.('*') || []));
-    elementsWithCopyAttrs.forEach(el => {
-      if (el.hasAttribute('data-i18n-attr')) return;
-      ['title', 'aria-label', 'placeholder', 'alt', 'value', 'content'].forEach(attr => {
-        if (!el.hasAttribute(attr)) return;
-        const source = el.getAttribute(attr);
-        const copy = INLINE_COPY_LOOKUP.get(normalizeInlineCopy(source));
-        if (copy && copy[this.currentLang] !== source) el.setAttribute(attr, copy[this.currentLang]);
-      });
-    });
-
-    const treeRoot = root.nodeType === Node.TEXT_NODE ? root.parentElement : root;
-    if (!treeRoot?.ownerDocument && treeRoot !== document) return;
-    const walker = (treeRoot.ownerDocument || document).createTreeWalker(treeRoot, NodeFilter.SHOW_TEXT);
-    let textNode;
-    while ((textNode = walker.nextNode())) {
-      const parent = textNode.parentElement;
-      if (!parent || parent.closest('script,style,template,textarea,pre,code,[data-i18n]')) continue;
-      const original = textNode.nodeValue || '';
-      const normalized = normalizeInlineCopy(original);
-      const copy = INLINE_COPY_LOOKUP.get(normalized);
-      if (!copy) continue;
-      const leading = original.length - original.trimStart().length;
-      const trailing = original.length - original.trimEnd().length;
-      const translated = original.slice(0, leading) + copy[this.currentLang] + (trailing ? original.slice(-trailing) : '');
-      if (translated !== original) textNode.nodeValue = translated;
+    } finally {
+      this.isTranslating = false;
     }
   }
 
@@ -828,6 +839,7 @@ class I18nManager {
     this.applyTranslations();
 
     this.observer = new MutationObserver(records => {
+      if (this.isTranslating) return;
       const roots = new Set();
       records.forEach(record => {
         if (record.type === 'characterData' && record.target.parentElement) roots.add(record.target.parentElement);

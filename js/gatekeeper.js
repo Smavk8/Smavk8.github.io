@@ -6,7 +6,9 @@
 (() => {
   // Always grant public access to policy and deletion pages
   const currentPath = (window.location.pathname || '').toLowerCase();
-  if (currentPath.includes('privacy') || currentPath.includes('delete-account')) {
+  if (currentPath.includes('privacy') || currentPath.includes('delete-account') || currentPath.includes('cdrs')) {
+    document.documentElement.classList.remove('access-locked');
+    document.documentElement.classList.add('access-granted');
     return;
   }
 
@@ -22,6 +24,7 @@
 
   function grantAccess() {
     try { localStorage.setItem(STORAGE_KEY, 'granted'); } catch (e) {}
+    try { sessionStorage.setItem(STORAGE_KEY, 'granted'); } catch (e) {}
     document.documentElement.classList.remove('access-locked');
     document.documentElement.classList.add('access-granted');
     const overlay = document.getElementById('private-gatekeeper-overlay');
@@ -52,7 +55,7 @@
     // Check if previously authorized in this browser
     let isAuthorized = false;
     try {
-      isAuthorized = localStorage.getItem(STORAGE_KEY) === 'granted';
+      isAuthorized = localStorage.getItem(STORAGE_KEY) === 'granted' || sessionStorage.getItem(STORAGE_KEY) === 'granted';
     } catch (e) {}
 
     if (isAuthorized) {
@@ -64,9 +67,18 @@
 
   // Setup form interactivity once DOM is ready
   function initGatekeeperUI() {
+    const overlay = document.getElementById('private-gatekeeper-overlay');
     const form = document.getElementById('gatekeeper-form');
     const input = document.getElementById('gatekeeper-key-input');
     const errorMsg = document.getElementById('gatekeeper-error');
+
+    // Sync overlay display with current html access class
+    if (document.documentElement.classList.contains('access-locked')) {
+      if (overlay) overlay.style.display = 'flex';
+      if (input) setTimeout(() => input.focus(), 80);
+    } else {
+      if (overlay) overlay.style.display = 'none';
+    }
 
     if (!form || !input) return;
 
@@ -97,6 +109,8 @@
   // Global functions for real Login and Logout
   window.xylenLogout = function() {
     try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    if (window.toggleNavDrawer) window.toggleNavDrawer(false);
     lockAccess();
     const input = document.getElementById('gatekeeper-key-input');
     if (input) {
