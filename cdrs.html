@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A0C10">
+  <meta name="description" content="Политика обработки CDR (Cellular Data Records) и телеметрии мобильного приложения Xylen Sim Platform (com.xylen.simplatform / com.xylen.simmonitor).">
+  <title>Политика CDR и телеметрии • Xylen Sim Platform</title>
+  <link rel="icon" type="image/png" href="assets/xylen-icon.png">
+  <style>
+    :root {
+      --bg: #0A0C10;
+      --card-bg: #121824;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #F1F5F9;
+      --text-muted: #94A3B8;
+      --accent-cyan: #00D2FF;
+      --accent-green: #10B981;
+      --accent-purple: #C084FC;
+      --accent-gold: #F59E0B;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      line-height: 1.65;
+    }
+    .container {
+      width: 100%;
+      max-width: 820px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+    }
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .brand-pkg {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-family: monospace;
+    }
+    .lang-switch {
+      display: flex;
+      gap: 6px;
+      background: rgba(255,255,255,0.05);
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .lang-btn.active {
+      background: rgba(255,255,255,0.15);
+      color: #FFF;
+    }
+    .meta-card {
+      background: rgba(0, 210, 255, 0.05);
+      border: 1px solid rgba(0, 210, 255, 0.2);
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      font-size: 0.88rem;
+    }
+    .meta-item strong {
+      color: var(--accent-cyan);
+      display: block;
+      margin-bottom: 3px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      margin: 32px 0 14px 0;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 8px;
+    }
+    p {
+      color: #CBD5E1;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 24px;
+      margin-bottom: 18px;
+      color: #CBD5E1;
+      font-size: 0.95rem;
+    }
+    li {
+      margin-bottom: 8px;
+    }
+    .highlight-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .shield-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .gold-badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-gold);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 8px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+    .nav-btn:hover {
+      background: rgba(0, 210, 255, 0.12);
+      border-color: rgba(0, 210, 255, 0.3);
+      color: var(--accent-cyan);
+    }
+    footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    footer a {
+      color: var(--accent-cyan);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="/" class="brand">
+        <img src="assets/xylen-icon.png" alt="Xylen Sim Platform Logo">
+        <div>
+          <div class="brand-title">Xylen Sim Platform</div>
+          <div class="brand-pkg">com.xylen.simplatform</div>
+        </div>
+      </a>
+      <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" onclick="setLang('uz')">UZ</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+      </div>
+    </header>
+
+    <main id="policy-content">
+      <div class="meta-card">
+        <div class="meta-item">
+          <strong>Документ</strong>
+          Политика обработки CDR и телеметрии
+        </div>
+        <div class="meta-item">
+          <strong>Приложение</strong>
+          Xylen Sim Platform (com.xylen.simplatform)
+        </div>
+        <div class="meta-item">
+          <strong>Статус соответствия</strong>
+          Google Play Developer Policies 2026
+        </div>
+        <div class="meta-item">
+          <strong>Версия документа</strong>
+          Редакция 2.4 (Октябрь 2026)
+        </div>
+      </div>
+
+      <!-- RUSSIAN SECTION -->
+      <div id="lang-ru" class="lang-section">
+        <h1>Политика обработки CDR и телеметрии сети</h1>
+        <p>
+          Настоящий документ устанавливает строгие правила обработки, хранения и разграничения телеметрических данных и <strong>CDR (Cellular Data Records / Call Detail Records / Детализированные сетевые записи)</strong> в экосистеме мобильного приложения <strong>Xylen Sim Platform</strong>.
+        </p>
+
+        <h2>1. Что такое CDR и сетевая телеметрия</h2>
+        <p>
+          В отрасли телекоммуникаций термин <strong>CDR</strong> обозначает технические записи событий передачи данных через мобильную сеть оператора. К ним относятся: временные метки сессии (timestamp), объем переданных/принятых байтов (Tx/Rx bytes), идентификаторы базовой станции (Cell ID, eNodeB), уровень радиосигнала (RSRP, RSRQ, SINR) и код мобильной сети (MCC/MNC).
+        </p>
+
+        <div class="highlight-card">
+          <span class="shield-badge">🛡️ ГАРАНТИЯ ДЛЯ ОБЫЧНЫХ ПОЛЬЗОВАТЕЛЕЙ И ГОСТЕЙ</span>
+          <p>
+            <strong>Данные телеметрии, расходов трафика и CDR обычных пользователей и гостей НИКОГДА не собираются, не аккумулируются и не передаются на удаленные серверы.</strong>
+          </p>
+          <ul>
+            <li>Все расчеты сетевого трафика (расход за сегодня, за текущий месяц, скорость в реальном времени) производятся исключительно локально на вашем смартфоне с использованием официального защищенного API Android (<code>NetworkStatsManager</code>).</li>
+            <li>Никакие данные об интернет-соединениях, посещаемых сайтах, IP-адресах назначения или времени сессий пользователей не покидают песочницу (sandbox) приложения.</li>
+            <li>Приложение полностью функционирует в автономном гостевом режиме (Guest Mode) без создания профиля и без выхода в сеть для сторонней аналитики.</li>
+          </ul>
+        </div>
+
+        <h2>2. Телеметрия подтверждённых тестеров компании</h2>
+        <div class="highlight-card">
+          <span class="gold-badge">🏢 КОРПОРАТИВНЫЙ РЕЖИМ ТЕСТИРОВАНИЯ</span>
+          <p>
+            Синхронизация технических параметров и диагностических отчетов сотовой сети разрешена <strong>исключительно для верифицированных сотрудников и штатных тестеров компании</strong> (<code>isTester == true</code>).
+          </p>
+          <ul>
+            <li><strong>Цель сбора:</strong> Оценка качества сотовой связи, валидация SIM/eSIM оборудования, измерение задержки роуминговых маршрутов и калибровка диагностических профилей компании.</li>
+            <li><strong>Централизованное управление:</strong> Профили тестеров и их технические логи хранятся и управляются централизованно на защищенном портале компании (<code>p.xylen.workers.dev</code>).</li>
+            <li><strong>Разграничение интерфейса:</strong> Кнопка самостоятельного удаления аккаунта («Удалить аккаунт и данные») намеренно скрыта для учетных записей штатных тестеров, так как тестеры являются сотрудниками, а корпоративное оборудование и журнал тестов управляются централизованно администратором портала.</li>
+          </ul>
+        </div>
+
+        <h2>3. Соответствие политике Google Play User Data</h2>
+        <p>
+          Для всех пользователей, установивших приложение через магазин Google Play:
+        </p>
+        <ul>
+          <li><strong>Ненавязчивая авторизация:</strong> Доступ ко всем базовым функциям контроля трафика, спидометра и переключения SIM-карт доступен сразу без необходимости регистрации или ввода личных данных.</li>
+          <li><strong>Право на удаление:</strong> Любой зарегистрированный независимый пользователь может в один клик удалить свой профиль и все сохраненные настройки как внутри приложения (Настройки ➔ Аккаунт), так и через нашу публичную веб-форму.</li>
+          <li><strong>Нулевой сбор закрытых коммуникаций:</strong> Приложение не имеет разрешений на чтение SMS (<code>READ_SMS</code>), телефонных вызовов (<code>READ_CALL_LOG</code>) или телефонных номеров (<code>READ_PHONE_NUMBERS</code>).</li>
+        </ul>
+
+        <h2>4. Независимые серверы тестирования скорости</h2>
+        <p>
+          Во время выполнения сеанса тестирования скорости (Auto-Download / Speedometer) приложение загружает временные тестовые блоки данных через общедоступные публичные CDN (Cloudflare, Tele2, OVH). Эти запросы содержат исключительно синтетические пакеты данных и не несут персональных сведений пользователя или журнала его действий.
+        </p>
+
+        <div class="nav-links">
+          <a href="privacy.html" class="nav-btn">← Общая Политика конфиденциальности</a>
+          <a href="delete-account.html" class="nav-btn">🗑️ Удаление данных (Account Deletion)</a>
+          <a href="/" class="nav-btn">🏠 Главная страница</a>
+        </div>
+      </div>
+
+      <!-- UZBEK SECTION -->
+      <div id="lang-uz" class="lang-section" style="display:none;">
+        <h1>CDR va tarmoq telemetriyasini qayta ishlash siyosati</h1>
+        <p>
+          Ushbu hujjat <strong>Xylen Sim Platform</strong> mobil ilovasida <strong>CDR (Cellular Data Records / Qo‘ng‘iroq va internet trafigi yozuvlari)</strong> va texnik telemetriya ma'lumotlarini qayta ishlash hamda saqlashning qat'iy qoidalarini belgilaydi.
+        </p>
+
+        <div class="highlight-card">
+          <span class="shield-badge">🛡️ ODDIY FOYDALANUVCHILAR VA MEHMONLAR UCHUN KAFOLAT</span>
+          <p>
+            <strong>Oddiy foydalanuvchilar va mehmonlarning telemetriya ma'lumotlari, trafik xarajatlari va CDR yozuvlari HECH QACHON serverga yuborilmaydi va to‘planmaydi.</strong>
+          </p>
+          <ul>
+            <li>Internet trafigining barcha hisob-kitoblari (bugungi kunlik sarf, oylik trafik, real vaqt tezligi) faqat foydalanuvchi smartfonining o‘zida Android tizimining rasmiy <code>NetworkStatsManager</code> API orqali amalga oshiriladi.</li>
+            <li>Ilova hech qanday ro‘yxatdan o‘tmasdan mustaqil Mehmon rejimida (Guest Mode) to‘liq ishlaydi.</li>
+          </ul>
+        </div>
+
+        <h2>2. Tasdiqlangan kompaniya testerlari telemetriyasi</h2>
+        <div class="highlight-card">
+          <span class="gold-badge">🏢 KORPORATIV TEST REJIMI</span>
+          <p>
+            Tarmoq parametrlarini server bilan sinxronlashtirish <strong>faqat kompaniyaning rasmiy xodimlari va tasdiqlangan testerlari</strong> (<code>isTester == true</code>) uchun ruxsat etilgan.
+          </p>
+          <ul>
+            <li>Testerlar kompaniya xodimlari hisoblangani uchun ularning ma'lumotlari korporativ portalda (<code>p.xylen.workers.dev</code>) markazlashtirilgan holda boshqariladi.</li>
+          </ul>
+        </div>
+
+        <h2>3. Google Play qoidalariga to‘liq muvofiqlik</h2>
+        <p>
+          Ilova hech qanday shaxsiy SMS (<code>READ_SMS</code>) yoki qo‘ng‘iroqlar jurnaliga (<code>READ_CALL_LOG</code>) ega emas. Foydalanuvchi o‘z ma'lumotlarini istalgan paytda ilovadan yoki veb-forma orqali o‘chirib yuborishi mumkin.
+        </p>
+
+        <div class="nav-links">
+          <a href="privacy.html" class="nav-btn">← Umumiy Maxfiylik siyosati</a>
+          <a href="delete-account.html" class="nav-btn">🗑️ Ma'lumotlarni o'chirish</a>
+          <a href="/" class="nav-btn">🏠 Bosh sahifa</a>
+        </div>
+      </div>
+
+      <!-- ENGLISH SECTION -->
+      <div id="lang-en" class="lang-section" style="display:none;">
+        <h1>CDR & Telemetry Governance Policy</h1>
+        <p>
+          This document defines the strict policies governing <strong>CDRs (Cellular Data Records / Call Detail Records)</strong> and device telemetry processing within the <strong>Xylen Sim Platform</strong> application (package: <code>com.xylen.simplatform</code>).
+        </p>
+
+        <div class="highlight-card">
+          <span class="shield-badge">🛡️ CONSUMER & GUEST PRIVACY GUARANTEE</span>
+          <p>
+            <strong>Telemetry, usage statistics, and CDRs of regular consumer users and guests are NEVER collected, harvested, or transmitted to any remote servers.</strong>
+          </p>
+          <ul>
+            <li>All cellular quota analytics (today's usage, monthly cycles, real-time bandwidth meters) are processed strictly on-device using official Android system APIs (<code>NetworkStatsManager</code>).</li>
+            <li>No data regarding user destinations, packet payloads, or cellular sessions ever leaves the device sandbox.</li>
+            <li>The app operates entirely offline in friction-free Guest Mode without telemetry tracking or background SDK beacons.</li>
+          </ul>
+        </div>
+
+        <h2>2. Confirmed Company Testers</h2>
+        <div class="highlight-card">
+          <span class="gold-badge">🏢 ENTERPRISE VALIDATION MODE</span>
+          <p>
+            Network synchronization and diagnostic reporting are restricted exclusively to <strong>authenticated, verified enterprise testers and company staff</strong> (<code>isTester == true</code>).
+          </p>
+          <ul>
+            <li><strong>Purpose:</strong> Validating multi-carrier roaming connectivity, equipment calibration, and latency benchmarks.</li>
+            <li><strong>Centralized Administration:</strong> Tester diagnostics are managed centrally on the corporate web portal (<code>p.xylen.workers.dev</code>). Account deletion buttons are restricted on tester accounts because they are company-owned validation assets.</li>
+          </ul>
+        </div>
+
+        <h2>3. Google Play Policy Compliance</h2>
+        <p>
+          For general consumers installing through Google Play:
+        </p>
+        <ul>
+          <li><strong>No Mandatory Sign-In:</strong> Full access to cellular monitoring, speed meters, and dual SIM analytics without creating an account.</li>
+          <li><strong>Self-Service Account Deletion:</strong> Users who voluntarily create accounts can permanently wipe their profile and backups in-app or via our public web deletion portal.</li>
+          <li><strong>Zero Sensitive Telephony Access:</strong> We do NOT request or use <code>READ_SMS</code>, <code>READ_CALL_LOG</code>, or <code>READ_PHONE_NUMBERS</code>.</li>
+        </ul>
+
+        <div class="nav-links">
+          <a href="privacy.html" class="nav-btn">← Master Privacy Policy</a>
+          <a href="delete-account.html" class="nav-btn">🗑️ Account & Data Deletion</a>
+          <a href="/" class="nav-btn">🏠 Home</a>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        Xylen Sim Platform • Developer: Avazbek Ismailov (Xylen Team) • 
+        <a href="privacy.html">Privacy Policy</a> • 
+        <a href="cdrs.html">CDRs Policy</a> • 
+        <a href="delete-account.html">Account Deletion</a> • 
+        <a href="mailto:support@xylen.io">support@xylen.io</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.toLowerCase() === lang);
+      });
+      document.querySelectorAll('.lang-section').forEach(sec => {
+        sec.style.display = sec.id === ('lang-' + lang) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

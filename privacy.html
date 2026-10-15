@@ -208,7 +208,7 @@
         </div>
         <div class="meta-item">
           <strong>Идентификатор пакета</strong>
-          com.xylen.simmonitor
+          com.xylen.simplatform (com.xylen.simmonitor)
         </div>
         <div class="meta-item">
           <strong>Разработчик</strong>
@@ -223,7 +223,7 @@
       <div id="lang-ru" class="lang-section">
         <h1>Политика конфиденциальности</h1>
         <p>
-          Настоящая Политика конфиденциальности описывает, как мобильное приложение <strong>Xylen Sim Platform</strong> (идентификатор пакета: <code>com.xylen.simmonitor</code>) собирает, использует, хранит и защищает пользовательские данные в полном соответствии с требованиями Google Play (User Data Policy, Permissions Policy, Foreground Services Policy).
+          Настоящая Политика конфиденциальности описывает, как мобильное приложение <strong>Xylen Sim Platform</strong> (идентификатор пакета: <code>com.xylen.simplatform</code> / <code>com.xylen.simmonitor</code>) собирает, использует, хранит и защищает пользовательские данные в полном соответствии с требованиями Google Play (User Data Policy, Permissions Policy, Foreground Services Policy).
         </p>
 
         <h2>1. Принципы приватности и минимизации данных</h2>
@@ -231,7 +231,23 @@
           Мы проектируем приложение по принципу <em>Privacy by Design</em>. По умолчанию приложение функционирует автономно в режиме гостя (Guest Mode). Все расчеты трафика SIM-карт выполняются локально на вашем смартфоне через системные API Android (NetworkStatsManager). Никакие данные не отправляются на удаленные серверы без вашего явного согласия.
         </p>
 
-        <h2>2. Данные, которые мы собираем при включении синхронизации</h2>
+        <h2>2. Политика в отношении CDR и сетевой телеметрии</h2>
+        <div class="highlight-card">
+          <span class="green-badge">НУЛЕВОЙ СБОР CDR ДЛЯ ОБЫЧНЫХ ПОЛЬЗОВАТЕЛЕЙ</span>
+          <p>
+            <strong>Данные телеметрии, расходов трафика и CDR (Cellular Data Records) обычных пользователей и гостей НИКОГДА не собираются и не передаются на сервер.</strong>
+          </p>
+          <ul>
+            <li>Все измерения (дневной расход, помесячный архив, уровень сигнала) хранятся локально в песочнице смартфона.</li>
+            <li>Синхронизация телеметрии сотовых сетей разрешена исключительно для подтверждённых корпоративных тестеров компании (<code>isTester == true</code>).</li>
+          </ul>
+          <a href="cdrs.html" class="action-btn" style="background: rgba(0, 210, 255, 0.15); color: #00D2FF; border-color: rgba(0, 210, 255, 0.3);">
+            <span>📡</span>
+            Открыть подробную Политику CDR и телеметрии
+          </a>
+        </div>
+
+        <h2>3. Данные, которые мы собираем при включении синхронизации</h2>
         <div class="highlight-card">
           <span class="green-badge">СТРОГО ПО СОГЛАСИЮ ПОЛЬЗОВАТЕЛЯ</span>
           <p>При добровольном входе в учетную запись или включении облачного резервного копирования могут обрабатываться следующие категории данных:</p>
@@ -375,6 +391,8 @@
     <footer>
       <p>
         Xylen Sim Platform • Developer: Avazbek Ismailov (Xylen Team) • 
+        <a href="privacy.html">Privacy Policy</a> • 
+        <a href="cdrs.html">Политика CDR / CDRs Policy</a> • 
         <a href="delete-account.html">Удаление данных / Account Deletion</a> • 
         <a href="mailto:support@xylen.io">support@xylen.io</a>
       </p>
