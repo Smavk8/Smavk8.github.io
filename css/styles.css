@@ -3022,19 +3022,26 @@ body.theme-light .xylen-modal .modal-window {
   justify-content: center;
 }
 
-.footer-nav-links button {
+.footer-nav-links button,
+.footer-nav-links a {
   background: none;
   border: none;
   color: var(--text-secondary);
+  font-family: var(--font-family);
   font-size: 0.95rem;
   font-weight: 600;
+  line-height: 1.5;
+  text-decoration: none;
   cursor: pointer;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: var(--radius-sm);
   transition: color 0.2s, background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
 }
 
-.footer-nav-links button:hover {
+.footer-nav-links button:hover,
+.footer-nav-links a:hover {
   color: var(--cyan-electric);
   background: var(--cyan-subtle);
 }

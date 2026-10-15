@@ -258,7 +258,9 @@ body.theme-light .spend-table td {
 body.theme-light .data-table th { background: var(--xy-bg-raised); color: var(--xy-muted); }
 body.theme-light .data-table tr:nth-child(even) { background: rgba(234, 241, 247, .62); }
 body.theme-light .app-footer { border-color: var(--xy-border); color: var(--xy-muted); }
+body.theme-light .footer-nav-links button,
 body.theme-light .footer-nav-links a { color: var(--xy-muted); }
+body.theme-light .footer-nav-links button:hover,
 body.theme-light .footer-nav-links a:hover { color: var(--xy-accent); }
 body.theme-light .scroll-to-top,
 body.theme-light .back-to-top { background: var(--xy-surface); color: var(--xy-text); border-color: var(--xy-border); }
