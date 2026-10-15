@@ -256,25 +256,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isLight ? '#f2f6fa' : '#080d14');
     const drawerThemeIcon = document.getElementById('drawer-theme-icon');
     const drawerThemeText = document.getElementById('drawer-theme-text');
-    const gatekeeperThemeIcon = document.getElementById('gatekeeper-theme-icon');
-    const gatekeeperThemeText = document.getElementById('gatekeeper-theme-text');
     if (drawerThemeIcon) {
       drawerThemeIcon.textContent = isLight ? '🌙' : '☀️';
     }
     if (drawerThemeText) {
       drawerThemeText.textContent = window.i18n?.t(isLight ? 'theme_current_light' : 'theme_current_dark') || (isLight ? 'Light theme' : 'Dark theme');
     }
-    if (gatekeeperThemeIcon) gatekeeperThemeIcon.textContent = isLight ? '🌙' : '☀️';
-    if (gatekeeperThemeText) gatekeeperThemeText.textContent = window.i18n?.t(isLight ? 'theme_current_light' : 'theme_current_dark') || (isLight ? 'Light theme' : 'Dark theme');
     const drawerThemeToggle = document.getElementById('drawer-theme-toggle');
     if (drawerThemeToggle) {
       drawerThemeToggle.setAttribute('aria-label', window.i18n?.t('settings_theme') || 'Appearance');
       drawerThemeToggle.setAttribute('aria-pressed', String(isLight));
-    }
-    const gatekeeperThemeToggle = document.getElementById('gatekeeper-theme-toggle');
-    if (gatekeeperThemeToggle) {
-      gatekeeperThemeToggle.setAttribute('aria-label', window.i18n?.t('settings_theme') || 'Appearance');
-      gatekeeperThemeToggle.setAttribute('aria-pressed', String(isLight));
     }
     const activeBtn = document.querySelector('.nav-page-btn.active');
     if (activeBtn) updateNavPill(activeBtn);

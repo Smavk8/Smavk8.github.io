@@ -15,40 +15,10 @@
   <link rel="stylesheet" href="css/architecture-motion.css?v=1.1.0">
   <link rel="stylesheet" href="css/xylen-motion.css?v=1.7.0">
   <link rel="icon" type="image/png" href="assets/xylen-icon.png">
-  <link rel="stylesheet" href="css/gatekeeper.css?v=1.0.0">
   <link rel="stylesheet" href="css/theme-palette.css?v=1.1.0">
-  <script src="js/gatekeeper.js?v=1.0.0"></script>
 </head>
 <body>
-  <!-- ========================================================================
-       PRIVATE PROTOTYPE GATEKEEPER OVERLAY
-       ======================================================================== -->
-  <div id="private-gatekeeper-overlay" class="private-gatekeeper-overlay">
-    <div class="gatekeeper-card">
-      <picture>
-        <img src="assets/xylen-logo-white.png" alt="Xylen Management" class="gatekeeper-logo">
-      </picture>
-      <div class="gatekeeper-badge">
-        <span class="gatekeeper-badge-dot"></span>
-        <span data-i18n="gatekeeper_badge">Приватный прототип</span>
-      </div>
-      <h1 class="gatekeeper-title">Xylen Platform</h1>
-      <p class="gatekeeper-desc" data-i18n="gatekeeper_desc">
-        Данный портал находится в стадии закрытого тестирования. Просмотр доступен только по персональной пригласительной ссылке владельца проекта.
-      </p>
-      <form id="gatekeeper-form" class="gatekeeper-form" autocomplete="off">
-        <div class="gatekeeper-input-wrap">
-          <span class="gatekeeper-icon" aria-hidden="true">🔒</span>
-          <input type="password" id="gatekeeper-key-input" class="gatekeeper-input" placeholder="Введите ключ доступа…" data-i18n-attr="placeholder:gatekeeper_placeholder" autocomplete="current-password" required>
-        </div>
-        <div id="gatekeeper-error" class="gatekeeper-error"></div>
-        <button type="submit" class="gatekeeper-submit-btn" data-i18n="gatekeeper_submit">Разблокировать доступ</button>
-      </form>
-      <div class="gatekeeper-foot-note" data-i18n="gatekeeper_footnote">
-        Если вы перешли по специальной ссылке с ключом, сайт откроется автоматически.
-      </div>
-    </div>
-  </div>
+
   <!-- ========================================================================
        00 — SHORT TYPOGRAPHIC LOADER (Benchmark Jitter / ROG)
        ======================================================================== -->
@@ -110,12 +80,6 @@
           </button>
         </div>
 
-        <div class="app-drawer-logout-row">
-          <button class="app-drawer-logout-btn" type="button" onclick="window.toggleNavDrawer(false); window.xylenLogout();">
-            <span aria-hidden="true">🔒</span>
-            <span data-i18n="gatekeeper_logout">Выйти из защищённого режима</span>
-          </button>
-        </div>
         <!-- Manager Access Console Button -->
         <button type="button" class="btn btn-secondary btn-full drawer-manager-btn" onclick="window.requestAdminConsole(); window.toggleNavDrawer(false);">
           <span class="pulse-dot green"></span>
